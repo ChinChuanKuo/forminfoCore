@@ -1,9 +1,9 @@
 using System.Net;
 using System.Collections.Generic;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 using System.Text.RegularExpressions;
 
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class regulation
     {

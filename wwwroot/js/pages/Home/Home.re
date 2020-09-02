@@ -20,7 +20,7 @@ type state = {
 };
 
 type action =
-  | SettingErrorLoad
+  | SettingError
   | SettingFormLoad
   | SettingFormWidth(int, int)
   | ActionShowProgress
@@ -29,7 +29,7 @@ type action =
 
 let reducer = (state, action) =>
   switch (action) {
-  | SettingErrorLoad => {...state, error: !state.error}
+  | SettingError => {...state, error: !state.error}
   | SettingFormLoad => {...state, formLoad: !state.formLoad}
   | SettingFormWidth(width, height) => {
       ...state,
@@ -64,12 +64,6 @@ let initialState = {
   showYoutube: false,
   youtubeText: "",
 };
-
-let defaultFloat = value =>
-  switch (value) {
-  | "" => "0.0"
-  | _ => value
-  };
 
 [@react.component]
 let make = _ => {

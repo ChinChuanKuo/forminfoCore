@@ -86,11 +86,12 @@ function iFileData(formId, original, encryption, extension, newid) {
         };
 }
 
-function iFormData(formId, tile, items, newid) {
+function iFormData(tile, desc, items, settitems, newid) {
   return {
-          formId: formId,
           tile: tile,
+          desc: desc,
           items: items,
+          settitems: settitems,
           newid: newid
         };
 }

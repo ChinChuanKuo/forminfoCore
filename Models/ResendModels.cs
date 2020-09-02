@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class ResendClass
     {
@@ -24,7 +24,7 @@ namespace folderCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "1"));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.resendsiteber @newid,@status;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.resendsiteber @newid,@status;", dbparamlist);
             switch (userRows.Rows.Count)
             {
                 case 0:
@@ -36,13 +36,13 @@ namespace folderCore.Models
                     return new statusModels() { status = "islock" };
             }
             datetime datetime = new datetime();
-            string date = datetime.sqldate("mssql", "flytrainstring"), time = datetime.sqltime("mssql", "flytrainstring");
+            string date = datetime.sqldate("mssql", "epaperstring"), time = datetime.sqltime("mssql", "epaperstring");
             dbparamlist.Clear();
             dbparamlist.Add(new dbparam("@password", new sha256().encry256(otherData.values.TrimEnd())));
             dbparamlist.Add(new dbparam("@modate", date));
             dbparamlist.Add(new dbparam("@motime", time));
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
-            if (database.checkActiveSql("mssql", "flytrainstring", "update web.siteber set password = @password,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
+            if (database.checkActiveSql("mssql", "epaperstring", "update web.siteber set password = @password,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
             {
                 return new statusModels() { status = "error" };
             }

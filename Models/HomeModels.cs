@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class HomeClass
     {

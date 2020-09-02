@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading.Tasks;
-using folderCore.App_Code;
-using folderCore.Models;
+using forminfoCore.App_Code;
+using forminfoCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace folderCore.Controllers
+namespace forminfoCore.Controllers
 {
     public class FilesController : Controller
     {

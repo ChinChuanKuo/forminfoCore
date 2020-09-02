@@ -2,9 +2,9 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class sha256
     {

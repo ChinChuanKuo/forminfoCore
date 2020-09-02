@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class CodeClass
     {
@@ -25,7 +25,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@vecode", otherData.values.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "1"));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.codesiteber @newid,@vecode,@status;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.codesiteber @newid,@vecode,@status;", dbparamlist);
             switch (userRows.Rows.Count)
             {
                 case 0:
@@ -37,7 +37,7 @@ namespace folderCore.Models
                     return new statusModels() { status = "islock" };
             }
             datetime datetime = new datetime();
-            string date = datetime.sqldate("mssql", "flytrainstring"), time = datetime.sqltime("mssql", "flytrainstring");
+            string date = datetime.sqldate("mssql", "epaperstring"), time = datetime.sqltime("mssql", "epaperstring");
             DateTime startdate = DateTime.Parse(date + " " + time);
             DateTime enddate = DateTime.Parse(userRows.Rows[0]["vedate"].ToString().TrimEnd() + " " + userRows.Rows[0]["vetime"].ToString().TrimEnd()).AddMinutes(10);
             if (enddate >= startdate)
@@ -49,7 +49,7 @@ namespace folderCore.Models
                 dbparamlist.Add(new dbparam("@modate", date));
                 dbparamlist.Add(new dbparam("@motime", time));
                 dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
-                if (database.checkActiveSql("mssql", "flytrainstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
+                if (database.checkActiveSql("mssql", "epaperstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
                 {
                     return new statusModels() { status = "error" };
                 }
@@ -64,7 +64,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@modate", date));
             dbparamlist.Add(new dbparam("@motime", time));
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
-            if (database.checkActiveSql("mssql", "flytrainstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
+            if (database.checkActiveSql("mssql", "epaperstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
             {
                 return new statusModels() { status = "error" };
             }

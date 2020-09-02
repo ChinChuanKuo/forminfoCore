@@ -26,3 +26,12 @@ let iconPath: string = "/icon";
 let bookmarksPath: string = "/bookmarks";
 [@genType]
 let permissPath: string = "/permiss";
+
+[@genType]
+let proformPath: string = "/proform";
+[@genType]
+let protourPath: string = "/protour";
+[@genType]
+let formorPath: string = "/formor";
+[@genType]
+let tourorPath: string = "/touror";

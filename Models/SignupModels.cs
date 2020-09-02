@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class SignupClass
     {
@@ -32,7 +32,7 @@ namespace folderCore.Models
             database database = new database();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@userid", signupData.userid.TrimEnd()));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "select newid,userid from web.siteber where userid = @userid;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "select newid,userid from web.siteber where userid = @userid;", dbparamlist);
             if (userRows.Rows.Count > 0)
             {
                 return new statusModels() { status = "error" };
@@ -43,7 +43,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@username", signupData.username.TrimEnd()));
             dbparamlist.Add(new dbparam("@birthday", signupData.birthday.TrimEnd()));
             dbparamlist.Add(new dbparam("@permiss", "general"));
-            if (database.checkActiveSql("mssql", "flytrainstring", "insert into web.siteber (userid,password,username,birthday,permiss) values (@userid,@password,@username,@birthday,@permiss);", dbparamlist) != "istrue")
+            if (database.checkActiveSql("mssql", "epaperstring", "insert into web.siteber (userid,password,username,birthday,permiss) values (@userid,@password,@username,@birthday,@permiss);", dbparamlist) != "istrue")
             {
                 return new statusModels() { status = "error" };
             }

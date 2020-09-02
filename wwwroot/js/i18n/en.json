@@ -335,6 +335,16 @@
         "message": ""
     },
     {
+        "id": "add",
+        "defaultMessage": "Add",
+        "message": ""
+    },
+    {
+        "id": "copy",
+        "defaultMessage": "Copy",
+        "message": ""
+    },
+    {
         "id": "desc",
         "defaultMessage": "Desc",
         "message": ""
@@ -342,6 +352,11 @@
     {
         "id": "more",
         "defaultMessage": "More",
+        "message": ""
+    },
+    {
+        "id": "need",
+        "defaultMessage": "Need",
         "message": ""
     },
     {
@@ -353,5 +368,60 @@
         "id": "release",
         "defaultMessage": "Release",
         "message": ""
+    },
+    {
+        "id": "Formor.relevant",
+        "defaultMessage": "Relevant",
+        "message": "Relevant Area"
+    },
+    {
+        "id": "Formor.verification",
+        "defaultMessage": "Verification",
+        "message": ""
+    },
+    {
+        "id": "Formor.stdate",
+        "defaultMessage": "Stdate",
+        "message": "Start Date"
+    },
+    {
+        "id": "Formor.sttime",
+        "defaultMessage": "Sttime",
+        "message": "Start Time"
+    },
+    {
+        "id": "Formor.endate",
+        "defaultMessage": "Endate",
+        "message": "End Date"
+    },
+    {
+        "id": "Formor.entime",
+        "defaultMessage": "Entime",
+        "message": "End Time"
+    },
+    {
+        "id": "Formor.examed",
+        "defaultMessage": "Examed",
+        "message": "Is Exam？"
+    },
+    {
+        "id": "Formor.randopt",
+        "defaultMessage": "Randopt",
+        "message": "Option Random？"
+    },
+    {
+        "id": "Formor.randsub",
+        "defaultMessage": "Randsub",
+        "message": "Question Random？"
+    },
+    {
+        "id": "Formor.restart",
+        "defaultMessage": "Restart",
+        "message": "Restart？"
+    },
+    {
+        "id": "Formor.number",
+        "defaultMessage": "Number",
+        "message": "Question Number"
     }
 ]

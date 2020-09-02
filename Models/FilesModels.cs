@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class FilesClass
     {
@@ -12,7 +12,7 @@ namespace folderCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@value", extension.Replace(".", "").ToLower()));
             dbparamlist.Add(new dbparam("@needed", "1"));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.searchfiletype @value,@needed;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.searchfiletype @value,@needed;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:

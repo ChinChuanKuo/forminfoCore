@@ -1,8 +1,8 @@
 using System.Net;
 using System.Collections.Generic;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class computer
     {

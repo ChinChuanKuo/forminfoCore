@@ -52,6 +52,20 @@ module Files = {
   let download = data => postData("/Files/downloadData", data);
 };
 
-module Default = {
+module Default = {};
 
+module Formor = {
+  let search = data => postData("/Formor/searchData", data);
+  let sType = data => postData("/Formor/sTypeData", data);
+  let sVeri = data => postData("/Formor/sVeriData", data);
+  let add = data => postData("/Formor/addData", data);
+  let delete = data => postData("/Formor/deleteData", data);
+  let insert = data => postData("/Formor/insertData", data);
+};
+
+module Proform = {
+  let polling = data =>
+    postDatac("/Proform/pollingData", data, makeConfig(~timeout=30000, ()));
+  //let polling = data => postData("/Home/pollingData", data);
+  let search = data => postData("/Proform/searchData", data);
 };

@@ -737,12 +737,12 @@ function Icon(Props) {
                 }), state.error ? null : React.createElement(Navigation$BtsCore.make, {
                     style: Object.assign(({}), Together$BtsCore.marginAuto, {
                           bottom: "0",
+                          left: "0",
                           maxWidth: "770px",
                           position: "fixed",
                           right: "0",
                           transition: "left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms"
                         }),
-                    className: "facetubenavigation",
                     children: $$Array.of_list(List.mapi((function (bi, bottomitem) {
                                 return React.createElement(BottomNavigation$BtsCore.make, {
                                             actionShow: bottomitem.actionShow,

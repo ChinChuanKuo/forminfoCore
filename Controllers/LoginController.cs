@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using folderCore.Models;
+using forminfoCore.Models;
 
-namespace folderCore.Controllers
+namespace forminfoCore.Controllers
 {
     public class LoginController : Controller
     {

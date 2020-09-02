@@ -8,8 +8,11 @@ import * as Icon$BtsCore from "./pages/Icon/Icon.bs.js";
 import * as Login$BtsCore from "./pages/Login/Login.bs.js";
 import * as Oauth$BtsCore from "./pages/Oauth/Oauth.bs.js";
 import * as Forget$BtsCore from "./pages/Forget/Forget.bs.js";
+import * as Formor$BtsCore from "./pages/Formor/Formor.bs.js";
 import * as Resend$BtsCore from "./pages/Resend/Resend.bs.js";
 import * as Signup$BtsCore from "./pages/Signup/Signup.bs.js";
+import * as Proform$BtsCore from "./pages/Proform/Proform.bs.js";
+import * as Protour$BtsCore from "./pages/Protour/Protour.bs.js";
 import * as Setting$BtsCore from "./setting/Setting.bs.js";
 import * as Bookmarks$BtsCore from "./pages/Bookmarks/Bookmarks.bs.js";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
@@ -76,11 +79,32 @@ function Route(Props) {
               tmp = React.createElement(Bookmarks$BtsCore.make, { });
             }
             break;
+        case "formor" :
+            if (match$1[1]) {
+              exit$1 = 2;
+            } else {
+              tmp = React.createElement(Formor$BtsCore.make, { });
+            }
+            break;
         case "icon" :
             if (match$1[1]) {
               exit$1 = 2;
             } else {
               tmp = React.createElement(Icon$BtsCore.make, { });
+            }
+            break;
+        case "proform" :
+            if (match$1[1]) {
+              exit$1 = 2;
+            } else {
+              tmp = React.createElement(Proform$BtsCore.make, { });
+            }
+            break;
+        case "protour" :
+            if (match$1[1]) {
+              exit$1 = 2;
+            } else {
+              tmp = React.createElement(Protour$BtsCore.make, { });
             }
             break;
         default:

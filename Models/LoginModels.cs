@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Net;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class LoginClass
     {
@@ -19,7 +19,7 @@ namespace folderCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@userid", userData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "1"));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.checksiteber @userid,@status;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.checksiteber @userid,@status;", dbparamlist);
             switch (userRows.Rows.Count)
             {
                 case 0:
@@ -51,21 +51,21 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@userid", loginData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@password", new sha256().encry256(loginData.password.TrimEnd())));
             dbparamlist.Add(new dbparam("@status", "1"));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.loginsiteber @userid,@password,@status;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.loginsiteber @userid,@password,@status;", dbparamlist);
             switch (userRows.Rows.Count)
             {
                 case 0:
                     return new loginModels() { status = "nodata" };
             }
             datetime datetime = new datetime();
-            string newid = userRows.Rows[0]["newid"].ToString().TrimEnd(), name = userRows.Rows[0]["username"].ToString().TrimEnd(), longitude = string.IsNullOrWhiteSpace(loginData.longitude) ? "0.0" : loginData.longitude, latitude = string.IsNullOrWhiteSpace(loginData.latitude) ? "0.0" : loginData.latitude, cuname = Dns.GetHostEntry(cuurip).HostName.IndexOf('.') == -1 ? Dns.GetHostEntry(cuurip).HostName : Dns.GetHostEntry(cuurip).HostName.Split('.')[0], date = datetime.sqldate("mssql", "flytrainstring"), time = datetime.sqltime("mssql", "flytrainstring");
+            string newid = userRows.Rows[0]["newid"].ToString().TrimEnd(), name = userRows.Rows[0]["username"].ToString().TrimEnd(), longitude = string.IsNullOrWhiteSpace(loginData.longitude) ? "0.0" : loginData.longitude, latitude = string.IsNullOrWhiteSpace(loginData.latitude) ? "0.0" : loginData.latitude, cuname = Dns.GetHostEntry(cuurip).HostName.IndexOf('.') == -1 ? Dns.GetHostEntry(cuurip).HostName : Dns.GetHostEntry(cuurip).HostName.Split('.')[0], date = datetime.sqldate("mssql", "epaperstring"), time = datetime.sqltime("mssql", "epaperstring");
             switch (userRows.Rows[0]["isused"].ToString().TrimEnd())
             {
                 case "1":
                     information information = new information();
                     userRows.Clear();
                     dbparamlist.Add(new dbparam("@externip", cuurip));
-                    userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.checksitelog @userid,@password,@externip,@status;", dbparamlist);
+                    userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.checksitelog @userid,@password,@externip,@status;", dbparamlist);
                     switch (userRows.Rows.Count)
                     {
                         case 0:
@@ -80,7 +80,7 @@ namespace folderCore.Models
                             dbparamlist.Add(new dbparam("@indate", date));
                             dbparamlist.Add(new dbparam("@intime", time));
                             dbparamlist.Add(new dbparam("@islogin", "1"));
-                            if (database.checkActiveSql("mssql", "flytrainstring", "insert into web.sitelog (newid,externip,longitude,latitude,hostname,browser,os,indate,intime,islogin) values (@newid,@externip,@longitude,@latitude,@hostname,@browser,@os,@indate,@intime,@islogin);", dbparamlist) != "istrue")
+                            if (database.checkActiveSql("mssql", "epaperstring", "insert into web.sitelog (newid,externip,longitude,latitude,hostname,browser,os,indate,intime,islogin) values (@newid,@externip,@longitude,@latitude,@hostname,@browser,@os,@indate,@intime,@islogin);", dbparamlist) != "istrue")
                             {
                                 return new loginModels() { status = "error" };
                             }
@@ -98,7 +98,7 @@ namespace folderCore.Models
                         dbparamlist.Add(new dbparam("@newid", newid));
                         dbparamlist.Add(new dbparam("@externip", cuurip));
                         dbparamlist.Add(new dbparam("@islogin", "1"));
-                        if (database.checkActiveSql("mssql", "flytrainstring", "update web.sitelog set longitude = @longitude,latitude = @latitude,browser = @browser,os = @os,indate = @indate,intime = @intime where newid = @newid and externip = @externip and islogin = @islogin;", dbparamlist) != "istrue")
+                        if (database.checkActiveSql("mssql", "epaperstring", "update web.sitelog set longitude = @longitude,latitude = @latitude,browser = @browser,os = @os,indate = @indate,intime = @intime where newid = @newid and externip = @externip and islogin = @islogin;", dbparamlist) != "istrue")
                         {
                             return new loginModels() { status = "error" };
                         }

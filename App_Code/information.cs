@@ -1,6 +1,6 @@
 using System;
 
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class information
     {

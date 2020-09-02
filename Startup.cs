@@ -72,6 +72,16 @@ namespace forminfoCore
                 endpoints.MapControllerRoute(
                     name: "Oauth",
                     pattern: "{controller=Oauth}/{action=Index}");
+
+                endpoints.MapControllerRoute(
+                    name: "Proform",
+                    pattern: "{controller=Proform}/{action=Index}");
+                endpoints.MapControllerRoute(
+                    name: "Protour",
+                    pattern: "{controller=Protour}/{action=Index}");
+                endpoints.MapControllerRoute(
+                    name: "Formor",
+                    pattern: "{controller=Formor}/{action=Index}");
             });
         }
     }

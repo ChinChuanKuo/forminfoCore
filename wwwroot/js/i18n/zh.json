@@ -335,6 +335,16 @@
         "message": "設定"
     },
     {
+        "id": "add",
+        "defaultMessage": "Add",
+        "message": "新增"
+    },
+    {
+        "id": "copy",
+        "defaultMessage": "Copy",
+        "message": "複製"
+    },
+    {
         "id": "desc",
         "defaultMessage": "Desc",
         "message": "說明"
@@ -345,6 +355,11 @@
         "message": "更多"
     },
     {
+        "id": "need",
+        "defaultMessage": "Need",
+        "message": "必要性"
+    },
+    {
         "id": "choose",
         "defaultMessage": "Choose",
         "message": "選擇"
@@ -353,5 +368,60 @@
         "id": "release",
         "defaultMessage": "Release",
         "message": "發佈"
+    },
+    {
+        "id": "Formor.relevant",
+        "defaultMessage": "Relevant",
+        "message": "前往區段"
+    },
+    {
+        "id": "Formor.verification",
+        "defaultMessage": "Verification",
+        "message": "回應驗證"
+    },
+    {
+        "id": "Formor.stdate",
+        "defaultMessage": "Stdate",
+        "message": "開始日期"
+    },
+    {
+        "id": "Formor.sttime",
+        "defaultMessage": "Sttime",
+        "message": "開始時間"
+    },
+    {
+        "id": "Formor.endate",
+        "defaultMessage": "Endate",
+        "message": "截止日期"
+    },
+    {
+        "id": "Formor.entime",
+        "defaultMessage": "Entime",
+        "message": "截止時間"
+    },
+    {
+        "id": "Formor.examed",
+        "defaultMessage": "Examed",
+        "message": "是否考試？"
+    },
+    {
+        "id": "Formor.randopt",
+        "defaultMessage": "Randopt",
+        "message": "選項隨機？"
+    },
+    {
+        "id": "Formor.randsub",
+        "defaultMessage": "Randsub",
+        "message": "題目隨機？"
+    },
+    {
+        "id": "Formor.restart",
+        "defaultMessage": "Restart",
+        "message": "重新開始？"
+    },
+    {
+        "id": "Formor.number",
+        "defaultMessage": "Number",
+        "message": "顯示數量？"
     }
 ]

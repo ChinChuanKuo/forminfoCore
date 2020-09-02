@@ -242,7 +242,9 @@ let make = _ => {
 
   let insertAJax = () =>
     Js.Promise.(
-      iIconData(state.items, state.qaitems, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> iIconData(state.items, state.qaitems)
       |> Axiosapi.Icon.insert
       |> then_(response => {
            {
@@ -332,11 +334,11 @@ let make = _ => {
                ~maxWidth="770px",
                ~right="0",
                ~bottom="0",
+               ~left="0",
                ~transition="left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
                (),
              ),
-           )}
-           className="facetubenavigation">
+           )}>
            {state.bottomitems
             |> List.mapi((bi, bottomitem) =>
                  <BottomNavigation

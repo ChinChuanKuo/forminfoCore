@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class userData
     {
@@ -210,11 +210,23 @@ namespace folderCore.Models
         public string status { get; set; }
     }
 
+    public class itemModels
+    {
+        [Required]
+        public int itemCount { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> items { get; set; }
+        [Required]
+        public string status { get; set; }
+    }
+
     public class iFormData
     {
-        public string formId { get; set; }
         public string tile { get; set; }
+        public string desc { get; set; }
         public List<Dictionary<string, object>> items { get; set; }
+
+        public List<Dictionary<string, object>> settitems { get; set; }
         public string newid { get; set; }
     }
 
@@ -234,14 +246,33 @@ namespace folderCore.Models
         public string extension { get; set; }
         public string newid { get; set; }
     }
-    public class sWorkModels
+
+    public class sNeworModels
     {
         [Required]
-        public string custname { get; set; }
+        public List<Dictionary<string, object>> items { get; set; }
         [Required]
-        public string mbname { get; set; }
+        public List<Dictionary<string, object>> settitems { get; set; }
+    }
+    public class sTypeModels
+    {
         [Required]
-        public string mb { get; set; }
+        public string value { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> items { get; set; }
+        [Required]
+        public string status { get; set; }
+    }
+
+    public class sVeriModels {
+        [Required]
+        public string type_ { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> typeitems { get; set; }
+        [Required]
+        public string operation { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> operationitems { get; set; }
         [Required]
         public string status { get; set; }
     }

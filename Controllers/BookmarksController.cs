@@ -1,7 +1,7 @@
-using folderCore.Models;
+using forminfoCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace folderCore.Controllers
+namespace forminfoCore.Controllers
 {
     public class BookmarksController : Controller
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class ForgetClass
     {
@@ -25,7 +25,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@birthday", otherData.values.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "1"));
-            userRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.forgetsiteber @newid,@birthday,@status;", dbparamlist);
+            userRows = database.checkSelectSql("mssql", "epaperstring", "exec web.forgetsiteber @newid,@birthday,@status;", dbparamlist);
             switch (userRows.Rows.Count)
             {
                 case 0:
@@ -38,7 +38,7 @@ namespace folderCore.Models
             }
             Random random = new Random();
             datetime datetime = new datetime();
-            string vecode = random.Next(100000, 999999).ToString().TrimEnd(), date = datetime.sqldate("mssql", "flytrainstring"), time = datetime.sqltime("mssql", "flytrainstring");
+            string vecode = random.Next(100000, 999999).ToString().TrimEnd(), date = datetime.sqldate("mssql", "epaperstring"), time = datetime.sqltime("mssql", "epaperstring");
             dbparamlist.Clear();
             dbparamlist.Add(new dbparam("@vedate", date));
             dbparamlist.Add(new dbparam("@vetime", time));
@@ -46,7 +46,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@modate", date));
             dbparamlist.Add(new dbparam("@motime", time));
             dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
-            if (database.checkActiveSql("mssql", "flytrainstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
+            if (database.checkActiveSql("mssql", "epaperstring", "update web.siteber set vedate = @vedate,vetime = @vetime,vecode = @vecode,modate = @modate,motime = @motime where newid = @newid;", dbparamlist) != "istrue")
             {
                 return new statusModels() { status = "error" };
             }

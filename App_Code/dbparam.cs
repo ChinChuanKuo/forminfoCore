@@ -1,4 +1,4 @@
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class dbparam
     {

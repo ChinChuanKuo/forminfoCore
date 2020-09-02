@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class PermissClass
     {
@@ -11,7 +11,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.searchmissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.searchmissform @newid;", dbparamlist);
             if (mainRows.Rows.Count == 0 || mainRows.Rows[0]["issearch"].ToString().TrimEnd() == "0")
             {
                 return false;
@@ -24,7 +24,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.insertmissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.insertmissform @newid;", dbparamlist);
             if (mainRows.Rows.Count == 0 || mainRows.Rows[0]["isinsert"].ToString().TrimEnd() == "0")
             {
                 return false;
@@ -37,7 +37,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.modifymissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.modifymissform @newid;", dbparamlist);
             if (mainRows.Rows.Count == 0 || mainRows.Rows[0]["ismodify"].ToString().TrimEnd() == "0")
             {
                 return false;
@@ -50,7 +50,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.deletemissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.deletemissform @newid;", dbparamlist);
             if (mainRows.Rows.Count == 0 || mainRows.Rows[0]["isdelete"].ToString().TrimEnd() == "0")
             {
                 return false;
@@ -63,7 +63,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.adjustmissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.adjustmissform @newid;", dbparamlist);
             if (mainRows.Rows.Count == 0 || mainRows.Rows[0]["isadjust"].ToString().TrimEnd() == "0")
             {
                 return false;

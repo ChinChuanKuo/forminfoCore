@@ -15,7 +15,7 @@ import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/Snackb
 function reducer(state, action) {
   if (typeof action === "number") {
     switch (action) {
-      case /* SettingErrorLoad */0 :
+      case /* SettingError */0 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -122,14 +122,6 @@ var initialState = {
   youtubeText: ""
 };
 
-function defaultFloat(value) {
-  if (value === "") {
-    return "0.0";
-  } else {
-    return value;
-  }
-}
-
 function Home(Props) {
   var match = React.useReducer(reducer, initialState);
   var dispatch = match[1];
@@ -206,7 +198,6 @@ var make = Home;
 export {
   reducer ,
   initialState ,
-  defaultFloat ,
   make ,
   
 }

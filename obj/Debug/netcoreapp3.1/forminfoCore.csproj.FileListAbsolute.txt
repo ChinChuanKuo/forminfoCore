@@ -63,3 +63,6 @@
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/forminfoCore.dll
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/forminfoCore.pdb
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/forminfoCore.genruntimeconfig.cache
+/Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Proform/Index.cshtml.g.cs
+/Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Protour/Index.cshtml.g.cs
+/Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Formor/Index.cshtml.g.cs

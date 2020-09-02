@@ -17,6 +17,9 @@ let make = () => {
        | [] => <Home />
        | ["icon"] => <Icon />
        | ["bookmarks"] => <Bookmarks />
+       | ["proform"] => <Proform />
+       | ["protour"] => <Protour />
+       | ["formor"] => <Formor />
        | _ => <Home />
        }}
     </NewBookBoard>

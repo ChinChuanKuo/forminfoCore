@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using folderCore.App_Code;
+using forminfoCore.App_Code;
 
-namespace folderCore.Models
+namespace forminfoCore.Models
 {
     public class FormClass
     {
@@ -17,7 +17,7 @@ namespace folderCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "1"));
-            checkRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.checkformnewid @newid,@status;", dbparamlist);
+            checkRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.checkformnewid @newid,@status;", dbparamlist);
             switch (checkRows.Rows.Count)
             {
                 case 0:
@@ -44,7 +44,7 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@externip", cuurip));
             dbparamlist.Add(new dbparam("@status", "1"));
-            loginRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.checkformlogin @newid,@externip,@status;", dbparamlist);
+            loginRows = database.checkSelectSql("mssql", "epaperstring", "exec web.checkformlogin @newid,@externip,@status;", dbparamlist);
             switch (loginRows.Rows.Count)
             {
                 case 0:
@@ -54,13 +54,13 @@ namespace folderCore.Models
             {
                 datetime datetime = new datetime();
                 information information = new information();
-                string date = datetime.sqldate("mssql", "flytrainstring"), time = datetime.sqltime("mssql", "flytrainstring");
+                string date = datetime.sqldate("mssql", "epaperstring"), time = datetime.sqltime("mssql", "epaperstring");
                 dbparamlist.Add(new dbparam("@cpu", ""));
                 dbparamlist.Add(new dbparam("@os", information.osystem(userAgent)));
                 dbparamlist.Add(new dbparam("@internip", ""));
                 dbparamlist.Add(new dbparam("@indate", date));
                 dbparamlist.Add(new dbparam("@intime", time));
-                switch (database.checkActiveSql("mssql", "flytrainstring", "update web.sitelog set cpu = @cpu,os = @os,internip = @internip,indate = @indate,intime = @intime where newid = @newid and externip = @externip and islogin = @status;", dbparamlist))
+                switch (database.checkActiveSql("mssql", "epaperstring", "update web.sitelog set cpu = @cpu,os = @os,internip = @internip,indate = @indate,intime = @intime where newid = @newid and externip = @externip and islogin = @status;", dbparamlist))
                 {
                     case "istrue":
                         return new loginModels() { newid = loginRows.Rows[0]["newid"].ToString().TrimEnd(), name = loginRows.Rows[0]["username"].ToString().TrimEnd().Substring(0, 1), allname = loginRows.Rows[0]["username"].ToString().TrimEnd(), status = "istrue" };
@@ -83,7 +83,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.searchallmissform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.searchallmissform @newid;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:
@@ -97,7 +97,7 @@ namespace folderCore.Models
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
-            mainRows = new database().checkSelectSql("mssql", "flytrainstring", "exec web.searchrecordform @newid;", dbparamlist);
+            mainRows = new database().checkSelectSql("mssql", "epaperstring", "exec web.searchrecordform @newid;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:
@@ -119,14 +119,14 @@ namespace folderCore.Models
             dbparamlist.Add(new dbparam("@mooper", userData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@changestatus", "0"));
-            if (database.checkActiveSql("mssql", "flytrainstring", "update web.noticeform set status = @status,mooper = @mooper where newid = @newid and status = @changestatus;", dbparamlist) != "istrue")
+            if (database.checkActiveSql("mssql", "epaperstring", "update web.noticeform set status = @status,mooper = @mooper where newid = @newid and status = @changestatus;", dbparamlist) != "istrue")
             {
                 return new itemsModels() { itemShow = false };
             }
             dbparamlist.Clear();
             DataTable mainRows = new DataTable();
             dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
-            mainRows = database.checkSelectSql("mssql", "flytrainstring", "exec web.searchnoticeform @newid;", dbparamlist);
+            mainRows = database.checkSelectSql("mssql", "epaperstring", "exec web.searchnoticeform @newid;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:

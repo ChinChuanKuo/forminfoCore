@@ -22,10 +22,14 @@ S wwwroot/js/pages/Resend
 B lib/bs/wwwroot/js/pages/Resend
 S wwwroot/js/pages/Login
 B lib/bs/wwwroot/js/pages/Login
+S wwwroot/js/pages/Formor
+B lib/bs/wwwroot/js/pages/Formor
 S wwwroot/js/pages/Icon
 B lib/bs/wwwroot/js/pages/Icon
 S wwwroot/js/pages/Forget
 B lib/bs/wwwroot/js/pages/Forget
+S wwwroot/js/pages/Proform
+B lib/bs/wwwroot/js/pages/Proform
 S wwwroot/js/pages/Bookmarks
 B lib/bs/wwwroot/js/pages/Bookmarks
 S wwwroot/js/pages/Code
@@ -34,6 +38,8 @@ S wwwroot/js/pages/Signup
 B lib/bs/wwwroot/js/pages/Signup
 S wwwroot/js/pages/Oauth
 B lib/bs/wwwroot/js/pages/Oauth
+S wwwroot/js/pages/Protour
+B lib/bs/wwwroot/js/pages/Protour
 S wwwroot/js/pages/Home
 B lib/bs/wwwroot/js/pages/Home
 S wwwroot/js/modules

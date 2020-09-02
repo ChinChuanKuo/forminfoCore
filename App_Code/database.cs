@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace folderCore.App_Code
+namespace forminfoCore.App_Code
 {
     public class database
     {

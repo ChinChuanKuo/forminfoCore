@@ -338,7 +338,7 @@ var initialState_tabitems = /* :: */[
   /* :: */[
     {
       tabtShow: false,
-      tabImage: Icons$BtsCore.homeBlack,
+      tabImage: Icons$BtsCore.cardTravelBlack,
       tabPath: Path$BtsCore.homePath
     },
     /* :: */[
@@ -451,7 +451,7 @@ function NewBookBoard(Props) {
           }
           Curry._1(dispatch, /* SettingFormLoad */Block.__(0, [
                   ObjectFormat$BtsCore.checkObjects(sessionStorage.getItem("search")),
-                  0
+                  ["/"].indexOf(autoPath)
                 ]));
           Curry._1(dispatch, /* SettingFormWidth */Block.__(1, [
                   window.innerWidth,
@@ -512,11 +512,15 @@ function NewBookBoard(Props) {
               return ReasonReactRouter.push(tabPath);
             });
         }));
+  var profileForm = React.useCallback((function (param) {
+          return ReasonReactRouter.push(Path$BtsCore.proformPath);
+        }));
   var showCreate = React.useCallback((function (param) {
           return Curry._1(dispatch, /* ShowCreate */1);
         }));
   var createForm = React.useCallback((function (param) {
-          return Curry._1(dispatch, /* ShowCreate */1);
+          Curry._1(dispatch, /* ShowCreate */1);
+          return ReasonReactRouter.push(Path$BtsCore.formorPath);
         }));
   var searchBadge = React.useCallback((function (param) {
           Curry._1(dispatch, /* ShowBadge */2);
@@ -728,6 +732,7 @@ function NewBookBoard(Props) {
                                         children: React.createElement(Chip$BtsCore.make, {
                                               right: "0",
                                               borderWidth: "0",
+                                              onClick: profileForm,
                                               children: React.createElement(ChipText$BtsCore.make, {
                                                     children: /* tuple */[
                                                       React.createElement(Typography$BtsCore.make, {

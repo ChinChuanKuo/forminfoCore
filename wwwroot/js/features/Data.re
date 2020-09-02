@@ -45,10 +45,11 @@ let iFileData = (formId, original, encryption, extension, newid) => {
   "newid": newid,
 };
 [@genType]
-let iFormData = (formId, tile, items, newid) => {
-  "formId": formId,
+let iFormData = (tile, desc, items, settitems, newid) => {
   "tile": tile,
+  "desc": desc,
   "items": items,
+  "settitems": settitems,
   "newid": newid,
 };
 [@genType]

@@ -103,7 +103,7 @@ let initialState = {
   menuPath: "/",
   tabitems: [
     {tabtShow: true, tabImage: homeBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
+    {tabtShow: false, tabImage: cardTravelBlack, tabPath: homePath},
     {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
     {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
     {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
@@ -212,7 +212,10 @@ let make = (~autoPath: 'a, ~children) => {
           /*List.filter(
               (tabitem: tabitem) => tabitem.tabPath == autoPath,
               state.tabitems,
-            )*/ 0,
+            )*/ [|
+            "/",
+          |]
+          |> Js_array.indexOf(autoPath),
         )
         |> dispatch;
       let formId =
@@ -282,8 +285,13 @@ let make = (~autoPath: 'a, ~children) => {
       ClickItemTab(i) |> dispatch;
       tabPath |> ReasonReactRouter.push;
     });
+  let profileForm = useCallback(_ => proformPath |> ReasonReactRouter.push);
   let showCreate = useCallback(_ => ShowCreate |> dispatch);
-  let createForm = useCallback(_ => ShowCreate |> dispatch);
+  let createForm =
+    useCallback(_ => {
+      ShowCreate |> dispatch;
+      formorPath |> ReasonReactRouter.push;
+    });
   let badgeAJax = () =>
     Js.Promise.(
       "newid"
@@ -436,7 +444,7 @@ let make = (~autoPath: 'a, ~children) => {
             {state.formWidth < 1259
                ? null
                : <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                   <Chip right="0" borderWidth="0">
+                   <Chip right="0" borderWidth="0" onClick=profileForm>
                      <ChipText>
                        ...(
                             <Typography variant="subtitle2">

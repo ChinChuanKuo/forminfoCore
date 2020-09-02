@@ -126,6 +126,54 @@ var Files = {
 
 var Default = { };
 
+function search$1(data) {
+  return Axios$1.post("/Formor/searchData", data);
+}
+
+function sType(data) {
+  return Axios$1.post("/Formor/sTypeData", data);
+}
+
+function sVeri(data) {
+  return Axios$1.post("/Formor/sVeriData", data);
+}
+
+function add$1(data) {
+  return Axios$1.post("/Formor/addData", data);
+}
+
+function $$delete(data) {
+  return Axios$1.post("/Formor/deleteData", data);
+}
+
+function insert$1(data) {
+  return Axios$1.post("/Formor/insertData", data);
+}
+
+var Formor = {
+  search: search$1,
+  sType: sType,
+  sVeri: sVeri,
+  add: add$1,
+  $$delete: $$delete,
+  insert: insert$1
+};
+
+function polling(data) {
+  return Axios$1.post("/Proform/pollingData", data, {
+              timeout: 30000
+            });
+}
+
+function search$2(data) {
+  return Axios$1.post("/Proform/searchData", data);
+}
+
+var Proform = {
+  polling: polling,
+  search: search$2
+};
+
 export {
   Form ,
   Login ,
@@ -137,6 +185,8 @@ export {
   $$Option ,
   Files ,
   Default ,
+  Formor ,
+  Proform ,
   
 }
 /* axios Not a pure module */

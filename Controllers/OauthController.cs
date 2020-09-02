@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace folderCore.Controllers
+namespace forminfoCore.Controllers
 {
     public class OauthController : Controller
     {

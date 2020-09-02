@@ -29,6 +29,14 @@ var bookmarksPath = "/bookmarks";
 
 var permissPath = "/permiss";
 
+var proformPath = "/proform";
+
+var protourPath = "/protour";
+
+var formorPath = "/formor";
+
+var tourorPath = "/touror";
+
 export {
   homePath ,
   loginPath ,
@@ -44,6 +52,10 @@ export {
   iconPath ,
   bookmarksPath ,
   permissPath ,
+  proformPath ,
+  protourPath ,
+  formorPath ,
+  tourorPath ,
   
 }
 /* No side effect */
