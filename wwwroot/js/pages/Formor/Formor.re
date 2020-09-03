@@ -145,9 +145,13 @@ type action =
   | DeleteItem(int)
   | AddItem(int)
   | AddForm(array(opticonitem))
+  | ChangeStdate(string, int)
+  | ChangeSttime(string, int)
+  | ChangeEndate(string, int)
+  | ChangeEntime(string, int)
   | ShowExam(int)
   | RandOption(int)
-  | RandQuestn(int)
+  | RandSubtile(int)
   | ShowRest(int)
   | ChangeItemNum(string, int)
   | ActionSnackBar(string, bool);
@@ -444,6 +448,42 @@ let reducer = (state, action) =>
           ),
         ),
     }
+  | ChangeStdate(value, index) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i ? {...settitem, stdate: value} : settitem,
+          state.settitems,
+        ),
+    }
+  | ChangeSttime(value, index) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i ? {...settitem, sttime: value} : settitem,
+          state.settitems,
+        ),
+    }
+  | ChangeEndate(value, index) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i ? {...settitem, endate: value} : settitem,
+          state.settitems,
+        ),
+    }
+  | ChangeEntime(value, index) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i ? {...settitem, entime: value} : settitem,
+          state.settitems,
+        ),
+    }
   | ShowExam(index) => {
       ...state,
       settitems:
@@ -470,7 +510,7 @@ let reducer = (state, action) =>
           state.settitems,
         ),
     }
-  | RandQuestn(index) => {
+  | RandSubtile(index) => {
       ...state,
       settitems:
         Array.mapi(
@@ -808,11 +848,23 @@ let make = _ => {
       addAJax();
     });
 
+  let changeStdate =
+    useCallback((value, i) => ChangeStdate(value, i) |> dispatch);
+
+  let changeSttime =
+    useCallback((value, i) => ChangeSttime(value, i) |> dispatch);
+
+  let changeEndate =
+    useCallback((value, i) => ChangeEndate(value, i) |> dispatch);
+
+  let changeEntime =
+    useCallback((value, i) => ChangeEntime(value, i) |> dispatch);
+
   let showExam = useCallback(i => ShowExam(i) |> dispatch);
 
-  let randOpt = useCallback(i => RandOption(i) |> dispatch);
+  let randOption = useCallback(i => RandOption(i) |> dispatch);
 
-  let randSub = useCallback(i => RandQuestn(i) |> dispatch);
+  let randSubtile = useCallback(i => RandSubtile(i) |> dispatch);
 
   let showRest = useCallback(i => ShowRest(i) |> dispatch);
 
@@ -1700,7 +1752,13 @@ let make = _ => {
                             top="8"
                             type_="date"
                             value={settitem.stdate}
-                            disabled={state.showProgress}>
+                            disabled={state.showProgress}
+                            onChange={event =>
+                              i
+                              |> changeStdate(
+                                   ReactEvent.Form.target(event)##value,
+                                 )
+                            }>
                             <FormattedMessage
                               id="Formor.stdate"
                               defaultMessage="Stdate"
@@ -1713,10 +1771,16 @@ let make = _ => {
                             top="8"
                             type_="time"
                             value={settitem.sttime}
-                            disabled={state.showProgress}>
+                            disabled={state.showProgress}
+                            onChange={event =>
+                              i
+                              |> changeSttime(
+                                   ReactEvent.Form.target(event)##value,
+                                 )
+                            }>
                             <FormattedMessage
                               id="Formor.sttime"
-                              defaultMessage="Endate"
+                              defaultMessage="Sttime"
                             />
                           </TextFieldOutline>
                         </GridItem>
@@ -1731,8 +1795,14 @@ let make = _ => {
                           <TextFieldOutline
                             top="8"
                             type_="date"
-                            value={settitem.stdate}
-                            disabled={state.showProgress}>
+                            value={settitem.endate}
+                            disabled={state.showProgress}
+                            onChange={event =>
+                              i
+                              |> changeEndate(
+                                   ReactEvent.Form.target(event)##value,
+                                 )
+                            }>
                             <FormattedMessage
                               id="Formor.endate"
                               defaultMessage="Endate"
@@ -1744,8 +1814,14 @@ let make = _ => {
                           <TextFieldOutline
                             top="8"
                             type_="time"
-                            value={settitem.endate}
-                            disabled={state.showProgress}>
+                            value={settitem.entime}
+                            disabled={state.showProgress}
+                            onChange={event =>
+                              i
+                              |> changeEntime(
+                                   ReactEvent.Form.target(event)##value,
+                                 )
+                            }>
                             <FormattedMessage
                               id="Formor.entime"
                               defaultMessage="Entme"
@@ -1777,7 +1853,7 @@ let make = _ => {
                         linearColor={settitem.randOpt |> linear}
                         fontColor={settitem.randOpt |> font}
                         disabled={state.showProgress || !settitem.showExam}
-                        onClick={_ => i |> randOpt}>
+                        onClick={_ => i |> randOption}>
                         <FormattedMessage
                           id="Formor.randopt"
                           defaultMessage="Randopt"
@@ -1792,7 +1868,7 @@ let make = _ => {
                         linearColor={settitem.randSub |> linear}
                         fontColor={settitem.randSub |> font}
                         disabled={state.showProgress || !settitem.showExam}
-                        onClick={_ => i |> randSub}>
+                        onClick={_ => i |> randSubtile}>
                         <FormattedMessage
                           id="Formor.randsub"
                           defaultMessage="Randsub"

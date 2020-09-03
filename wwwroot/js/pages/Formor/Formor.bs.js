@@ -921,8 +921,9 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowExam */27 :
-          var index$21 = action[0];
+      case /* ChangeStdate */27 :
+          var index$21 = action[1];
+          var value$2 = action[0];
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -941,14 +942,14 @@ function reducer(state, action) {
                   settitems: $$Array.mapi((function (i, settitem) {
                           if (index$21 === i) {
                             return {
-                                    stdate: settitem.stdate,
+                                    stdate: value$2,
                                     sttime: settitem.sttime,
                                     endate: settitem.endate,
                                     entime: settitem.entime,
-                                    showExam: !settitem.showExam,
-                                    randOpt: settitem.showExam ? false : settitem.randOpt,
-                                    randSub: settitem.showExam ? false : settitem.randSub,
-                                    showRest: settitem.showExam ? false : settitem.showRest,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
                                     number: settitem.number
                                   };
@@ -959,8 +960,9 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* RandOption */28 :
-          var index$22 = action[0];
+      case /* ChangeSttime */28 :
+          var index$22 = action[1];
+          var value$3 = action[0];
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -980,11 +982,11 @@ function reducer(state, action) {
                           if (index$22 === i) {
                             return {
                                     stdate: settitem.stdate,
-                                    sttime: settitem.sttime,
+                                    sttime: value$3,
                                     endate: settitem.endate,
                                     entime: settitem.entime,
                                     showExam: settitem.showExam,
-                                    randOpt: !settitem.randOpt,
+                                    randOpt: settitem.randOpt,
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
@@ -997,8 +999,9 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* RandQuestn */29 :
-          var index$23 = action[0];
+      case /* ChangeEndate */29 :
+          var index$23 = action[1];
+          var value$4 = action[0];
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1019,11 +1022,11 @@ function reducer(state, action) {
                             return {
                                     stdate: settitem.stdate,
                                     sttime: settitem.sttime,
-                                    endate: settitem.endate,
+                                    endate: value$4,
                                     entime: settitem.entime,
                                     showExam: settitem.showExam,
                                     randOpt: settitem.randOpt,
-                                    randSub: !settitem.randSub,
+                                    randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
                                     number: settitem.number
@@ -1035,8 +1038,9 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowRest */30 :
-          var index$24 = action[0];
+      case /* ChangeEntime */30 :
+          var index$24 = action[1];
+          var value$5 = action[0];
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1058,11 +1062,11 @@ function reducer(state, action) {
                                     stdate: settitem.stdate,
                                     sttime: settitem.sttime,
                                     endate: settitem.endate,
-                                    entime: settitem.entime,
+                                    entime: value$5,
                                     showExam: settitem.showExam,
                                     randOpt: settitem.randOpt,
                                     randSub: settitem.randSub,
-                                    showRest: !settitem.showRest,
+                                    showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
                                     number: settitem.number
                                   };
@@ -1073,9 +1077,8 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemNum */31 :
-          var index$25 = action[1];
-          var value$2 = action[0];
+      case /* ShowExam */31 :
+          var index$25 = action[0];
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1098,12 +1101,12 @@ function reducer(state, action) {
                                     sttime: settitem.sttime,
                                     endate: settitem.endate,
                                     entime: settitem.entime,
-                                    showExam: settitem.showExam,
-                                    randOpt: settitem.randOpt,
-                                    randSub: settitem.randSub,
-                                    showRest: settitem.showRest,
+                                    showExam: !settitem.showExam,
+                                    randOpt: settitem.showExam ? false : settitem.randOpt,
+                                    randSub: settitem.showExam ? false : settitem.randSub,
+                                    showRest: settitem.showExam ? false : settitem.showRest,
                                     showLimt: settitem.showLimt,
-                                    number: value$2
+                                    number: settitem.number
                                   };
                           } else {
                             return settitem;
@@ -1112,7 +1115,160 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ActionSnackBar */32 :
+      case /* RandOption */32 :
+          var index$26 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$26 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: !settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* RandSubtile */33 :
+          var index$27 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$27 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: !settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ShowRest */34 :
+          var index$28 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$28 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: !settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ChangeItemNum */35 :
+          var index$29 = action[1];
+          var value$6 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$29 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    number: value$6
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ActionSnackBar */36 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1186,12 +1342,12 @@ function Formor(Props) {
   var dispatch = match[1];
   var state = match[0];
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(32, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(36, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(32, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(36, [
                           "",
                           false
                         ]));
@@ -1439,21 +1595,53 @@ function Formor(Props) {
                 }));
           
         }));
+  var changeStdate = React.useCallback((function (value) {
+          return (function (i) {
+              return Curry._1(dispatch, /* ChangeStdate */Block.__(27, [
+                            value,
+                            i
+                          ]));
+            });
+        }));
+  var changeSttime = React.useCallback((function (value) {
+          return (function (i) {
+              return Curry._1(dispatch, /* ChangeSttime */Block.__(28, [
+                            value,
+                            i
+                          ]));
+            });
+        }));
+  var changeEndate = React.useCallback((function (value) {
+          return (function (i) {
+              return Curry._1(dispatch, /* ChangeEndate */Block.__(29, [
+                            value,
+                            i
+                          ]));
+            });
+        }));
+  var changeEntime = React.useCallback((function (value) {
+          return (function (i) {
+              return Curry._1(dispatch, /* ChangeEntime */Block.__(30, [
+                            value,
+                            i
+                          ]));
+            });
+        }));
   var showExam = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowExam */Block.__(27, [i]));
+          return Curry._1(dispatch, /* ShowExam */Block.__(31, [i]));
         }));
-  var randOpt = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* RandOption */Block.__(28, [i]));
+  var randOption = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* RandOption */Block.__(32, [i]));
         }));
-  var randSub = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* RandQuestn */Block.__(29, [i]));
+  var randSubtile = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* RandSubtile */Block.__(33, [i]));
         }));
   var showRest = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowRest */Block.__(30, [i]));
+          return Curry._1(dispatch, /* ShowRest */Block.__(34, [i]));
         }));
   var changeItemNum = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemNum */Block.__(31, [
+              return Curry._1(dispatch, /* ChangeItemNum */Block.__(35, [
                             value,
                             i
                           ]));
@@ -1615,6 +1803,9 @@ function Formor(Props) {
                                                                           type_: "date",
                                                                           value: settitem.stdate,
                                                                           disabled: state.showProgress,
+                                                                          onChange: (function ($$event) {
+                                                                              return Curry._2(changeStdate, $$event.target.value, i);
+                                                                            }),
                                                                           children: React.createElement(ReactIntl.FormattedMessage, {
                                                                                 id: "Formor.stdate",
                                                                                 defaultMessage: "Stdate"
@@ -1631,9 +1822,12 @@ function Formor(Props) {
                                                                           type_: "time",
                                                                           value: settitem.sttime,
                                                                           disabled: state.showProgress,
+                                                                          onChange: (function ($$event) {
+                                                                              return Curry._2(changeSttime, $$event.target.value, i);
+                                                                            }),
                                                                           children: React.createElement(ReactIntl.FormattedMessage, {
                                                                                 id: "Formor.sttime",
-                                                                                defaultMessage: "Endate"
+                                                                                defaultMessage: "Sttime"
                                                                               })
                                                                         })
                                                                   }))
@@ -1657,8 +1851,11 @@ function Formor(Props) {
                                                                     children: React.createElement(TextFieldOutline$BtsCore.make, {
                                                                           top: "8",
                                                                           type_: "date",
-                                                                          value: settitem.stdate,
+                                                                          value: settitem.endate,
                                                                           disabled: state.showProgress,
+                                                                          onChange: (function ($$event) {
+                                                                              return Curry._2(changeEndate, $$event.target.value, i);
+                                                                            }),
                                                                           children: React.createElement(ReactIntl.FormattedMessage, {
                                                                                 id: "Formor.endate",
                                                                                 defaultMessage: "Endate"
@@ -1673,8 +1870,11 @@ function Formor(Props) {
                                                                     children: React.createElement(TextFieldOutline$BtsCore.make, {
                                                                           top: "8",
                                                                           type_: "time",
-                                                                          value: settitem.endate,
+                                                                          value: settitem.entime,
                                                                           disabled: state.showProgress,
+                                                                          onChange: (function ($$event) {
+                                                                              return Curry._2(changeEntime, $$event.target.value, i);
+                                                                            }),
                                                                           children: React.createElement(ReactIntl.FormattedMessage, {
                                                                                 id: "Formor.entime",
                                                                                 defaultMessage: "Entme"
@@ -1716,7 +1916,7 @@ function Formor(Props) {
                                                                 fontColor: SwitchColor$BtsCore.font(settitem.randOpt),
                                                                 disabled: state.showProgress || !settitem.showExam,
                                                                 onClick: (function (param) {
-                                                                    return Curry._1(randOpt, i);
+                                                                    return Curry._1(randOption, i);
                                                                   }),
                                                                 children: React.createElement(ReactIntl.FormattedMessage, {
                                                                       id: "Formor.randopt",
@@ -1737,7 +1937,7 @@ function Formor(Props) {
                                                                 fontColor: SwitchColor$BtsCore.font(settitem.randSub),
                                                                 disabled: state.showProgress || !settitem.showExam,
                                                                 onClick: (function (param) {
-                                                                    return Curry._1(randSub, i);
+                                                                    return Curry._1(randSubtile, i);
                                                                   }),
                                                                 children: React.createElement(ReactIntl.FormattedMessage, {
                                                                       id: "Formor.randsub",

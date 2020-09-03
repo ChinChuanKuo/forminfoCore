@@ -175,18 +175,18 @@ namespace forminfoCore.Models
         public string status { get; set; }
     }
 
-    public class iItemsData
-    {
-        public List<Dictionary<string, object>> items { get; set; }
-        public string newid { get; set; }
-    }
-
     public class iFileData
     {
         public string formId { get; set; }
         public string original { get; set; }
         public string encryption { get; set; }
         public string extension { get; set; }
+        public string newid { get; set; }
+    }
+
+    public class iItemsData
+    {
+        public List<Dictionary<string, object>> items { get; set; }
         public string newid { get; set; }
     }
 
@@ -220,40 +220,50 @@ namespace forminfoCore.Models
         public string status { get; set; }
     }
 
+    //
     public class iFormData
     {
         public string tile { get; set; }
         public string desc { get; set; }
         public List<Dictionary<string, object>> items { get; set; }
-
         public List<Dictionary<string, object>> settitems { get; set; }
         public string newid { get; set; }
     }
 
-    public class sFormModels
-    {
-        [Required]
-        public string formId { get; set; }
-        [Required]
-        public string status { get; set; }
-    }
-    public class iPathData
+    public class uFormData
     {
         public string formId { get; set; }
-        public string imagePath { get; set; }
-        public string original { get; set; }
-        public string encryption { get; set; }
-        public string extension { get; set; }
+        public string tile { get; set; }
+        public string desc { get; set; }
+        public List<Dictionary<string, object>> items { get; set; }
+        public List<Dictionary<string, object>> settitems { get; set; }
         public string newid { get; set; }
     }
 
-    public class sNeworModels
+    public class sFoorModels
     {
         [Required]
         public List<Dictionary<string, object>> items { get; set; }
         [Required]
         public List<Dictionary<string, object>> settitems { get; set; }
     }
+
+    public class sPormModels
+    {
+        [Required]
+        public string formId { get; set; }
+        [Required]
+        public string tile { get; set; }
+        [Required]
+        public string desc { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> items { get; set; }
+        [Required]
+        public List<Dictionary<string, object>> settitems { get; set; }
+        [Required]
+        public string status { get; set; }
+    }
+
     public class sTypeModels
     {
         [Required]
@@ -264,7 +274,8 @@ namespace forminfoCore.Models
         public string status { get; set; }
     }
 
-    public class sVeriModels {
+    public class sVeriModels
+    {
         [Required]
         public string type_ { get; set; }
         [Required]

@@ -169,9 +169,39 @@ function search$2(data) {
   return Axios$1.post("/Proform/searchData", data);
 }
 
+function sItem(data) {
+  return Axios$1.post("/Proform/sItemData", data);
+}
+
+function sType$1(data) {
+  return Axios$1.post("/Proform/sTypeData", data);
+}
+
+function sVeri$1(data) {
+  return Axios$1.post("/Proform/sVeriData", data);
+}
+
+function add$2(data) {
+  return Axios$1.post("/Proform/addData", data);
+}
+
+function $$delete$1(data) {
+  return Axios$1.post("/Proform/deleteData", data);
+}
+
+function insert$2(data) {
+  return Axios$1.post("/Proform/insertData", data);
+}
+
 var Proform = {
   polling: polling,
-  search: search$2
+  search: search$2,
+  sItem: sItem,
+  sType: sType$1,
+  sVeri: sVeri$1,
+  add: add$2,
+  $$delete: $$delete$1,
+  insert: insert$2
 };
 
 export {

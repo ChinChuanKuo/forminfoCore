@@ -68,4 +68,10 @@ module Proform = {
     postDatac("/Proform/pollingData", data, makeConfig(~timeout=30000, ()));
   //let polling = data => postData("/Home/pollingData", data);
   let search = data => postData("/Proform/searchData", data);
+  let sItem = data => postData("/Proform/sItemData", data);
+  let sType = data => postData("/Proform/sTypeData", data);
+  let sVeri = data => postData("/Proform/sVeriData", data);
+  let add = data => postData("/Proform/addData", data);
+  let delete = data => postData("/Proform/deleteData", data);
+  let insert = data => postData("/Proform/insertData", data);
 };

@@ -7,10 +7,10 @@ namespace forminfoCore.Models
 {
     public class FormorClass
     {
-        public sNeworModels GetSearchModels(userData userData, string cuurip)
+        public sFoorModels GetSearchModels(userData userData, string cuurip)
         {
             List<Dictionary<string, object>> opticonitems = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in new database().checkSelectSql("mssql", "flyformstring", "exec web.searchitemdeta;", new List<dbparam>()).Rows)
+            foreach (DataRow dr in new database().checkSelectSql("mssql", "flyformstring", "exec web.searchitemform;", new List<dbparam>()).Rows)
             {
                 opticonitems.Add(new Dictionary<string, object>() { { "opticonPadding", false }, { "icon", dr["icon"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() } });
             }
@@ -20,7 +20,7 @@ namespace forminfoCore.Models
             items.Add(new Dictionary<string, object>() { { "iid", 1 }, { "showLine", false }, { "title", "" }, { "showOut", false }, { "showVer", false }, { "showDrop", false }, { "showFile", false }, { "outValue", "text" }, { "type_", "" }, { "showType", false }, { "typeitems", new List<Dictionary<string, object>>().ToArray() }, { "operation", "" }, { "showOperation", false }, { "operationitems", new List<Dictionary<string, object>>().ToArray() }, { "area", "" }, { "eror", "" }, { "showCheck", false }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "itemDelete", false } });
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
             settitems.Add(new Dictionary<string, object>() { { "stdate", "" }, { "sttime", "" }, { "endate", "" }, { "entime", "" }, { "showExam", false }, { "randOpt", false }, { "randSub", false }, { "showRest", false }, { "showLimt", false }, { "number", "" } });
-            return new sNeworModels() { items = items, settitems = settitems };
+            return new sFoorModels() { items = items, settitems = settitems };
         }
 
         public sTypeModels GetSTypeModels(otherData otherData, string cuurip)
@@ -29,7 +29,7 @@ namespace forminfoCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@value", otherData.values.TrimEnd()));
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(); string value = "";
-            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperationdeta @value;", dbparamlist).Rows)
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperationform @value;", dbparamlist).Rows)
             {
                 value = dr["operationValue"].ToString().TrimEnd();
                 items.Add(new Dictionary<string, object>() { { "optionPadding", dr["optionPadding"].ToString().TrimEnd() == "1" }, { "value", dr["operationValue"].ToString().TrimEnd() } });
@@ -43,7 +43,7 @@ namespace forminfoCore.Models
             List<dbparam> dbparamlist = new List<dbparam>();
             string type_ = "";
             List<Dictionary<string, object>> typeitems = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchtypedeta;", dbparamlist).Rows)
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchtypeform;", dbparamlist).Rows)
             {
                 type_ = dr["value"].ToString().TrimEnd();
                 typeitems.Add(new Dictionary<string, object>() { { "optionPadding", dr["optionPadding"].ToString().TrimEnd() == "1" }, { "value", dr["value"].ToString().TrimEnd() } });
@@ -51,7 +51,7 @@ namespace forminfoCore.Models
             string operation = "";
             dbparamlist.Add(new dbparam("@value", type_));
             List<Dictionary<string, object>> operationitems = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperationdeta @value;", dbparamlist).Rows)
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperationform @value;", dbparamlist).Rows)
             {
                 operation = dr["operationValue"].ToString().TrimEnd();
                 operationitems.Add(new Dictionary<string, object>() { { "optionPadding", dr["optionPadding"].ToString().TrimEnd() == "1" }, { "value", dr["operationValue"].ToString().TrimEnd() } });
@@ -62,7 +62,7 @@ namespace forminfoCore.Models
         public sOptonModels GetAddModels(userData userData, string cuurip)
         {
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in new database().checkSelectSql("mssql", "flyformstring", "exec web.searchitemdeta;", new List<dbparam>()).Rows)
+            foreach (DataRow dr in new database().checkSelectSql("mssql", "flyformstring", "exec web.searchitemform;", new List<dbparam>()).Rows)
             {
                 items.Add(new Dictionary<string, object>() { { "opticonPadding", false }, { "icon", dr["icon"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() } });
             }
@@ -129,10 +129,10 @@ namespace forminfoCore.Models
                 dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
                 dbparamlist.Add(new dbparam("@tile", iFormData.tile.TrimEnd()));
                 dbparamlist.Add(new dbparam("@desc", iFormData.desc.TrimEnd()));
-                dbparamlist.Add(new dbparam("@stdate", settitem["stdate"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@sttime", settitem["sttime"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@endate", settitem["endate"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@entime", settitem["entime"].ToString().TrimEnd()));
+                dbparamlist.Add(new dbparam("@stdate", settitem["stdate"].ToString().TrimEnd().Replace("-", "/")));
+                dbparamlist.Add(new dbparam("@sttime", settitem["sttime"].ToString().TrimEnd().Replace("-", "/")));
+                dbparamlist.Add(new dbparam("@endate", settitem["endate"].ToString().TrimEnd().Replace("-", "/")));
+                dbparamlist.Add(new dbparam("@entime", settitem["entime"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@examed", bool.Parse(settitem["showExam"].ToString().TrimEnd()) ? "1" : "0"));
                 dbparamlist.Add(new dbparam("@restarted", bool.Parse(settitem["showRest"].ToString().TrimEnd()) ? "1" : "0"));
                 dbparamlist.Add(new dbparam("@limited", bool.Parse(settitem["showLimt"].ToString().TrimEnd()) ? "1" : "0"));
