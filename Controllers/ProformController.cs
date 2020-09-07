@@ -60,10 +60,10 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
-        public JsonResult insertData([FromBody] uFormData uFormData)
+        public JsonResult insertData([FromBody] uFormsData uFormsData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
-            return Json(new ProformClass().GetInsertModels(uFormData, clientip));
+            return Json(new ProformClass().GetInsertModels(uFormsData, clientip));
         }
     }
 }

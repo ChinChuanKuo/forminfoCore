@@ -20,6 +20,7 @@ let make = () => {
        | ["proform"] => <Proform />
        | ["protour"] => <Protour />
        | ["formor"] => <Formor />
+       | ["formcel"] => <Formcel />
        | _ => <Home />
        }}
     </NewBookBoard>

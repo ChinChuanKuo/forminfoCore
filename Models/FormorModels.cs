@@ -15,7 +15,7 @@ namespace forminfoCore.Models
                 opticonitems.Add(new Dictionary<string, object>() { { "opticonPadding", false }, { "icon", dr["icon"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() } });
             }
             List<Dictionary<string, object>> answeritems = new List<Dictionary<string, object>>();
-            answeritems.Add(new Dictionary<string, object>() { { "id", 1 }, { "value", "" }, { "showAnswer", false }, { "showDelete", false } });
+            answeritems.Add(new Dictionary<string, object>() { { "id", 1 }, { "value", "" }, { "showAnswer", false }, { "ansrDelete", false } });
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             items.Add(new Dictionary<string, object>() { { "iid", 1 }, { "showLine", false }, { "title", "" }, { "showOut", false }, { "showVer", false }, { "showDrop", false }, { "showFile", false }, { "outValue", "text" }, { "type_", "" }, { "showType", false }, { "typeitems", new List<Dictionary<string, object>>().ToArray() }, { "operation", "" }, { "showOperation", false }, { "operationitems", new List<Dictionary<string, object>>().ToArray() }, { "area", "" }, { "eror", "" }, { "showCheck", false }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "itemDelete", false } });
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
@@ -69,17 +69,17 @@ namespace forminfoCore.Models
             return new sOptonModels() { items = items };
         }
 
-        public statusModels GetInsertModels(iFormData iFormData, string cuurip)
+        public statusModels GetInsertModels(iFormsData iFormsData, string cuurip)
         {
             database database = new database();
             datetime datetime = new datetime();
             string formId = new sha256().new256("mssql", "flyformstring"), date = datetime.sqldate("mssql", "flyformstring"), time = datetime.sqltime("mssql", "flyformstring");
-            foreach (var item in iFormData.items)
+            foreach (var item in iFormsData.items)
             {
                 List<dbparam> dbparamlist = new List<dbparam>();
                 dbparamlist.Add(new dbparam("@formId", formId));
                 dbparamlist.Add(new dbparam("@iid", item["iid"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
+                dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
                 dbparamlist.Add(new dbparam("@tile", item["title"].ToString().TrimEnd()));
                 dbparamlist.Add(new dbparam("@outValue", item["outValue"].ToString().TrimEnd()));
                 dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVer"].ToString().TrimEnd()) ? "1" : "0"));
@@ -100,14 +100,14 @@ namespace forminfoCore.Models
                     case "checkbox":
                         foreach (var answeritem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(item["answeritems"].ToString().TrimEnd()))
                         {
-                            switch (bool.Parse(answeritem["showDelete"].ToString().TrimEnd()))
+                            switch (bool.Parse(answeritem["ansrDelete"].ToString().TrimEnd()))
                             {
                                 case false:
                                     dbparamlist.Clear();
                                     dbparamlist.Add(new dbparam("@formId", formId));
                                     dbparamlist.Add(new dbparam("@iid", item["iid"].ToString().TrimEnd()));
                                     dbparamlist.Add(new dbparam("@id", answeritem["id"].ToString().TrimEnd()));
-                                    dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
+                                    dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
                                     dbparamlist.Add(new dbparam("@value", answeritem["value"].ToString().TrimEnd()));
                                     dbparamlist.Add(new dbparam("@answer", bool.Parse(answeritem["showAnswer"].ToString().TrimEnd()) ? "1" : "0"));
                                     dbparamlist.Add(new dbparam("@indate", date));
@@ -122,13 +122,13 @@ namespace forminfoCore.Models
                         break;
                 }
             }
-            foreach (var settitem in iFormData.settitems)
+            foreach (var settitem in iFormsData.settitems)
             {
                 List<dbparam> dbparamlist = new List<dbparam>();
                 dbparamlist.Add(new dbparam("@formId", formId));
-                dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
-                dbparamlist.Add(new dbparam("@tile", iFormData.tile.TrimEnd()));
-                dbparamlist.Add(new dbparam("@desc", iFormData.desc.TrimEnd()));
+                dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
+                dbparamlist.Add(new dbparam("@tile", iFormsData.tile.TrimEnd()));
+                dbparamlist.Add(new dbparam("@desc", iFormsData.desc.TrimEnd()));
                 dbparamlist.Add(new dbparam("@stdate", settitem["stdate"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@sttime", settitem["sttime"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@endate", settitem["endate"].ToString().TrimEnd().Replace("-", "/")));

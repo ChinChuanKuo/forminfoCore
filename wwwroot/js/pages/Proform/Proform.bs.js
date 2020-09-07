@@ -77,13 +77,13 @@ function newitem(iid, opticonitems) {
                 id: 1,
                 value: "",
                 showAnswer: false,
-                showDelete: false,
-                showModify: false,
-                showCreate: true
+                ansrDelete: false,
+                ansrModify: false,
+                ansrCreate: true
               }],
-            itemDelete: false,
-            itemModify: false,
-            itemCreate: true
+            formDelete: false,
+            formModify: false,
+            formCreate: true
           }];
 }
 
@@ -92,9 +92,9 @@ function newansweritem(id) {
             id: id,
             value: "",
             showAnswer: false,
-            showDelete: false,
-            showModify: false,
-            showCreate: true
+            ansrDelete: false,
+            ansrModify: false,
+            ansrCreate: true
           }];
 }
 
@@ -163,11 +163,11 @@ function reducer(state, action) {
           newrecord$9.formId = action[0];
           newrecord$9.showFull = !state.showFull;
           return newrecord$9;
-      case /* ChangeTile */6 :
+      case /* ChangeFormTile */6 :
           var newrecord$10 = Caml_obj.caml_obj_dup(state);
           newrecord$10.formTile = action[0];
           return newrecord$10;
-      case /* ChangeDesc */7 :
+      case /* ChangeFormDesc */7 :
           var newrecord$11 = Caml_obj.caml_obj_dup(state);
           newrecord$11.formDesc = action[0];
           return newrecord$11;
@@ -191,7 +191,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$13;
-      case /* ChangeItemTile */10 :
+      case /* ChangeTile */10 :
           var index$3 = action[1];
           var value = action[0];
           var newrecord$14 = Caml_obj.caml_obj_dup(state);
@@ -200,12 +200,12 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.title = value;
                   return newrecord;
                 }), state.formitems);
           return newrecord$14;
-      case /* ShowItemOut */11 :
+      case /* ShowOut */11 :
           var index$4 = action[0];
           var newrecord$15 = Caml_obj.caml_obj_dup(state);
           newrecord$15.formitems = $$Array.mapi((function (i, formitem) {
@@ -214,7 +214,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$15;
-      case /* ShowItemValue */12 :
+      case /* ShowValue */12 :
           var index$5 = action[1];
           var outValue = action[0];
           var newrecord$16 = Caml_obj.caml_obj_dup(state);
@@ -223,13 +223,13 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.outValue = outValue;
                   newrecord.showOut = false;
                   return newrecord;
                 }), state.formitems);
           return newrecord$16;
-      case /* ChangeItemText */13 :
+      case /* ChangeText */13 :
           var index$6 = action[2];
           var rindex = action[1];
           var value$1 = action[0];
@@ -239,16 +239,16 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.answeritems = $$Array.mapi((function (ri, answeritem) {
                           if (rindex === ri) {
                             return {
                                     id: answeritem.id,
                                     value: value$1,
                                     showAnswer: answeritem.showAnswer,
-                                    showDelete: answeritem.showDelete,
-                                    showModify: true,
-                                    showCreate: answeritem.showCreate
+                                    ansrDelete: answeritem.ansrDelete,
+                                    ansrModify: true,
+                                    ansrCreate: answeritem.ansrCreate
                                   };
                           } else {
                             return answeritem;
@@ -257,7 +257,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$17;
-      case /* ClickItemRadio */14 :
+      case /* ClickRadio */14 :
           var index$7 = action[1];
           var rindex$1 = action[0];
           var newrecord$18 = Caml_obj.caml_obj_dup(state);
@@ -266,21 +266,21 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.answeritems = $$Array.mapi((function (ri, answeritem) {
                           return {
                                   id: answeritem.id,
                                   value: answeritem.value,
                                   showAnswer: rindex$1 === ri ? !answeritem.showAnswer : false,
-                                  showDelete: answeritem.showDelete,
-                                  showModify: true,
-                                  showCreate: answeritem.showCreate
+                                  ansrDelete: answeritem.ansrDelete,
+                                  ansrModify: true,
+                                  ansrCreate: answeritem.ansrCreate
                                 };
                         }), formitem.answeritems);
                   return newrecord;
                 }), state.formitems);
           return newrecord$18;
-      case /* ClickItemCheckbox */15 :
+      case /* ClickCheckbox */15 :
           var index$8 = action[1];
           var rindex$2 = action[0];
           var newrecord$19 = Caml_obj.caml_obj_dup(state);
@@ -289,16 +289,16 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.answeritems = $$Array.mapi((function (ri, answeritem) {
                           if (rindex$2 === ri) {
                             return {
                                     id: answeritem.id,
                                     value: answeritem.value,
                                     showAnswer: !answeritem.showAnswer,
-                                    showDelete: answeritem.showDelete,
-                                    showModify: true,
-                                    showCreate: answeritem.showCreate
+                                    ansrDelete: answeritem.ansrDelete,
+                                    ansrModify: true,
+                                    ansrCreate: answeritem.ansrCreate
                                   };
                           } else {
                             return answeritem;
@@ -316,16 +316,16 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.answeritems = $$Array.mapi((function (ri, answeritem) {
                           if (rindex$3 === ri) {
                             return {
                                     id: answeritem.id,
                                     value: answeritem.value,
                                     showAnswer: answeritem.showAnswer,
-                                    showDelete: !answeritem.showDelete,
-                                    showModify: answeritem.showModify,
-                                    showCreate: answeritem.showCreate
+                                    ansrDelete: !answeritem.ansrDelete,
+                                    ansrModify: answeritem.ansrModify,
+                                    ansrCreate: answeritem.ansrCreate
                                   };
                           } else {
                             return answeritem;
@@ -334,7 +334,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$20;
-      case /* ShowItemType */17 :
+      case /* ShowType */17 :
           var index$10 = action[0];
           var newrecord$21 = Caml_obj.caml_obj_dup(state);
           newrecord$21.formitems = $$Array.mapi((function (i, formitem) {
@@ -346,7 +346,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$21;
-      case /* ClickItemType */18 :
+      case /* ClickType */18 :
           var index$11 = action[3];
           var operationitems = action[2];
           var operation = action[1];
@@ -357,7 +357,7 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.operationitems = operationitems;
                   newrecord.operation = operation;
                   newrecord.showType = false;
@@ -365,7 +365,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$22;
-      case /* ShowItemOperation */19 :
+      case /* ShowOperation */19 :
           var index$12 = action[0];
           var newrecord$23 = Caml_obj.caml_obj_dup(state);
           newrecord$23.formitems = $$Array.mapi((function (i, formitem) {
@@ -377,7 +377,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$23;
-      case /* ClickItemOperation */20 :
+      case /* ClickOperation */20 :
           var index$13 = action[1];
           var operation$1 = action[0];
           var newrecord$24 = Caml_obj.caml_obj_dup(state);
@@ -386,13 +386,13 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.showOperation = false;
                   newrecord.operation = operation$1;
                   return newrecord;
                 }), state.formitems);
           return newrecord$24;
-      case /* ChangeItemArea */21 :
+      case /* ChangeArea */21 :
           var index$14 = action[1];
           var area = action[0];
           var newrecord$25 = Caml_obj.caml_obj_dup(state);
@@ -401,12 +401,12 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.area = area;
                   return newrecord;
                 }), state.formitems);
           return newrecord$25;
-      case /* ChangeItemEror */22 :
+      case /* ChangeEror */22 :
           var index$15 = action[1];
           var eror = action[0];
           var newrecord$26 = Caml_obj.caml_obj_dup(state);
@@ -415,12 +415,12 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.eror = eror;
                   return newrecord;
                 }), state.formitems);
           return newrecord$26;
-      case /* ClearItemCondition */23 :
+      case /* ClearCondition */23 :
           var index$16 = action[0];
           var newrecord$27 = Caml_obj.caml_obj_dup(state);
           newrecord$27.formitems = $$Array.mapi((function (i, formitem) {
@@ -433,7 +433,7 @@ function reducer(state, action) {
                   return newrecord;
                 }), state.formitems);
           return newrecord$27;
-      case /* ShowItemMore */24 :
+      case /* ShowMore */24 :
           var index$17 = action[0];
           var newrecord$28 = Caml_obj.caml_obj_dup(state);
           newrecord$28.formitems = $$Array.mapi((function (i, formitem) {
@@ -457,7 +457,7 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemModify = true;
+                  newrecord.formModify = true;
                   newrecord.showMore = false;
                   newrecord.operationitems = operationitems$1;
                   newrecord.operation = operation$2;
@@ -487,7 +487,7 @@ function reducer(state, action) {
                     return formitem;
                   }
                   var newrecord = Caml_obj.caml_obj_dup(formitem);
-                  newrecord.itemDelete = !formitem.itemDelete;
+                  newrecord.formDelete = !formitem.formDelete;
                   return newrecord;
                 }), state.formitems);
           return newrecord$31;
@@ -803,6 +803,19 @@ function Proform(Props) {
           }), 5000);
     
   };
+  var pollingFunc = function (length,count){ if (!state.showFull) { pollingAJax(length + count); } };
+  var pollingEror = function (length){ if (!state.showFull) { setTimeout(() => pollingAJax(length), 15000); } };
+  var pollingAJax = function (length) {
+    Axiosapi$BtsCore.Proform.polling(Data$BtsCore.otherData(localStorage.getItem("newid"), length)).then((function (response) {
+              return Promise.resolve((Curry._1(dispatch, /* SettingFormPolls */Block.__(1, [
+                                  response.data.items.length,
+                                  response.data.items
+                                ])), pollingFunc(length, response.data.items.length)));
+            })).catch((function (param) {
+            return Promise.resolve(pollingEror(length));
+          }));
+    
+  };
   var searchAJax = function (param) {
     Axiosapi$BtsCore.Proform.search(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
               var match = response.data.status;
@@ -812,7 +825,8 @@ function Proform(Props) {
                         response.data.itemCount,
                         response.data.items
                       ]));
-                tmp = Curry._1(dispatch, /* ActionShowProgress */2);
+                Curry._1(dispatch, /* ActionShowProgress */2);
+                tmp = pollingAJax(response.data.itemCount);
               } else {
                 Curry._1(dispatch, /* SettingError */0);
                 barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
@@ -881,11 +895,11 @@ function Proform(Props) {
                 }));
           
         }));
-  var changeTile = React.useCallback((function (value) {
-          return Curry._1(dispatch, /* ChangeTile */Block.__(6, [value]));
+  var changeFormTile = React.useCallback((function (value) {
+          return Curry._1(dispatch, /* ChangeFormTile */Block.__(6, [value]));
         }));
   React.useCallback((function (value) {
-          return Curry._1(dispatch, /* ChangeDesc */Block.__(7, [value]));
+          return Curry._1(dispatch, /* ChangeFormDesc */Block.__(7, [value]));
         }));
   var clickFormTab = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickFormTab */Block.__(8, [i]));
@@ -893,28 +907,28 @@ function Proform(Props) {
   var clickBoardPaper = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickBoardPaper */Block.__(9, [i]));
         }));
-  var changeItemTile = React.useCallback((function (value) {
+  var changeTile = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemTile */Block.__(10, [
+              return Curry._1(dispatch, /* ChangeTile */Block.__(10, [
                             value,
                             i
                           ]));
             });
         }));
-  var showItemOut = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemOut */Block.__(11, [i]));
+  var showOut = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowOut */Block.__(11, [i]));
         }));
-  var showItemValue = React.useCallback((function (value) {
+  var showValue = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ShowItemValue */Block.__(12, [
+              return Curry._1(dispatch, /* ShowValue */Block.__(12, [
                             value,
                             i
                           ]));
             });
         }));
-  var changeItemText = React.useCallback((function (value) {
+  var changeText = React.useCallback((function (value) {
           return (function (ri, i) {
-              return Curry._1(dispatch, /* ChangeItemText */Block.__(13, [
+              return Curry._1(dispatch, /* ChangeText */Block.__(13, [
                             value,
                             ri,
                             i
@@ -924,12 +938,12 @@ function Proform(Props) {
   var clickElement = React.useCallback((function (value) {
           return (function (ri, i) {
               if (value === "checkbox") {
-                return Curry._1(dispatch, /* ClickItemCheckbox */Block.__(15, [
+                return Curry._1(dispatch, /* ClickCheckbox */Block.__(15, [
                               ri,
                               i
                             ]));
               } else {
-                return Curry._1(dispatch, /* ClickItemRadio */Block.__(14, [
+                return Curry._1(dispatch, /* ClickRadio */Block.__(14, [
                               ri,
                               i
                             ]));
@@ -944,16 +958,16 @@ function Proform(Props) {
                           ]));
             });
         }));
-  var showItemType = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemType */Block.__(17, [i]));
+  var showType = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowType */Block.__(17, [i]));
         }));
-  var clickItemType = React.useCallback((function (type_) {
+  var clickType = React.useCallback((function (type_) {
           return (function (i) {
               Axiosapi$BtsCore.Proform.sType(Data$BtsCore.sRowsData(state.formId, i, localStorage.getItem("newid"))).then((function (response) {
                         var match = response.data.status;
                         var tmp;
                         if (match === "istrue") {
-                          tmp = Curry._1(dispatch, /* ClickItemType */Block.__(18, [
+                          tmp = Curry._1(dispatch, /* ClickType */Block.__(18, [
                                   i,
                                   response.data.value,
                                   response.data.items,
@@ -961,7 +975,7 @@ function Proform(Props) {
                                 ]));
                         } else {
                           barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                          tmp = Curry._1(dispatch, /* ClearItemCondition */Block.__(23, [type_]));
+                          tmp = Curry._1(dispatch, /* ClearCondition */Block.__(23, [type_]));
                         }
                         return Promise.resolve(tmp);
                       })).catch((function (error) {
@@ -970,43 +984,43 @@ function Proform(Props) {
               
             });
         }));
-  var showItemOperation = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemOperation */Block.__(19, [i]));
+  var showOperation = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowOperation */Block.__(19, [i]));
         }));
-  var clickItemOperation = React.useCallback((function (operation) {
+  var clickOperation = React.useCallback((function (operation) {
           return (function (i) {
-              return Curry._1(dispatch, /* ClickItemOperation */Block.__(20, [
+              return Curry._1(dispatch, /* ClickOperation */Block.__(20, [
                             operation,
                             i
                           ]));
             });
         }));
-  var changeItemArea = React.useCallback((function (area) {
+  var changeArea = React.useCallback((function (area) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemArea */Block.__(21, [
+              return Curry._1(dispatch, /* ChangeArea */Block.__(21, [
                             area,
                             i
                           ]));
             });
         }));
-  var changeItemEror = React.useCallback((function (area) {
+  var changeEror = React.useCallback((function (area) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemEror */Block.__(22, [
+              return Curry._1(dispatch, /* ChangeEror */Block.__(22, [
                             area,
                             i
                           ]));
             });
         }));
-  var clearItemCondition = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ClearItemCondition */Block.__(23, [i]));
+  var clearCondition = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ClearCondition */Block.__(23, [i]));
         }));
-  var showItemMore = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemMore */Block.__(24, [i]));
+  var showMore = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowMore */Block.__(24, [i]));
         }));
   var showVerification = React.useCallback((function (id) {
           return (function (showVer, i) {
               if (showVer) {
-                return Curry._1(dispatch, /* ClearItemCondition */Block.__(23, [i]));
+                return Curry._1(dispatch, /* ClearCondition */Block.__(23, [i]));
               } else {
                 Axiosapi$BtsCore.Proform.sVeri(Data$BtsCore.sRowsData(state.formId, i, localStorage.getItem("newid"))).then((function (response) {
                           var match = response.data.status;
@@ -1021,7 +1035,7 @@ function Proform(Props) {
                                   ]));
                           } else {
                             barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                            tmp = Curry._1(dispatch, /* ClearItemCondition */Block.__(23, [id]));
+                            tmp = Curry._1(dispatch, /* ClearCondition */Block.__(23, [id]));
                           }
                           return Promise.resolve(tmp);
                         })).catch((function (error) {
@@ -1042,11 +1056,11 @@ function Proform(Props) {
         }));
   var insertForm = React.useCallback((function (param) {
           Curry._1(dispatch, /* ActionShowProgress */2);
-          Axiosapi$BtsCore.Proform.insert(Data$BtsCore.uFormData(state.formId, state.formTile, state.formDesc, state.formitems.filter((function (formitem) {
-                              if (formitem.itemDelete === true || formitem.itemModify === true) {
+          Axiosapi$BtsCore.Proform.insert(Data$BtsCore.uFormsData(state.formId, state.formTile, state.formDesc, state.formitems.filter((function (formitem) {
+                              if (formitem.formDelete === true || formitem.formModify === true) {
                                 return true;
                               } else {
-                                return formitem.itemCreate === true;
+                                return formitem.formCreate === true;
                               }
                             })), state.settitems, localStorage.getItem("newid"))).then((function (response) {
                     var match = response.data.status;
@@ -1325,7 +1339,7 @@ function Proform(Props) {
                             value: state.formTile,
                             disabled: state.showProgress,
                             onChange: (function ($$event) {
-                                return Curry._1(changeTile, $$event.target.value);
+                                return Curry._1(changeFormTile, $$event.target.value);
                               }),
                             children: null
                           })
@@ -1706,13 +1720,13 @@ function Proform(Props) {
                                                             return React.createElement(QuestionForm$BtsCore.make, {
                                                                         startIcon: tmp,
                                                                         onChange: (function ($$event) {
-                                                                            return Curry._3(changeItemText, $$event.target.value, ri, i);
+                                                                            return Curry._3(changeText, $$event.target.value, ri, i);
                                                                           }),
                                                                         enterBorderColor: AnswerColor$BtsCore.enterBorder(answeritem.showAnswer),
                                                                         downBorderColor: AnswerColor$BtsCore.downBorder(answeritem.showAnswer),
                                                                         borderColor: AnswerColor$BtsCore.border(answeritem.showAnswer),
                                                                         value: answeritem.value,
-                                                                        disabled: state.showProgress || formitem.itemDelete,
+                                                                        disabled: state.showProgress || formitem.formDelete,
                                                                         showLine: formitem.showLine,
                                                                         clickCenter: (function (param) {
                                                                             return Curry._3(clickElement, formitem.outValue, ri, i);
@@ -1721,14 +1735,14 @@ function Proform(Props) {
                                                                         clickEnd: (function (param) {
                                                                             return Curry._2(clearOption, ri, i);
                                                                           }),
-                                                                        endIcon: answeritem.showDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
+                                                                        endIcon: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
                                                                       });
                                                           }), formitem.answeritems);
                                                 }
                                                 var tmp$1;
                                                 if (formitem.showLine) {
                                                   var tmp$2;
-                                                  if (formitem.showMore && !formitem.itemDelete) {
+                                                  if (formitem.showMore && !formitem.formDelete) {
                                                     var match$1 = formitem.outValue;
                                                     var tmp$3;
                                                     switch (match$1) {
@@ -1878,7 +1892,7 @@ function Proform(Props) {
                                                           xs: "no",
                                                           children: React.createElement(IconButton$BtsCore.make, {
                                                                 padding: "8",
-                                                                disabled: state.showProgress || formitem.itemDelete,
+                                                                disabled: state.showProgress || formitem.formDelete,
                                                                 onClick: (function (param) {
                                                                     return Curry._1(addItem, i);
                                                                   }),
@@ -1919,12 +1933,12 @@ function Proform(Props) {
                                                                             downBorderColor: "transparent",
                                                                             borderColor: "transparent",
                                                                             value: formitem.type_,
-                                                                            disabled: state.showProgress || formitem.itemDelete,
+                                                                            disabled: state.showProgress || formitem.formDelete,
                                                                             onClick: (function (param) {
-                                                                                return Curry._1(showItemType, i);
+                                                                                return Curry._1(showType, i);
                                                                               }),
                                                                             children: /* tuple */[
-                                                                              formitem.showType && !formitem.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                                              formitem.showType && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
                                                                                       top: "50%",
                                                                                       transform: "translate(0, -50%)",
                                                                                       maxHeight: "280",
@@ -1947,7 +1961,7 @@ function Proform(Props) {
                                                                                                           bottomRight: "12",
                                                                                                           bottomLeft: "12",
                                                                                                           onClick: (function (param) {
-                                                                                                              return Curry._2(clickItemType, i, typeitem.value);
+                                                                                                              return Curry._2(clickType, i, typeitem.value);
                                                                                                             }),
                                                                                                           children: typeitem.value
                                                                                                         });
@@ -1962,7 +1976,7 @@ function Proform(Props) {
                                                                             showBackground: formitem.showType,
                                                                             backgroundColor: "transparent",
                                                                             onClick: (function (param) {
-                                                                                return Curry._1(showItemType, i);
+                                                                                return Curry._1(showType, i);
                                                                               })
                                                                           })), React.createElement(GridItem$BtsCore.make, {
                                                                         top: "0",
@@ -1978,12 +1992,12 @@ function Proform(Props) {
                                                                             downBorderColor: "transparent",
                                                                             borderColor: "transparent",
                                                                             value: formitem.operation,
-                                                                            disabled: state.showProgress || formitem.itemDelete,
+                                                                            disabled: state.showProgress || formitem.formDelete,
                                                                             onClick: (function (param) {
-                                                                                return Curry._1(showItemOperation, i);
+                                                                                return Curry._1(showOperation, i);
                                                                               }),
                                                                             children: /* tuple */[
-                                                                              formitem.showOperation && !formitem.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                                              formitem.showOperation && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
                                                                                       top: "50%",
                                                                                       transform: "translate(0, -50%)",
                                                                                       maxHeight: "280",
@@ -2006,7 +2020,7 @@ function Proform(Props) {
                                                                                                           bottomRight: "12",
                                                                                                           bottomLeft: "12",
                                                                                                           onClick: (function (param) {
-                                                                                                              return Curry._2(clickItemOperation, operationitem.value, i);
+                                                                                                              return Curry._2(clickOperation, operationitem.value, i);
                                                                                                             }),
                                                                                                           children: operationitem.value
                                                                                                         });
@@ -2021,7 +2035,7 @@ function Proform(Props) {
                                                                             showBackground: formitem.showOperation,
                                                                             backgroundColor: "transparent",
                                                                             onClick: (function (param) {
-                                                                                return Curry._1(showItemOperation, i);
+                                                                                return Curry._1(showOperation, i);
                                                                               })
                                                                           })), React.createElement(GridItem$BtsCore.make, {
                                                                         top: "0",
@@ -2035,9 +2049,9 @@ function Proform(Props) {
                                                                               bottom: "0",
                                                                               left: "0",
                                                                               value: formitem.area,
-                                                                              disabled: state.showProgress || formitem.itemDelete,
+                                                                              disabled: state.showProgress || formitem.formDelete,
                                                                               onChange: (function ($$event) {
-                                                                                  return Curry._2(changeItemArea, $$event.target.value, i);
+                                                                                  return Curry._2(changeArea, $$event.target.value, i);
                                                                                 }),
                                                                               children: null
                                                                             })
@@ -2053,9 +2067,9 @@ function Proform(Props) {
                                                                               bottom: "0",
                                                                               left: "0",
                                                                               value: formitem.eror,
-                                                                              disabled: state.showProgress || formitem.itemDelete,
+                                                                              disabled: state.showProgress || formitem.formDelete,
                                                                               onChange: (function ($$event) {
-                                                                                  return Curry._2(changeItemEror, $$event.target.value, i);
+                                                                                  return Curry._2(changeEror, $$event.target.value, i);
                                                                                 }),
                                                                               children: null
                                                                             })
@@ -2067,9 +2081,9 @@ function Proform(Props) {
                                                                         xs: "no",
                                                                         children: React.createElement(IconButton$BtsCore.make, {
                                                                               padding: "8",
-                                                                              disabled: state.showProgress || formitem.itemDelete,
+                                                                              disabled: state.showProgress || formitem.formDelete,
                                                                               onClick: (function (param) {
-                                                                                  return Curry._1(clearItemCondition, i);
+                                                                                  return Curry._1(clearCondition, i);
                                                                                 }),
                                                                               children: React.createElement(IconAction$BtsCore.make, {
                                                                                     animation: "circle",
@@ -2100,9 +2114,9 @@ function Proform(Props) {
                                                                       children: null
                                                                     }, React.createElement(IconButton$BtsCore.make, {
                                                                           padding: "8",
-                                                                          disabled: state.showProgress || formitem.itemDelete,
+                                                                          disabled: state.showProgress || formitem.formDelete,
                                                                           onClick: (function (param) {
-                                                                              return Curry._1(showItemMore, i);
+                                                                              return Curry._1(showMore, i);
                                                                             }),
                                                                           children: null
                                                                         }, React.createElement(Tooltip$BtsCore.make, {
@@ -2119,7 +2133,7 @@ function Proform(Props) {
                                                                           showBackground: formitem.showMore,
                                                                           backgroundColor: "transparent",
                                                                           onClick: (function (param) {
-                                                                              return Curry._1(showItemMore, i);
+                                                                              return Curry._1(showMore, i);
                                                                             })
                                                                         })), React.createElement(GridItem$BtsCore.make, {
                                                                       top: "0",
@@ -2133,7 +2147,7 @@ function Proform(Props) {
                                                                             circleColor: SwitchColor$BtsCore.circle(formitem.showCheck),
                                                                             linearColor: SwitchColor$BtsCore.linear(formitem.showCheck),
                                                                             fontColor: SwitchColor$BtsCore.font(formitem.showCheck),
-                                                                            disabled: state.showProgress || formitem.itemDelete,
+                                                                            disabled: state.showProgress || formitem.formDelete,
                                                                             onClick: (function (param) {
                                                                                 return Curry._1(checkItem, i);
                                                                               }),
@@ -2167,12 +2181,12 @@ function Proform(Props) {
                                                                                 location: "top",
                                                                                 backgroundColor: "rgba(255,0,0,0.8)",
                                                                                 children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                      id: formitem.itemDelete ? "refresh" : "deleted",
-                                                                                      defaultMessage: formitem.itemDelete ? "Refresh" : "Deleted"
+                                                                                      id: formitem.formDelete ? "refresh" : "deleted",
+                                                                                      defaultMessage: formitem.formDelete ? "Refresh" : "Deleted"
                                                                                     })
                                                                               }), React.createElement(IconAction$BtsCore.make, {
                                                                                 animation: "leftRight",
-                                                                                src: formitem.itemDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.deleteBlack
+                                                                                src: formitem.formDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.deleteBlack
                                                                               }))
                                                                     }), React.createElement(GridItem$BtsCore.make, {
                                                                       top: "0",
@@ -2182,7 +2196,7 @@ function Proform(Props) {
                                                                       xs: "no",
                                                                       children: React.createElement(IconButton$BtsCore.make, {
                                                                             padding: "8",
-                                                                            disabled: state.showProgress || formitem.itemDelete,
+                                                                            disabled: state.showProgress || formitem.formDelete,
                                                                             children: null
                                                                           }, React.createElement(Tooltip$BtsCore.make, {
                                                                                 location: "top",
@@ -2235,9 +2249,9 @@ function Proform(Props) {
                                                                                             right: "0",
                                                                                             left: "0",
                                                                                             value: formitem.title,
-                                                                                            disabled: state.showProgress || formitem.itemDelete,
+                                                                                            disabled: state.showProgress || formitem.formDelete,
                                                                                             onChange: (function ($$event) {
-                                                                                                return Curry._2(changeItemTile, $$event.target.value, i);
+                                                                                                return Curry._2(changeTile, $$event.target.value, i);
                                                                                               }),
                                                                                             children: null
                                                                                           })
@@ -2249,7 +2263,7 @@ function Proform(Props) {
                                                                                             xs: "no",
                                                                                             children: React.createElement(IconButton$BtsCore.make, {
                                                                                                   padding: "10",
-                                                                                                  disabled: state.showProgress || formitem.itemDelete,
+                                                                                                  disabled: state.showProgress || formitem.formDelete,
                                                                                                   children: React.createElement(IconAction$BtsCore.make, {
                                                                                                         animation: "leftRight",
                                                                                                         src: Icons$BtsCore.collectionsBlack
@@ -2267,12 +2281,12 @@ function Proform(Props) {
                                                                                                 top: "0",
                                                                                                 borderColor: "rgba(0,0,0,0.2)",
                                                                                                 value: formitem.outValue,
-                                                                                                disabled: state.showProgress || formitem.itemDelete,
+                                                                                                disabled: state.showProgress || formitem.formDelete,
                                                                                                 onClick: (function (param) {
-                                                                                                    return Curry._1(showItemOut, i);
+                                                                                                    return Curry._1(showOut, i);
                                                                                                   }),
                                                                                                 children: /* tuple */[
-                                                                                                  formitem.showOut && !formitem.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                                                                  formitem.showOut && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
                                                                                                           top: "50%",
                                                                                                           transform: "translate(0, -50%)",
                                                                                                           maxHeight: "280",
@@ -2295,7 +2309,7 @@ function Proform(Props) {
                                                                                                                               bottomRight: "12",
                                                                                                                               bottomLeft: "12",
                                                                                                                               onClick: (function (param) {
-                                                                                                                                  return Curry._2(showItemValue, opticonitem.value, i);
+                                                                                                                                  return Curry._2(showValue, opticonitem.value, i);
                                                                                                                                 }),
                                                                                                                               children: /* tuple */[
                                                                                                                                 React.createElement(IconGeneral$BtsCore.make, {
@@ -2315,7 +2329,7 @@ function Proform(Props) {
                                                                                                 showBackground: formitem.showOut,
                                                                                                 backgroundColor: "transparent",
                                                                                                 onClick: (function (param) {
-                                                                                                    return Curry._1(showItemOut, i);
+                                                                                                    return Curry._1(showOut, i);
                                                                                                   })
                                                                                               }))) : null)
                                                                           }), React.createElement(GridItem$BtsCore.make, {

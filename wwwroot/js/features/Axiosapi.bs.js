@@ -124,9 +124,37 @@ var Files = {
   download: download
 };
 
-var Default = { };
+function polling(data) {
+  return Axios$1.post("/Home/pollingData", data, {
+              timeout: 30000
+            });
+}
 
 function search$1(data) {
+  return Axios$1.post("/Home/searchData", data);
+}
+
+function sItem(data) {
+  return Axios$1.post("/Home/sItemData", data);
+}
+
+function restart(data) {
+  return Axios$1.post("/Home/restartData", data);
+}
+
+function insert$1(data) {
+  return Axios$1.post("/Home/insertData", data);
+}
+
+var Default = {
+  polling: polling,
+  search: search$1,
+  sItem: sItem,
+  restart: restart,
+  insert: insert$1
+};
+
+function search$2(data) {
   return Axios$1.post("/Formor/searchData", data);
 }
 
@@ -146,30 +174,30 @@ function $$delete(data) {
   return Axios$1.post("/Formor/deleteData", data);
 }
 
-function insert$1(data) {
+function insert$2(data) {
   return Axios$1.post("/Formor/insertData", data);
 }
 
 var Formor = {
-  search: search$1,
+  search: search$2,
   sType: sType,
   sVeri: sVeri,
   add: add$1,
   $$delete: $$delete,
-  insert: insert$1
+  insert: insert$2
 };
 
-function polling(data) {
+function polling$1(data) {
   return Axios$1.post("/Proform/pollingData", data, {
               timeout: 30000
             });
 }
 
-function search$2(data) {
+function search$3(data) {
   return Axios$1.post("/Proform/searchData", data);
 }
 
-function sItem(data) {
+function sItem$1(data) {
   return Axios$1.post("/Proform/sItemData", data);
 }
 
@@ -189,19 +217,19 @@ function $$delete$1(data) {
   return Axios$1.post("/Proform/deleteData", data);
 }
 
-function insert$2(data) {
+function insert$3(data) {
   return Axios$1.post("/Proform/insertData", data);
 }
 
 var Proform = {
-  polling: polling,
-  search: search$2,
-  sItem: sItem,
+  polling: polling$1,
+  search: search$3,
+  sItem: sItem$1,
   sType: sType$1,
   sVeri: sVeri$1,
   add: add$2,
   $$delete: $$delete$1,
-  insert: insert$2
+  insert: insert$3
 };
 
 export {

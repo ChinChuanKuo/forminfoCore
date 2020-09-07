@@ -82,6 +82,9 @@ namespace forminfoCore
                 endpoints.MapControllerRoute(
                     name: "Formor",
                     pattern: "{controller=Formor}/{action=Index}");
+                endpoints.MapControllerRoute(
+                    name: "Formcel",
+                    pattern: "{controller=Formcel}/{action=Index}");
             });
         }
     }

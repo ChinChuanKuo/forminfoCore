@@ -97,7 +97,15 @@ function iPathData(formId, imagePath, original, encryption, extension, newid) {
         };
 }
 
-function iFormData(tile, desc, items, settitems, newid) {
+function iFormData(formId, items, newid) {
+  return {
+          formId: formId,
+          items: items,
+          newid: newid
+        };
+}
+
+function iFormsData(tile, desc, items, settitems, newid) {
   return {
           tile: tile,
           desc: desc,
@@ -107,7 +115,7 @@ function iFormData(tile, desc, items, settitems, newid) {
         };
 }
 
-function uFormData(formId, tile, desc, items, settitems, newid) {
+function uFormsData(formId, tile, desc, items, settitems, newid) {
   return {
           formId: formId,
           tile: tile,
@@ -132,7 +140,8 @@ export {
   iFileData ,
   iPathData ,
   iFormData ,
-  uFormData ,
+  iFormsData ,
+  uFormsData ,
   
 }
 /* No side effect */

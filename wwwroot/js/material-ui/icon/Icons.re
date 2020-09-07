@@ -101,6 +101,12 @@ external cloudDownloadWhite: string =
 [@bs.module]
 external cloudDownloadBlack: string =
   "./cloud_download/cloud_downloadblack.svg";
+[@bs.module]
+external checkBoxOutlineBlankWhite: string =
+  "./check_box_outline_blank/check_box_outline_blankwhite.svg";
+[@bs.module]
+external checkBoxOutlineBlankBlack: string =
+  "./check_box_outline_blank/check_box_outline_blankblack.svg";
 
 [@bs.module] external doneWhite: string = "./done/donewhite.svg";
 [@bs.module] external doneBlack: string = "./done/doneblack.svg";
@@ -311,9 +317,11 @@ external privacyTipWhite: string = "./privacy_tip/privacy_tipwhite.svg";
 external privacyTipBlack: string = "./privacy_tip/privacy_tipblack.svg";
 
 [@bs.module]
-external questionAnswerWhite: string = "./question_answer/question_answerwhite.svg";
+external questionAnswerWhite: string =
+  "./question_answer/question_answerwhite.svg";
 [@bs.module]
-external questionAnswerBlack: string = "./question_answer/question_answerblack.svg";
+external questionAnswerBlack: string =
+  "./question_answer/question_answerblack.svg";
 
 [@bs.module] external restoreWhite: string = "./restore/restorewhite.svg";
 [@bs.module] external restoreBlack: string = "./restore/restoreblack.svg";
@@ -325,6 +333,12 @@ external radioButtonCheckedWhite: string =
 [@bs.module]
 external radioButtonCheckedBlack: string =
   "./radio_button_checked/radio_button_checkedblack.svg";
+  [@bs.module]
+external radioButtonUncheckedWhite: string =
+  "./radio_button_unchecked/radio_button_uncheckedwhite.svg";
+[@bs.module]
+external radioButtonUncheckedBlack: string =
+  "./radio_button_unchecked/radio_button_uncheckedblack.svg";
 
 [@bs.module] external sendWhite: string = "./send/sendwhite.svg";
 [@bs.module] external sendBlack: string = "./send/sendblack.svg";

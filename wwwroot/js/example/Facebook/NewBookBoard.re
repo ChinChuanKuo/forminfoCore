@@ -285,12 +285,23 @@ let make = (~autoPath: 'a, ~children) => {
       ClickItemTab(i) |> dispatch;
       tabPath |> ReasonReactRouter.push;
     });
-  let profileForm = useCallback(_ => proformPath |> ReasonReactRouter.push);
+  let profileForm =
+    useCallback(_ => {
+      ClickItemTab(-1) |> dispatch;
+      proformPath |> ReasonReactRouter.push;
+    });
   let showCreate = useCallback(_ => ShowCreate |> dispatch);
   let createForm =
     useCallback(_ => {
+      ClickItemTab(-1) |> dispatch;
       ShowCreate |> dispatch;
       formorPath |> ReasonReactRouter.push;
+    });
+  let contactsForm =
+    useCallback(_ => {
+      ClickItemTab(-1) |> dispatch;
+      ShowCreate |> dispatch;
+      formcelPath |> ReasonReactRouter.push;
     });
   let badgeAJax = () =>
     Js.Promise.(
@@ -479,7 +490,12 @@ let make = (~autoPath: 'a, ~children) => {
                 />
               </IconButton>
               {state.showCreate
-                 ? <NewBookCreate maxHeight createForm clickShow=showCreate />
+                 ? <NewBookCreate
+                     maxHeight
+                     createForm
+                     contactsForm
+                     clickShow=showCreate
+                   />
                  : null}
             </GridItem>
             <GridItem top="0" right="0" bottom="0" left="0" xs="no">

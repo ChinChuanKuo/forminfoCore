@@ -39,10 +39,10 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
-        public JsonResult insertData([FromBody] iFormData iFormData)
+        public JsonResult insertData([FromBody] iFormsData iFormsData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
-            return Json(new FormorClass().GetInsertModels(iFormData, clientip));
+            return Json(new FormorClass().GetInsertModels(iFormsData, clientip));
         }
     }
 }

@@ -66,3 +66,4 @@
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Proform/Index.cshtml.g.cs
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Protour/Index.cshtml.g.cs
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Formor/Index.cshtml.g.cs
+/Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Formcel/Index.cshtml.g.cs

@@ -52,7 +52,15 @@ module Files = {
   let download = data => postData("/Files/downloadData", data);
 };
 
-module Default = {};
+module Default = {
+  let polling = data =>
+    postDatac("/Home/pollingData", data, makeConfig(~timeout=30000, ()));
+  //let polling = data => postData("/Home/pollingData", data);
+  let search = data => postData("/Home/searchData", data);
+  let sItem = data => postData("/Home/sItemData", data);
+  let restart = data => postData("/Home/restartData", data);
+  let insert = data => postData("/Home/insertData", data);
+};
 
 module Formor = {
   let search = data => postData("/Formor/searchData", data);

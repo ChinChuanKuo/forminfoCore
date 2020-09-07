@@ -228,6 +228,10 @@ var initialState_items = [
     value: "cloudDownload"
   },
   {
+    icon: Icons$BtsCore.checkBoxOutlineBlankBlack,
+    value: "checkBoxOutlineBlank"
+  },
+  {
     icon: Icons$BtsCore.doneBlack,
     value: "done"
   },
@@ -454,6 +458,10 @@ var initialState_items = [
   {
     icon: Icons$BtsCore.radioButtonCheckedBlack,
     value: "radioButtonChecked"
+  },
+  {
+    icon: Icons$BtsCore.radioButtonUncheckedBlack,
+    value: "radioButtonUnchecked"
   },
   {
     icon: Icons$BtsCore.sendBlack,

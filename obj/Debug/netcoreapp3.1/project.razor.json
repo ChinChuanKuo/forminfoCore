@@ -14397,6 +14397,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/chinchuankuo/Documents/core/forminfoCore/Views/Formcel/Index.cshtml",
+      "TargetPath": "Views\\Formcel\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/chinchuankuo/Documents/core/forminfoCore/Views/Signup/Index.cshtml",
       "TargetPath": "Views\\Signup\\Index.cshtml",
       "FileKind": "mvc"

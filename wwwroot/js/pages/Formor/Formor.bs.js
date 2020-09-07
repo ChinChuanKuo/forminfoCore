@@ -71,7 +71,7 @@ function newitem(iid, opticonitems) {
                 id: 1,
                 value: "",
                 showAnswer: false,
-                showDelete: false
+                ansrDelete: false
               }],
             itemDelete: false
           }];
@@ -82,7 +82,7 @@ function newansweritem(id) {
             id: id,
             value: "",
             showAnswer: false,
-            showDelete: false
+            ansrDelete: false
           }];
 }
 
@@ -417,7 +417,7 @@ function reducer(state, action) {
                                             id: answeritem.id,
                                             value: value$1,
                                             showAnswer: answeritem.showAnswer,
-                                            showDelete: answeritem.showDelete
+                                            ansrDelete: answeritem.ansrDelete
                                           };
                                   } else {
                                     return answeritem;
@@ -456,7 +456,7 @@ function reducer(state, action) {
                                           id: answeritem.id,
                                           value: answeritem.value,
                                           showAnswer: rindex$1 === ri ? !answeritem.showAnswer : false,
-                                          showDelete: answeritem.showDelete
+                                          ansrDelete: answeritem.ansrDelete
                                         };
                                 }), item.answeritems);
                           return newrecord;
@@ -493,7 +493,7 @@ function reducer(state, action) {
                                             id: answeritem.id,
                                             value: answeritem.value,
                                             showAnswer: !answeritem.showAnswer,
-                                            showDelete: answeritem.showDelete
+                                            ansrDelete: answeritem.ansrDelete
                                           };
                                   } else {
                                     return answeritem;
@@ -533,7 +533,7 @@ function reducer(state, action) {
                                             id: answeritem.id,
                                             value: answeritem.value,
                                             showAnswer: answeritem.showAnswer,
-                                            showDelete: !answeritem.showDelete
+                                            ansrDelete: !answeritem.ansrDelete
                                           };
                                   } else {
                                     return answeritem;
@@ -1569,7 +1569,7 @@ function Formor(Props) {
         }));
   var insertForm = React.useCallback((function (param) {
           Curry._1(dispatch, /* ActionShowProgress */2);
-          Axiosapi$BtsCore.Formor.insert(Data$BtsCore.iFormData(state.tile, state.desc, state.items.filter((function (item) {
+          Axiosapi$BtsCore.Formor.insert(Data$BtsCore.iFormsData(state.tile, state.desc, state.items.filter((function (item) {
                               return item.itemDelete !== true;
                             })), state.settitems, localStorage.getItem("newid"))).then((function (response) {
                     var match = response.data.status;
@@ -2063,7 +2063,7 @@ function Formor(Props) {
                                                               clickEnd: (function (param) {
                                                                   return Curry._2(clearOption, ri, i);
                                                                 }),
-                                                              endIcon: answeritem.showDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
+                                                              endIcon: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
                                                             });
                                                 }), item.answeritems);
                                       }

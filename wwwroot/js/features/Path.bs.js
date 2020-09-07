@@ -37,6 +37,8 @@ var formorPath = "/formor";
 
 var tourorPath = "/touror";
 
+var formcelPath = "/formcel";
+
 export {
   homePath ,
   loginPath ,
@@ -56,6 +58,7 @@ export {
   protourPath ,
   formorPath ,
   tourorPath ,
+  formcelPath ,
   
 }
 /* No side effect */

@@ -35,3 +35,5 @@ let protourPath: string = "/protour";
 let formorPath: string = "/formor";
 [@genType]
 let tourorPath: string = "/touror";
+[@genType]
+let formcelPath: string = "/formcel";

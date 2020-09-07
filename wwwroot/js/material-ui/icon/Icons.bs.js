@@ -206,6 +206,10 @@ import * as Format_indent_increaseblackSvg from "./format_indent_increase/format
 import * as Format_indent_increasewhiteSvg from "./format_indent_increase/format_indent_increasewhite.svg";
 import * as Notification_importantblackSvg from "./notification_important/notification_importantblack.svg";
 import * as Notification_importantwhiteSvg from "./notification_important/notification_importantwhite.svg";
+import * as Radio_button_uncheckedblackSvg from "./radio_button_unchecked/radio_button_uncheckedblack.svg";
+import * as Radio_button_uncheckedwhiteSvg from "./radio_button_unchecked/radio_button_uncheckedwhite.svg";
+import * as Check_box_outline_blankblackSvg from "./check_box_outline_blank/check_box_outline_blankblack.svg";
+import * as Check_box_outline_blankwhiteSvg from "./check_box_outline_blank/check_box_outline_blankwhite.svg";
 
 var flytech = FlytechSvg;
 
@@ -310,6 +314,10 @@ var collectionsBlack = CollectionsblackSvg;
 var cloudDownloadWhite = Cloud_downloadwhiteSvg;
 
 var cloudDownloadBlack = Cloud_downloadblackSvg;
+
+var checkBoxOutlineBlankWhite = Check_box_outline_blankwhiteSvg;
+
+var checkBoxOutlineBlankBlack = Check_box_outline_blankblackSvg;
 
 var doneWhite = DonewhiteSvg;
 
@@ -545,6 +553,10 @@ var radioButtonCheckedWhite = Radio_button_checkedwhiteSvg;
 
 var radioButtonCheckedBlack = Radio_button_checkedblackSvg;
 
+var radioButtonUncheckedWhite = Radio_button_uncheckedwhiteSvg;
+
+var radioButtonUncheckedBlack = Radio_button_uncheckedblackSvg;
+
 var sendWhite = SendwhiteSvg;
 
 var sendBlack = SendblackSvg;
@@ -672,6 +684,8 @@ export {
   collectionsBlack ,
   cloudDownloadWhite ,
   cloudDownloadBlack ,
+  checkBoxOutlineBlankWhite ,
+  checkBoxOutlineBlankBlack ,
   doneWhite ,
   doneBlack ,
   doneSuccessful ,
@@ -789,6 +803,8 @@ export {
   refreshBlack ,
   radioButtonCheckedWhite ,
   radioButtonCheckedBlack ,
+  radioButtonUncheckedWhite ,
+  radioButtonUncheckedBlack ,
   sendWhite ,
   sendBlack ,
   saveWhite ,

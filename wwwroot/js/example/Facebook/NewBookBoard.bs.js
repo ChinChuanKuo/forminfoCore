@@ -513,14 +513,21 @@ function NewBookBoard(Props) {
             });
         }));
   var profileForm = React.useCallback((function (param) {
+          Curry._1(dispatch, /* ClickItemTab */Block.__(6, [-1]));
           return ReasonReactRouter.push(Path$BtsCore.proformPath);
         }));
   var showCreate = React.useCallback((function (param) {
           return Curry._1(dispatch, /* ShowCreate */1);
         }));
   var createForm = React.useCallback((function (param) {
+          Curry._1(dispatch, /* ClickItemTab */Block.__(6, [-1]));
           Curry._1(dispatch, /* ShowCreate */1);
           return ReasonReactRouter.push(Path$BtsCore.formorPath);
+        }));
+  var contactsForm = React.useCallback((function (param) {
+          Curry._1(dispatch, /* ClickItemTab */Block.__(6, [-1]));
+          Curry._1(dispatch, /* ShowCreate */1);
+          return ReasonReactRouter.push(Path$BtsCore.formcelPath);
         }));
   var searchBadge = React.useCallback((function (param) {
           Curry._1(dispatch, /* ShowBadge */2);
@@ -773,6 +780,7 @@ function NewBookBoard(Props) {
                                             })), state.showCreate ? React.createElement(NewBookCreate$BtsCore.make, {
                                             maxHeight: maxHeight,
                                             createForm: createForm,
+                                            contactsForm: contactsForm,
                                             clickShow: showCreate
                                           }) : null), React.createElement(GridItem$BtsCore.make, {
                                       top: "0",

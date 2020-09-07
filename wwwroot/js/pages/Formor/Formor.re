@@ -29,7 +29,7 @@ type answeritem = {
   id: int,
   value: string,
   showAnswer: bool,
-  showDelete: bool,
+  ansrDelete: bool,
 };
 
 type item = {
@@ -98,14 +98,14 @@ let newitem = (iid, opticonitems) => [|
     showMore: false,
     opticonitems,
     answeritems: [|
-      {id: 1, value: "", showAnswer: false, showDelete: false},
+      {id: 1, value: "", showAnswer: false, ansrDelete: false},
     |],
     itemDelete: false,
   },
 |];
 
 let newansweritem = id => [|
-  {id, value: "", showAnswer: false, showDelete: false},
+  {id, value: "", showAnswer: false, ansrDelete: false},
 |];
 
 type action =
@@ -294,7 +294,7 @@ let reducer = (state, action) =>
                   Array.mapi(
                     (ri, answeritem) =>
                       rindex == ri
-                        ? {...answeritem, showDelete: !answeritem.showDelete}
+                        ? {...answeritem, ansrDelete: !answeritem.ansrDelete}
                         : answeritem,
                     item.answeritems,
                   ),
@@ -792,7 +792,7 @@ let make = _ => {
     Js.Promise.(
       "newid"
       |> Locals.select
-      |> iFormData(
+      |> iFormsData(
            state.tile,
            state.desc,
            Js_array.filter(
@@ -1181,7 +1181,7 @@ let make = _ => {
                                     }
                                     clickEnd={_ => i |> clearOption(ri)}
                                     endIcon={
-                                      answeritem.showDelete
+                                      answeritem.ansrDelete
                                         ? refreshBlack : clearWarn
                                     }
                                   />

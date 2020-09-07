@@ -29,9 +29,9 @@ type answeritem = {
   id: int,
   value: string,
   showAnswer: bool,
-  showDelete: bool,
-  showModify: bool,
-  showCreate: bool,
+  ansrDelete: bool,
+  ansrModify: bool,
+  ansrCreate: bool,
 };
 
 type formitem = {
@@ -55,9 +55,9 @@ type formitem = {
   showMore: bool,
   opticonitems: array(opticonitem),
   answeritems: array(answeritem),
-  itemDelete: bool,
-  itemModify: bool,
-  itemCreate: bool,
+  formDelete: bool,
+  formModify: bool,
+  formCreate: bool,
 };
 
 type item = {
@@ -117,14 +117,14 @@ let newitem = (iid, opticonitems) => [|
         id: 1,
         value: "",
         showAnswer: false,
-        showDelete: false,
-        showModify: false,
-        showCreate: true,
+        ansrDelete: false,
+        ansrModify: false,
+        ansrCreate: true,
       },
     |],
-    itemDelete: false,
-    itemModify: false,
-    itemCreate: true,
+    formDelete: false,
+    formModify: false,
+    formCreate: true,
   },
 |];
 
@@ -133,9 +133,9 @@ let newansweritem = id => [|
     id,
     value: "",
     showAnswer: false,
-    showDelete: false,
-    showModify: false,
-    showCreate: true,
+    ansrDelete: false,
+    ansrModify: false,
+    ansrCreate: true,
   },
 |];
 
@@ -155,25 +155,25 @@ type action =
       array(formitem),
       array(settitem),
     )
-  | ChangeTile(string)
-  | ChangeDesc(string)
+  | ChangeFormTile(string)
+  | ChangeFormDesc(string)
   | ClickFormTab(int)
   | ClickBoardPaper(int)
-  | ChangeItemTile(string, int)
-  | ShowItemOut(int)
-  | ShowItemValue(string, int)
-  | ChangeItemText(string, int, int)
-  | ClickItemRadio(int, int)
-  | ClickItemCheckbox(int, int)
+  | ChangeTile(string, int)
+  | ShowOut(int)
+  | ShowValue(string, int)
+  | ChangeText(string, int, int)
+  | ClickRadio(int, int)
+  | ClickCheckbox(int, int)
   | ClearOption(int, int)
-  | ShowItemType(int)
-  | ClickItemType(string, string, array(optionitem), int)
-  | ShowItemOperation(int)
-  | ClickItemOperation(string, int)
-  | ChangeItemArea(string, int)
-  | ChangeItemEror(string, int)
-  | ClearItemCondition(int)
-  | ShowItemMore(int)
+  | ShowType(int)
+  | ClickType(string, string, array(optionitem), int)
+  | ShowOperation(int)
+  | ClickOperation(string, int)
+  | ChangeArea(string, int)
+  | ChangeEror(string, int)
+  | ClearCondition(int)
+  | ShowMore(int)
   | ShowItemVerification(
       string,
       array(optionitem),
@@ -234,8 +234,8 @@ let reducer = (state, action) =>
       settitems,
       showFull: !state.showFull,
     }
-  | ChangeTile(value) => {...state, formTile: value}
-  | ChangeDesc(value) => {...state, formDesc: value}
+  | ChangeFormTile(value) => {...state, formTile: value}
+  | ChangeFormDesc(value) => {...state, formDesc: value}
   | ClickFormTab(index) => {
       ...state,
       formtabitems:
@@ -253,17 +253,17 @@ let reducer = (state, action) =>
           state.formitems,
         ),
     }
-  | ChangeItemTile(value, index) => {
+  | ChangeTile(value, index) => {
       ...state,
       formitems:
         Array.mapi(
           (i, formitem) =>
             index == i
-              ? {...formitem, title: value, itemModify: true} : formitem,
+              ? {...formitem, title: value, formModify: true} : formitem,
           state.formitems,
         ),
     }
-  | ShowItemOut(index) => {
+  | ShowOut(index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -272,18 +272,18 @@ let reducer = (state, action) =>
           state.formitems,
         ),
     }
-  | ShowItemValue(outValue, index) => {
+  | ShowValue(outValue, index) => {
       ...state,
       formitems:
         Array.mapi(
           (i, formitem) =>
             index == i
-              ? {...formitem, outValue, showOut: false, itemModify: true}
+              ? {...formitem, outValue, showOut: false, formModify: true}
               : formitem,
           state.formitems,
         ),
     }
-  | ChangeItemText(value, rindex, index) => {
+  | ChangeText(value, rindex, index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -295,17 +295,17 @@ let reducer = (state, action) =>
                   Array.mapi(
                     (ri, answeritem) =>
                       rindex == ri
-                        ? {...answeritem, value, showModify: true}
+                        ? {...answeritem, value, ansrModify: true}
                         : answeritem,
                     formitem.answeritems,
                   ),
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
         ),
     }
-  | ClickItemRadio(rindex, index) => {
+  | ClickRadio(rindex, index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -320,17 +320,17 @@ let reducer = (state, action) =>
                         ...answeritem,
                         showAnswer:
                           rindex == ri ? !answeritem.showAnswer : false,
-                        showModify: true,
+                        ansrModify: true,
                       },
                     formitem.answeritems,
                   ),
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
         ),
     }
-  | ClickItemCheckbox(rindex, index) => {
+  | ClickCheckbox(rindex, index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -345,12 +345,12 @@ let reducer = (state, action) =>
                         ? {
                           ...answeritem,
                           showAnswer: !answeritem.showAnswer,
-                          showModify: true,
+                          ansrModify: true,
                         }
                         : answeritem,
                     formitem.answeritems,
                   ),
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
@@ -368,17 +368,17 @@ let reducer = (state, action) =>
                   Array.mapi(
                     (ri, answeritem) =>
                       rindex == ri
-                        ? {...answeritem, showDelete: !answeritem.showDelete}
+                        ? {...answeritem, ansrDelete: !answeritem.ansrDelete}
                         : answeritem,
                     formitem.answeritems,
                   ),
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
         ),
     }
-  | ShowItemType(index) => {
+  | ShowType(index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -388,7 +388,7 @@ let reducer = (state, action) =>
           state.formitems,
         ),
     }
-  | ClickItemType(type_, operation, operationitems, index) => {
+  | ClickType(type_, operation, operationitems, index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -400,13 +400,13 @@ let reducer = (state, action) =>
                 operation,
                 operationitems,
                 showType: false,
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
         ),
     }
-  | ShowItemOperation(index) => {
+  | ShowOperation(index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -417,7 +417,7 @@ let reducer = (state, action) =>
           state.formitems,
         ),
     }
-  | ClickItemOperation(operation, index) => {
+  | ClickOperation(operation, index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -427,31 +427,31 @@ let reducer = (state, action) =>
                 ...formitem,
                 operation,
                 showOperation: false,
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
         ),
     }
-  | ChangeItemArea(area, index) => {
+  | ChangeArea(area, index) => {
       ...state,
       formitems:
         Array.mapi(
           (i, formitem) =>
-            index == i ? {...formitem, area, itemModify: true} : formitem,
+            index == i ? {...formitem, area, formModify: true} : formitem,
           state.formitems,
         ),
     }
-  | ChangeItemEror(eror, index) => {
+  | ChangeEror(eror, index) => {
       ...state,
       formitems:
         Array.mapi(
           (i, formitem) =>
-            index == i ? {...formitem, eror, itemModify: true} : formitem,
+            index == i ? {...formitem, eror, formModify: true} : formitem,
           state.formitems,
         ),
     }
-  | ClearItemCondition(index) => {
+  | ClearCondition(index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -461,7 +461,7 @@ let reducer = (state, action) =>
           state.formitems,
         ),
     }
-  | ShowItemMore(index) => {
+  | ShowMore(index) => {
       ...state,
       formitems:
         Array.mapi(
@@ -485,7 +485,7 @@ let reducer = (state, action) =>
                 operationitems,
                 showVer: true,
                 showMore: false,
-                itemModify: true,
+                formModify: true,
               }
               : formitem,
           state.formitems,
@@ -507,7 +507,7 @@ let reducer = (state, action) =>
         Array.mapi(
           (i, formitem) =>
             index == i
-              ? {...formitem, itemDelete: !formitem.itemDelete} : formitem,
+              ? {...formitem, formDelete: !formitem.formDelete} : formitem,
           state.formitems,
         ),
     }
@@ -729,7 +729,7 @@ let make = _ => {
                )
                |> dispatch;
                ActionShowProgress |> dispatch;
-             //response##data##itemCount |> pollingAJax;
+               response##data##itemCount |> pollingAJax;
              | _ =>
                SettingError |> dispatch;
                response##data##status
@@ -824,36 +824,37 @@ let make = _ => {
       id |> sItemAJax;
     });
 
-  let changeTile = useCallback(value => ChangeTile(value) |> dispatch);
+  let changeFormTile =
+    useCallback(value => ChangeFormTile(value) |> dispatch);
 
-  let changeDesc = useCallback(value => ChangeDesc(value) |> dispatch);
+  let changeFormDesc =
+    useCallback(value => ChangeFormDesc(value) |> dispatch);
 
   let clickFormTab = useCallback(i => ClickFormTab(i) |> dispatch);
 
   let clickBoardPaper = useCallback(i => ClickBoardPaper(i) |> dispatch);
 
-  let changeItemTile =
-    useCallback((value, i) => ChangeItemTile(value, i) |> dispatch);
+  let changeTile =
+    useCallback((value, i) => ChangeTile(value, i) |> dispatch);
 
-  let showItemOut = useCallback(i => ShowItemOut(i) |> dispatch);
+  let showOut = useCallback(i => ShowOut(i) |> dispatch);
 
-  let showItemValue =
-    useCallback((value, i) => ShowItemValue(value, i) |> dispatch);
+  let showValue = useCallback((value, i) => ShowValue(value, i) |> dispatch);
 
-  let changeItemText =
-    useCallback((value, ri, i) => ChangeItemText(value, ri, i) |> dispatch);
+  let changeText =
+    useCallback((value, ri, i) => ChangeText(value, ri, i) |> dispatch);
 
   let clickElement =
     useCallback((value, ri, i) =>
       switch (value) {
-      | "checkbox" => ClickItemCheckbox(ri, i) |> dispatch
-      | _ => ClickItemRadio(ri, i) |> dispatch
+      | "checkbox" => ClickCheckbox(ri, i) |> dispatch
+      | _ => ClickRadio(ri, i) |> dispatch
       }
     );
 
   let clearOption = useCallback((ri, i) => ClearOption(ri, i) |> dispatch);
 
-  let showItemType = useCallback(i => ShowItemType(i) |> dispatch);
+  let showType = useCallback(i => ShowType(i) |> dispatch);
 
   let stypeAJax = (type_, i) =>
     Js.Promise.(
@@ -863,7 +864,7 @@ let make = _ => {
            (
              switch (response##data##status) {
              | "istrue" =>
-               ClickItemType(
+               ClickType(
                  type_,
                  response##data##value,
                  response##data##items,
@@ -874,7 +875,7 @@ let make = _ => {
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
-               ClearItemCondition(i) |> dispatch;
+               ClearCondition(i) |> dispatch;
              }
            )
            |> resolve
@@ -883,25 +884,20 @@ let make = _ => {
       |> ignore
     );
 
-  let clickItemType = useCallback((type_, i) => type_ |> stypeAJax(i));
+  let clickType = useCallback((type_, i) => type_ |> stypeAJax(i));
 
-  let showItemOperation = useCallback(i => ShowItemOperation(i) |> dispatch);
+  let showOperation = useCallback(i => ShowOperation(i) |> dispatch);
 
-  let clickItemOperation =
-    useCallback((operation, i) =>
-      ClickItemOperation(operation, i) |> dispatch
-    );
+  let clickOperation =
+    useCallback((operation, i) => ClickOperation(operation, i) |> dispatch);
 
-  let changeItemArea =
-    useCallback((area, i) => ChangeItemArea(area, i) |> dispatch);
+  let changeArea = useCallback((area, i) => ChangeArea(area, i) |> dispatch);
 
-  let changeItemEror =
-    useCallback((area, i) => ChangeItemEror(area, i) |> dispatch);
+  let changeEror = useCallback((area, i) => ChangeEror(area, i) |> dispatch);
 
-  let clearItemCondition =
-    useCallback(i => ClearItemCondition(i) |> dispatch);
+  let clearCondition = useCallback(i => ClearCondition(i) |> dispatch);
 
-  let showItemMore = useCallback(i => ShowItemMore(i) |> dispatch);
+  let showMore = useCallback(i => ShowMore(i) |> dispatch);
 
   let sveriAJax = (id, i) =>
     Js.Promise.(
@@ -923,7 +919,7 @@ let make = _ => {
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
-               ClearItemCondition(i) |> dispatch;
+               ClearCondition(i) |> dispatch;
              }
            )
            |> resolve
@@ -934,7 +930,7 @@ let make = _ => {
 
   let showVerification =
     useCallback((id, showVer, i) =>
-      showVer ? ClearItemCondition(i) |> dispatch : id |> sveriAJax(i)
+      showVer ? ClearCondition(i) |> dispatch : id |> sveriAJax(i)
     );
 
   let checkItem = useCallback(i => CheckItem(i) |> dispatch);
@@ -947,15 +943,15 @@ let make = _ => {
     Js.Promise.(
       "newid"
       |> Locals.select
-      |> uFormData(
+      |> uFormsData(
            state.formId,
            state.formTile,
            state.formDesc,
            Js_array.filter(
              (formitem: formitem) =>
-               formitem.itemDelete === true
-               || formitem.itemModify === true
-               || formitem.itemCreate === true,
+               formitem.formDelete === true
+               || formitem.formModify === true
+               || formitem.formCreate === true,
              state.formitems,
            ),
            state.settitems,
@@ -1207,7 +1203,7 @@ let make = _ => {
           value={state.formTile}
           disabled={state.showProgress}
           onChange={event =>
-            ReactEvent.Form.target(event)##value |> changeTile
+            ReactEvent.Form.target(event)##value |> changeFormTile
           }>
           null
         </TextFieldStandard>
@@ -1312,11 +1308,11 @@ let make = _ => {
                                     left="0"
                                     value={formitem.title}
                                     disabled={
-                                      state.showProgress || formitem.itemDelete
+                                      state.showProgress || formitem.formDelete
                                     }
                                     onChange={event =>
                                       i
-                                      |> changeItemTile(
+                                      |> changeTile(
                                            ReactEvent.Form.target(event)##value,
                                          )
                                     }>
@@ -1335,7 +1331,7 @@ let make = _ => {
                                            padding="10"
                                            disabled={
                                              state.showProgress
-                                             || formitem.itemDelete
+                                             || formitem.formDelete
                                            }>
                                            <IconAction
                                              animation="leftRight"
@@ -1356,12 +1352,12 @@ let make = _ => {
                                            value={formitem.outValue}
                                            disabled={
                                              state.showProgress
-                                             || formitem.itemDelete
+                                             || formitem.formDelete
                                            }
-                                           onClick={_ => i |> showItemOut}>
+                                           onClick={_ => i |> showOut}>
                                            ...(
                                                 formitem.showOut
-                                                && !formitem.itemDelete
+                                                && !formitem.formDelete
                                                   ? <SelectMenu
                                                       top="50%"
                                                       transform="translate(0, -50%)"
@@ -1391,7 +1387,7 @@ let make = _ => {
                                                               bottomLeft="12"
                                                               onClick={_ =>
                                                                 i
-                                                                |> showItemValue(
+                                                                |> showValue(
                                                                     opticonitem.
                                                                     value,
                                                                    )
@@ -1424,7 +1420,7 @@ let make = _ => {
                                          <BackgroundBoard
                                            showBackground={formitem.showOut}
                                            backgroundColor="transparent"
-                                           onClick={_ => i |> showItemOut}
+                                           onClick={_ => i |> showOut}
                                          />
                                        </GridItem>
                                      </>
@@ -1485,7 +1481,7 @@ let make = _ => {
                                         }
                                         onChange={event =>
                                           i
-                                          |> changeItemText(
+                                          |> changeText(
                                                ReactEvent.Form.target(event)##value,
                                                ri,
                                              )
@@ -1502,7 +1498,7 @@ let make = _ => {
                                         value={answeritem.value}
                                         disabled={
                                           state.showProgress
-                                          || formitem.itemDelete
+                                          || formitem.formDelete
                                         }
                                         showLine={formitem.showLine}
                                         clickCenter={_ =>
@@ -1518,7 +1514,7 @@ let make = _ => {
                                         }
                                         clickEnd={_ => i |> clearOption(ri)}
                                         endIcon={
-                                          answeritem.showDelete
+                                          answeritem.ansrDelete
                                             ? refreshBlack : clearWarn
                                         }
                                       />
@@ -1549,14 +1545,12 @@ let make = _ => {
                                                 value={formitem.type_}
                                                 disabled={
                                                   state.showProgress
-                                                  || formitem.itemDelete
+                                                  || formitem.formDelete
                                                 }
-                                                onClick={_ =>
-                                                  i |> showItemType
-                                                }>
+                                                onClick={_ => i |> showType}>
                                                 ...(
                                                      formitem.showType
-                                                     && !formitem.itemDelete
+                                                     && !formitem.formDelete
                                                        ? <SelectMenu
                                                            top="50%"
                                                            transform="translate(0, -50%)"
@@ -1588,7 +1582,7 @@ let make = _ => {
                                                                     typeitem.
                                                                     value
                                                                     |>
-                                                                    clickItemType(
+                                                                    clickType(
                                                                     i,
                                                                     )
                                                                    }>
@@ -1615,9 +1609,7 @@ let make = _ => {
                                                                    showType
                                                                }
                                                 backgroundColor="transparent"
-                                                onClick={_ =>
-                                                  i |> showItemType
-                                                }
+                                                onClick={_ => i |> showType}
                                               />
                                             </GridItem>
                                             <GridItem
@@ -1635,14 +1627,14 @@ let make = _ => {
                                                 value={formitem.operation}
                                                 disabled={
                                                   state.showProgress
-                                                  || formitem.itemDelete
+                                                  || formitem.formDelete
                                                 }
                                                 onClick={_ =>
-                                                  i |> showItemOperation
+                                                  i |> showOperation
                                                 }>
                                                 ...(
                                                      formitem.showOperation
-                                                     && !formitem.itemDelete
+                                                     && !formitem.formDelete
                                                        ? <SelectMenu
                                                            top="50%"
                                                            transform="translate(0, -50%)"
@@ -1674,7 +1666,7 @@ let make = _ => {
                                                                    onClick={_ =>
                                                                     i
                                                                     |>
-                                                                    clickItemOperation(
+                                                                    clickOperation(
                                                                     operationitem.
                                                                     value,
                                                                     )
@@ -1703,7 +1695,7 @@ let make = _ => {
                                                                }
                                                 backgroundColor="transparent"
                                                 onClick={_ =>
-                                                  i |> showItemOperation
+                                                  i |> showOperation
                                                 }
                                               />
                                             </GridItem>
@@ -1721,11 +1713,11 @@ let make = _ => {
                                                 value={formitem.area}
                                                 disabled={
                                                   state.showProgress
-                                                  || formitem.itemDelete
+                                                  || formitem.formDelete
                                                 }
                                                 onChange={event =>
                                                   i
-                                                  |> changeItemArea(
+                                                  |> changeArea(
                                                        ReactEvent.Form.target(
                                                          event,
                                                        )##value,
@@ -1748,11 +1740,11 @@ let make = _ => {
                                                 value={formitem.eror}
                                                 disabled={
                                                   state.showProgress
-                                                  || formitem.itemDelete
+                                                  || formitem.formDelete
                                                 }
                                                 onChange={event =>
                                                   i
-                                                  |> changeItemEror(
+                                                  |> changeEror(
                                                        ReactEvent.Form.target(
                                                          event,
                                                        )##value,
@@ -1771,10 +1763,10 @@ let make = _ => {
                                                 padding="8"
                                                 disabled={
                                                   state.showProgress
-                                                  || formitem.itemDelete
+                                                  || formitem.formDelete
                                                 }
                                                 onClick={_ =>
-                                                  i |> clearItemCondition
+                                                  i |> clearCondition
                                                 }>
                                                 <IconAction
                                                   animation="circle"
@@ -1806,9 +1798,9 @@ let make = _ => {
                                            padding="8"
                                            disabled={
                                              state.showProgress
-                                             || formitem.itemDelete
+                                             || formitem.formDelete
                                            }
-                                           onClick={_ => i |> showItemMore}>
+                                           onClick={_ => i |> showMore}>
                                            <Tooltip
                                              location="top"
                                              backgroundColor="rgba(255,0,0,0.8)">
@@ -1823,7 +1815,7 @@ let make = _ => {
                                            />
                                          </IconButton>
                                          {formitem.showMore
-                                          && !formitem.itemDelete
+                                          && !formitem.formDelete
                                             ? <SelectMenu
                                                 top="100%"
                                                 right="0"
@@ -1959,7 +1951,7 @@ let make = _ => {
                                          <BackgroundBoard
                                            showBackground={formitem.showMore}
                                            backgroundColor="transparent"
-                                           onClick={_ => i |> showItemMore}
+                                           onClick={_ => i |> showMore}
                                          />
                                        </GridItem>
                                        <GridItem
@@ -1982,7 +1974,7 @@ let make = _ => {
                                            }
                                            disabled={
                                              state.showProgress
-                                             || formitem.itemDelete
+                                             || formitem.formDelete
                                            }
                                            onClick={_ => i |> checkItem}>
                                            <FormattedMessage
@@ -2017,11 +2009,11 @@ let make = _ => {
                                              backgroundColor="rgba(255,0,0,0.8)">
                                              <FormattedMessage
                                                id={
-                                                 formitem.itemDelete
+                                                 formitem.formDelete
                                                    ? "refresh" : "deleted"
                                                }
                                                defaultMessage={
-                                                 formitem.itemDelete
+                                                 formitem.formDelete
                                                    ? "Refresh" : "Deleted"
                                                }
                                              />
@@ -2029,7 +2021,7 @@ let make = _ => {
                                            <IconAction
                                              animation="leftRight"
                                              src={
-                                               formitem.itemDelete
+                                               formitem.formDelete
                                                  ? refreshBlack : deleteBlack
                                              }
                                            />
@@ -2045,7 +2037,7 @@ let make = _ => {
                                            padding="8"
                                            disabled={
                                              state.showProgress
-                                             || formitem.itemDelete
+                                             || formitem.formDelete
                                            }>
                                            <Tooltip
                                              location="top"
@@ -2074,7 +2066,7 @@ let make = _ => {
                                               padding="8"
                                               disabled={
                                                 state.showProgress
-                                                || formitem.itemDelete
+                                                || formitem.formDelete
                                               }
                                               onClick={_ => i |> addItem}>
                                               <Tooltip
