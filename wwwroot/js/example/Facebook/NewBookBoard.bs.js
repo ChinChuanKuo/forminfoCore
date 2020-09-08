@@ -525,9 +525,9 @@ function NewBookBoard(Props) {
           return ReasonReactRouter.push(Path$BtsCore.formorPath);
         }));
   var contactsForm = React.useCallback((function (param) {
-          Curry._1(dispatch, /* ClickItemTab */Block.__(6, [-1]));
           Curry._1(dispatch, /* ShowCreate */1);
-          return ReasonReactRouter.push(Path$BtsCore.formcelPath);
+          window.location.assign("/Excel/exampleData?newid=" + ObjectFormat$BtsCore.checkObjects(localStorage.getItem("newid")));
+          
         }));
   var searchBadge = React.useCallback((function (param) {
           Curry._1(dispatch, /* ShowBadge */2);

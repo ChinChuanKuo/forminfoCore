@@ -218,6 +218,12 @@ external helpOutlineBlack: string = "./help_outline/help_outlineblack.svg";
 [@bs.module] external inputWhite: string = "./input/inputwhite.svg";
 [@bs.module] external inputBlack: string = "./input/inputblack.svg";
 [@bs.module]
+external importExportWhite: string =
+  "./import_export/import_exportwhite.svg";
+[@bs.module]
+external importExportBlack: string =
+  "./import_export/import_exportblack.svg";
+[@bs.module]
 external importContactsWhite: string =
   "./import_contacts/import_contactswhite.svg";
 [@bs.module]

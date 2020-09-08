@@ -52,6 +52,18 @@ module Files = {
   let download = data => postData("/Files/downloadData", data);
 };
 
+module Excels = {
+  let upload = formData =>
+    postDatac(
+      "/Excel/uploadData",
+      formData,
+      makeConfig(
+        ~headers=Headers.fromObj({"Content-Type": "multipart/form-data"}),
+        (),
+      ),
+    );
+};
+
 module Default = {
   let polling = data =>
     postDatac("/Home/pollingData", data, makeConfig(~timeout=30000, ()));
@@ -69,6 +81,7 @@ module Formor = {
   let add = data => postData("/Formor/addData", data);
   let delete = data => postData("/Formor/deleteData", data);
   let insert = data => postData("/Formor/insertData", data);
+  let limit = data => postData("/Formor/limitData", data);
 };
 
 module Proform = {
@@ -76,6 +89,7 @@ module Proform = {
     postDatac("/Proform/pollingData", data, makeConfig(~timeout=30000, ()));
   //let polling = data => postData("/Home/pollingData", data);
   let search = data => postData("/Proform/searchData", data);
+  let sett = data => postData("/Proform/settData", data);
   let sItem = data => postData("/Proform/sItemData", data);
   let sType = data => postData("/Proform/sTypeData", data);
   let sVeri = data => postData("/Proform/sVeriData", data);

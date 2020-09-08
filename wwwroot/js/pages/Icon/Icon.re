@@ -120,6 +120,7 @@ let initialState = {
     {icon: helpOutlineBlack, value: "helpOutline"},
     {icon: imageBlack, value: "image"},
     {icon: inputBlack, value: "input"},
+    {icon: importExportBlack, value: "importExport"},
     {icon: importContactsBlack, value: "importContacts"},
     {icon: insertInvitationBlack, value: "insertInvitation"},
     {icon: keyboardBlack, value: "keyboardBlack"},

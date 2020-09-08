@@ -84,7 +84,7 @@ namespace forminfoCore.Models
                 {
                     answeritems.Add(new Dictionary<string, object>() { { "id", drs["id"].ToString().TrimEnd() }, { "values", drs["value"].ToString().TrimEnd() }, { "showAnswer", drs["answer"].ToString().TrimEnd() == "1" }, { "showRight", drs["right"].ToString().TrimEnd() == "1" } });
                 }
-                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVer", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
+                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
                 i++;
             }
             return new sFormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), exam = mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1", restart = mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1", finish = mainRows.Rows[0]["finish"].ToString().TrimEnd() == "1", score = $"{mainRows.Rows[0]["score"].ToString().TrimEnd()}分", items = items, status = "istrue" };
@@ -124,24 +124,22 @@ namespace forminfoCore.Models
                 {
                     answeritems.Add(new Dictionary<string, object>() { { "id", drs["id"].ToString().TrimEnd() }, { "values", drs["value"].ToString().TrimEnd() }, { "showAnswer", drs["answer"].ToString().TrimEnd() == "1" }, { "showRight", drs["right"].ToString().TrimEnd() == "1" } });
                 }
-                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVer", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
+                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
                 i++;
             }
             return new sFormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), exam = mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1", restart = mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1", finish = mainRows.Rows[0]["finish"].ToString().TrimEnd() == "1", score = $"{mainRows.Rows[0]["score"].ToString().TrimEnd()}分", items = items, status = "istrue" };
         }
 
-        public statusModels GetInsertModels(iFormData iFormData, string cuurip)
+        public sFormModels GetInsertModels(iFormData iFormData, string cuurip)
         {
             database database = new database();
-            DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@formId", iFormData.formId.TrimEnd()));
             dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
-            mainRows = database.checkSelectSql("mssql", "flyformstring", "exec web.searchmaindeta @formId,@inoper;", dbparamlist);
-            switch (mainRows.Rows.Count)
+            switch (database.checkSelectSql("mssql", "flyformstring", "exec web.searchmaindeta @formId,@inoper;", dbparamlist).Rows.Count)
             {
                 case 0:
-                    return new statusModels() { status = "nodata" };
+                    return new sFormModels() { status = "nodata" };
             }
             foreach (var item in iFormData.items)
             {
@@ -160,21 +158,21 @@ namespace forminfoCore.Models
                                 switch (showAnswer)
                                 {
                                     case false:
-                                        return new statusModels() { status = $"{item["title"].ToString().TrimEnd()} is not choose" };
+                                        return new sFormModels() { status = $"{item["title"].ToString().TrimEnd()} is not choose" };
                                 }
                                 break;
                             case "image":
                                 switch (item["value"].ToString().TrimEnd())
                                 {
                                     case "":
-                                        return new statusModels() { status = $"{item["title"].ToString().TrimEnd()} is not upload" };
+                                        return new sFormModels() { status = $"{item["title"].ToString().TrimEnd()} is not upload" };
                                 }
                                 break;
                             default:
                                 switch (item["value"].ToString().TrimEnd())
                                 {
                                     case "":
-                                        return new statusModels() { status = $"{item["title"].ToString().TrimEnd()} is not write" };
+                                        return new sFormModels() { status = $"{item["title"].ToString().TrimEnd()} is not write" };
                                 }
                                 break;
                         }
@@ -183,7 +181,7 @@ namespace forminfoCore.Models
             }
             if (database.checkActiveSql("mssql", "flyformstring", "exec web.deletesuboption @formId,@inoper;", dbparamlist) != "istrue")
             {
-                return new statusModels() { status = "error" };
+                return new sFormModels() { status = "error" };
             }
             datetime datetime = new datetime();
             double total = 0, right = 0;
@@ -199,7 +197,7 @@ namespace forminfoCore.Models
                 dbparamlist.Add(new dbparam("@intime", time));
                 if (database.checkActiveSql("mssql", "flyformstring", "insert into web.sillform (formId,iid,inoper,value,indate,intime) values (@formId,@iid,@inoper,@value,@indate,@intime);", dbparamlist) != "istrue")
                 {
-                    return new statusModels() { status = "error" };
+                    return new sFormModels() { status = "error" };
                 }
                 switch (item["outValue"].ToString().TrimEnd())
                 {
@@ -220,7 +218,7 @@ namespace forminfoCore.Models
                             dbparamlist.Add(new dbparam("@intime", time));
                             if (database.checkActiveSql("mssql", "flyformstring", "insert into web.oillform (formId,iid,id,inoper,answer,[right],indate,intime) values (@formId,@iid,@id,@inoper,@answer,@right,@indate,@intime);", dbparamlist) != "istrue")
                             {
-                                return new statusModels() { status = "error" };
+                                return new sFormModels() { status = "error" };
                             }
                             if (bool.Parse(answeritem["showAnswer"].ToString().TrimEnd()) != answer) showRight = false;
                         }
@@ -235,9 +233,39 @@ namespace forminfoCore.Models
             dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
             if (database.checkActiveSql("mssql", "flyformstring", "exec web.searchmaininfo @formId,@score,@inoper;", dbparamlist) != "istrue")
             {
-                return new statusModels() { status = "error" };
+                return new sFormModels() { status = "error" };
             }
-            return new statusModels() { status = "istrue" };
+            dbparamlist.Clear();
+            DataTable mainRows = new DataTable();
+            dbparamlist.Add(new dbparam("@formId", iFormData.formId.TrimEnd()));
+            dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
+            mainRows = database.checkSelectSql("mssql", "flyformstring", "exec web.searchmaindeta @formId,@inoper;", dbparamlist);
+            switch (mainRows.Rows.Count)
+            {
+                case 0:
+                    return new sFormModels() { status = "nodata" };
+            }
+            int i = 1;
+            dbparamlist.Add(new dbparam("@random", mainRows.Rows[0]["randsub"].ToString().TrimEnd()));
+            dbparamlist.Add(new dbparam("@number", mainRows.Rows[0]["number"].ToString().TrimEnd()));
+            dbparamlist.Add(new dbparam("@finish", mainRows.Rows[0]["finish"].ToString().TrimEnd()));
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchsubdeta @formId,@inoper,@random,@number,@finish;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                dbparamlist.Add(new dbparam("@formId", iFormData.formId.TrimEnd()));
+                dbparamlist.Add(new dbparam("@iid", int.Parse(dr["iid"].ToString().TrimEnd())));
+                dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
+                dbparamlist.Add(new dbparam("@random", mainRows.Rows[0]["randopt"].ToString().TrimEnd()));
+                List<Dictionary<string, object>> answeritems = new List<Dictionary<string, object>>();
+                foreach (DataRow drs in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoptiondeta @formId,@iid,@inoper,@random;", dbparamlist).Rows)
+                {
+                    answeritems.Add(new Dictionary<string, object>() { { "id", drs["id"].ToString().TrimEnd() }, { "values", drs["value"].ToString().TrimEnd() }, { "showAnswer", drs["answer"].ToString().TrimEnd() == "1" }, { "showRight", drs["right"].ToString().TrimEnd() == "1" } });
+                }
+                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
+                i++;
+            }
+            return new sFormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), exam = mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1", restart = mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1", finish = mainRows.Rows[0]["finish"].ToString().TrimEnd() == "1", score = $"{mainRows.Rows[0]["score"].ToString().TrimEnd()}分", items = items, status = "istrue" };
         }
     }
 }

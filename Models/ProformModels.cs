@@ -52,6 +52,18 @@ namespace forminfoCore.Models
             return new itemModels() { itemCount = itemCount, items = items, status = "istrue" };
         }
 
+        public statusModels GetSettModels(dFormData dFormData, string cuurip)
+        {
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+            dbparamlist.Add(new dbparam("@inoper", dFormData.newid.TrimEnd()));
+            if (new database().checkActiveSql("mssql", "flyformstring", "exec web.updateallform @formId,@inoper;", dbparamlist) != "istrue")
+            {
+                return new statusModels() { status = "error" };
+            }
+            return new statusModels() { status = "istrue" };
+        }
+
         public sPormModels GetSItemModels(dFormData dFormData, string cuurip)
         {
             database database = new database();
@@ -108,10 +120,10 @@ namespace forminfoCore.Models
                         }
                         break;
                 }
-                items.Add(new Dictionary<string, object>() { { "iid", int.Parse(dr["iid"].ToString().TrimEnd()) }, { "showLine", false }, { "title", dr["tile"].ToString().TrimEnd() }, { "showOut", false }, { "showVer", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "showType", false }, { "typeitems", typeitems.ToArray() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "showOperation", false }, { "operationitems", operationitems.ToArray() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "formDelete", false }, { "formModify", false }, { "formCreate", false } });
+                items.Add(new Dictionary<string, object>() { { "iid", int.Parse(dr["iid"].ToString().TrimEnd()) }, { "showLine", false }, { "title", dr["tile"].ToString().TrimEnd() }, { "showOut", false }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "showType", false }, { "typeitems", typeitems.ToArray() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "showOperation", false }, { "operationitems", operationitems.ToArray() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "formDelete", false }, { "formModify", false }, { "formCreate", false } });
             }
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
-            settitems.Add(new Dictionary<string, object>() { { "stdate", mainRows.Rows[0]["stdate"].ToString().TrimEnd().Replace("/", "-") }, { "sttime", mainRows.Rows[0]["sttime"].ToString().TrimEnd() }, { "endate", mainRows.Rows[0]["endate"].ToString().TrimEnd().Replace("/", "-") }, { "entime", mainRows.Rows[0]["entime"].ToString().TrimEnd() }, { "showExam", mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1" }, { "randOpt", mainRows.Rows[0]["randopt"].ToString().TrimEnd() == "1" }, { "randSub", mainRows.Rows[0]["randsub"].ToString().TrimEnd() == "1" }, { "showRest", mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1" }, { "showLimt", mainRows.Rows[0]["limited"].ToString().TrimEnd() == "1" }, { "number", mainRows.Rows[0]["number"].ToString().TrimEnd() } });
+            settitems.Add(new Dictionary<string, object>() { { "stdate", mainRows.Rows[0]["stdate"].ToString().TrimEnd().Replace("/", "-") }, { "sttime", mainRows.Rows[0]["sttime"].ToString().TrimEnd() }, { "endate", mainRows.Rows[0]["endate"].ToString().TrimEnd().Replace("/", "-") }, { "entime", mainRows.Rows[0]["entime"].ToString().TrimEnd() }, { "showExam", mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1" }, { "randOpt", mainRows.Rows[0]["randopt"].ToString().TrimEnd() == "1" }, { "randSub", mainRows.Rows[0]["randsub"].ToString().TrimEnd() == "1" }, { "showRest", mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1" }, { "showLimt", mainRows.Rows[0]["limited"].ToString().TrimEnd() == "1" }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", mainRows.Rows[0]["number"].ToString().TrimEnd() } });
             return new sPormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), items = items, settitems = settitems, status = "istrue" };
         }
 
@@ -230,7 +242,7 @@ namespace forminfoCore.Models
                         dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
                         dbparamlist.Add(new dbparam("@tile", item["title"].ToString().TrimEnd()));
                         dbparamlist.Add(new dbparam("@outValue", item["outValue"].ToString().TrimEnd()));
-                        dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVer"].ToString().TrimEnd()) ? "1" : "0"));
+                        dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVeri"].ToString().TrimEnd()) ? "1" : "0"));
                         dbparamlist.Add(new dbparam("@type", item["type_"].ToString().TrimEnd()));
                         dbparamlist.Add(new dbparam("@operation", item["operation"].ToString().TrimEnd()));
                         dbparamlist.Add(new dbparam("@area", item["area"].ToString().TrimEnd()));
@@ -263,7 +275,7 @@ namespace forminfoCore.Models
                                         dbparamlist.Clear();
                                         dbparamlist.Add(new dbparam("@tile", item["title"].ToString().TrimEnd()));
                                         dbparamlist.Add(new dbparam("@outValue", item["outValue"].ToString().TrimEnd()));
-                                        dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVer"].ToString().TrimEnd()) ? "1" : "0"));
+                                        dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVeri"].ToString().TrimEnd()) ? "1" : "0"));
                                         dbparamlist.Add(new dbparam("@type", item["type_"].ToString().TrimEnd()));
                                         dbparamlist.Add(new dbparam("@operation", item["operation"].ToString().TrimEnd()));
                                         dbparamlist.Add(new dbparam("@area", item["area"].ToString().TrimEnd()));

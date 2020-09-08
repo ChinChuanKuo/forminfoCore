@@ -124,6 +124,18 @@ var Files = {
   download: download
 };
 
+function upload$1(formData) {
+  return Axios$1.post("/Excel/uploadData", formData, {
+              headers: Axios.$$Headers.fromObj({
+                    "Content-Type": "multipart/form-data"
+                  })
+            });
+}
+
+var Excels = {
+  upload: upload$1
+};
+
 function polling(data) {
   return Axios$1.post("/Home/pollingData", data, {
               timeout: 30000
@@ -178,13 +190,18 @@ function insert$2(data) {
   return Axios$1.post("/Formor/insertData", data);
 }
 
+function limit(data) {
+  return Axios$1.post("/Formor/limitData", data);
+}
+
 var Formor = {
   search: search$2,
   sType: sType,
   sVeri: sVeri,
   add: add$1,
   $$delete: $$delete,
-  insert: insert$2
+  insert: insert$2,
+  limit: limit
 };
 
 function polling$1(data) {
@@ -195,6 +212,10 @@ function polling$1(data) {
 
 function search$3(data) {
   return Axios$1.post("/Proform/searchData", data);
+}
+
+function sett(data) {
+  return Axios$1.post("/Proform/settData", data);
 }
 
 function sItem$1(data) {
@@ -224,6 +245,7 @@ function insert$3(data) {
 var Proform = {
   polling: polling$1,
   search: search$3,
+  sett: sett,
   sItem: sItem$1,
   sType: sType$1,
   sVeri: sVeri$1,
@@ -242,6 +264,7 @@ export {
   Icon ,
   $$Option ,
   Files ,
+  Excels ,
   Default ,
   Formor ,
   Proform ,

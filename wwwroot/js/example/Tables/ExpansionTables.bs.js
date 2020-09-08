@@ -563,10 +563,10 @@ function ExpansionTables(Props) {
                       return React.createElement(GridItem$BtsCore.make, {
                                   xs: "12",
                                   children: React.createElement("div", undefined, React.createElement(ExpansionPanel$BtsCore.make, {
-                                            panelShow: item.isShow,
+                                            showPanel: item.isShow,
                                             children: /* tuple */[
                                               React.createElement(ExpansionSummary$BtsCore.make, {
-                                                    summaryShow: item.isShow,
+                                                    showSummary: item.isShow,
                                                     onClick: (function (param) {
                                                         return Curry._1(dispatch, /* ShowPanel */Block.__(0, [i]));
                                                       }),
@@ -600,10 +600,10 @@ function ExpansionTables(Props) {
                                                         }), item.mains))
                                             ]
                                           }), React.createElement(ExpansionPanel$BtsCore.make, {
-                                            panelShow: item.isShow,
+                                            showPanel: item.isShow,
                                             children: /* tuple */[
                                               React.createElement(ExpansionSummary$BtsCore.make, {
-                                                    summaryShow: item.isShow,
+                                                    showSummary: item.isShow,
                                                     onClick: (function (param) {
                                                         return Curry._1(dispatch, /* ShowPanel */Block.__(0, [i]));
                                                       }),

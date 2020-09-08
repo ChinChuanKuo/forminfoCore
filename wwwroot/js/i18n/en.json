@@ -17,12 +17,12 @@
     {
         "id": "Face.post",
         "defaultMessage": "Post",
-        "message": ""
+        "message": "Form Create"
     },
     {
         "id": "Face.time",
         "defaultMessage": "Time",
-        "message": "Time-Limited"
+        "message": "Example"
     },
     {
         "id": "Face.life",
@@ -423,5 +423,20 @@
         "id": "Formor.number",
         "defaultMessage": "Number",
         "message": "Question Number"
+    },
+    {
+        "id": "Formor.limit",
+        "defaultMessage": "Limit",
+        "message": "People Limit"
+    },
+    {
+        "id": "Proform.import",
+        "defaultMessage": "Import",
+        "message": "Import Info"
+    },
+    {
+        "id": "Proform.upload",
+        "defaultMessage": "Upload",
+        "message": "Upload Form"
     }
 ]

@@ -150,6 +150,8 @@ import * as Help_outlineblackSvg from "./help_outline/help_outlineblack.svg";
 import * as Help_outlinewhiteSvg from "./help_outline/help_outlinewhite.svg";
 import * as Format_italicblackSvg from "./format_italic/format_italicblack.svg";
 import * as Format_italicwhiteSvg from "./format_italic/format_italicwhite.svg";
+import * as Import_exportblackSvg from "./import_export/import_exportblack.svg";
+import * as Import_exportwhiteSvg from "./import_export/import_exportwhite.svg";
 import * as Library_booksblackSvg from "./library_books/library_booksblack.svg";
 import * as Library_bookswhiteSvg from "./library_books/library_bookswhite.svg";
 import * as NotificationsblackSvg from "./notifications/notificationsblack.svg";
@@ -434,6 +436,10 @@ var imageBlack = ImageblackSvg;
 var inputWhite = InputwhiteSvg;
 
 var inputBlack = InputblackSvg;
+
+var importExportWhite = Import_exportwhiteSvg;
+
+var importExportBlack = Import_exportblackSvg;
 
 var importContactsWhite = Import_contactswhiteSvg;
 
@@ -744,6 +750,8 @@ export {
   imageBlack ,
   inputWhite ,
   inputBlack ,
+  importExportWhite ,
+  importExportBlack ,
   importContactsWhite ,
   importContactsBlack ,
   insertInvitationWhite ,

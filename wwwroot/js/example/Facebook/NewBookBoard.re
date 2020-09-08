@@ -299,9 +299,10 @@ let make = (~autoPath: 'a, ~children) => {
     });
   let contactsForm =
     useCallback(_ => {
-      ClickItemTab(-1) |> dispatch;
       ShowCreate |> dispatch;
-      formcelPath |> ReasonReactRouter.push;
+      "/Excel/exampleData?newid="
+      ++ checkObjects("newid" |> Locals.select)
+      |> Window.Locations.assign;
     });
   let badgeAJax = () =>
     Js.Promise.(

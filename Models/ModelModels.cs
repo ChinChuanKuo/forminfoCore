@@ -256,6 +256,7 @@ namespace forminfoCore.Models
         public string desc { get; set; }
         public List<Dictionary<string, object>> items { get; set; }
         public List<Dictionary<string, object>> settitems { get; set; }
+        public List<Dictionary<string, object>> dertitems { get; set; }
         public string newid { get; set; }
     }
 
@@ -313,6 +314,14 @@ namespace forminfoCore.Models
         public string operation { get; set; }
         [Required]
         public List<Dictionary<string, object>> operationitems { get; set; }
+        [Required]
+        public string status { get; set; }
+    }
+
+    public class sExcelModels
+    {
+        [Required]
+        public string formId { get; set; }
         [Required]
         public string status { get; set; }
     }

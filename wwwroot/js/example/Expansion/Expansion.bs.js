@@ -26,10 +26,10 @@ function Expansion(Props) {
           return Curry._1(dispatch, /* ShowPanel */0);
         }));
   return React.createElement("div", undefined, React.createElement(ExpansionPanel$BtsCore.make, {
-                  panelShow: state.isShow,
+                  showPanel: state.isShow,
                   children: /* tuple */[
                     React.createElement(ExpansionSummary$BtsCore.make, {
-                          summaryShow: state.isShow,
+                          showSummary: state.isShow,
                           onClick: showPanel,
                           children: /* tuple */[
                             React.createElement("span", undefined, "123"),
@@ -41,10 +41,10 @@ function Expansion(Props) {
                     "test"
                   ]
                 }), React.createElement(ExpansionPanel$BtsCore.make, {
-                  panelShow: state.isShow,
+                  showPanel: state.isShow,
                   children: /* tuple */[
                     React.createElement(ExpansionSummary$BtsCore.make, {
-                          summaryShow: state.isShow,
+                          showSummary: state.isShow,
                           onClick: showPanel,
                           children: /* tuple */[
                             React.createElement(React.Fragment, undefined, React.createElement(ExpansionBasis$BtsCore.make, {

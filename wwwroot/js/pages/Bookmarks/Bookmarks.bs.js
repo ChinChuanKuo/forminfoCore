@@ -15,6 +15,9 @@ import * as IconGeneral$BtsCore from "../../material-ui/core/IconStyle/IconGener
 import * as ObjectFormat$BtsCore from "../../controls/ObjectFormat.bs.js";
 
 function Bookmarks(Props) {
+  var profileForm = React.useCallback((function (param) {
+          return ReasonReactRouter.push(Path$BtsCore.proformPath);
+        }));
   return React.createElement(Drawer$BtsCore.make, {
               style: {
                 borderRight: "0",
@@ -43,6 +46,7 @@ function Bookmarks(Props) {
                         bottomLeft: "20",
                         right: "0",
                         left: "0",
+                        onClick: profileForm,
                         children: /* tuple */[
                           React.createElement(Avatar$BtsCore.make, {
                                 top: "0",

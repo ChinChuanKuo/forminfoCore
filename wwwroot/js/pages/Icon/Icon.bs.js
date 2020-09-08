@@ -344,6 +344,10 @@ var initialState_items = [
     value: "input"
   },
   {
+    icon: Icons$BtsCore.importExportBlack,
+    value: "importExport"
+  },
+  {
     icon: Icons$BtsCore.importContactsBlack,
     value: "importContacts"
   },

@@ -17,9 +17,9 @@ let make = _ => {
   let (state, dispatch) = useReducer(reducer, initialState);
   let showPanel = useCallback(_ => ShowPanel |> dispatch);
   <div>
-    <ExpansionPanel panelShow={state.isShow}>
+    <ExpansionPanel showPanel={state.isShow}>
       ...(
-           <ExpansionSummary summaryShow={state.isShow} onClick=showPanel>
+           <ExpansionSummary showSummary={state.isShow} onClick=showPanel>
              ...(
                   <span> {"123" |> string} </span>,
                   <IconGeneral
@@ -32,9 +32,9 @@ let make = _ => {
            "test" |> string,
          )
     </ExpansionPanel>
-    <ExpansionPanel panelShow={state.isShow}>
+    <ExpansionPanel showPanel={state.isShow}>
       ...(
-           <ExpansionSummary summaryShow={state.isShow} onClick=showPanel>
+           <ExpansionSummary showSummary={state.isShow} onClick=showPanel>
              ...(
                   <>
                     <ExpansionBasis>

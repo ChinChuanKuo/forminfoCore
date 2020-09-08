@@ -11,7 +11,6 @@ import * as Forget$BtsCore from "./pages/Forget/Forget.bs.js";
 import * as Formor$BtsCore from "./pages/Formor/Formor.bs.js";
 import * as Resend$BtsCore from "./pages/Resend/Resend.bs.js";
 import * as Signup$BtsCore from "./pages/Signup/Signup.bs.js";
-import * as Formcel$BtsCore from "./pages/Formcel/Formcel.bs.js";
 import * as Proform$BtsCore from "./pages/Proform/Proform.bs.js";
 import * as Protour$BtsCore from "./pages/Protour/Protour.bs.js";
 import * as Setting$BtsCore from "./setting/Setting.bs.js";
@@ -78,13 +77,6 @@ function Route(Props) {
               exit$1 = 2;
             } else {
               tmp = React.createElement(Bookmarks$BtsCore.make, { });
-            }
-            break;
-        case "formcel" :
-            if (match$1[1]) {
-              exit$1 = 2;
-            } else {
-              tmp = React.createElement(Formcel$BtsCore.make, { });
             }
             break;
         case "formor" :

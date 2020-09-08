@@ -10,14 +10,14 @@ let displays = display =>
   | Some(display) => display
   };
 
-let minHeights = summaryShow => summaryShow ? "64px" : "48px";
+let minHeights = showSummary => showSummary ? "64px" : "48px";
 
 [@react.component]
 let make =
     (
       ~style: option(ReactDOMRe.style)=?,
       ~display: option(string)=?,
-      ~summaryShow: option(bool)=?,
+      ~showSummary: option(bool)=?,
       ~onClick: option(ReactEvent.Mouse.t => unit)=?,
       ~children: tupleChildren,
     ) =>
@@ -32,7 +32,7 @@ let make =
                 display |> displays;
               },
               ~minHeight={
-                summaryShow |> disabledObjects |> minHeights;
+                showSummary |> disabledObjects |> minHeights;
               },
               (),
             ),

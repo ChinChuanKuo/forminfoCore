@@ -222,23 +222,18 @@ let make = _ => {
      |> Array.mapi((i, item) =>
           <GridItem xs="12">
             <div>
-              <ExpansionPanel panelShow={item.isShow}>
+              <ExpansionPanel showPanel={item.isShow}>
                 ...(
                      <ExpansionSummary
-                       summaryShow={item.isShow}
+                       showSummary={item.isShow}
                        onClick={_ => dispatch(ShowPanel(i))}>
                        ...(
                             <Typography
-                              variant="tile"
-                              color="rgba(0,0,0,1)"
-                              noWrap=true>
+                              variant="tile" color="rgba(0,0,0,1)" noWrap=true>
                               {"POS355/D36,D88U" |> string}
                             </Typography>,
                             <IconGeneral
-                              src={
-                                item.isShow
-                                  ? arrowUpBlack : arrowDownBlack
-                              }
+                              src={item.isShow ? arrowUpBlack : arrowDownBlack}
                             />,
                           )
                      </ExpansionSummary>,
@@ -267,10 +262,10 @@ let make = _ => {
                      </div>,
                    )
               </ExpansionPanel>
-              <ExpansionPanel panelShow={item.isShow}>
+              <ExpansionPanel showPanel={item.isShow}>
                 ...(
                      <ExpansionSummary
-                       summaryShow={item.isShow}
+                       showSummary={item.isShow}
                        onClick={_ => dispatch(ShowPanel(i))}>
                        ...(
                             <>
@@ -285,9 +280,7 @@ let make = _ => {
                                          )}
                                          padding="6"
                                          onClick={_ =>
-                                           dispatch(
-                                             ClickActive(i, true),
-                                           )
+                                           dispatch(ClickActive(i, true))
                                          }>
                                          <IconAction
                                            animation="circle"
@@ -344,10 +337,7 @@ let make = _ => {
                               </ExpansionBasis>
                             </>,
                             <IconGeneral
-                              src={
-                                item.isShow
-                                  ? arrowDownBlack : arrowUpBlack
-                              }
+                              src={item.isShow ? arrowDownBlack : arrowUpBlack}
                             />,
                           )
                      </ExpansionSummary>,

@@ -19,7 +19,7 @@ type answeritem = {
 type formitem = {
   iid: string,
   title: string,
-  showVer: bool,
+  showVeri: bool,
   showDrop: bool,
   showFile: bool,
   outValue: string,
@@ -86,7 +86,7 @@ type action =
       string,
       array(formitem),
     )
-  | RestartAnimationFull(
+  | SettingAnimationFull(
       string,
       string,
       string,
@@ -148,7 +148,7 @@ let reducer = (state, action) =>
       formitems,
       showFull: !state.showFull,
     }
-  | RestartAnimationFull(
+  | SettingAnimationFull(
       id,
       tile,
       desc,
@@ -304,7 +304,8 @@ let make = _ => {
 
   let pollingAJax = length =>
     Js.Promise.(
-      otherData("newid" |> Locals.select, length)
+      length
+      |> otherData("newid" |> Locals.select)
       |> Default.polling
       |> then_(response =>
            {
@@ -422,7 +423,9 @@ let make = _ => {
 
   let sItemAJax = id =>
     Js.Promise.(
-      dFormData(id, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> dFormData(id)
       |> Default.sItem
       |> then_(response => {
            (
@@ -508,13 +511,15 @@ let make = _ => {
 
   let restartAJax = () =>
     Js.Promise.(
-      dFormData(state.formId, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> dFormData(state.formId)
       |> Default.restart
       |> then_(response => {
            (
              switch (response##data##status) {
              | "istrue" =>
-               RestartAnimationFull(
+               SettingAnimationFull(
                  response##data##formId,
                  response##data##tile,
                  response##data##desc,
@@ -547,13 +552,25 @@ let make = _ => {
 
   let insertAJax = () =>
     Js.Promise.(
-      iFormData(state.formId, state.formitems, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> iFormData(state.formId, state.formitems)
       |> Default.insert
       |> then_(response => {
            (
              switch (response##data##status) {
              | "istrue" =>
-               CloseAnimationFull |> dispatch;
+               SettingAnimationFull(
+                 response##data##formId,
+                 response##data##tile,
+                 response##data##desc,
+                 response##data##exam,
+                 response##data##restart,
+                 response##data##finish,
+                 response##data##score,
+                 response##data##items,
+               )
+               |> dispatch;
                "saveSuccess" |> Status.statusModule |> barShowRestoreAction;
                ActionShowProgress |> dispatch;
              | _ =>

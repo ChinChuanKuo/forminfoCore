@@ -105,7 +105,7 @@ function reducer(state, action) {
           newrecord$9.formId = action[0];
           newrecord$9.showFull = !state.showFull;
           return newrecord$9;
-      case /* RestartAnimationFull */6 :
+      case /* SettingAnimationFull */6 :
           var newrecord$10 = Caml_obj.caml_obj_dup(state);
           newrecord$10.formitems = action[7];
           newrecord$10.formScore = action[6];
@@ -125,7 +125,7 @@ function reducer(state, action) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
-                            showVer: formitem.showVer,
+                            showVeri: formitem.showVeri,
                             showDrop: showDrop,
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
@@ -151,7 +151,7 @@ function reducer(state, action) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
-                            showVer: formitem.showVer,
+                            showVeri: formitem.showVeri,
                             showDrop: formitem.showDrop,
                             showFile: !formitem.showFile,
                             outValue: formitem.outValue,
@@ -177,7 +177,7 @@ function reducer(state, action) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
-                            showVer: formitem.showVer,
+                            showVeri: formitem.showVeri,
                             showDrop: formitem.showDrop,
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
@@ -203,7 +203,7 @@ function reducer(state, action) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
-                            showVer: formitem.showVer,
+                            showVeri: formitem.showVeri,
                             showDrop: formitem.showDrop,
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
@@ -240,7 +240,7 @@ function reducer(state, action) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
-                            showVer: formitem.showVer,
+                            showVeri: formitem.showVeri,
                             showDrop: formitem.showDrop,
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
@@ -532,7 +532,7 @@ function Home(Props) {
                     var match = response.data.status;
                     var tmp;
                     if (match === "istrue") {
-                      Curry._1(dispatch, /* RestartAnimationFull */Block.__(6, [
+                      Curry._1(dispatch, /* SettingAnimationFull */Block.__(6, [
                               response.data.formId,
                               response.data.tile,
                               response.data.desc,
@@ -559,7 +559,16 @@ function Home(Props) {
                     var match = response.data.status;
                     var tmp;
                     if (match === "istrue") {
-                      Curry._1(dispatch, /* CloseAnimationFull */3);
+                      Curry._1(dispatch, /* SettingAnimationFull */Block.__(6, [
+                              response.data.formId,
+                              response.data.tile,
+                              response.data.desc,
+                              response.data.exam,
+                              response.data.restart,
+                              response.data.finish,
+                              response.data.score,
+                              response.data.items
+                            ]));
                       barShowRestoreAction(Status$BtsCore.statusModule("saveSuccess"));
                       tmp = Curry._1(dispatch, /* ActionShowProgress */2);
                     } else {

@@ -17,9 +17,9 @@ namespace forminfoCore.Models
             List<Dictionary<string, object>> answeritems = new List<Dictionary<string, object>>();
             answeritems.Add(new Dictionary<string, object>() { { "id", 1 }, { "value", "" }, { "showAnswer", false }, { "ansrDelete", false } });
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
-            items.Add(new Dictionary<string, object>() { { "iid", 1 }, { "showLine", false }, { "title", "" }, { "showOut", false }, { "showVer", false }, { "showDrop", false }, { "showFile", false }, { "outValue", "text" }, { "type_", "" }, { "showType", false }, { "typeitems", new List<Dictionary<string, object>>().ToArray() }, { "operation", "" }, { "showOperation", false }, { "operationitems", new List<Dictionary<string, object>>().ToArray() }, { "area", "" }, { "eror", "" }, { "showCheck", false }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "itemDelete", false } });
+            items.Add(new Dictionary<string, object>() { { "iid", 1 }, { "showLine", false }, { "title", "" }, { "showOut", false }, { "showVeri", false }, { "showDrop", false }, { "showFile", false }, { "outValue", "text" }, { "type_", "" }, { "showType", false }, { "typeitems", new List<Dictionary<string, object>>().ToArray() }, { "operation", "" }, { "showOperation", false }, { "operationitems", new List<Dictionary<string, object>>().ToArray() }, { "area", "" }, { "eror", "" }, { "showCheck", false }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "itemDelete", false } });
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
-            settitems.Add(new Dictionary<string, object>() { { "stdate", "" }, { "sttime", "" }, { "endate", "" }, { "entime", "" }, { "showExam", false }, { "randOpt", false }, { "randSub", false }, { "showRest", false }, { "showLimt", false }, { "number", "" } });
+            settitems.Add(new Dictionary<string, object>() { { "stdate", "" }, { "sttime", "" }, { "endate", "" }, { "entime", "" }, { "showExam", false }, { "randOpt", false }, { "randSub", false }, { "showRest", false }, { "showLimt", false }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", "" } });
             return new sFoorModels() { items = items, settitems = settitems };
         }
 
@@ -82,7 +82,7 @@ namespace forminfoCore.Models
                 dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
                 dbparamlist.Add(new dbparam("@tile", item["title"].ToString().TrimEnd()));
                 dbparamlist.Add(new dbparam("@outValue", item["outValue"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVer"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@verified", bool.Parse(item["showVeri"].ToString().TrimEnd()) ? "1" : "0"));
                 dbparamlist.Add(new dbparam("@type", item["type_"].ToString().TrimEnd()));
                 dbparamlist.Add(new dbparam("@operation", item["operation"].ToString().TrimEnd()));
                 dbparamlist.Add(new dbparam("@area", item["area"].ToString().TrimEnd()));
@@ -146,7 +146,47 @@ namespace forminfoCore.Models
                     return new statusModels() { status = "error" };
                 }
             }
+            foreach (var dertitem in iFormsData.dertitems)
+            {
+                foreach (var operitem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(dertitem["operitems"].ToString().TrimEnd()))
+                {
+                    switch (bool.Parse(operitem["showOper"].ToString().TrimEnd()))
+                    {
+                        case true:
+                            List<dbparam> dbparamlist = new List<dbparam>();
+                            dbparamlist.Add(new dbparam("@formId", formId));
+                            dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
+                            dbparamlist.Add(new dbparam("@newid", operitem["newid"].ToString().TrimEnd()));
+                            dbparamlist.Add(new dbparam("@indate", date));
+                            dbparamlist.Add(new dbparam("@intime", time));
+                            if (database.checkActiveSql("mssql", "flyformstring", "insert into web.operform (formId,inoper,newid,indate,intime) values (@formId,@inoper,@newid,@indate,@intime);", dbparamlist) != "istrue")
+                            {
+                                return new statusModels() { status = "error" };
+                            }
+                            break;
+                    }
+                }
+            }
             return new statusModels() { status = "istrue" };
+        }
+
+        public sOptonModels GetLimitModels(userData userData, string cuurip)
+        {
+            database database = new database();
+            List<dbparam> dbparamlist = new List<dbparam>();
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                dbparamlist.Add(new dbparam("@department", dr["department"].ToString().TrimEnd()));
+                List<Dictionary<string, object>> operitems = new List<Dictionary<string, object>>();
+                foreach (DataRow drs in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
+                {
+                    operitems.Add(new Dictionary<string, object>() { { "newid", drs["newid"].ToString().TrimEnd() }, { "userid", drs["userid"].ToString().TrimEnd() }, { "name", drs["username"].ToString().TrimEnd() }, { "showOper", false } });
+                }
+                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", operitems.ToArray() }, { "dertModify", false } });
+            }
+            return new sOptonModels() { items = items };
         }
     }
 }

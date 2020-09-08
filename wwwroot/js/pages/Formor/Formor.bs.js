@@ -37,10 +37,13 @@ import * as QuestionForm$BtsCore from "../../example/Forms/QuestionForm.bs.js";
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as IconAnimation$BtsCore from "../../controls/IconAnimation.bs.js";
 import * as SelectOutline$BtsCore from "../../material-ui/core/Select/SelectOutline.bs.js";
+import * as ExpansionBasis$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionBasis.bs.js";
+import * as ExpansionPanel$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionPanel.bs.js";
 import * as SelectStandard$BtsCore from "../../material-ui/core/Select/SelectStandard.bs.js";
 import * as BackgroundBoard$BtsCore from "../../example/Boards/BackgroundBoard.bs.js";
 import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/SnackbarYoutube.bs.js";
 import * as CardOrPaperBoard$BtsCore from "../../example/Boards/CardOrPaperBoard.bs.js";
+import * as ExpansionSummary$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionSummary.bs.js";
 import * as TextFieldOutline$BtsCore from "../../material-ui/core/TextField/TextFieldOutline.bs.js";
 import * as TextFieldStandard$BtsCore from "../../material-ui/core/TextField/TextFieldStandard.bs.js";
 
@@ -52,7 +55,7 @@ function newitem(iid, opticonitems) {
             showLine: false,
             title: "",
             showOut: false,
-            showVer: false,
+            showVeri: false,
             showDrop: false,
             showFile: false,
             outValue: "radio",
@@ -745,7 +748,7 @@ function reducer(state, action) {
                           }
                           var newrecord = Caml_obj.caml_obj_dup(item);
                           newrecord.showMore = false;
-                          newrecord.showVer = false;
+                          newrecord.showVeri = false;
                           return newrecord;
                         }), state.items),
                   settitems: state.settitems,
@@ -810,7 +813,7 @@ function reducer(state, action) {
                           newrecord.operation = operation$2;
                           newrecord.typeitems = typeitems;
                           newrecord.type_ = type_$1;
-                          newrecord.showVer = true;
+                          newrecord.showVeri = true;
                           return newrecord;
                         }), state.items),
                   settitems: state.settitems,
@@ -951,6 +954,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -990,6 +994,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1029,6 +1034,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1068,6 +1074,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1106,6 +1113,7 @@ function reducer(state, action) {
                                     randSub: settitem.showExam ? false : settitem.randSub,
                                     showRest: settitem.showExam ? false : settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1144,6 +1152,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1182,6 +1191,7 @@ function reducer(state, action) {
                                     randSub: !settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1191,7 +1201,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowRest */34 :
+      case /* ShowRestart */34 :
           var index$28 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -1220,6 +1230,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: !settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: settitem.number
                                   };
                           } else {
@@ -1229,7 +1240,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemNum */35 :
+      case /* ChangeNumber */35 :
           var index$29 = action[1];
           var value$6 = action[0];
           return {
@@ -1259,6 +1270,7 @@ function reducer(state, action) {
                                     randSub: settitem.randSub,
                                     showRest: settitem.showRest,
                                     showLimt: settitem.showLimt,
+                                    dertitems: settitem.dertitems,
                                     number: value$6
                                   };
                           } else {
@@ -1268,7 +1280,200 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ActionSnackBar */36 :
+      case /* ShowLimit */36 :
+          var index$30 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$30 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: !settitem.showLimt,
+                                    dertitems: settitem.dertitems,
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* AddDert */37 :
+          var dertitems = action[1];
+          var index$31 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$31 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    dertitems: dertitems,
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ShowPanel */38 :
+          var dindex = action[1];
+          var index$32 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$32 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    dertitems: $$Array.mapi((function (di, dertitem) {
+                                            if (dindex === di) {
+                                              return {
+                                                      showPanel: !dertitem.showPanel,
+                                                      dertment: dertitem.dertment,
+                                                      operitems: dertitem.operitems,
+                                                      dertModify: dertitem.dertModify
+                                                    };
+                                            } else {
+                                              return dertitem;
+                                            }
+                                          }), settitem.dertitems),
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* AddOper */39 :
+          var oindex = action[2];
+          var dindex$1 = action[1];
+          var index$33 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$33 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOpt: settitem.randOpt,
+                                    randSub: settitem.randSub,
+                                    showRest: settitem.showRest,
+                                    showLimt: settitem.showLimt,
+                                    dertitems: $$Array.mapi((function (di, dertitem) {
+                                            if (dindex$1 === di) {
+                                              return {
+                                                      showPanel: dertitem.showPanel,
+                                                      dertment: dertitem.dertment,
+                                                      operitems: $$Array.mapi((function (oi, operitem) {
+                                                              if (oindex === oi) {
+                                                                return {
+                                                                        newid: operitem.newid,
+                                                                        userid: operitem.userid,
+                                                                        name: operitem.name,
+                                                                        showOper: !operitem.showOper
+                                                                      };
+                                                              } else {
+                                                                return operitem;
+                                                              }
+                                                            }), dertitem.operitems),
+                                                      dertModify: true
+                                                    };
+                                            } else {
+                                              return dertitem;
+                                            }
+                                          }), settitem.dertitems),
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ActionSnackBar */40 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1342,12 +1547,12 @@ function Formor(Props) {
   var dispatch = match[1];
   var state = match[0];
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(36, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(36, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
                           "",
                           false
                         ]));
@@ -1530,9 +1735,9 @@ function Formor(Props) {
   var showItemMore = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ShowItemMore */Block.__(21, [i]));
         }));
-  var showVerification = React.useCallback((function (showVer) {
+  var showVerification = React.useCallback((function (showVeri) {
           return (function (i) {
-              if (showVer) {
+              if (showVeri) {
                 return Curry._1(dispatch, /* ClearItemCondition */Block.__(20, [i]));
               } else {
                 Axiosapi$BtsCore.Formor.sVeri(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
@@ -1571,7 +1776,9 @@ function Formor(Props) {
           Curry._1(dispatch, /* ActionShowProgress */2);
           Axiosapi$BtsCore.Formor.insert(Data$BtsCore.iFormsData(state.tile, state.desc, state.items.filter((function (item) {
                               return item.itemDelete !== true;
-                            })), state.settitems, localStorage.getItem("newid"))).then((function (response) {
+                            })), state.settitems, Caml_array.caml_array_get(state.settitems, 0).dertitems.filter((function (dertitem) {
+                              return dertitem.dertModify === true;
+                            })), localStorage.getItem("newid"))).then((function (response) {
                     var match = response.data.status;
                     var tmp;
                     if (match === "istrue") {
@@ -1636,14 +1843,49 @@ function Formor(Props) {
   var randSubtile = React.useCallback((function (i) {
           return Curry._1(dispatch, /* RandSubtile */Block.__(33, [i]));
         }));
-  var showRest = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowRest */Block.__(34, [i]));
+  var showRestart = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowRestart */Block.__(34, [i]));
         }));
   var changeItemNum = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemNum */Block.__(35, [
+              return Curry._1(dispatch, /* ChangeNumber */Block.__(35, [
                             value,
                             i
+                          ]));
+            });
+        }));
+  var showLimit = React.useCallback((function (value) {
+          return (function (i) {
+              Curry._1(dispatch, /* ShowLimit */Block.__(36, [i]));
+              if (!value) {
+                Curry._1(dispatch, /* ActionShowProgress */2);
+                Axiosapi$BtsCore.Formor.limit(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
+                          return Promise.resolve((Curry._1(dispatch, /* AddDert */Block.__(37, [
+                                              i,
+                                              response.data.items
+                                            ])), Curry._1(dispatch, /* ActionShowProgress */2)));
+                        })).catch((function (error) {
+                        return Promise.resolve((console.log(error), undefined));
+                      }));
+                return ;
+              }
+              
+            });
+        }));
+  var showPanel = React.useCallback((function (i) {
+          return (function (di) {
+              return Curry._1(dispatch, /* ShowPanel */Block.__(38, [
+                            i,
+                            di
+                          ]));
+            });
+        }));
+  var addOper = React.useCallback((function (i) {
+          return (function (di, oi) {
+              return Curry._1(dispatch, /* AddOper */Block.__(39, [
+                            i,
+                            di,
+                            oi
                           ]));
             });
         }));
@@ -1780,7 +2022,123 @@ function Formor(Props) {
                                                     }))
                                           }))
                                 }), match$1 !== 0 ? (
-                                match$1 !== 1 ? null : $$Array.mapi((function (i, settitem) {
+                                match$1 !== 1 ? $$Array.mapi((function (i, settitem) {
+                                          return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                                          top: "0",
+                                                          right: "24",
+                                                          left: "24",
+                                                          xs: "auto",
+                                                          children: React.createElement(Switch$BtsCore.make, {
+                                                                right: "0",
+                                                                checked: settitem.showLimt,
+                                                                circleColor: SwitchColor$BtsCore.circle(settitem.showLimt),
+                                                                linearColor: SwitchColor$BtsCore.linear(settitem.showLimt),
+                                                                fontColor: SwitchColor$BtsCore.font(settitem.showLimt),
+                                                                disabled: state.showProgress,
+                                                                onClick: (function (param) {
+                                                                    return Curry._2(showLimit, settitem.showLimt, i);
+                                                                  }),
+                                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                                      id: "Formor.limit",
+                                                                      defaultMessage: "Limit"
+                                                                    })
+                                                              })
+                                                        }), React.createElement(GridItem$BtsCore.make, {
+                                                          style: {
+                                                            height: "0"
+                                                          },
+                                                          top: "0",
+                                                          right: "24",
+                                                          bottom: "0",
+                                                          left: "24",
+                                                          xs: "auto",
+                                                          children: $$Array.mapi((function (di, dertitem) {
+                                                                  return React.createElement(ExpansionPanel$BtsCore.make, {
+                                                                              showPanel: dertitem.showPanel,
+                                                                              children: /* tuple */[
+                                                                                React.createElement(ExpansionSummary$BtsCore.make, {
+                                                                                      showSummary: dertitem.showPanel,
+                                                                                      onClick: (function (param) {
+                                                                                          return Curry._2(showPanel, i, di);
+                                                                                        }),
+                                                                                      children: /* tuple */[
+                                                                                        React.createElement(ExpansionBasis$BtsCore.make, {
+                                                                                              children: React.createElement(Typography$BtsCore.make, {
+                                                                                                    variant: "subheading",
+                                                                                                    color: "rgba(0,0,0,0.8)",
+                                                                                                    children: dertitem.dertment
+                                                                                                  })
+                                                                                            }),
+                                                                                        React.createElement(IconGeneral$BtsCore.make, {
+                                                                                              src: dertitem.showPanel ? Icons$BtsCore.arrowUpBlack : Icons$BtsCore.arrowDownBlack
+                                                                                            })
+                                                                                      ]
+                                                                                    }),
+                                                                                React.createElement(GridContainer$BtsCore.make, {
+                                                                                      direction: "column",
+                                                                                      justify: "start",
+                                                                                      alignItem: "stretch",
+                                                                                      children: $$Array.mapi((function (oi, operitem) {
+                                                                                              return React.createElement(GridItem$BtsCore.make, {
+                                                                                                          right: "0",
+                                                                                                          bottom: "0",
+                                                                                                          left: "0",
+                                                                                                          xs: "auto",
+                                                                                                          children: React.createElement(GridContainer$BtsCore.make, {
+                                                                                                                direction: "row",
+                                                                                                                justify: "center",
+                                                                                                                alignItem: "center",
+                                                                                                                children: null
+                                                                                                              }, React.createElement(GridItem$BtsCore.make, {
+                                                                                                                    top: "0",
+                                                                                                                    right: "0",
+                                                                                                                    bottom: "0",
+                                                                                                                    left: "0",
+                                                                                                                    xs: "auto",
+                                                                                                                    children: React.createElement(Typography$BtsCore.make, {
+                                                                                                                          variant: "body1",
+                                                                                                                          color: "rgba(0,0,0,0.8)",
+                                                                                                                          children: operitem.userid
+                                                                                                                        })
+                                                                                                                  }), React.createElement(GridItem$BtsCore.make, {
+                                                                                                                    top: "0",
+                                                                                                                    right: "0",
+                                                                                                                    bottom: "0",
+                                                                                                                    left: "0",
+                                                                                                                    xs: "auto",
+                                                                                                                    children: React.createElement(Typography$BtsCore.make, {
+                                                                                                                          variant: "body1",
+                                                                                                                          color: "rgba(0,0,0,0.8)",
+                                                                                                                          children: operitem.name
+                                                                                                                        })
+                                                                                                                  }), React.createElement(GridItem$BtsCore.make, {
+                                                                                                                    top: "0",
+                                                                                                                    bottom: "0",
+                                                                                                                    xs: "no",
+                                                                                                                    children: React.createElement(Switch$BtsCore.make, {
+                                                                                                                          right: "0",
+                                                                                                                          checked: operitem.showOper,
+                                                                                                                          circleColor: SwitchColor$BtsCore.circle(operitem.showOper),
+                                                                                                                          linearColor: SwitchColor$BtsCore.linear(operitem.showOper),
+                                                                                                                          fontColor: SwitchColor$BtsCore.font(operitem.showOper),
+                                                                                                                          disabled: state.showProgress,
+                                                                                                                          onClick: (function (param) {
+                                                                                                                              return Curry._3(addOper, i, di, oi);
+                                                                                                                            }),
+                                                                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
+                                                                                                                                id: "add",
+                                                                                                                                defaultMessage: "Add"
+                                                                                                                              })
+                                                                                                                        })
+                                                                                                                  }))
+                                                                                                        });
+                                                                                            }), dertitem.operitems)
+                                                                                    })
+                                                                              ]
+                                                                            });
+                                                                }), settitem.dertitems)
+                                                        }));
+                                        }), state.settitems) : $$Array.mapi((function (i, settitem) {
                                           return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
                                                           top: "0",
                                                           right: "24",
@@ -1958,7 +2316,7 @@ function Formor(Props) {
                                                                 fontColor: SwitchColor$BtsCore.font(settitem.showRest),
                                                                 disabled: state.showProgress || !settitem.showExam,
                                                                 onClick: (function (param) {
-                                                                    return Curry._1(showRest, i);
+                                                                    return Curry._1(showRestart, i);
                                                                   }),
                                                                 children: React.createElement(ReactIntl.FormattedMessage, {
                                                                       id: "Formor.restart",
@@ -2168,7 +2526,7 @@ function Formor(Props) {
                                                         bottomRight: "12",
                                                         bottomLeft: "12",
                                                         onClick: (function (param) {
-                                                            return Curry._2(showVerification, item.showVer, i);
+                                                            return Curry._2(showVerification, item.showVeri, i);
                                                           }),
                                                         children: /* tuple */[
                                                           React.createElement(IconGeneral$BtsCore.make, {
@@ -2238,7 +2596,7 @@ function Formor(Props) {
                                                         }))
                                               });
                                         }
-                                        tmp$1 = React.createElement(React.Fragment, undefined, item.showVer ? React.createElement(GridItem$BtsCore.make, {
+                                        tmp$1 = React.createElement(React.Fragment, undefined, item.showVeri ? React.createElement(GridItem$BtsCore.make, {
                                                     top: "0",
                                                     bottom: "0",
                                                     xs: "auto",

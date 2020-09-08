@@ -25,6 +25,13 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
+        public JsonResult settData([FromBody] dFormData dFormData)
+        {
+            string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
+            return Json(new ProformClass().GetSettModels(dFormData, clientip));
+        }
+
+        [HttpPost]
         public JsonResult sItemData([FromBody] dFormData dFormData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();

@@ -12,6 +12,17 @@ open SwitchColor;
 open IconAnimation;
 [%bs.raw {|require('../../../scss/pages/Together/together.scss')|}];
 
+type operitem = {
+  newid: string,
+  userid: string,
+  name: string,
+};
+
+type dertitem = {
+  dertment: string,
+  operitems: array(operitem),
+};
+
 type settitem = {
   stdate: string,
   sttime: string,
@@ -22,6 +33,7 @@ type settitem = {
   randSub: bool,
   showRest: bool,
   showLimt: bool,
+  dertitems: array(dertitem),
   number: string,
 };
 
@@ -39,7 +51,7 @@ type formitem = {
   showLine: bool,
   title: string,
   showOut: bool,
-  showVer: bool,
+  showVeri: bool,
   showDrop: bool,
   showFile: bool,
   outValue: string,
@@ -79,6 +91,9 @@ type state = {
   index: int,
   itemCount: int,
   items: array(item),
+  showRight: bool,
+  showDrop: bool,
+  showFile: bool,
   showFull: bool,
   formId: string,
   formTile: string,
@@ -97,7 +112,7 @@ let newitem = (iid, opticonitems) => [|
     showLine: false,
     title: "",
     showOut: false,
-    showVer: false,
+    showVeri: false,
     showDrop: false,
     showFile: false,
     outValue: "radio",
@@ -148,6 +163,10 @@ type action =
   | SettingFormItems(int, array(item))
   | SettingSettItems(array(settitem))
   | ClickItemTab(int)
+  | ShowAnimationRight
+  | ShowDrop(bool)
+  | ShowFile
+  | CloseAnimationRight
   | ShowAnimationFull(
       string,
       string,
@@ -192,8 +211,8 @@ type action =
   | ShowExam(int)
   | RandOption(int)
   | RandSubtile(int)
-  | ShowRest(int)
-  | ChangeItemNum(string, int)
+  | ShowRestart(int)
+  | ChangeNumber(string, int)
   | CloseAnimationFull
   | ActionSnackBar(string, bool);
 
@@ -225,6 +244,15 @@ let reducer = (state, action) =>
         ),
       index,
     }
+  | ShowAnimationRight => {
+      ...state,
+      showDrop: false,
+      showFile: false,
+      showRight: !state.showRight,
+    }
+  | ShowDrop(showDrop) => {...state, showDrop}
+  | ShowFile => {...state, showFile: !state.showFile}
+  | CloseAnimationRight => {...state, showRight: !state.showRight}
   | ShowAnimationFull(id, tile, desc, formitems, settitems) => {
       ...state,
       formId: id,
@@ -457,7 +485,7 @@ let reducer = (state, action) =>
         Array.mapi(
           (i, formitem) =>
             index == i
-              ? {...formitem, showVer: false, showMore: false} : formitem,
+              ? {...formitem, showVeri: false, showMore: false} : formitem,
           state.formitems,
         ),
     }
@@ -483,7 +511,7 @@ let reducer = (state, action) =>
                 typeitems,
                 operation,
                 operationitems,
-                showVer: true,
+                showVeri: true,
                 showMore: false,
                 formModify: true,
               }
@@ -618,7 +646,7 @@ let reducer = (state, action) =>
           state.settitems,
         ),
     }
-  | ShowRest(index) => {
+  | ShowRestart(index) => {
       ...state,
       settitems:
         Array.mapi(
@@ -628,7 +656,7 @@ let reducer = (state, action) =>
           state.settitems,
         ),
     }
-  | ChangeItemNum(value, index) => {
+  | ChangeNumber(value, index) => {
       ...state,
       settitems:
         Array.mapi(
@@ -660,6 +688,9 @@ let initialState = {
   index: 0,
   itemCount: 0,
   items: [||],
+  showRight: false,
+  showDrop: false,
+  showFile: false,
   showFull: false,
   formId: "",
   formTile: "",
@@ -680,6 +711,8 @@ let initialState = {
 let make = _ => {
   let (state, dispatch) = useReducer(reducer, initialState);
 
+  let fileRef = useRef(Js.Nullable.null);
+
   let barShowRestoreAction = youtubeText => {
     ActionSnackBar(youtubeText, true) |> dispatch;
     Js.Global.setTimeout(() => ActionSnackBar("", false) |> dispatch, 5000)
@@ -696,7 +729,8 @@ let make = _ => {
 
   let pollingAJax = length =>
     Js.Promise.(
-      otherData("newid" |> Locals.select, length)
+      length
+      |> otherData("newid" |> Locals.select)
       |> Axiosapi.Proform.polling
       |> then_(response =>
            {
@@ -788,9 +822,103 @@ let make = _ => {
       tabPath |> ReasonReactRouter.push;
     });
 
+  let showAnimationRight = useCallback(_ => ShowAnimationRight |> dispatch);
+
+  let settAJax = id =>
+    Js.Promise.(
+      "newid"
+      |> Locals.select
+      |> dFormData(id)
+      |> Axiosapi.Proform.sett
+      |> then_(response =>
+           {
+             switch (response##data##status) {
+             | "istrue" =>
+               "success" |> Status.uploadModels |> barShowRestoreAction;
+               ActionShowProgress |> dispatch;
+             | _ =>
+               response##data##status
+               |> Status.statusModule
+               |> barShowRestoreAction;
+               ActionShowProgress |> dispatch;
+             };
+           }
+           |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+
+  let uploadAJax = files => {
+    let formData = FormData.make();
+    FormData.append(formData, "file", files) |> ignore;
+    Js.Promise.(
+      formData
+      |> Excels.upload
+      |> then_(response =>
+           {
+             switch (response##data##status) {
+             | "istrue" => response##data##formId |> settAJax
+             | _ =>
+               response##data##status
+               |> Status.statusModule
+               |> barShowRestoreAction;
+               ActionShowProgress |> dispatch;
+             };
+           }
+           |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+  };
+
+  let dragOver =
+    useCallback(event => {
+      ReactEventRe.Mouse.preventDefault(event);
+      ReactEventRe.Mouse.stopPropagation(event);
+      ShowDrop(true) |> dispatch;
+    });
+
+  let dragLeave =
+    useCallback(event => {
+      ReactEventRe.Mouse.preventDefault(event);
+      ReactEventRe.Mouse.stopPropagation(event);
+      ShowDrop(false) |> dispatch;
+    });
+
+  let dropFile =
+    useCallback((event, value) => {
+      ReactEventRe.Mouse.preventDefault(event);
+      ReactEventRe.Mouse.stopPropagation(event);
+      ActionShowProgress |> dispatch;
+      ShowDrop(false) |> dispatch;
+      value |> uploadAJax;
+    });
+
+  let uploadFile =
+    useCallback(value => {
+      ActionShowProgress |> dispatch;
+      value |> uploadAJax;
+    });
+
+  let chooseFile =
+    useCallback(_
+      //Documents.GetElementById.make("uploadFile") |> Action.click)
+      =>
+        switch (fileRef |> Ref.current |> Js.Nullable.toOption) {
+        | None => ()
+        | Some(el) => el->ReactDOMRe.domElementToObj##click() |> ignore
+        }
+      );
+
+  let closeAnimationRight = useCallback(_ => CloseAnimationRight |> dispatch);
+
   let sItemAJax = id =>
     Js.Promise.(
-      dFormData(id, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> dFormData(id)
       |> Axiosapi.Proform.sItem
       |> then_(response => {
            (
@@ -858,7 +986,9 @@ let make = _ => {
 
   let stypeAJax = (type_, i) =>
     Js.Promise.(
-      sRowsData(state.formId, type_, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> sRowsData(state.formId, type_)
       |> Axiosapi.Proform.sType
       |> then_(response => {
            (
@@ -901,7 +1031,9 @@ let make = _ => {
 
   let sveriAJax = (id, i) =>
     Js.Promise.(
-      sRowsData(state.formId, id, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> sRowsData(state.formId, id)
       |> Axiosapi.Proform.sVeri
       |> then_(response => {
            (
@@ -929,8 +1061,8 @@ let make = _ => {
     );
 
   let showVerification =
-    useCallback((id, showVer, i) =>
-      showVer ? ClearCondition(i) |> dispatch : id |> sveriAJax(i)
+    useCallback((id, showVeri, i) =>
+      showVeri ? ClearCondition(i) |> dispatch : id |> sveriAJax(i)
     );
 
   let checkItem = useCallback(i => CheckItem(i) |> dispatch);
@@ -1008,7 +1140,9 @@ let make = _ => {
 
   let deleteAJax = () =>
     Js.Promise.(
-      dFormData(state.formId, "newid" |> Locals.select)
+      "newid"
+      |> Locals.select
+      |> dFormData(state.formId)
       |> Axiosapi.Proform.delete
       |> then_(response =>
            {
@@ -1053,10 +1187,10 @@ let make = _ => {
 
   let randSubtile = useCallback(i => RandSubtile(i) |> dispatch);
 
-  let showRest = useCallback(i => ShowRest(i) |> dispatch);
+  let showRestart = useCallback(i => ShowRestart(i) |> dispatch);
 
   let changeItemNum =
-    useCallback((value, i) => ChangeItemNum(value, i) |> dispatch);
+    useCallback((value, i) => ChangeNumber(value, i) |> dispatch);
 
   let closeAnimationFull = useCallback(_ => CloseAnimationFull |> dispatch);
 
@@ -1192,6 +1326,58 @@ let make = _ => {
         </GridContainer>
       </GridItem>
     </NewFacetube>
+    <CircleButton
+      style={ReactDOMRe.Style.make(
+        ~position="fixed",
+        ~right="25px",
+        ~bottom="25px",
+        (),
+      )}
+      onClick=showAnimationRight>
+      <Tooltip location="top" backgroundColor="rgba(255,0,0,0.8)">
+        <FormattedMessage id="Proform.import" defaultMessage="Import" />
+      </Tooltip>
+      <IconAction animation="leftRight" src=importExportWhite />
+    </CircleButton>
+    <DialogAnimationRight showAnimation={state.showRight}>
+      <DialogTitle
+        backgroundColor="rgba(255,0,0,1)" color="rgba(255,255,255,1)">
+        <FormattedMessage id="Proform.upload" defaultMessage="Upload" />
+      </DialogTitle>
+      <DialogContent right="0" bottom="12" left="0">
+        <DialogContentText>
+          <GridItem top="30" right="25" left="25" xs="12">
+            <GeneralUpload
+              webLoad={state.showProgress}
+              showDrop={state.showDrop}
+              fileRef
+              onDragOver={event => event |> dragOver}
+              onDragLeave={event => event |> dragLeave}
+              onDrop={event =>
+                ReactEventRe.Synthetic.nativeEvent(event)##dataTransfer##files[0]
+                |> dropFile(event)
+              }
+              disabled={state.showProgress}
+              onClick=chooseFile
+              onChange={event =>
+                ReactEvent.Form.target(event)##files[0] |> uploadFile
+              }
+            />
+          </GridItem>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions top="0" right="16" bottom="12" left="16">
+        <GridContainer
+          direction="rowReverse" justify="start" alignItem="center">
+          <GridItem top="0" bottom="0" xs="no">
+            <Button disabled={state.showProgress} onClick=closeAnimationRight>
+              <IconAction animation="circle" src=clearWhite />
+              <FormattedMessage id="closed" defaultMessage="Closed" />
+            </Button>
+          </GridItem>
+        </GridContainer>
+      </DialogActions>
+    </DialogAnimationRight>
     <DialogFull showAnimation={state.showFull}>
       <DialogTitle top="6" left="64">
         <TextFieldStandard
@@ -1524,7 +1710,7 @@ let make = _ => {
                             </GridItem>
                             {formitem.showLine
                                ? <>
-                                   {formitem.showVer
+                                   {formitem.showVeri
                                       ? <GridItem top="0" bottom="0" xs="auto">
                                           <GridContainer
                                             direction="row"
@@ -1931,7 +2117,8 @@ let make = _ => {
                                                          i
                                                          |> showVerification(
                                                               formitem.iid,
-                                                              formitem.showVer,
+                                                              formitem.
+                                                                showVeri,
                                                             )
                                                        }>
                                                        ...(
@@ -2247,7 +2434,7 @@ let make = _ => {
                             linearColor={settitem.showRest |> linear}
                             fontColor={settitem.showRest |> font}
                             disabled={state.showProgress || !settitem.showExam}
-                            onClick={_ => i |> showRest}>
+                            onClick={_ => i |> showRestart}>
                             <FormattedMessage
                               id="Formor.restart"
                               defaultMessage="Restart"
@@ -2275,7 +2462,8 @@ let make = _ => {
                       </>
                     )
                  |> array
-               | _ => null
+               | _ =>
+                 state.settitems |> Array.mapi((i, settitem) => null) |> array
                }}
             </GridContainer>
           </GridItem>

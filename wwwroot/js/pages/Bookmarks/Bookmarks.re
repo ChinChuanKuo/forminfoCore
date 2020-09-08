@@ -1,11 +1,14 @@
 open React;
 open ReactIntl;
 open Icons;
+open Path;
 open Storage;
 open ObjectFormat;
 
 [@react.component]
 let make = _ => {
+  let profileForm = useCallback(_ => proformPath |> ReasonReactRouter.push);
+
   <Drawer
     style={ReactDOMRe.Style.make(
       ~overflow="hidden",
@@ -30,7 +33,8 @@ let make = _ => {
         bottomRight="20"
         bottomLeft="20"
         right="0"
-        left="0">
+        left="0"
+        onClick=profileForm>
         ...(
              <Avatar
                top="0"

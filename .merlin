@@ -42,8 +42,6 @@ S wwwroot/js/pages/Protour
 B lib/bs/wwwroot/js/pages/Protour
 S wwwroot/js/pages/Home
 B lib/bs/wwwroot/js/pages/Home
-S wwwroot/js/pages/Formcel
-B lib/bs/wwwroot/js/pages/Formcel
 S wwwroot/js/modules
 B lib/bs/wwwroot/js/modules
 S wwwroot/js/setting

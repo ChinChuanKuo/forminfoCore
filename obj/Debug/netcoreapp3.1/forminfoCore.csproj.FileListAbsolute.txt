@@ -67,3 +67,8 @@
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Protour/Index.cshtml.g.cs
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Formor/Index.cshtml.g.cs
 /Users/chinchuankuo/Documents/core/forminfoCore/obj/Debug/netcoreapp3.1/Razor/Views/Formcel/Index.cshtml.g.cs
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.OOXML.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.OpenXml4Net.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.OpenXmlFormats.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/ICSharpCode.SharpZipLib.dll

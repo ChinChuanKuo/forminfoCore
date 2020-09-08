@@ -21,32 +21,32 @@ function borderRadiuses(borderRadius) {
   }
 }
 
-function margins(panelShow) {
-  if (panelShow) {
+function margins(showPanel) {
+  if (showPanel) {
     return "16px 0px";
   } else {
     return "auto";
   }
 }
 
-function overflows(panelShow) {
-  if (panelShow) {
+function overflows(showPanel) {
+  if (showPanel) {
     return "visible";
   } else {
     return "hidden";
   }
 }
 
-function heights(panelShow) {
-  if (panelShow) {
+function heights(showPanel) {
+  if (showPanel) {
     return "auto";
   } else {
     return "0px";
   }
 }
 
-function transitionDurations(panelShow) {
-  if (panelShow) {
+function transitionDurations(showPanel) {
+  if (showPanel) {
     return "168ms";
   } else {
     return "208ms";
@@ -60,17 +60,17 @@ function ExpansionPanel(Props) {
   var topRight = Props.topRight;
   var bottomRight = Props.bottomRight;
   var bottomLeft = Props.bottomLeft;
-  var panelShow = Props.panelShow;
+  var showPanel = Props.showPanel;
   var children = Props.children;
-  var panelShow$1 = Setting$BtsCore.disabledObjects(panelShow);
-  var panelShow$2 = Setting$BtsCore.disabledObjects(panelShow);
-  var panelShow$3 = Setting$BtsCore.disabledObjects(panelShow);
-  var panelShow$4 = Setting$BtsCore.disabledObjects(panelShow);
+  var showPanel$1 = Setting$BtsCore.disabledObjects(showPanel);
+  var showPanel$2 = Setting$BtsCore.disabledObjects(showPanel);
+  var showPanel$3 = Setting$BtsCore.disabledObjects(showPanel);
+  var showPanel$4 = Setting$BtsCore.disabledObjects(showPanel);
   return React.createElement("div", {
               className: "j1nljlif ja472eb j1j3r21x",
               style: Object.assign(({}), {
                     backgroundColor: backgroundColor !== undefined ? backgroundColor : "rgba(255,255,255,1)",
-                    margin: panelShow$1 ? "16px 0px" : "auto",
+                    margin: showPanel$1 ? "16px 0px" : "auto",
                     borderTopLeftRadius: borderRadiuses(topLeft),
                     borderTopRightRadius: borderRadiuses(topRight),
                     borderBottomLeftRadius: borderRadiuses(bottomLeft),
@@ -79,10 +79,10 @@ function ExpansionPanel(Props) {
             }, children[0], React.createElement("div", {
                   className: "j1pb73ym",
                   style: {
-                    height: panelShow$2 ? "auto" : "0px",
+                    height: showPanel$2 ? "auto" : "0px",
                     minHeight: "0px",
-                    overflow: panelShow$3 ? "visible" : "hidden",
-                    transitionDuration: panelShow$4 ? "168ms" : "208ms"
+                    overflow: showPanel$3 ? "visible" : "hidden",
+                    transitionDuration: showPanel$4 ? "168ms" : "208ms"
                   }
                 }, React.createElement("div", {
                       className: "jzlkjnt"

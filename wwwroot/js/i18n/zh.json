@@ -17,12 +17,12 @@
     {
         "id": "Face.post",
         "defaultMessage": "Post",
-        "message": "貼文"
+        "message": "表單建立"
     },
     {
         "id": "Face.time",
         "defaultMessage": "Time",
-        "message": "限時動態"
+        "message": "範例匯出"
     },
     {
         "id": "Face.life",
@@ -422,6 +422,21 @@
     {
         "id": "Formor.number",
         "defaultMessage": "Number",
-        "message": "顯示數量？"
+        "message": "顯示題數？"
+    },
+    {
+        "id": "Formor.limit",
+        "defaultMessage": "Limit",
+        "message": "限制人員"
+    },
+    {
+        "id": "Proform.import",
+        "defaultMessage": "Import",
+        "message": "匯入資料"
+    },
+    {
+        "id": "Proform.upload",
+        "defaultMessage": "Upload",
+        "message": "上傳表單"
     }
 ]

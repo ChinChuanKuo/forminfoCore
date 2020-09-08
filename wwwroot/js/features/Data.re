@@ -61,11 +61,12 @@ let iFormData = (formId, items, newid) => {
   "newid": newid,
 };
 [@genType]
-let iFormsData = (tile, desc, items, settitems, newid) => {
+let iFormsData = (tile, desc, items, settitems, dertitems, newid) => {
   "tile": tile,
   "desc": desc,
   "items": items,
   "settitems": settitems,
+  "dertitems": dertitems,
   "newid": newid,
 };
 [@genType]

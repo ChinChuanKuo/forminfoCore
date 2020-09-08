@@ -14,8 +14,8 @@ function displays(display) {
   }
 }
 
-function minHeights(summaryShow) {
-  if (summaryShow) {
+function minHeights(showSummary) {
+  if (showSummary) {
     return "64px";
   } else {
     return "48px";
@@ -25,16 +25,16 @@ function minHeights(summaryShow) {
 function ExpansionSummary(Props) {
   var style = Props.style;
   var display = Props.display;
-  var summaryShow = Props.summaryShow;
+  var showSummary = Props.showSummary;
   var onClick = Props.onClick;
   var children = Props.children;
-  var summaryShow$1 = Setting$BtsCore.disabledObjects(summaryShow);
+  var showSummary$1 = Setting$BtsCore.disabledObjects(showSummary);
   var tmp = {
     className: "jr0u89w j25l2u0",
     role: "button",
     style: Object.assign(({}), {
           display: display !== undefined ? display : "flex",
-          minHeight: summaryShow$1 ? "64px" : "48px"
+          minHeight: showSummary$1 ? "64px" : "48px"
         }, Setting$BtsCore.styleObjects(style))
   };
   if (onClick !== undefined) {

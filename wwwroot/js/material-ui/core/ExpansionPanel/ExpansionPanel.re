@@ -16,13 +16,13 @@ let borderRadiuses = borderRadius =>
   | Some(borderRadius) => borderRadius ++ "px"
   };
 
-let margins = panelShow => panelShow ? "16px 0px" : "auto";
+let margins = showPanel => showPanel ? "16px 0px" : "auto";
 
-let overflows = panelShow => panelShow ? "visible" : "hidden";
+let overflows = showPanel => showPanel ? "visible" : "hidden";
 
-let heights = panelShow => panelShow ? "auto" : "0px";
+let heights = showPanel => showPanel ? "auto" : "0px";
 
-let transitionDurations = panelShow => panelShow ? "168ms" : "208ms";
+let transitionDurations = showPanel => showPanel ? "168ms" : "208ms";
 
 [@react.component]
 let make =
@@ -33,7 +33,7 @@ let make =
       ~topRight: option(string)=?,
       ~bottomRight: option(string)=?,
       ~bottomLeft: option(string)=?,
-      ~panelShow: option(bool)=?,
+      ~showPanel: option(bool)=?,
       ~children: tupleChildren,
     ) =>
   ReactDOMRe.createDOMElementVariadic(
@@ -59,7 +59,7 @@ let make =
                 bottomLeft |> borderRadiuses;
               },
               ~margin={
-                panelShow |> disabledObjects |> margins;
+                showPanel |> disabledObjects |> margins;
               },
               (),
             ),
@@ -79,13 +79,13 @@ let make =
               ReactDOMRe.Style.make(
                 ~minHeight="0px",
                 ~overflow={
-                  panelShow |> disabledObjects |> overflows;
+                  showPanel |> disabledObjects |> overflows;
                 },
                 ~height={
-                  panelShow |> disabledObjects |> heights;
+                  showPanel |> disabledObjects |> heights;
                 },
                 ~transitionDuration={
-                  panelShow |> disabledObjects |> transitionDurations;
+                  showPanel |> disabledObjects |> transitionDurations;
                 },
                 (),
               );
