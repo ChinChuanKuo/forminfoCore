@@ -157,21 +157,23 @@ namespace forminfoCore.Controllers
                                     case "":
                                         return Json(new sExcelModels() { status = "error" });
                                 }
-                                dbparamlist.Clear();
-                                dbparamlist.Add(new dbparam("@formId", formId));
-                                dbparamlist.Add(new dbparam("@iid", iid));
-                                dbparamlist.Add(new dbparam("@id", checkNullObject(row.GetCell(1))));
-                                dbparamlist.Add(new dbparam("@value", checkNullObject(row.GetCell(2))));
-                                dbparamlist.Add(new dbparam("@answer", checkBoolObject(row.GetCell(5))));
-                                dbparamlist.Add(new dbparam("@indate", date));
-                                dbparamlist.Add(new dbparam("@intime", time));
-                                if (database.checkActiveSql("mssql", "flyformstring", "insert into web.optionform (formId,iid,id,value,answer,indate,intime) values (@formId,@iid,@id,@value,@answer,@indate,@intime);", dbparamlist) != "istrue")
+                                if (checkNullObject(row.GetCell(1)) != "")
                                 {
-                                    return Json(new sExcelModels() { status = "error" });
+                                    dbparamlist.Clear();
+                                    dbparamlist.Add(new dbparam("@formId", formId));
+                                    dbparamlist.Add(new dbparam("@iid", iid));
+                                    dbparamlist.Add(new dbparam("@id", checkNullObject(row.GetCell(1))));
+                                    dbparamlist.Add(new dbparam("@value", checkNullObject(row.GetCell(2))));
+                                    dbparamlist.Add(new dbparam("@answer", checkBoolObject(row.GetCell(5))));
+                                    dbparamlist.Add(new dbparam("@indate", date));
+                                    dbparamlist.Add(new dbparam("@intime", time));
+                                    if (database.checkActiveSql("mssql", "flyformstring", "insert into web.optionform (formId,iid,id,value,answer,indate,intime) values (@formId,@iid,@id,@value,@answer,@indate,@intime);", dbparamlist) != "istrue")
+                                    {
+                                        return Json(new sExcelModels() { status = "error" });
+                                    }
                                 }
                                 break;
                             default:
-                                System.Console.WriteLine(checkBoolObject(row.GetCell(4)));
                                 iid = checkNullObject(row.GetCell(0));
                                 dbparamlist.Clear();
                                 dbparamlist.Add(new dbparam("@formId", formId));

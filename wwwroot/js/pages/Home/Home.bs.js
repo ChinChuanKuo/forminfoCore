@@ -32,8 +32,8 @@ import * as DialogContent$BtsCore from "../../material-ui/core/Dialog/DialogCont
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/SnackbarYoutube.bs.js";
 import * as CardOrPaperBoard$BtsCore from "../../example/Boards/CardOrPaperBoard.bs.js";
-import * as TextFieldOutline$BtsCore from "../../material-ui/core/TextField/TextFieldOutline.bs.js";
 import * as DialogContentText$BtsCore from "../../material-ui/core/Dialog/DialogContentText.bs.js";
+import * as TextFieldStandard$BtsCore from "../../material-ui/core/TextField/TextFieldStandard.bs.js";
 
 ((require('../../../scss/pages/Together/together.scss')));
 
@@ -367,20 +367,17 @@ function Home(Props) {
   var searchAJax = function (param) {
     Axiosapi$BtsCore.Default.search(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
               var match = response.data.status;
-              var tmp;
               if (match === "istrue") {
                 Curry._1(dispatch, /* SettingFormItems */Block.__(3, [
                         response.data.itemCount,
                         response.data.items
                       ]));
                 Curry._1(dispatch, /* ActionShowProgress */2);
-                tmp = pollingAJax(response.data.itemCount);
               } else {
-                Curry._1(dispatch, /* SettingError */0);
                 barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                tmp = Curry._1(dispatch, /* ActionShowProgress */2);
+                Curry._1(dispatch, /* ActionShowProgress */2);
               }
-              return Promise.resolve(tmp);
+              return Promise.resolve(pollingAJax(response.data.itemCount));
             })).catch((function (error) {
             return Promise.resolve((console.log(error), undefined));
           }));
@@ -586,6 +583,7 @@ function Home(Props) {
         }));
   var match$1 = state.formFinish;
   var match$2 = state.formRestart;
+  var match$3 = state.formExam;
   var tmp;
   var exit = 0;
   if (match$1 && match$2) {
@@ -596,6 +594,7 @@ function Home(Props) {
           left: "0",
           xs: "no",
           children: React.createElement(Button$BtsCore.make, {
+                disabled: state.showProgress,
                 onClick: restartForm,
                 children: null
               }, React.createElement(IconAction$BtsCore.make, {
@@ -610,32 +609,50 @@ function Home(Props) {
     exit = 1;
   }
   if (exit === 1) {
-    tmp = React.createElement(GridItem$BtsCore.make, {
-          top: "0",
-          right: "0",
-          bottom: "0",
-          left: "0",
-          xs: "no",
-          children: React.createElement(Button$BtsCore.make, {
-                onClick: insertForm,
-                children: null
-              }, React.createElement(IconAction$BtsCore.make, {
-                    animation: "leftRight",
-                    src: Icons$BtsCore.saveWhite
-                  }), React.createElement(ReactIntl.FormattedMessage, {
-                    id: "save",
-                    defaultMessage: "Save"
-                  }))
-        });
+    tmp = match$3 ? React.createElement(GridItem$BtsCore.make, {
+            top: "0",
+            right: "0",
+            bottom: "0",
+            left: "0",
+            xs: "no",
+            children: React.createElement(Button$BtsCore.make, {
+                  disabled: state.showProgress,
+                  onClick: insertForm,
+                  children: null
+                }, React.createElement(IconAction$BtsCore.make, {
+                      animation: "leftRight",
+                      src: Icons$BtsCore.sendWhite
+                    }), React.createElement(ReactIntl.FormattedMessage, {
+                      id: "Default.send",
+                      defaultMessage: "Send"
+                    }))
+          }) : React.createElement(GridItem$BtsCore.make, {
+            top: "0",
+            right: "0",
+            bottom: "0",
+            left: "0",
+            xs: "no",
+            children: React.createElement(Button$BtsCore.make, {
+                  disabled: state.showProgress,
+                  onClick: insertForm,
+                  children: null
+                }, React.createElement(IconAction$BtsCore.make, {
+                      animation: "leftRight",
+                      src: Icons$BtsCore.saveWhite
+                    }), React.createElement(ReactIntl.FormattedMessage, {
+                      id: "save",
+                      defaultMessage: "Save"
+                    }))
+          });
   }
-  var match$3 = state.index;
+  var match$4 = state.index;
   var tmp$1;
-  if (match$3 !== 0) {
-    var match$4 = state.formFinish;
-    var match$5 = state.formExam;
+  if (match$4 !== 0) {
+    var match$5 = state.formFinish;
+    var match$6 = state.formExam;
     var tmp$2;
     var exit$1 = 0;
-    if (match$4 && match$5) {
+    if (match$5 && match$6) {
       tmp$2 = React.createElement(Typography$BtsCore.make, {
             variant: "h1",
             color: "rgba(255,0,0,0.8)",
@@ -646,7 +663,7 @@ function Home(Props) {
       exit$1 = 1;
     }
     if (exit$1 === 1) {
-      tmp$2 = match$5 ? React.createElement(Typography$BtsCore.make, {
+      tmp$2 = match$6 ? React.createElement(Typography$BtsCore.make, {
               variant: "tile",
               color: "rgba(255,0,0,0.8)",
               fontSize: "x-large",
@@ -703,12 +720,9 @@ function Home(Props) {
                       });
                   break;
               case "text" :
-                  tmp = React.createElement(TextFieldOutline$BtsCore.make, {
+                  tmp = React.createElement(TextFieldStandard$BtsCore.make, {
                         width: "50",
                         top: "0",
-                        left: "0",
-                        borderTop: "10",
-                        borderBottom: "10",
                         enterBorderColor: "rgba(255,0,0,0.8)",
                         downBorderColor: "rgba(255,0,0,0.6)",
                         borderColor: "rgba(0,0,0,0.2)",
@@ -721,11 +735,8 @@ function Home(Props) {
                       });
                   break;
               case "textarea" :
-                  tmp = React.createElement(TextFieldOutline$BtsCore.make, {
+                  tmp = React.createElement(TextFieldStandard$BtsCore.make, {
                         top: "0",
-                        left: "0",
-                        borderTop: "10",
-                        borderBottom: "10",
                         enterBorderColor: "rgba(255,0,0,0.8)",
                         downBorderColor: "rgba(255,0,0,0.6)",
                         borderColor: "rgba(0,0,0,0.2)",
@@ -897,9 +908,11 @@ function Home(Props) {
                                                                                   right: "12",
                                                                                   bottom: "0",
                                                                                   left: "16",
+                                                                                  width: "180px",
                                                                                   xs: "no",
                                                                                   children: React.createElement(Typography$BtsCore.make, {
                                                                                         variant: "subtitle1",
+                                                                                        noWrap: true,
                                                                                         children: item.tile
                                                                                       })
                                                                                 }), React.createElement(GridItem$BtsCore.make, {

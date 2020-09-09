@@ -44,10 +44,13 @@ import * as GeneralUpload$BtsCore from "../../example/Uploads/GeneralUpload.bs.j
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as IconAnimation$BtsCore from "../../controls/IconAnimation.bs.js";
 import * as SelectOutline$BtsCore from "../../material-ui/core/Select/SelectOutline.bs.js";
+import * as ExpansionBasis$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionBasis.bs.js";
+import * as ExpansionPanel$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionPanel.bs.js";
 import * as SelectStandard$BtsCore from "../../material-ui/core/Select/SelectStandard.bs.js";
 import * as BackgroundBoard$BtsCore from "../../example/Boards/BackgroundBoard.bs.js";
 import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/SnackbarYoutube.bs.js";
 import * as CardOrPaperBoard$BtsCore from "../../example/Boards/CardOrPaperBoard.bs.js";
+import * as ExpansionSummary$BtsCore from "../../material-ui/core/ExpansionPanel/ExpansionSummary.bs.js";
 import * as TextFieldOutline$BtsCore from "../../material-ui/core/TextField/TextFieldOutline.bs.js";
 import * as DialogContentText$BtsCore from "../../material-ui/core/Dialog/DialogContentText.bs.js";
 import * as TextFieldStandard$BtsCore from "../../material-ui/core/TextField/TextFieldStandard.bs.js";
@@ -179,6 +182,7 @@ function reducer(state, action) {
           var newrecord$13 = Caml_obj.caml_obj_dup(state);
           newrecord$13.settitems = action[4];
           newrecord$13.formitems = action[3];
+          newrecord$13.formindex = 0;
           newrecord$13.formDesc = action[2];
           newrecord$13.formTile = action[1];
           newrecord$13.formId = action[0];
@@ -195,13 +199,13 @@ function reducer(state, action) {
       case /* ClickFormTab */9 :
           var index$1 = action[0];
           var newrecord$16 = Caml_obj.caml_obj_dup(state);
+          newrecord$16.formindex = index$1;
           newrecord$16.formtabitems = List.mapi((function (i, tabitem) {
                   return {
                           tabShow: index$1 === i,
                           tabImage: tabitem.tabImage
                         };
                 }), state.formtabitems);
-          newrecord$16.index = index$1;
           return newrecord$16;
       case /* ClickBoardPaper */10 :
           var index$2 = action[0];
@@ -540,10 +544,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -564,10 +568,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -588,10 +592,10 @@ function reducer(state, action) {
                             endate: value$4,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -612,10 +616,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: value$5,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -635,10 +639,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: !settitem.showExam,
-                            randOpt: settitem.showExam ? false : settitem.randOpt,
-                            randSub: settitem.showExam ? false : settitem.randSub,
-                            showRest: settitem.showExam ? false : settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.showExam ? false : settitem.randOption,
+                            randSubtile: settitem.showExam ? false : settitem.randSubtile,
+                            showRestart: settitem.showExam ? false : settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -658,10 +662,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: !settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: !settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -681,10 +685,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: !settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: !settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -704,10 +708,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: !settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: !settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: settitem.number
                           };
@@ -728,10 +732,10 @@ function reducer(state, action) {
                             endate: settitem.endate,
                             entime: settitem.entime,
                             showExam: settitem.showExam,
-                            randOpt: settitem.randOpt,
-                            randSub: settitem.randSub,
-                            showRest: settitem.showRest,
-                            showLimt: settitem.showLimt,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
                             dertitems: settitem.dertitems,
                             number: value$6
                           };
@@ -740,11 +744,140 @@ function reducer(state, action) {
                   }
                 }), state.settitems);
           return newrecord$46;
-      case /* ActionSnackBar */40 :
+      case /* ShowLimit */40 :
+          var index$31 = action[0];
           var newrecord$47 = Caml_obj.caml_obj_dup(state);
-          newrecord$47.youtubeText = action[0];
-          newrecord$47.showYoutube = action[1];
+          newrecord$47.settitems = $$Array.mapi((function (i, settitem) {
+                  if (index$31 === i) {
+                    return {
+                            stdate: settitem.stdate,
+                            sttime: settitem.sttime,
+                            endate: settitem.endate,
+                            entime: settitem.entime,
+                            showExam: settitem.showExam,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: !settitem.showLimit,
+                            dertitems: settitem.dertitems,
+                            number: settitem.number
+                          };
+                  } else {
+                    return settitem;
+                  }
+                }), state.settitems);
           return newrecord$47;
+      case /* AddDert */41 :
+          var dertitems = action[1];
+          var index$32 = action[0];
+          var newrecord$48 = Caml_obj.caml_obj_dup(state);
+          newrecord$48.settitems = $$Array.mapi((function (i, settitem) {
+                  if (index$32 === i) {
+                    return {
+                            stdate: settitem.stdate,
+                            sttime: settitem.sttime,
+                            endate: settitem.endate,
+                            entime: settitem.entime,
+                            showExam: settitem.showExam,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
+                            dertitems: dertitems,
+                            number: settitem.number
+                          };
+                  } else {
+                    return settitem;
+                  }
+                }), state.settitems);
+          return newrecord$48;
+      case /* ShowPanel */42 :
+          var dindex = action[1];
+          var index$33 = action[0];
+          var newrecord$49 = Caml_obj.caml_obj_dup(state);
+          newrecord$49.settitems = $$Array.mapi((function (i, settitem) {
+                  if (index$33 === i) {
+                    return {
+                            stdate: settitem.stdate,
+                            sttime: settitem.sttime,
+                            endate: settitem.endate,
+                            entime: settitem.entime,
+                            showExam: settitem.showExam,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
+                            dertitems: $$Array.mapi((function (di, dertitem) {
+                                    if (dindex === di) {
+                                      return {
+                                              showPanel: !dertitem.showPanel,
+                                              dertment: dertitem.dertment,
+                                              operitems: dertitem.operitems,
+                                              dertModify: dertitem.dertModify
+                                            };
+                                    } else {
+                                      return dertitem;
+                                    }
+                                  }), settitem.dertitems),
+                            number: settitem.number
+                          };
+                  } else {
+                    return settitem;
+                  }
+                }), state.settitems);
+          return newrecord$49;
+      case /* ShowOper */43 :
+          var oindex = action[2];
+          var dindex$1 = action[1];
+          var index$34 = action[0];
+          var newrecord$50 = Caml_obj.caml_obj_dup(state);
+          newrecord$50.settitems = $$Array.mapi((function (i, settitem) {
+                  if (index$34 === i) {
+                    return {
+                            stdate: settitem.stdate,
+                            sttime: settitem.sttime,
+                            endate: settitem.endate,
+                            entime: settitem.entime,
+                            showExam: settitem.showExam,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
+                            dertitems: $$Array.mapi((function (di, dertitem) {
+                                    if (dindex$1 === di) {
+                                      return {
+                                              showPanel: dertitem.showPanel,
+                                              dertment: dertitem.dertment,
+                                              operitems: $$Array.mapi((function (oi, operitem) {
+                                                      if (oindex === oi) {
+                                                        return {
+                                                                newid: operitem.newid,
+                                                                userid: operitem.userid,
+                                                                name: operitem.name,
+                                                                showOper: !operitem.showOper
+                                                              };
+                                                      } else {
+                                                        return operitem;
+                                                      }
+                                                    }), dertitem.operitems),
+                                              dertModify: true
+                                            };
+                                    } else {
+                                      return dertitem;
+                                    }
+                                  }), settitem.dertitems),
+                            number: settitem.number
+                          };
+                  } else {
+                    return settitem;
+                  }
+                }), state.settitems);
+          return newrecord$50;
+      case /* ActionSnackBar */44 :
+          var newrecord$51 = Caml_obj.caml_obj_dup(state);
+          newrecord$51.youtubeText = action[0];
+          newrecord$51.showYoutube = action[1];
+          return newrecord$51;
       
     }
   }
@@ -825,12 +958,12 @@ function Proform(Props) {
   var state = match[0];
   var fileRef = React.useRef(null);
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(44, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(44, [
                           "",
                           false
                         ]));
@@ -853,20 +986,17 @@ function Proform(Props) {
   var searchAJax = function (param) {
     Axiosapi$BtsCore.Proform.search(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
               var match = response.data.status;
-              var tmp;
               if (match === "istrue") {
                 Curry._1(dispatch, /* SettingFormItems */Block.__(2, [
                         response.data.itemCount,
                         response.data.items
                       ]));
                 Curry._1(dispatch, /* ActionShowProgress */2);
-                tmp = pollingAJax(response.data.itemCount);
               } else {
-                Curry._1(dispatch, /* SettingError */0);
                 barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                tmp = Curry._1(dispatch, /* ActionShowProgress */2);
+                Curry._1(dispatch, /* ActionShowProgress */2);
               }
-              return Promise.resolve(tmp);
+              return Promise.resolve(pollingAJax(response.data.itemCount));
             })).catch((function (error) {
             return Promise.resolve((console.log(error), undefined));
           }));
@@ -1007,8 +1137,24 @@ function Proform(Props) {
   React.useCallback((function (value) {
           return Curry._1(dispatch, /* ChangeFormDesc */Block.__(8, [value]));
         }));
+  var limitAJax = function (i) {
+    Axiosapi$BtsCore.Proform.limit(Data$BtsCore.dFormData(state.formId, localStorage.getItem("newid"))).then((function (response) {
+              return Promise.resolve((Curry._1(dispatch, /* AddDert */Block.__(41, [
+                                  i,
+                                  response.data.items
+                                ])), Curry._1(dispatch, /* ActionShowProgress */2)));
+            })).catch((function (error) {
+            return Promise.resolve((console.log(error), undefined));
+          }));
+    
+  };
   var clickFormTab = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ClickFormTab */Block.__(9, [i]));
+          Curry._1(dispatch, /* ClickFormTab */Block.__(9, [i]));
+          if (i === 2 && Caml_array.caml_array_get(state.settitems, 0).showLimit) {
+            Curry._1(dispatch, /* ActionShowProgress */2);
+            return limitAJax(0);
+          }
+          
         }));
   var clickBoardPaper = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickBoardPaper */Block.__(10, [i]));
@@ -1168,7 +1314,9 @@ function Proform(Props) {
                               } else {
                                 return formitem.formCreate === true;
                               }
-                            })), state.settitems, localStorage.getItem("newid"))).then((function (response) {
+                            })), state.settitems, Caml_array.caml_array_get(state.settitems, 0).dertitems.filter((function (dertitem) {
+                              return dertitem.dertModify === true;
+                            })), localStorage.getItem("newid"))).then((function (response) {
                     var match = response.data.status;
                     var tmp;
                     if (match === "istrue") {
@@ -1256,7 +1404,7 @@ function Proform(Props) {
   var showRestart = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ShowRestart */Block.__(38, [i]));
         }));
-  var changeItemNum = React.useCallback((function (value) {
+  var changeNumber = React.useCallback((function (value) {
           return (function (i) {
               return Curry._1(dispatch, /* ChangeNumber */Block.__(39, [
                             value,
@@ -1264,10 +1412,37 @@ function Proform(Props) {
                           ]));
             });
         }));
+  var showLimit = React.useCallback((function (value) {
+          return (function (i) {
+              Curry._1(dispatch, /* ShowLimit */Block.__(40, [i]));
+              if (!value) {
+                Curry._1(dispatch, /* ActionShowProgress */2);
+                return limitAJax(i);
+              }
+              
+            });
+        }));
+  var showPanel = React.useCallback((function (i) {
+          return (function (di) {
+              return Curry._1(dispatch, /* ShowPanel */Block.__(42, [
+                            i,
+                            di
+                          ]));
+            });
+        }));
+  var showOper = React.useCallback((function (i) {
+          return (function (di, oi) {
+              return Curry._1(dispatch, /* ShowOper */Block.__(43, [
+                            i,
+                            di,
+                            oi
+                          ]));
+            });
+        }));
   var closeAnimationFull = React.useCallback((function (param) {
           return Curry._1(dispatch, /* CloseAnimationFull */6);
         }));
-  var match$1 = state.index;
+  var match$1 = state.formindex;
   return React.createElement(React.Fragment, undefined, React.createElement(NewFacetube$BtsCore.make, {
                   showProgress: state.showProgress,
                   error: state.error,
@@ -1365,9 +1540,11 @@ function Proform(Props) {
                                                                                 right: "12",
                                                                                 bottom: "0",
                                                                                 left: "16",
+                                                                                width: "180px",
                                                                                 xs: "no",
                                                                                 children: React.createElement(Typography$BtsCore.make, {
                                                                                       variant: "subtitle1",
+                                                                                      noWrap: true,
                                                                                       children: item.tile
                                                                                     })
                                                                               }), React.createElement(GridItem$BtsCore.make, {
@@ -1568,7 +1745,7 @@ function Proform(Props) {
                                                       xs: "auto",
                                                       children: React.createElement(Tabs$BtsCore.make, {
                                                             id: "report-",
-                                                            index: state.index,
+                                                            index: state.formindex,
                                                             height: "3",
                                                             children: $$Array.of_list(List.mapi((function (i, formtabitem) {
                                                                         return React.createElement(Tab$BtsCore.make, {
@@ -1596,6 +1773,7 @@ function Proform(Props) {
                                                       left: "0",
                                                       xs: "no",
                                                       children: React.createElement(Button$BtsCore.make, {
+                                                            disabled: state.showProgress,
                                                             onClick: addForm,
                                                             children: null
                                                           }, React.createElement(IconAction$BtsCore.make, {
@@ -1612,6 +1790,7 @@ function Proform(Props) {
                                                       left: "0",
                                                       xs: "no",
                                                       children: React.createElement(Button$BtsCore.make, {
+                                                            disabled: state.showProgress,
                                                             onClick: insertForm,
                                                             children: null
                                                           }, React.createElement(IconAction$BtsCore.make, {
@@ -1628,6 +1807,7 @@ function Proform(Props) {
                                                       left: "0",
                                                       xs: "no",
                                                       children: React.createElement(Button$BtsCore.make, {
+                                                            disabled: state.showProgress,
                                                             onClick: deleteForm,
                                                             children: null
                                                           }, React.createElement(IconAction$BtsCore.make, {
@@ -1640,7 +1820,121 @@ function Proform(Props) {
                                                     }))
                                           }), match$1 !== 0 ? (
                                           match$1 !== 1 ? $$Array.mapi((function (i, settitem) {
-                                                    return null;
+                                                    return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                                                    top: "0",
+                                                                    right: "24",
+                                                                    left: "24",
+                                                                    xs: "auto",
+                                                                    children: React.createElement(Switch$BtsCore.make, {
+                                                                          right: "0",
+                                                                          checked: settitem.showLimit,
+                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showLimit),
+                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showLimit),
+                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showLimit),
+                                                                          disabled: state.showProgress,
+                                                                          onClick: (function (param) {
+                                                                              return Curry._2(showLimit, settitem.showLimit, i);
+                                                                            }),
+                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
+                                                                                id: "Formor.limit",
+                                                                                defaultMessage: "Limit"
+                                                                              })
+                                                                        })
+                                                                  }), settitem.showLimit ? React.createElement(GridItem$BtsCore.make, {
+                                                                      style: {
+                                                                        height: "2500px"
+                                                                      },
+                                                                      top: "0",
+                                                                      right: "24",
+                                                                      bottom: "0",
+                                                                      left: "24",
+                                                                      xs: "auto",
+                                                                      children: $$Array.mapi((function (di, dertitem) {
+                                                                              return React.createElement(ExpansionPanel$BtsCore.make, {
+                                                                                          showPanel: dertitem.showPanel,
+                                                                                          children: /* tuple */[
+                                                                                            React.createElement(ExpansionSummary$BtsCore.make, {
+                                                                                                  showSummary: dertitem.showPanel,
+                                                                                                  onClick: (function (param) {
+                                                                                                      return Curry._2(showPanel, i, di);
+                                                                                                    }),
+                                                                                                  children: /* tuple */[
+                                                                                                    React.createElement(ExpansionBasis$BtsCore.make, {
+                                                                                                          children: React.createElement(Typography$BtsCore.make, {
+                                                                                                                variant: "subheading",
+                                                                                                                color: "rgba(0,0,0,0.8)",
+                                                                                                                children: dertitem.dertment
+                                                                                                              })
+                                                                                                        }),
+                                                                                                    React.createElement(IconGeneral$BtsCore.make, {
+                                                                                                          src: dertitem.showPanel ? Icons$BtsCore.arrowUpBlack : Icons$BtsCore.arrowDownBlack
+                                                                                                        })
+                                                                                                  ]
+                                                                                                }),
+                                                                                            React.createElement(GridContainer$BtsCore.make, {
+                                                                                                  direction: "column",
+                                                                                                  justify: "start",
+                                                                                                  alignItem: "stretch",
+                                                                                                  children: $$Array.mapi((function (oi, operitem) {
+                                                                                                          return React.createElement(GridItem$BtsCore.make, {
+                                                                                                                      right: "0",
+                                                                                                                      bottom: "0",
+                                                                                                                      left: "0",
+                                                                                                                      xs: "auto",
+                                                                                                                      children: React.createElement(GridContainer$BtsCore.make, {
+                                                                                                                            direction: "row",
+                                                                                                                            justify: "center",
+                                                                                                                            alignItem: "center",
+                                                                                                                            children: null
+                                                                                                                          }, React.createElement(GridItem$BtsCore.make, {
+                                                                                                                                top: "0",
+                                                                                                                                right: "0",
+                                                                                                                                bottom: "0",
+                                                                                                                                left: "0",
+                                                                                                                                xs: "auto",
+                                                                                                                                children: React.createElement(Typography$BtsCore.make, {
+                                                                                                                                      variant: "body1",
+                                                                                                                                      color: "rgba(0,0,0,0.8)",
+                                                                                                                                      children: operitem.userid
+                                                                                                                                    })
+                                                                                                                              }), React.createElement(GridItem$BtsCore.make, {
+                                                                                                                                top: "0",
+                                                                                                                                right: "0",
+                                                                                                                                bottom: "0",
+                                                                                                                                left: "0",
+                                                                                                                                xs: "auto",
+                                                                                                                                children: React.createElement(Typography$BtsCore.make, {
+                                                                                                                                      variant: "body1",
+                                                                                                                                      color: "rgba(0,0,0,0.8)",
+                                                                                                                                      children: operitem.name
+                                                                                                                                    })
+                                                                                                                              }), React.createElement(GridItem$BtsCore.make, {
+                                                                                                                                top: "0",
+                                                                                                                                bottom: "0",
+                                                                                                                                xs: "no",
+                                                                                                                                children: React.createElement(Switch$BtsCore.make, {
+                                                                                                                                      right: "0",
+                                                                                                                                      checked: operitem.showOper,
+                                                                                                                                      circleColor: SwitchColor$BtsCore.circle(operitem.showOper),
+                                                                                                                                      linearColor: SwitchColor$BtsCore.linear(operitem.showOper),
+                                                                                                                                      fontColor: SwitchColor$BtsCore.font(operitem.showOper),
+                                                                                                                                      disabled: state.showProgress,
+                                                                                                                                      onClick: (function (param) {
+                                                                                                                                          return Curry._3(showOper, i, di, oi);
+                                                                                                                                        }),
+                                                                                                                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                                                                                                                            id: "add",
+                                                                                                                                            defaultMessage: "Add"
+                                                                                                                                          })
+                                                                                                                                    })
+                                                                                                                              }))
+                                                                                                                    });
+                                                                                                        }), dertitem.operitems)
+                                                                                                })
+                                                                                          ]
+                                                                                        });
+                                                                            }), settitem.dertitems)
+                                                                    }) : null);
                                                   }), state.settitems) : $$Array.mapi((function (i, settitem) {
                                                     return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
                                                                     top: "0",
@@ -1771,10 +2065,10 @@ function Proform(Props) {
                                                                     xs: "auto",
                                                                     children: React.createElement(Switch$BtsCore.make, {
                                                                           right: "0",
-                                                                          checked: settitem.randOpt,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randOpt),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randOpt),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randOpt),
+                                                                          checked: settitem.randOption,
+                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randOption),
+                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randOption),
+                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randOption),
                                                                           disabled: state.showProgress || !settitem.showExam,
                                                                           onClick: (function (param) {
                                                                               return Curry._1(randOption, i);
@@ -1792,10 +2086,10 @@ function Proform(Props) {
                                                                     xs: "auto",
                                                                     children: React.createElement(Switch$BtsCore.make, {
                                                                           right: "0",
-                                                                          checked: settitem.randSub,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randSub),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randSub),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randSub),
+                                                                          checked: settitem.randSubtile,
+                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randSubtile),
+                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randSubtile),
+                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randSubtile),
                                                                           disabled: state.showProgress || !settitem.showExam,
                                                                           onClick: (function (param) {
                                                                               return Curry._1(randSubtile, i);
@@ -1813,10 +2107,10 @@ function Proform(Props) {
                                                                     xs: "auto",
                                                                     children: React.createElement(Switch$BtsCore.make, {
                                                                           right: "0",
-                                                                          checked: settitem.showRest,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showRest),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showRest),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showRest),
+                                                                          checked: settitem.showRestart,
+                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showRestart),
+                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showRestart),
+                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showRestart),
                                                                           disabled: state.showProgress || !settitem.showExam,
                                                                           onClick: (function (param) {
                                                                               return Curry._1(showRestart, i);
@@ -1837,7 +2131,7 @@ function Proform(Props) {
                                                                           value: settitem.number,
                                                                           disabled: state.showProgress || !settitem.showExam,
                                                                           onChange: (function ($$event) {
-                                                                              return Curry._2(changeItemNum, $$event.target.value, i);
+                                                                              return Curry._2(changeNumber, $$event.target.value, i);
                                                                             }),
                                                                           children: React.createElement(ReactIntl.FormattedMessage, {
                                                                                 id: "Formor.number",

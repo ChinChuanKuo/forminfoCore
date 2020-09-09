@@ -123,7 +123,7 @@ namespace forminfoCore.Models
                 items.Add(new Dictionary<string, object>() { { "iid", int.Parse(dr["iid"].ToString().TrimEnd()) }, { "showLine", false }, { "title", dr["tile"].ToString().TrimEnd() }, { "showOut", false }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "type_", dr["type"].ToString().TrimEnd() }, { "showType", false }, { "typeitems", typeitems.ToArray() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "showOperation", false }, { "operationitems", operationitems.ToArray() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "formDelete", false }, { "formModify", false }, { "formCreate", false } });
             }
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
-            settitems.Add(new Dictionary<string, object>() { { "stdate", mainRows.Rows[0]["stdate"].ToString().TrimEnd().Replace("/", "-") }, { "sttime", mainRows.Rows[0]["sttime"].ToString().TrimEnd() }, { "endate", mainRows.Rows[0]["endate"].ToString().TrimEnd().Replace("/", "-") }, { "entime", mainRows.Rows[0]["entime"].ToString().TrimEnd() }, { "showExam", mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1" }, { "randOpt", mainRows.Rows[0]["randopt"].ToString().TrimEnd() == "1" }, { "randSub", mainRows.Rows[0]["randsub"].ToString().TrimEnd() == "1" }, { "showRest", mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1" }, { "showLimt", mainRows.Rows[0]["limited"].ToString().TrimEnd() == "1" }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", mainRows.Rows[0]["number"].ToString().TrimEnd() } });
+            settitems.Add(new Dictionary<string, object>() { { "stdate", mainRows.Rows[0]["stdate"].ToString().TrimEnd().Replace("/", "-") }, { "sttime", mainRows.Rows[0]["sttime"].ToString().TrimEnd() }, { "endate", mainRows.Rows[0]["endate"].ToString().TrimEnd().Replace("/", "-") }, { "entime", mainRows.Rows[0]["entime"].ToString().TrimEnd() }, { "showExam", mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1" }, { "randOption", mainRows.Rows[0]["randopt"].ToString().TrimEnd() == "1" }, { "randSubtile", mainRows.Rows[0]["randsub"].ToString().TrimEnd() == "1" }, { "showRestart", mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1" }, { "showLimit", mainRows.Rows[0]["limited"].ToString().TrimEnd() == "1" }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", mainRows.Rows[0]["number"].ToString().TrimEnd() } });
             return new sPormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), items = items, settitems = settitems, status = "istrue" };
         }
 
@@ -192,6 +192,29 @@ namespace forminfoCore.Models
                 operationitems.Add(new Dictionary<string, object>() { { "optionPadding", dr["optionPadding"].ToString().TrimEnd() == "1" }, { "value", dr["operationValue"].ToString().TrimEnd() } });
             }
             return new sVeriModels() { type_ = mainRows.Rows[0]["type"].ToString().TrimEnd(), typeitems = typeitems, operation = mainRows.Rows[0]["operation"].ToString().TrimEnd(), operationitems = operationitems, status = "istrue" };
+        }
+
+        public sOptonModels GetLimitModels(dFormData dFormData, string cuurip)
+        {
+            database database = new database();
+            List<dbparam> dbparamlist = new List<dbparam>();
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                dbparamlist.Add(new dbparam("@department", dr["department"].ToString().TrimEnd()));
+                List<Dictionary<string, object>> operitems = new List<Dictionary<string, object>>();
+                foreach (DataRow drs in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
+                {
+                    dbparamlist.Clear();
+                    dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+                    dbparamlist.Add(new dbparam("@inoper", dFormData.newid.TrimEnd()));
+                    dbparamlist.Add(new dbparam("@newid", drs["newid"].ToString().TrimEnd()));
+                    operitems.Add(new Dictionary<string, object>() { { "newid", drs["newid"].ToString().TrimEnd() }, { "userid", drs["userid"].ToString().TrimEnd() }, { "name", drs["username"].ToString().TrimEnd() }, { "showOper", database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperform @formId,@inoper,@newid;", dbparamlist).Rows.Count > 0 } });
+                }
+                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", operitems.ToArray() }, { "dertModify", false } });
+            }
+            return new sOptonModels() { items = items };
         }
 
         public sOptonModels GetAddModels(userData userData, string cuurip)
@@ -379,6 +402,16 @@ namespace forminfoCore.Models
             }
             foreach (var settitem in uFormsData.settitems)
             {
+                string number = settitem["number"].ToString().TrimEnd();
+                switch (bool.Parse(settitem["showExam"].ToString().TrimEnd()))
+                {
+                    case false:
+                        dbparamlist.Clear();
+                        dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
+                        dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
+                        number = database.checkSelectSql("mssql", "flyformstring", "exec web.countclisubform @formId,@inoper;", dbparamlist).Rows[0]["itemCount"].ToString().TrimEnd();
+                        break;
+                }
                 dbparamlist.Clear();
                 dbparamlist.Add(new dbparam("@tile", uFormsData.tile.TrimEnd()));
                 dbparamlist.Add(new dbparam("@desc", uFormsData.desc.TrimEnd()));
@@ -387,11 +420,11 @@ namespace forminfoCore.Models
                 dbparamlist.Add(new dbparam("@endate", settitem["endate"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@entime", settitem["entime"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@examed", bool.Parse(settitem["showExam"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@restarted", bool.Parse(settitem["showRest"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@limited", bool.Parse(settitem["showLimt"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@randopt", bool.Parse(settitem["randOpt"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@randsub", bool.Parse(settitem["randSub"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@number", settitem["number"].ToString().TrimEnd()));
+                dbparamlist.Add(new dbparam("@restarted", bool.Parse(settitem["showRestart"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@limited", bool.Parse(settitem["showLimit"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@randopt", bool.Parse(settitem["randOption"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@randsub", bool.Parse(settitem["randSubtile"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@number", number));
                 dbparamlist.Add(new dbparam("@modate", date));
                 dbparamlist.Add(new dbparam("@motime", time));
                 dbparamlist.Add(new dbparam("@mooper", uFormsData.newid.TrimEnd()));
@@ -400,6 +433,34 @@ namespace forminfoCore.Models
                 if (database.checkActiveSql("mssql", "flyformstring", "update web.mainform set tile = @tile,[desc] = @desc,stdate = @stdate,sttime = @sttime,endate = @endate,entime = @entime,examed = @examed,restarted = @restarted,limited = @limited,randopt = @randopt,randsub = @randsub,number = @number,modate = @modate,motime = @motime,mooper = @mooper where formId = @formId and inoper = @inoper;", dbparamlist) != "istrue")
                 {
                     return new statusModels() { status = "error" };
+                }
+            }
+            dbparamlist.Clear();
+            dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
+            dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
+            if (database.checkActiveSql("mssql", "flyformstring", "exec web.deleteoperdeta @formId,@inoper;", dbparamlist) != "istrue")
+            {
+                return new statusModels() { status = "error" };
+            }
+            foreach (var dertitem in uFormsData.dertitems)
+            {
+                foreach (var operitem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(dertitem["operitems"].ToString().TrimEnd()))
+                {
+                    switch (bool.Parse(operitem["showOper"].ToString().TrimEnd()))
+                    {
+                        case true:
+                            dbparamlist.Clear();
+                            dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
+                            dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
+                            dbparamlist.Add(new dbparam("@newid", operitem["newid"].ToString().TrimEnd()));
+                            dbparamlist.Add(new dbparam("@indate", date));
+                            dbparamlist.Add(new dbparam("@intime", time));
+                            if (database.checkActiveSql("mssql", "flyformstring", "insert into web.operform (formId,inoper,newid,indate,intime) values (@formId,@inoper,@newid,@indate,@intime);", dbparamlist) != "istrue")
+                            {
+                                return new statusModels() { status = "error" };
+                            }
+                            break;
+                    }
                 }
             }
             return new statusModels() { status = "istrue" };

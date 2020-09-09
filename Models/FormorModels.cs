@@ -19,7 +19,7 @@ namespace forminfoCore.Models
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             items.Add(new Dictionary<string, object>() { { "iid", 1 }, { "showLine", false }, { "title", "" }, { "showOut", false }, { "showVeri", false }, { "showDrop", false }, { "showFile", false }, { "outValue", "text" }, { "type_", "" }, { "showType", false }, { "typeitems", new List<Dictionary<string, object>>().ToArray() }, { "operation", "" }, { "showOperation", false }, { "operationitems", new List<Dictionary<string, object>>().ToArray() }, { "area", "" }, { "eror", "" }, { "showCheck", false }, { "showMore", false }, { "opticonitems", opticonitems.ToArray() }, { "answeritems", answeritems.ToArray() }, { "itemDelete", false } });
             List<Dictionary<string, object>> settitems = new List<Dictionary<string, object>>();
-            settitems.Add(new Dictionary<string, object>() { { "stdate", "" }, { "sttime", "" }, { "endate", "" }, { "entime", "" }, { "showExam", false }, { "randOpt", false }, { "randSub", false }, { "showRest", false }, { "showLimt", false }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", "" } });
+            settitems.Add(new Dictionary<string, object>() { { "stdate", "" }, { "sttime", "" }, { "endate", "" }, { "entime", "" }, { "showExam", false }, { "randOption", false }, { "randSubtile", false }, { "showRestart", false }, { "showLimit", false }, { "dertitems", new List<Dictionary<string, object>>().ToArray() }, { "number", "" } });
             return new sFoorModels() { items = items, settitems = settitems };
         }
 
@@ -124,6 +124,8 @@ namespace forminfoCore.Models
             }
             foreach (var settitem in iFormsData.settitems)
             {
+                string number = settitem["number"].ToString().TrimEnd() == "" || settitem["number"].ToString().TrimEnd() == "0" ? iFormsData.items.Count.ToString().TrimEnd() : settitem["number"].ToString().TrimEnd();
+                if (!bool.Parse(settitem["showExam"].ToString().TrimEnd())) number = iFormsData.items.Count.ToString().TrimEnd();
                 List<dbparam> dbparamlist = new List<dbparam>();
                 dbparamlist.Add(new dbparam("@formId", formId));
                 dbparamlist.Add(new dbparam("@inoper", iFormsData.newid.TrimEnd()));
@@ -134,11 +136,11 @@ namespace forminfoCore.Models
                 dbparamlist.Add(new dbparam("@endate", settitem["endate"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@entime", settitem["entime"].ToString().TrimEnd().Replace("-", "/")));
                 dbparamlist.Add(new dbparam("@examed", bool.Parse(settitem["showExam"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@restarted", bool.Parse(settitem["showRest"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@limited", bool.Parse(settitem["showLimt"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@randopt", bool.Parse(settitem["randOpt"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@randsub", bool.Parse(settitem["randSub"].ToString().TrimEnd()) ? "1" : "0"));
-                dbparamlist.Add(new dbparam("@number", settitem["number"].ToString().TrimEnd()));
+                dbparamlist.Add(new dbparam("@restarted", bool.Parse(settitem["showRestart"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@limited", bool.Parse(settitem["showLimit"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@randopt", bool.Parse(settitem["randOption"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@randsub", bool.Parse(settitem["randSubtile"].ToString().TrimEnd()) ? "1" : "0"));
+                dbparamlist.Add(new dbparam("@number", number));
                 dbparamlist.Add(new dbparam("@indate", date));
                 dbparamlist.Add(new dbparam("@intime", time));
                 if (database.checkActiveSql("mssql", "flyformstring", "insert into web.mainform (formId,inoper,tile,[desc],stdate,sttime,endate,entime,examed,restarted,limited,randopt,randsub,number,indate,intime) values (@formId,@inoper,@tile,@desc,@stdate,@sttime,@endate,@entime,@examed,@restarted,@limited,@randopt,@randsub,@number,@indate,@intime);", dbparamlist) != "istrue")

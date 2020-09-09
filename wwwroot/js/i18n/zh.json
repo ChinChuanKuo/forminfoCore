@@ -370,6 +370,11 @@
         "message": "發佈"
     },
     {
+        "id": "Default.send",
+        "defaultMessage": "Send",
+        "message": "交卷"
+    },
+    {
         "id": "Formor.relevant",
         "defaultMessage": "Relevant",
         "message": "前往區段"

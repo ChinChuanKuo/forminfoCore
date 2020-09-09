@@ -230,6 +230,10 @@ function sVeri$1(data) {
   return Axios$1.post("/Proform/sVeriData", data);
 }
 
+function limit$1(data) {
+  return Axios$1.post("/Proform/limitData", data);
+}
+
 function add$2(data) {
   return Axios$1.post("/Proform/addData", data);
 }
@@ -249,6 +253,7 @@ var Proform = {
   sItem: sItem$1,
   sType: sType$1,
   sVeri: sVeri$1,
+  limit: limit$1,
   add: add$2,
   $$delete: $$delete$1,
   insert: insert$3

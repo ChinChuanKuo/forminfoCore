@@ -53,6 +53,13 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
+        public JsonResult limitData([FromBody] dFormData dFormData)
+        {
+            string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
+            return Json(new ProformClass().GetLimitModels(dFormData, clientip));
+        }
+
+        [HttpPost]
         public JsonResult addData([FromBody] userData userData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();

@@ -338,14 +338,13 @@ let make = _ => {
                )
                |> dispatch;
                ActionShowProgress |> dispatch;
-               response##data##itemCount |> pollingAJax;
              | _ =>
-               SettingError |> dispatch;
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
                ActionShowProgress |> dispatch;
              };
+             response##data##itemCount |> pollingAJax;
            }
            |> resolve
          )
@@ -642,8 +641,13 @@ let make = _ => {
                               />
                             </GridItem>
                             <GridItem
-                              top="0" right="12" bottom="0" left="16" xs="no">
-                              <Typography variant="subtitle1">
+                              top="0"
+                              right="12"
+                              bottom="0"
+                              left="16"
+                              width="180px"
+                              xs="no">
+                              <Typography variant="subtitle1" noWrap=true>
                                 {item.tile |> string}
                               </Typography>
                             </GridItem>
@@ -761,10 +765,15 @@ let make = _ => {
                        |> array}
                     </Tabs>
                   </GridItem>
-                  {switch (state.formFinish, state.formRestart) {
-                   | (true, true) =>
+                  {switch (
+                     state.formFinish,
+                     state.formRestart,
+                     state.formExam,
+                   ) {
+                   | (true, true, _) =>
                      <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                       <Button onClick=restartForm>
+                       <Button
+                         disabled={state.showProgress} onClick=restartForm>
                          <IconAction animation="leftRight" src=refreshWhite />
                          <FormattedMessage
                            id="Formor.restart"
@@ -772,9 +781,21 @@ let make = _ => {
                          />
                        </Button>
                      </GridItem>
-                   | (_, _) =>
+                   | (_, _, true) =>
                      <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                       <Button onClick=insertForm>
+                       <Button
+                         disabled={state.showProgress} onClick=insertForm>
+                         <IconAction animation="leftRight" src=sendWhite />
+                         <FormattedMessage
+                           id="Default.send"
+                           defaultMessage="Send"
+                         />
+                       </Button>
+                     </GridItem>
+                   | (_, _, false) =>
+                     <GridItem top="0" right="0" bottom="0" left="0" xs="no">
+                       <Button
+                         disabled={state.showProgress} onClick=insertForm>
                          <IconAction animation="leftRight" src=saveWhite />
                          <FormattedMessage id="save" defaultMessage="Save" />
                        </Button>
@@ -843,12 +864,9 @@ let make = _ => {
                                    }
                                  />
                                | "text" =>
-                                 <TextFieldOutline
+                                 <TextFieldStandard
                                    width="50"
                                    top="0"
-                                   left="0"
-                                   borderTop="10"
-                                   borderBottom="10"
                                    enterBorderColor="rgba(255,0,0,0.8)"
                                    downBorderColor="rgba(255,0,0,0.6)"
                                    borderColor="rgba(0,0,0,0.2)"
@@ -861,13 +879,10 @@ let make = _ => {
                                         )
                                    }>
                                    null
-                                 </TextFieldOutline>
+                                 </TextFieldStandard>
                                | "textarea" =>
-                                 <TextFieldOutline
+                                 <TextFieldStandard
                                    top="0"
-                                   left="0"
-                                   borderTop="10"
-                                   borderBottom="10"
                                    enterBorderColor="rgba(255,0,0,0.8)"
                                    downBorderColor="rgba(255,0,0,0.6)"
                                    borderColor="rgba(0,0,0,0.2)"
@@ -880,7 +895,7 @@ let make = _ => {
                                         )
                                    }>
                                    null
-                                 </TextFieldOutline>
+                                 </TextFieldStandard>
                                | _ =>
                                  <GridContainer
                                    direction="column"

@@ -370,6 +370,11 @@
         "message": ""
     },
     {
+        "id": "Default.send",
+        "defaultMessage": "Send",
+        "message": ""
+    },
+    {
         "id": "Formor.relevant",
         "defaultMessage": "Relevant",
         "message": "Relevant Area"

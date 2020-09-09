@@ -16,11 +16,14 @@ type operitem = {
   newid: string,
   userid: string,
   name: string,
+  showOper: bool,
 };
 
 type dertitem = {
+  showPanel: bool,
   dertment: string,
   operitems: array(operitem),
+  dertModify: bool,
 };
 
 type settitem = {
@@ -29,10 +32,10 @@ type settitem = {
   endate: string,
   entime: string,
   showExam: bool,
-  randOpt: bool,
-  randSub: bool,
-  showRest: bool,
-  showLimt: bool,
+  randOption: bool,
+  randSubtile: bool,
+  showRestart: bool,
+  showLimit: bool,
   dertitems: array(dertitem),
   number: string,
 };
@@ -213,6 +216,10 @@ type action =
   | RandSubtile(int)
   | ShowRestart(int)
   | ChangeNumber(string, int)
+  | ShowLimit(int)
+  | AddDert(int, array(dertitem))
+  | ShowPanel(int, int)
+  | ShowOper(int, int, int)
   | CloseAnimationFull
   | ActionSnackBar(string, bool);
 
@@ -260,6 +267,7 @@ let reducer = (state, action) =>
       formDesc: desc,
       formitems,
       settitems,
+      formindex: 0,
       showFull: !state.showFull,
     }
   | ChangeFormTile(value) => {...state, formTile: value}
@@ -271,7 +279,7 @@ let reducer = (state, action) =>
           (i, tabitem) => {...tabitem, tabShow: index == i},
           state.formtabitems,
         ),
-      index,
+      formindex: index,
     }
   | ClickBoardPaper(index) => {
       ...state,
@@ -620,9 +628,9 @@ let reducer = (state, action) =>
               ? {
                 ...settitem,
                 showExam: !settitem.showExam,
-                randOpt: settitem.showExam ? false : settitem.randOpt,
-                randSub: settitem.showExam ? false : settitem.randSub,
-                showRest: settitem.showExam ? false : settitem.showRest,
+                randOption: settitem.showExam ? false : settitem.randOption,
+                randSubtile: settitem.showExam ? false : settitem.randSubtile,
+                showRestart: settitem.showExam ? false : settitem.showRestart,
               }
               : settitem,
           state.settitems,
@@ -633,7 +641,8 @@ let reducer = (state, action) =>
       settitems:
         Array.mapi(
           (i, settitem) =>
-            index == i ? {...settitem, randOpt: !settitem.randOpt} : settitem,
+            index == i
+              ? {...settitem, randOption: !settitem.randOption} : settitem,
           state.settitems,
         ),
     }
@@ -642,7 +651,8 @@ let reducer = (state, action) =>
       settitems:
         Array.mapi(
           (i, settitem) =>
-            index == i ? {...settitem, randSub: !settitem.randSub} : settitem,
+            index == i
+              ? {...settitem, randSubtile: !settitem.randSubtile} : settitem,
           state.settitems,
         ),
     }
@@ -652,7 +662,7 @@ let reducer = (state, action) =>
         Array.mapi(
           (i, settitem) =>
             index == i
-              ? {...settitem, showRest: !settitem.showRest} : settitem,
+              ? {...settitem, showRestart: !settitem.showRestart} : settitem,
           state.settitems,
         ),
     }
@@ -662,6 +672,80 @@ let reducer = (state, action) =>
         Array.mapi(
           (i, settitem) =>
             index == i ? {...settitem, number: value} : settitem,
+          state.settitems,
+        ),
+    }
+  | ShowLimit(index) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i
+              ? {...settitem, showLimit: !settitem.showLimit} : settitem,
+          state.settitems,
+        ),
+    }
+  | AddDert(index, dertitems) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) => index == i ? {...settitem, dertitems} : settitem,
+          state.settitems,
+        ),
+    }
+  | ShowPanel(index, dindex) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i
+              ? {
+                ...settitem,
+                dertitems:
+                  Array.mapi(
+                    (di, dertitem) =>
+                      dindex == di
+                        ? {...dertitem, showPanel: !dertitem.showPanel}
+                        : dertitem,
+                    settitem.dertitems,
+                  ),
+              }
+              : settitem,
+          state.settitems,
+        ),
+    }
+  | ShowOper(index, dindex, oindex) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i
+              ? {
+                ...settitem,
+                dertitems:
+                  Array.mapi(
+                    (di, dertitem) =>
+                      dindex == di
+                        ? {
+                          ...dertitem,
+                          operitems:
+                            Array.mapi(
+                              (oi, operitem) =>
+                                oindex == oi
+                                  ? {
+                                    ...operitem,
+                                    showOper: !operitem.showOper,
+                                  }
+                                  : operitem,
+                              dertitem.operitems,
+                            ),
+                          dertModify: true,
+                        }
+                        : dertitem,
+                    settitem.dertitems,
+                  ),
+              }
+              : settitem,
           state.settitems,
         ),
     }
@@ -763,14 +847,13 @@ let make = _ => {
                )
                |> dispatch;
                ActionShowProgress |> dispatch;
-               response##data##itemCount |> pollingAJax;
              | _ =>
-               SettingError |> dispatch;
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
                ActionShowProgress |> dispatch;
              };
+             response##data##itemCount |> pollingAJax;
            }
            |> resolve
          )
@@ -958,7 +1041,31 @@ let make = _ => {
   let changeFormDesc =
     useCallback(value => ChangeFormDesc(value) |> dispatch);
 
-  let clickFormTab = useCallback(i => ClickFormTab(i) |> dispatch);
+  let limitAJax = i =>
+    Js.Promise.(
+      "newid"
+      |> Locals.select
+      |> dFormData(state.formId)
+      |> Axiosapi.Proform.limit
+      |> then_(response =>
+           {
+             AddDert(i, response##data##items) |> dispatch;
+             ActionShowProgress |> dispatch;
+           }
+           |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+
+  let clickFormTab =
+    useCallback(i => {
+      ClickFormTab(i) |> dispatch;
+      if (i == 2 && state.settitems[0].showLimit) {
+        ActionShowProgress |> dispatch;
+        0 |> limitAJax;
+      };
+    });
 
   let clickBoardPaper = useCallback(i => ClickBoardPaper(i) |> dispatch);
 
@@ -1087,6 +1194,10 @@ let make = _ => {
              state.formitems,
            ),
            state.settitems,
+           Js_array.filter(
+             (dertitem: dertitem) => dertitem.dertModify === true,
+             state.settitems[0].dertitems,
+           ),
          )
       |> Axiosapi.Proform.insert
       |> then_(response =>
@@ -1189,8 +1300,21 @@ let make = _ => {
 
   let showRestart = useCallback(i => ShowRestart(i) |> dispatch);
 
-  let changeItemNum =
+  let changeNumber =
     useCallback((value, i) => ChangeNumber(value, i) |> dispatch);
+
+  let showLimit =
+    useCallback((value, i) => {
+      ShowLimit(i) |> dispatch;
+      if (!value) {
+        ActionShowProgress |> dispatch;
+        i |> limitAJax;
+      };
+    });
+
+  let showPanel = useCallback((i, di) => ShowPanel(i, di) |> dispatch);
+
+  let showOper = useCallback((i, di, oi) => ShowOper(i, di, oi) |> dispatch);
 
   let closeAnimationFull = useCallback(_ => CloseAnimationFull |> dispatch);
 
@@ -1259,8 +1383,13 @@ let make = _ => {
                               />
                             </GridItem>
                             <GridItem
-                              top="0" right="12" bottom="0" left="16" xs="no">
-                              <Typography variant="subtitle1">
+                              top="0"
+                              right="12"
+                              bottom="0"
+                              left="16"
+                              width="180px"
+                              xs="no">
+                              <Typography variant="subtitle1" noWrap=true>
                                 {item.tile |> string}
                               </Typography>
                             </GridItem>
@@ -1420,7 +1549,7 @@ let make = _ => {
                 <GridContainer
                   direction="row" justify="around" alignItem="center">
                   <GridItem top="0" right="0" bottom="0" left="0" xs="auto">
-                    <Tabs id="report-" index={state.index} height="3">
+                    <Tabs id="report-" index={state.formindex} height="3">
                       {state.formtabitems
                        |> List.mapi((i, formtabitem) =>
                             <Tab
@@ -1443,19 +1572,19 @@ let make = _ => {
                     </Tabs>
                   </GridItem>
                   <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                    <Button onClick=addForm>
+                    <Button disabled={state.showProgress} onClick=addForm>
                       <IconAction animation="circle" src=addWhite />
                       <FormattedMessage id="add" defaultMessage="Add" />
                     </Button>
                   </GridItem>
                   <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                    <Button onClick=insertForm>
+                    <Button disabled={state.showProgress} onClick=insertForm>
                       <IconAction animation="leftRight" src=saveWhite />
                       <FormattedMessage id="save" defaultMessage="Save" />
                     </Button>
                   </GridItem>
                   <GridItem top="0" right="0" bottom="0" left="0" xs="no">
-                    <Button onClick=deleteForm>
+                    <Button disabled={state.showProgress} onClick=deleteForm>
                       <IconAction animation="leftRight" src=deleteWhite />
                       <FormattedMessage
                         id="deleted"
@@ -1465,7 +1594,7 @@ let make = _ => {
                   </GridItem>
                 </GridContainer>
               </GridItem>
-              {switch (state.index) {
+              {switch (state.formindex) {
                | 0 =>
                  state.formitems
                  |> Array.mapi((i, formitem) =>
@@ -2397,10 +2526,10 @@ let make = _ => {
                           top="0" right="0" bottom="0" left="80" xs="auto">
                           <Switch
                             right="0"
-                            checked={settitem.randOpt}
-                            circleColor={settitem.randOpt |> circle}
-                            linearColor={settitem.randOpt |> linear}
-                            fontColor={settitem.randOpt |> font}
+                            checked={settitem.randOption}
+                            circleColor={settitem.randOption |> circle}
+                            linearColor={settitem.randOption |> linear}
+                            fontColor={settitem.randOption |> font}
                             disabled={state.showProgress || !settitem.showExam}
                             onClick={_ => i |> randOption}>
                             <FormattedMessage
@@ -2413,10 +2542,10 @@ let make = _ => {
                           top="0" right="0" bottom="0" left="80" xs="auto">
                           <Switch
                             right="0"
-                            checked={settitem.randSub}
-                            circleColor={settitem.randSub |> circle}
-                            linearColor={settitem.randSub |> linear}
-                            fontColor={settitem.randSub |> font}
+                            checked={settitem.randSubtile}
+                            circleColor={settitem.randSubtile |> circle}
+                            linearColor={settitem.randSubtile |> linear}
+                            fontColor={settitem.randSubtile |> font}
                             disabled={state.showProgress || !settitem.showExam}
                             onClick={_ => i |> randSubtile}>
                             <FormattedMessage
@@ -2429,10 +2558,10 @@ let make = _ => {
                           top="0" right="0" bottom="0" left="80" xs="auto">
                           <Switch
                             right="0"
-                            checked={settitem.showRest}
-                            circleColor={settitem.showRest |> circle}
-                            linearColor={settitem.showRest |> linear}
-                            fontColor={settitem.showRest |> font}
+                            checked={settitem.showRestart}
+                            circleColor={settitem.showRestart |> circle}
+                            linearColor={settitem.showRestart |> linear}
+                            fontColor={settitem.showRestart |> font}
                             disabled={state.showProgress || !settitem.showExam}
                             onClick={_ => i |> showRestart}>
                             <FormattedMessage
@@ -2449,7 +2578,7 @@ let make = _ => {
                             disabled={state.showProgress || !settitem.showExam}
                             onChange={event =>
                               i
-                              |> changeItemNum(
+                              |> changeNumber(
                                    ReactEvent.Form.target(event)##value,
                                  )
                             }>
@@ -2463,7 +2592,157 @@ let make = _ => {
                     )
                  |> array
                | _ =>
-                 state.settitems |> Array.mapi((i, settitem) => null) |> array
+                 state.settitems
+                 |> Array.mapi((i, settitem) =>
+                      <>
+                        <GridItem top="0" right="24" left="24" xs="auto">
+                          <Switch
+                            right="0"
+                            checked={settitem.showLimit}
+                            circleColor={settitem.showLimit |> circle}
+                            linearColor={settitem.showLimit |> linear}
+                            fontColor={settitem.showLimit |> font}
+                            disabled={state.showProgress}
+                            onClick={_ => i |> showLimit(settitem.showLimit)}>
+                            <FormattedMessage
+                              id="Formor.limit"
+                              defaultMessage="Limit"
+                            />
+                          </Switch>
+                        </GridItem>
+                        {settitem.showLimit
+                           ? <GridItem
+                               style={ReactDOMRe.Style.make(
+                                 ~height="2500px",
+                                 (),
+                               )}
+                               top="0"
+                               right="24"
+                               left="24"
+                               bottom="0"
+                               xs="auto">
+                               {settitem.dertitems
+                                |> Array.mapi((di, dertitem) =>
+                                     <ExpansionPanel
+                                       showPanel={dertitem.showPanel}>
+                                       ...(
+                                            <ExpansionSummary
+                                              showSummary={dertitem.showPanel}
+                                              onClick={_ =>
+                                                di |> showPanel(i)
+                                              }>
+                                              ...(
+                                                   <ExpansionBasis>
+                                                     <Typography
+                                                       variant="subheading"
+                                                       color="rgba(0,0,0,0.8)">
+                                                       {dertitem.dertment
+                                                        |> string}
+                                                     </Typography>
+                                                   </ExpansionBasis>,
+                                                   <IconGeneral
+                                                     src={
+                                                       dertitem.showPanel
+                                                         ? arrowUpBlack
+                                                         : arrowDownBlack
+                                                     }
+                                                   />,
+                                                 )
+                                            </ExpansionSummary>,
+                                            <GridContainer
+                                              direction="column"
+                                              justify="start"
+                                              alignItem="stretch">
+                                              {dertitem.operitems
+                                               |> Array.mapi((oi, operitem) =>
+                                                    <GridItem
+                                                      right="0"
+                                                      bottom="0"
+                                                      left="0"
+                                                      xs="auto">
+                                                      <GridContainer
+                                                        direction="row"
+                                                        justify="center"
+                                                        alignItem="center">
+                                                        <GridItem
+                                                          top="0"
+                                                          right="0"
+                                                          bottom="0"
+                                                          left="0"
+                                                          xs="auto">
+                                                          <Typography
+                                                            variant="body1"
+                                                            color="rgba(0,0,0,0.8)">
+                                                            {operitem.userid
+                                                             |> string}
+                                                          </Typography>
+                                                        </GridItem>
+                                                        <GridItem
+                                                          top="0"
+                                                          right="0"
+                                                          bottom="0"
+                                                          left="0"
+                                                          xs="auto">
+                                                          <Typography
+                                                            variant="body1"
+                                                            color="rgba(0,0,0,0.8)">
+                                                            {operitem.name
+                                                             |> string}
+                                                          </Typography>
+                                                        </GridItem>
+                                                        <GridItem
+                                                          top="0"
+                                                          bottom="0"
+                                                          xs="no">
+                                                          <Switch
+                                                            right="0"
+                                                            checked={
+                                                                    operitem.
+                                                                    showOper
+                                                                    }
+                                                            circleColor={
+                                                              operitem.showOper
+                                                              |> circle
+                                                            }
+                                                            linearColor={
+                                                              operitem.showOper
+                                                              |> linear
+                                                            }
+                                                            fontColor={
+                                                              operitem.showOper
+                                                              |> font
+                                                            }
+                                                            disabled={
+                                                                    state.
+                                                                    showProgress
+                                                                    }
+                                                            onClick={_ =>
+                                                              oi
+                                                              |> showOper(
+                                                                   i,
+                                                                   di,
+                                                                 )
+                                                            }>
+                                                            <FormattedMessage
+                                                              id="add"
+                                                              defaultMessage="Add"
+                                                            />
+                                                          </Switch>
+                                                        </GridItem>
+                                                      </GridContainer>
+                                                    </GridItem>
+                                                  )
+                                               |> array}
+                                            </GridContainer>,
+                                          )
+                                     </ExpansionPanel>
+                                   )
+                                |> array}
+                             </GridItem>
+                           : null}
+                      </>
+                    )
+                 |> array
                }}
             </GridContainer>
           </GridItem>
