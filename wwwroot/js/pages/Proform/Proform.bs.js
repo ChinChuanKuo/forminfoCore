@@ -826,8 +826,8 @@ function reducer(state, action) {
                   }
                 }), state.settitems);
           return newrecord$49;
-      case /* ShowOper */43 :
-          var oindex = action[2];
+      case /* AddOper */43 :
+          var operitems = action[2];
           var dindex$1 = action[1];
           var index$34 = action[0];
           var newrecord$50 = Caml_obj.caml_obj_dup(state);
@@ -845,6 +845,42 @@ function reducer(state, action) {
                             showLimit: settitem.showLimit,
                             dertitems: $$Array.mapi((function (di, dertitem) {
                                     if (dindex$1 === di) {
+                                      return {
+                                              showPanel: dertitem.showPanel,
+                                              dertment: dertitem.dertment,
+                                              operitems: operitems,
+                                              dertModify: dertitem.dertModify
+                                            };
+                                    } else {
+                                      return dertitem;
+                                    }
+                                  }), settitem.dertitems),
+                            number: settitem.number
+                          };
+                  } else {
+                    return settitem;
+                  }
+                }), state.settitems);
+          return newrecord$50;
+      case /* ShowOper */44 :
+          var oindex = action[2];
+          var dindex$2 = action[1];
+          var index$35 = action[0];
+          var newrecord$51 = Caml_obj.caml_obj_dup(state);
+          newrecord$51.settitems = $$Array.mapi((function (i, settitem) {
+                  if (index$35 === i) {
+                    return {
+                            stdate: settitem.stdate,
+                            sttime: settitem.sttime,
+                            endate: settitem.endate,
+                            entime: settitem.entime,
+                            showExam: settitem.showExam,
+                            randOption: settitem.randOption,
+                            randSubtile: settitem.randSubtile,
+                            showRestart: settitem.showRestart,
+                            showLimit: settitem.showLimit,
+                            dertitems: $$Array.mapi((function (di, dertitem) {
+                                    if (dindex$2 === di) {
                                       return {
                                               showPanel: dertitem.showPanel,
                                               dertment: dertitem.dertment,
@@ -872,12 +908,12 @@ function reducer(state, action) {
                     return settitem;
                   }
                 }), state.settitems);
-          return newrecord$50;
-      case /* ActionSnackBar */44 :
-          var newrecord$51 = Caml_obj.caml_obj_dup(state);
-          newrecord$51.youtubeText = action[0];
-          newrecord$51.showYoutube = action[1];
           return newrecord$51;
+      case /* ActionSnackBar */45 :
+          var newrecord$52 = Caml_obj.caml_obj_dup(state);
+          newrecord$52.youtubeText = action[0];
+          newrecord$52.showYoutube = action[1];
+          return newrecord$52;
       
     }
   }
@@ -886,13 +922,13 @@ function reducer(state, action) {
 var initialState_tabitems = /* :: */[
   {
     tabtShow: false,
-    tabImage: Icons$BtsCore.storeBlack,
+    tabImage: Icons$BtsCore.descriptionBlack,
     tabPath: Path$BtsCore.proformPath
   },
   /* :: */[
     {
       tabtShow: false,
-      tabImage: Icons$BtsCore.menuBookBlack,
+      tabImage: Icons$BtsCore.tourBlack,
       tabPath: Path$BtsCore.protourPath
     },
     /* [] */0
@@ -914,9 +950,15 @@ var initialState_formtabitems = /* :: */[
     /* :: */[
       {
         tabShow: false,
-        tabImage: Icons$BtsCore.menuBookBlack
+        tabImage: Icons$BtsCore.personAddBlack
       },
-      /* [] */0
+      /* :: */[
+        {
+          tabShow: false,
+          tabImage: Icons$BtsCore.listBlack
+        },
+        /* [] */0
+      ]
     ]
   ]
 ];
@@ -958,12 +1000,12 @@ function Proform(Props) {
   var state = match[0];
   var fileRef = React.useRef(null);
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(44, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(45, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(44, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(45, [
                           "",
                           false
                         ]));
@@ -1137,8 +1179,8 @@ function Proform(Props) {
   React.useCallback((function (value) {
           return Curry._1(dispatch, /* ChangeFormDesc */Block.__(8, [value]));
         }));
-  var limitAJax = function (i) {
-    Axiosapi$BtsCore.Proform.limit(Data$BtsCore.dFormData(state.formId, localStorage.getItem("newid"))).then((function (response) {
+  var sLimitAJax = function (i) {
+    Axiosapi$BtsCore.Proform.sLimit(Data$BtsCore.dFormData(state.formId, localStorage.getItem("newid"))).then((function (response) {
               return Promise.resolve((Curry._1(dispatch, /* AddDert */Block.__(41, [
                                   i,
                                   response.data.items
@@ -1152,9 +1194,12 @@ function Proform(Props) {
           Curry._1(dispatch, /* ClickFormTab */Block.__(9, [i]));
           if (i === 2 && Caml_array.caml_array_get(state.settitems, 0).showLimit) {
             Curry._1(dispatch, /* ActionShowProgress */2);
-            return limitAJax(0);
+            return sLimitAJax(0);
+          } else if (i === 3) {
+            return Curry._1(dispatch, /* ActionShowProgress */2);
+          } else {
+            return ;
           }
-          
         }));
   var clickBoardPaper = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickBoardPaper */Block.__(10, [i]));
@@ -1417,22 +1462,35 @@ function Proform(Props) {
               Curry._1(dispatch, /* ShowLimit */Block.__(40, [i]));
               if (!value) {
                 Curry._1(dispatch, /* ActionShowProgress */2);
-                return limitAJax(i);
+                return sLimitAJax(i);
               }
               
             });
         }));
-  var showPanel = React.useCallback((function (i) {
-          return (function (di) {
-              return Curry._1(dispatch, /* ShowPanel */Block.__(42, [
-                            i,
-                            di
-                          ]));
+  var showPanel = React.useCallback((function (value) {
+          return (function (i, di, items) {
+              Curry._1(dispatch, /* ShowPanel */Block.__(42, [
+                      i,
+                      di
+                    ]));
+              if (items.length === 0) {
+                Axiosapi$BtsCore.Proform.sOper(Data$BtsCore.sRowsData(state.formId, value, localStorage.getItem("newid"))).then((function (response) {
+                          return Promise.resolve(Curry._1(dispatch, /* AddOper */Block.__(43, [
+                                            i,
+                                            di,
+                                            response.data.items
+                                          ])));
+                        })).catch((function (error) {
+                        return Promise.resolve((console.log(error), undefined));
+                      }));
+                return ;
+              }
+              
             });
         }));
   var showOper = React.useCallback((function (i) {
           return (function (di, oi) {
-              return Curry._1(dispatch, /* ShowOper */Block.__(43, [
+              return Curry._1(dispatch, /* ShowOper */Block.__(44, [
                             i,
                             di,
                             oi
@@ -1443,6 +1501,1023 @@ function Proform(Props) {
           return Curry._1(dispatch, /* CloseAnimationFull */6);
         }));
   var match$1 = state.formindex;
+  var tmp;
+  switch (match$1) {
+    case 0 :
+        tmp = $$Array.mapi((function (i, formitem) {
+                var match = formitem.outValue;
+                var tmp;
+                switch (match) {
+                  case "image" :
+                      tmp = React.createElement(ImageUpload$BtsCore.make, {
+                            webLoad: state.showProgress,
+                            showDrop: formitem.showDrop,
+                            showFile: formitem.showFile,
+                            disabled: true
+                          });
+                      break;
+                  case "label" :
+                      tmp = React.createElement(Typography$BtsCore.make, {
+                            variant: "subtitle2",
+                            style: {
+                              paddingRight: "6px",
+                              paddingLeft: "6px"
+                            },
+                            noWrap: true,
+                            children: null
+                          });
+                      break;
+                  case "text" :
+                      tmp = React.createElement(TextFieldStandard$BtsCore.make, {
+                            width: "50",
+                            top: "0",
+                            left: "0",
+                            enterBorderColor: "rgba(255,0,0,0.8)",
+                            downBorderColor: "rgba(255,0,0,0.6)",
+                            borderColor: "rgba(0,0,0,0.2)",
+                            disabled: true,
+                            children: null
+                          });
+                      break;
+                  case "textarea" :
+                      tmp = React.createElement(TextFieldStandard$BtsCore.make, {
+                            top: "0",
+                            left: "0",
+                            enterBorderColor: "rgba(255,0,0,0.8)",
+                            downBorderColor: "rgba(255,0,0,0.6)",
+                            borderColor: "rgba(0,0,0,0.2)",
+                            disabled: true,
+                            children: null
+                          });
+                      break;
+                  default:
+                    tmp = $$Array.mapi((function (ri, answeritem) {
+                            var match = formitem.outValue;
+                            var tmp;
+                            switch (match) {
+                              case "checkbox" :
+                                  tmp = Icons$BtsCore.checkBoxBlack;
+                                  break;
+                              case "radio" :
+                                  tmp = Icons$BtsCore.radioButtonCheckedBlack;
+                                  break;
+                              default:
+                                tmp = Icons$BtsCore.checkBoxBlack;
+                            }
+                            return React.createElement(QuestionForm$BtsCore.make, {
+                                        startIcon: tmp,
+                                        onChange: (function ($$event) {
+                                            return Curry._3(changeText, $$event.target.value, ri, i);
+                                          }),
+                                        enterBorderColor: AnswerColor$BtsCore.enterBorder(answeritem.showAnswer),
+                                        downBorderColor: AnswerColor$BtsCore.downBorder(answeritem.showAnswer),
+                                        borderColor: AnswerColor$BtsCore.border(answeritem.showAnswer),
+                                        value: answeritem.value,
+                                        disabled: state.showProgress || formitem.formDelete,
+                                        showLine: formitem.showLine,
+                                        clickCenter: (function (param) {
+                                            return Curry._3(clickElement, formitem.outValue, ri, i);
+                                          }),
+                                        centerIcon: answeritem.showAnswer ? Icons$BtsCore.doneSuccessful : Icons$BtsCore.errorWarn,
+                                        clickEnd: (function (param) {
+                                            return Curry._2(clearOption, ri, i);
+                                          }),
+                                        endIcon: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
+                                      });
+                          }), formitem.answeritems);
+                }
+                var tmp$1;
+                if (formitem.showLine) {
+                  var tmp$2;
+                  if (formitem.showMore && !formitem.formDelete) {
+                    var match$1 = formitem.outValue;
+                    var tmp$3;
+                    switch (match$1) {
+                      case "checkbox" :
+                          tmp$3 = React.createElement(MenuIcon$BtsCore.make, {
+                                top: "0",
+                                right: "8",
+                                bottom: "0",
+                                left: "8",
+                                disablePadding: true,
+                                topLeft: "12",
+                                topRight: "12",
+                                bottomRight: "12",
+                                bottomLeft: "12",
+                                children: /* tuple */[
+                                  React.createElement(IconGeneral$BtsCore.make, {
+                                        src: Icons$BtsCore.doneSuccessful
+                                      }),
+                                  React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "desc",
+                                        defaultMessage: "Desc"
+                                      })
+                                ]
+                              });
+                          break;
+                      case "radio" :
+                          tmp$3 = React.createElement(React.Fragment, undefined, React.createElement(MenuIcon$BtsCore.make, {
+                                    top: "0",
+                                    right: "8",
+                                    bottom: "0",
+                                    left: "8",
+                                    disablePadding: true,
+                                    topLeft: "12",
+                                    topRight: "12",
+                                    bottomRight: "12",
+                                    bottomLeft: "12",
+                                    children: /* tuple */[
+                                      React.createElement(IconGeneral$BtsCore.make, {
+                                            src: Icons$BtsCore.doneSuccessful
+                                          }),
+                                      React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "desc",
+                                            defaultMessage: "Desc"
+                                          })
+                                    ]
+                                  }), React.createElement(MenuIcon$BtsCore.make, {
+                                    top: "0",
+                                    right: "8",
+                                    bottom: "0",
+                                    left: "8",
+                                    disablePadding: true,
+                                    topLeft: "12",
+                                    topRight: "12",
+                                    bottomRight: "12",
+                                    bottomLeft: "12",
+                                    children: /* tuple */[
+                                      React.createElement(IconGeneral$BtsCore.make, {
+                                            src: Icons$BtsCore.doneSuccessful
+                                          }),
+                                      React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Default.relevant",
+                                            defaultMessage: "Relevant"
+                                          })
+                                    ]
+                                  }));
+                          break;
+                      default:
+                        tmp$3 = React.createElement(React.Fragment, undefined, React.createElement(MenuIcon$BtsCore.make, {
+                                  top: "0",
+                                  right: "8",
+                                  bottom: "0",
+                                  left: "8",
+                                  disablePadding: true,
+                                  topLeft: "12",
+                                  topRight: "12",
+                                  bottomRight: "12",
+                                  bottomLeft: "12",
+                                  children: /* tuple */[
+                                    React.createElement(IconGeneral$BtsCore.make, {
+                                          src: Icons$BtsCore.doneSuccessful
+                                        }),
+                                    React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "desc",
+                                          defaultMessage: "Desc"
+                                        })
+                                  ]
+                                }), React.createElement(MenuIcon$BtsCore.make, {
+                                  top: "0",
+                                  right: "8",
+                                  bottom: "0",
+                                  left: "8",
+                                  disablePadding: true,
+                                  topLeft: "12",
+                                  topRight: "12",
+                                  bottomRight: "12",
+                                  bottomLeft: "12",
+                                  onClick: (function (param) {
+                                      return Curry._3(showVerification, formitem.iid, formitem.showVeri, i);
+                                    }),
+                                  children: /* tuple */[
+                                    React.createElement(IconGeneral$BtsCore.make, {
+                                          src: Icons$BtsCore.doneSuccessful
+                                        }),
+                                    React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "Default.verification",
+                                          defaultMessage: "Verification"
+                                        })
+                                  ]
+                                }));
+                    }
+                    tmp$2 = React.createElement(SelectMenu$BtsCore.make, {
+                          top: "100%",
+                          right: "0",
+                          transform: "translate(0, -100%)",
+                          maxWidth: "256",
+                          width: "256",
+                          maxHeight: "280",
+                          minHeight: "0",
+                          topLeft: "12",
+                          topRight: "12",
+                          bottomRight: "12",
+                          bottomLeft: "12",
+                          paddingRight: "8",
+                          paddingLeft: "8",
+                          children: tmp$3
+                        });
+                  } else {
+                    tmp$2 = null;
+                  }
+                  var match$2 = formitem.outValue;
+                  var tmp$4;
+                  var exit = 0;
+                  switch (match$2) {
+                    case "checkbox" :
+                    case "radio" :
+                        exit = 1;
+                        break;
+                    default:
+                      tmp$4 = null;
+                  }
+                  if (exit === 1) {
+                    tmp$4 = React.createElement(GridItem$BtsCore.make, {
+                          top: "0",
+                          right: "0",
+                          bottom: "0",
+                          left: "0",
+                          xs: "no",
+                          children: React.createElement(IconButton$BtsCore.make, {
+                                padding: "8",
+                                disabled: state.showProgress || formitem.formDelete,
+                                onClick: (function (param) {
+                                    return Curry._1(addItem, i);
+                                  }),
+                                children: null
+                              }, React.createElement(Tooltip$BtsCore.make, {
+                                    location: "top",
+                                    backgroundColor: "rgba(255,0,0,0.8)",
+                                    children: React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "add",
+                                          defaultMessage: "Add"
+                                        })
+                                  }), React.createElement(IconAction$BtsCore.make, {
+                                    animation: "circle",
+                                    src: Icons$BtsCore.addBlack
+                                  }))
+                        });
+                  }
+                  tmp$1 = React.createElement(React.Fragment, undefined, formitem.showVeri ? React.createElement(GridItem$BtsCore.make, {
+                              top: "0",
+                              bottom: "0",
+                              xs: "auto",
+                              children: React.createElement(GridContainer$BtsCore.make, {
+                                    direction: "row",
+                                    justify: "start",
+                                    alignItem: "center",
+                                    children: null
+                                  }, React.createElement(GridItem$BtsCore.make, {
+                                        top: "0",
+                                        right: "0",
+                                        bottom: "0",
+                                        left: "0",
+                                        xs: "auto",
+                                        children: null
+                                      }, React.createElement(SelectStandard$BtsCore.make, {
+                                            top: "0",
+                                            bottom: "0",
+                                            enterBorderColor: "transparent",
+                                            downBorderColor: "transparent",
+                                            borderColor: "transparent",
+                                            value: formitem.type_,
+                                            disabled: state.showProgress || formitem.formDelete,
+                                            onClick: (function (param) {
+                                                return Curry._1(showType, i);
+                                              }),
+                                            children: /* tuple */[
+                                              formitem.showType && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                      top: "50%",
+                                                      transform: "translate(0, -50%)",
+                                                      maxHeight: "280",
+                                                      minHeight: "0",
+                                                      topLeft: "12",
+                                                      topRight: "12",
+                                                      bottomRight: "12",
+                                                      bottomLeft: "12",
+                                                      paddingRight: "8",
+                                                      paddingLeft: "8",
+                                                      children: $$Array.map((function (typeitem) {
+                                                              return React.createElement(MenuItem$BtsCore.make, {
+                                                                          top: "0",
+                                                                          right: "8",
+                                                                          bottom: "0",
+                                                                          left: "8",
+                                                                          disablePadding: typeitem.optionPadding,
+                                                                          topLeft: "12",
+                                                                          topRight: "12",
+                                                                          bottomRight: "12",
+                                                                          bottomLeft: "12",
+                                                                          onClick: (function (param) {
+                                                                              return Curry._2(clickType, i, typeitem.value);
+                                                                            }),
+                                                                          children: typeitem.value
+                                                                        });
+                                                            }), formitem.typeitems)
+                                                    }) : null,
+                                              React.createElement(IconGeneral$BtsCore.make, {
+                                                    animation: IconAnimation$BtsCore.topDownRorate(formitem.showType),
+                                                    src: Icons$BtsCore.arrowDownBlack
+                                                  })
+                                            ]
+                                          }), React.createElement(BackgroundBoard$BtsCore.make, {
+                                            showBackground: formitem.showType,
+                                            backgroundColor: "transparent",
+                                            onClick: (function (param) {
+                                                return Curry._1(showType, i);
+                                              })
+                                          })), React.createElement(GridItem$BtsCore.make, {
+                                        top: "0",
+                                        right: "0",
+                                        bottom: "0",
+                                        left: "0",
+                                        xs: "auto",
+                                        children: null
+                                      }, React.createElement(SelectStandard$BtsCore.make, {
+                                            top: "0",
+                                            bottom: "0",
+                                            enterBorderColor: "transparent",
+                                            downBorderColor: "transparent",
+                                            borderColor: "transparent",
+                                            value: formitem.operation,
+                                            disabled: state.showProgress || formitem.formDelete,
+                                            onClick: (function (param) {
+                                                return Curry._1(showOperation, i);
+                                              }),
+                                            children: /* tuple */[
+                                              formitem.showOperation && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                      top: "50%",
+                                                      transform: "translate(0, -50%)",
+                                                      maxHeight: "280",
+                                                      minHeight: "0",
+                                                      topLeft: "12",
+                                                      topRight: "12",
+                                                      bottomRight: "12",
+                                                      bottomLeft: "12",
+                                                      paddingRight: "8",
+                                                      paddingLeft: "8",
+                                                      children: $$Array.map((function (operationitem) {
+                                                              return React.createElement(MenuItem$BtsCore.make, {
+                                                                          top: "0",
+                                                                          right: "8",
+                                                                          bottom: "0",
+                                                                          left: "8",
+                                                                          disablePadding: operationitem.optionPadding,
+                                                                          topLeft: "12",
+                                                                          topRight: "12",
+                                                                          bottomRight: "12",
+                                                                          bottomLeft: "12",
+                                                                          onClick: (function (param) {
+                                                                              return Curry._2(clickOperation, operationitem.value, i);
+                                                                            }),
+                                                                          children: operationitem.value
+                                                                        });
+                                                            }), formitem.operationitems)
+                                                    }) : null,
+                                              React.createElement(IconGeneral$BtsCore.make, {
+                                                    animation: IconAnimation$BtsCore.topDownRorate(formitem.showOperation),
+                                                    src: Icons$BtsCore.arrowDownBlack
+                                                  })
+                                            ]
+                                          }), React.createElement(BackgroundBoard$BtsCore.make, {
+                                            showBackground: formitem.showOperation,
+                                            backgroundColor: "transparent",
+                                            onClick: (function (param) {
+                                                return Curry._1(showOperation, i);
+                                              })
+                                          })), React.createElement(GridItem$BtsCore.make, {
+                                        top: "0",
+                                        right: "0",
+                                        bottom: "0",
+                                        left: "0",
+                                        xs: "auto",
+                                        children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                              top: "0",
+                                              right: "0",
+                                              bottom: "0",
+                                              left: "0",
+                                              value: formitem.area,
+                                              disabled: state.showProgress || formitem.formDelete,
+                                              onChange: (function ($$event) {
+                                                  return Curry._2(changeArea, $$event.target.value, i);
+                                                }),
+                                              children: null
+                                            })
+                                      }), React.createElement(GridItem$BtsCore.make, {
+                                        top: "0",
+                                        right: "0",
+                                        bottom: "0",
+                                        left: "0",
+                                        xs: "auto",
+                                        children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                              top: "0",
+                                              right: "0",
+                                              bottom: "0",
+                                              left: "0",
+                                              value: formitem.eror,
+                                              disabled: state.showProgress || formitem.formDelete,
+                                              onChange: (function ($$event) {
+                                                  return Curry._2(changeEror, $$event.target.value, i);
+                                                }),
+                                              children: null
+                                            })
+                                      }), React.createElement(GridItem$BtsCore.make, {
+                                        top: "0",
+                                        right: "0",
+                                        bottom: "0",
+                                        left: "0",
+                                        xs: "no",
+                                        children: React.createElement(IconButton$BtsCore.make, {
+                                              padding: "8",
+                                              disabled: state.showProgress || formitem.formDelete,
+                                              onClick: (function (param) {
+                                                  return Curry._1(clearCondition, i);
+                                                }),
+                                              children: React.createElement(IconAction$BtsCore.make, {
+                                                    animation: "circle",
+                                                    src: Icons$BtsCore.clearBlack
+                                                  })
+                                            })
+                                      }))
+                            }) : null, React.createElement(GridItem$BtsCore.make, {
+                            xs: "auto",
+                            children: React.createElement(Divider$BtsCore.make, { })
+                          }), React.createElement(GridItem$BtsCore.make, {
+                            top: "0",
+                            right: "0",
+                            bottom: "0",
+                            left: "0",
+                            xs: "auto",
+                            children: React.createElement(GridContainer$BtsCore.make, {
+                                  direction: "rowReverse",
+                                  justify: "start",
+                                  alignItem: "center",
+                                  children: null
+                                }, React.createElement(GridItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "0",
+                                      bottom: "0",
+                                      left: "0",
+                                      xs: "no",
+                                      children: null
+                                    }, React.createElement(IconButton$BtsCore.make, {
+                                          padding: "8",
+                                          disabled: state.showProgress || formitem.formDelete,
+                                          onClick: (function (param) {
+                                              return Curry._1(showMore, i);
+                                            }),
+                                          children: null
+                                        }, React.createElement(Tooltip$BtsCore.make, {
+                                              location: "top",
+                                              backgroundColor: "rgba(255,0,0,0.8)",
+                                              children: React.createElement(ReactIntl.FormattedMessage, {
+                                                    id: "more",
+                                                    defaultMessage: "More"
+                                                  })
+                                            }), React.createElement(IconAction$BtsCore.make, {
+                                              animation: "circle",
+                                              src: Icons$BtsCore.moreVertBlack
+                                            })), tmp$2, React.createElement(BackgroundBoard$BtsCore.make, {
+                                          showBackground: formitem.showMore,
+                                          backgroundColor: "transparent",
+                                          onClick: (function (param) {
+                                              return Curry._1(showMore, i);
+                                            })
+                                        })), React.createElement(GridItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "0",
+                                      bottom: "0",
+                                      left: "0",
+                                      xs: "no",
+                                      children: React.createElement(Switch$BtsCore.make, {
+                                            right: "0",
+                                            checked: formitem.showCheck,
+                                            circleColor: SwitchColor$BtsCore.circle(formitem.showCheck),
+                                            linearColor: SwitchColor$BtsCore.linear(formitem.showCheck),
+                                            fontColor: SwitchColor$BtsCore.font(formitem.showCheck),
+                                            disabled: state.showProgress || formitem.formDelete,
+                                            onClick: (function (param) {
+                                                return Curry._1(checkItem, i);
+                                              }),
+                                            children: React.createElement(ReactIntl.FormattedMessage, {
+                                                  id: "need",
+                                                  defaultMessage: "Need"
+                                                })
+                                          })
+                                    }), React.createElement(GridItem$BtsCore.make, {
+                                      style: {
+                                        borderRight: "1px solid rgba(0,0,0,0.12)",
+                                        marginRight: "12px"
+                                      },
+                                      left: "0",
+                                      xs: "no",
+                                      children: null
+                                    }), React.createElement(GridItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "0",
+                                      bottom: "0",
+                                      left: "0",
+                                      xs: "no",
+                                      children: React.createElement(IconButton$BtsCore.make, {
+                                            padding: "8",
+                                            disabled: state.showProgress,
+                                            onClick: (function (param) {
+                                                return Curry._1(deleteItem, i);
+                                              }),
+                                            children: null
+                                          }, React.createElement(Tooltip$BtsCore.make, {
+                                                location: "top",
+                                                backgroundColor: "rgba(255,0,0,0.8)",
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: formitem.formDelete ? "refresh" : "deleted",
+                                                      defaultMessage: formitem.formDelete ? "Refresh" : "Deleted"
+                                                    })
+                                              }), React.createElement(IconAction$BtsCore.make, {
+                                                animation: "leftRight",
+                                                src: formitem.formDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.deleteBlack
+                                              }))
+                                    }), React.createElement(GridItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "0",
+                                      bottom: "0",
+                                      left: "0",
+                                      xs: "no",
+                                      children: React.createElement(IconButton$BtsCore.make, {
+                                            padding: "8",
+                                            disabled: state.showProgress || formitem.formDelete,
+                                            children: null
+                                          }, React.createElement(Tooltip$BtsCore.make, {
+                                                location: "top",
+                                                backgroundColor: "rgba(255,0,0,0.8)",
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: "copy",
+                                                      defaultMessage: "Copy"
+                                                    })
+                                              }), React.createElement(IconAction$BtsCore.make, {
+                                                animation: "leftRight",
+                                                src: Icons$BtsCore.fileCopyBlack
+                                              }))
+                                    }), tmp$4)
+                          }));
+                } else {
+                  tmp$1 = null;
+                }
+                return React.createElement(GridItem$BtsCore.make, {
+                            top: "0",
+                            right: "24",
+                            left: "24",
+                            xs: "auto",
+                            children: React.createElement(CardOrPaperBoard$BtsCore.make, {
+                                  onClick: (function (param) {
+                                      return Curry._1(clickBoardPaper, i);
+                                    }),
+                                  showLine: formitem.showLine,
+                                  children: React.createElement(GridContainer$BtsCore.make, {
+                                        direction: "column",
+                                        justify: "start",
+                                        alignItem: "stretch",
+                                        children: null
+                                      }, React.createElement(GridItem$BtsCore.make, {
+                                            top: "0",
+                                            bottom: "0",
+                                            xs: "auto",
+                                            children: React.createElement(GridContainer$BtsCore.make, {
+                                                  direction: "row",
+                                                  justify: "center",
+                                                  alignItem: "center",
+                                                  children: null
+                                                }, React.createElement(GridItem$BtsCore.make, {
+                                                      top: "0",
+                                                      right: "0",
+                                                      bottom: "0",
+                                                      left: "0",
+                                                      xs: "auto",
+                                                      children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                                            top: "0",
+                                                            right: "0",
+                                                            left: "0",
+                                                            value: formitem.title,
+                                                            disabled: state.showProgress || formitem.formDelete,
+                                                            onChange: (function ($$event) {
+                                                                return Curry._2(changeTile, $$event.target.value, i);
+                                                              }),
+                                                            children: null
+                                                          })
+                                                    }), formitem.showLine ? React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                                            top: "0",
+                                                            right: "0",
+                                                            bottom: "0",
+                                                            left: "0",
+                                                            xs: "no",
+                                                            children: React.createElement(IconButton$BtsCore.make, {
+                                                                  padding: "10",
+                                                                  disabled: state.showProgress || formitem.formDelete,
+                                                                  children: React.createElement(IconAction$BtsCore.make, {
+                                                                        animation: "leftRight",
+                                                                        src: Icons$BtsCore.collectionsBlack
+                                                                      })
+                                                                })
+                                                          }), React.createElement(GridItem$BtsCore.make, {
+                                                            top: "0",
+                                                            right: "0",
+                                                            bottom: "0",
+                                                            left: "0",
+                                                            width: "156px",
+                                                            xs: "no",
+                                                            children: null
+                                                          }, React.createElement(SelectOutline$BtsCore.make, {
+                                                                top: "0",
+                                                                borderColor: "rgba(0,0,0,0.2)",
+                                                                value: formitem.outValue,
+                                                                disabled: state.showProgress || formitem.formDelete,
+                                                                onClick: (function (param) {
+                                                                    return Curry._1(showOut, i);
+                                                                  }),
+                                                                children: /* tuple */[
+                                                                  formitem.showOut && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
+                                                                          top: "50%",
+                                                                          transform: "translate(0, -50%)",
+                                                                          maxHeight: "280",
+                                                                          minHeight: "0",
+                                                                          topLeft: "12",
+                                                                          topRight: "12",
+                                                                          bottomRight: "12",
+                                                                          bottomLeft: "12",
+                                                                          paddingRight: "8",
+                                                                          paddingLeft: "8",
+                                                                          children: $$Array.map((function (opticonitem) {
+                                                                                  return React.createElement(MenuIcon$BtsCore.make, {
+                                                                                              top: "0",
+                                                                                              right: "8",
+                                                                                              bottom: "0",
+                                                                                              left: "8",
+                                                                                              disablePadding: opticonitem.opticonPadding,
+                                                                                              topLeft: "12",
+                                                                                              topRight: "12",
+                                                                                              bottomRight: "12",
+                                                                                              bottomLeft: "12",
+                                                                                              onClick: (function (param) {
+                                                                                                  return Curry._2(showValue, opticonitem.value, i);
+                                                                                                }),
+                                                                                              children: /* tuple */[
+                                                                                                React.createElement(IconGeneral$BtsCore.make, {
+                                                                                                      src: opticonitem.icon
+                                                                                                    }),
+                                                                                                opticonitem.value
+                                                                                              ]
+                                                                                            });
+                                                                                }), formitem.opticonitems)
+                                                                        }) : null,
+                                                                  React.createElement(IconGeneral$BtsCore.make, {
+                                                                        animation: IconAnimation$BtsCore.topDownRorate(formitem.showOut),
+                                                                        src: Icons$BtsCore.arrowDownBlack
+                                                                      })
+                                                                ]
+                                                              }), React.createElement(BackgroundBoard$BtsCore.make, {
+                                                                showBackground: formitem.showOut,
+                                                                backgroundColor: "transparent",
+                                                                onClick: (function (param) {
+                                                                    return Curry._1(showOut, i);
+                                                                  })
+                                                              }))) : null)
+                                          }), React.createElement(GridItem$BtsCore.make, {
+                                            top: "0",
+                                            bottom: "0",
+                                            xs: "auto",
+                                            children: tmp
+                                          }), tmp$1)
+                                })
+                          });
+              }), state.formitems);
+        break;
+    case 1 :
+        tmp = $$Array.mapi((function (i, settitem) {
+                return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "24",
+                                bottom: "0",
+                                left: "24",
+                                xs: "auto",
+                                children: React.createElement(GridContainer$BtsCore.make, {
+                                      direction: "row",
+                                      justify: "center",
+                                      alignItem: "center",
+                                      children: null
+                                    }, React.createElement(GridItem$BtsCore.make, {
+                                          top: "0",
+                                          right: "0",
+                                          bottom: "0",
+                                          left: "0",
+                                          xs: "auto",
+                                          children: React.createElement(TextFieldOutline$BtsCore.make, {
+                                                top: "8",
+                                                type_: "date",
+                                                value: settitem.stdate,
+                                                disabled: state.showProgress,
+                                                onChange: (function ($$event) {
+                                                    return Curry._2(changeStdate, $$event.target.value, i);
+                                                  }),
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: "Formor.stdate",
+                                                      defaultMessage: "Stdate"
+                                                    })
+                                              })
+                                        }), React.createElement(GridItem$BtsCore.make, {
+                                          top: "0",
+                                          right: "0",
+                                          bottom: "0",
+                                          left: "0",
+                                          xs: "auto",
+                                          children: React.createElement(TextFieldOutline$BtsCore.make, {
+                                                top: "8",
+                                                type_: "time",
+                                                value: settitem.sttime,
+                                                disabled: state.showProgress,
+                                                onChange: (function ($$event) {
+                                                    return Curry._2(changeSttime, $$event.target.value, i);
+                                                  }),
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: "Formor.sttime",
+                                                      defaultMessage: "Sttime"
+                                                    })
+                                              })
+                                        }))
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "24",
+                                bottom: "0",
+                                left: "24",
+                                xs: "auto",
+                                children: React.createElement(GridContainer$BtsCore.make, {
+                                      direction: "row",
+                                      justify: "center",
+                                      alignItem: "center",
+                                      children: null
+                                    }, React.createElement(GridItem$BtsCore.make, {
+                                          top: "0",
+                                          right: "0",
+                                          bottom: "0",
+                                          left: "0",
+                                          xs: "auto",
+                                          children: React.createElement(TextFieldOutline$BtsCore.make, {
+                                                top: "8",
+                                                type_: "date",
+                                                value: settitem.endate,
+                                                disabled: state.showProgress,
+                                                onChange: (function ($$event) {
+                                                    return Curry._2(changeEndate, $$event.target.value, i);
+                                                  }),
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: "Formor.endate",
+                                                      defaultMessage: "Endate"
+                                                    })
+                                              })
+                                        }), React.createElement(GridItem$BtsCore.make, {
+                                          top: "0",
+                                          right: "0",
+                                          bottom: "0",
+                                          left: "0",
+                                          xs: "auto",
+                                          children: React.createElement(TextFieldOutline$BtsCore.make, {
+                                                top: "8",
+                                                type_: "time",
+                                                value: settitem.entime,
+                                                disabled: state.showProgress,
+                                                onChange: (function ($$event) {
+                                                    return Curry._2(changeEntime, $$event.target.value, i);
+                                                  }),
+                                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                                      id: "Formor.entime",
+                                                      defaultMessage: "Entme"
+                                                    })
+                                              })
+                                        }))
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "30",
+                                xs: "auto",
+                                children: React.createElement(Switch$BtsCore.make, {
+                                      right: "0",
+                                      checked: settitem.showExam,
+                                      circleColor: SwitchColor$BtsCore.circle(settitem.showExam),
+                                      linearColor: SwitchColor$BtsCore.linear(settitem.showExam),
+                                      fontColor: SwitchColor$BtsCore.font(settitem.showExam),
+                                      disabled: state.showProgress,
+                                      onClick: (function (param) {
+                                          return Curry._1(showExam, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.examed",
+                                            defaultMessage: "Examed"
+                                          })
+                                    })
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "80",
+                                xs: "auto",
+                                children: React.createElement(Switch$BtsCore.make, {
+                                      right: "0",
+                                      checked: settitem.randOption,
+                                      circleColor: SwitchColor$BtsCore.circle(settitem.randOption),
+                                      linearColor: SwitchColor$BtsCore.linear(settitem.randOption),
+                                      fontColor: SwitchColor$BtsCore.font(settitem.randOption),
+                                      disabled: state.showProgress || !settitem.showExam,
+                                      onClick: (function (param) {
+                                          return Curry._1(randOption, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.randopt",
+                                            defaultMessage: "Randopt"
+                                          })
+                                    })
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "80",
+                                xs: "auto",
+                                children: React.createElement(Switch$BtsCore.make, {
+                                      right: "0",
+                                      checked: settitem.randSubtile,
+                                      circleColor: SwitchColor$BtsCore.circle(settitem.randSubtile),
+                                      linearColor: SwitchColor$BtsCore.linear(settitem.randSubtile),
+                                      fontColor: SwitchColor$BtsCore.font(settitem.randSubtile),
+                                      disabled: state.showProgress || !settitem.showExam,
+                                      onClick: (function (param) {
+                                          return Curry._1(randSubtile, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.randsub",
+                                            defaultMessage: "Randsub"
+                                          })
+                                    })
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "80",
+                                xs: "auto",
+                                children: React.createElement(Switch$BtsCore.make, {
+                                      right: "0",
+                                      checked: settitem.showRestart,
+                                      circleColor: SwitchColor$BtsCore.circle(settitem.showRestart),
+                                      linearColor: SwitchColor$BtsCore.linear(settitem.showRestart),
+                                      fontColor: SwitchColor$BtsCore.font(settitem.showRestart),
+                                      disabled: state.showProgress || !settitem.showExam,
+                                      onClick: (function (param) {
+                                          return Curry._1(showRestart, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.restart",
+                                            defaultMessage: "Restart"
+                                          })
+                                    })
+                              }), React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "0",
+                                bottom: "0",
+                                left: "80",
+                                xs: "no",
+                                children: React.createElement(TextFieldOutline$BtsCore.make, {
+                                      type_: "number",
+                                      value: settitem.number,
+                                      disabled: state.showProgress || !settitem.showExam,
+                                      onChange: (function ($$event) {
+                                          return Curry._2(changeNumber, $$event.target.value, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.number",
+                                            defaultMessage: "Number"
+                                          })
+                                    })
+                              }));
+              }), state.settitems);
+        break;
+    case 2 :
+        tmp = $$Array.mapi((function (i, settitem) {
+                return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                top: "0",
+                                right: "24",
+                                left: "24",
+                                xs: "auto",
+                                children: React.createElement(Switch$BtsCore.make, {
+                                      right: "0",
+                                      checked: settitem.showLimit,
+                                      circleColor: SwitchColor$BtsCore.circle(settitem.showLimit),
+                                      linearColor: SwitchColor$BtsCore.linear(settitem.showLimit),
+                                      fontColor: SwitchColor$BtsCore.font(settitem.showLimit),
+                                      disabled: state.showProgress,
+                                      onClick: (function (param) {
+                                          return Curry._2(showLimit, settitem.showLimit, i);
+                                        }),
+                                      children: React.createElement(ReactIntl.FormattedMessage, {
+                                            id: "Formor.limit",
+                                            defaultMessage: "Limit"
+                                          })
+                                    })
+                              }), settitem.showLimit ? React.createElement(GridItem$BtsCore.make, {
+                                  style: {
+                                    height: "2500px"
+                                  },
+                                  top: "0",
+                                  right: "24",
+                                  bottom: "0",
+                                  left: "24",
+                                  xs: "auto",
+                                  children: $$Array.mapi((function (di, dertitem) {
+                                          return React.createElement(ExpansionPanel$BtsCore.make, {
+                                                      showPanel: dertitem.showPanel,
+                                                      children: /* tuple */[
+                                                        React.createElement(ExpansionSummary$BtsCore.make, {
+                                                              showSummary: dertitem.showPanel,
+                                                              onClick: (function (param) {
+                                                                  return Curry._4(showPanel, dertitem.dertment, i, di, dertitem.operitems);
+                                                                }),
+                                                              children: /* tuple */[
+                                                                React.createElement(ExpansionBasis$BtsCore.make, {
+                                                                      children: React.createElement(Typography$BtsCore.make, {
+                                                                            variant: "subheading",
+                                                                            color: "rgba(0,0,0,0.8)",
+                                                                            children: dertitem.dertment
+                                                                          })
+                                                                    }),
+                                                                React.createElement(IconGeneral$BtsCore.make, {
+                                                                      src: dertitem.showPanel ? Icons$BtsCore.arrowUpBlack : Icons$BtsCore.arrowDownBlack
+                                                                    })
+                                                              ]
+                                                            }),
+                                                        React.createElement(GridContainer$BtsCore.make, {
+                                                              direction: "column",
+                                                              justify: "start",
+                                                              alignItem: "stretch",
+                                                              children: $$Array.mapi((function (oi, operitem) {
+                                                                      return React.createElement(GridItem$BtsCore.make, {
+                                                                                  right: "0",
+                                                                                  bottom: "0",
+                                                                                  left: "0",
+                                                                                  xs: "auto",
+                                                                                  children: React.createElement(GridContainer$BtsCore.make, {
+                                                                                        direction: "row",
+                                                                                        justify: "center",
+                                                                                        alignItem: "center",
+                                                                                        children: null
+                                                                                      }, React.createElement(GridItem$BtsCore.make, {
+                                                                                            top: "0",
+                                                                                            right: "0",
+                                                                                            bottom: "0",
+                                                                                            left: "0",
+                                                                                            xs: "auto",
+                                                                                            children: React.createElement(Typography$BtsCore.make, {
+                                                                                                  variant: "body1",
+                                                                                                  color: "rgba(0,0,0,0.8)",
+                                                                                                  children: operitem.userid
+                                                                                                })
+                                                                                          }), React.createElement(GridItem$BtsCore.make, {
+                                                                                            top: "0",
+                                                                                            right: "0",
+                                                                                            bottom: "0",
+                                                                                            left: "0",
+                                                                                            xs: "auto",
+                                                                                            children: React.createElement(Typography$BtsCore.make, {
+                                                                                                  variant: "body1",
+                                                                                                  color: "rgba(0,0,0,0.8)",
+                                                                                                  children: operitem.name
+                                                                                                })
+                                                                                          }), React.createElement(GridItem$BtsCore.make, {
+                                                                                            top: "0",
+                                                                                            bottom: "0",
+                                                                                            xs: "no",
+                                                                                            children: React.createElement(Switch$BtsCore.make, {
+                                                                                                  right: "0",
+                                                                                                  checked: operitem.showOper,
+                                                                                                  circleColor: SwitchColor$BtsCore.circle(operitem.showOper),
+                                                                                                  linearColor: SwitchColor$BtsCore.linear(operitem.showOper),
+                                                                                                  fontColor: SwitchColor$BtsCore.font(operitem.showOper),
+                                                                                                  disabled: state.showProgress,
+                                                                                                  onClick: (function (param) {
+                                                                                                      return Curry._3(showOper, i, di, oi);
+                                                                                                    }),
+                                                                                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                                                                                        id: "add",
+                                                                                                        defaultMessage: "Add"
+                                                                                                      })
+                                                                                                })
+                                                                                          }))
+                                                                                });
+                                                                    }), dertitem.operitems)
+                                                            })
+                                                      ]
+                                                    });
+                                        }), settitem.dertitems)
+                                }) : null);
+              }), state.settitems);
+        break;
+    default:
+      tmp = null;
+  }
   return React.createElement(React.Fragment, undefined, React.createElement(NewFacetube$BtsCore.make, {
                   showProgress: state.showProgress,
                   error: state.error,
@@ -1818,1012 +2893,7 @@ function Proform(Props) {
                                                                 defaultMessage: "Deleted"
                                                               }))
                                                     }))
-                                          }), match$1 !== 0 ? (
-                                          match$1 !== 1 ? $$Array.mapi((function (i, settitem) {
-                                                    return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "24",
-                                                                    left: "24",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(Switch$BtsCore.make, {
-                                                                          right: "0",
-                                                                          checked: settitem.showLimit,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showLimit),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showLimit),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showLimit),
-                                                                          disabled: state.showProgress,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._2(showLimit, settitem.showLimit, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.limit",
-                                                                                defaultMessage: "Limit"
-                                                                              })
-                                                                        })
-                                                                  }), settitem.showLimit ? React.createElement(GridItem$BtsCore.make, {
-                                                                      style: {
-                                                                        height: "2500px"
-                                                                      },
-                                                                      top: "0",
-                                                                      right: "24",
-                                                                      bottom: "0",
-                                                                      left: "24",
-                                                                      xs: "auto",
-                                                                      children: $$Array.mapi((function (di, dertitem) {
-                                                                              return React.createElement(ExpansionPanel$BtsCore.make, {
-                                                                                          showPanel: dertitem.showPanel,
-                                                                                          children: /* tuple */[
-                                                                                            React.createElement(ExpansionSummary$BtsCore.make, {
-                                                                                                  showSummary: dertitem.showPanel,
-                                                                                                  onClick: (function (param) {
-                                                                                                      return Curry._2(showPanel, i, di);
-                                                                                                    }),
-                                                                                                  children: /* tuple */[
-                                                                                                    React.createElement(ExpansionBasis$BtsCore.make, {
-                                                                                                          children: React.createElement(Typography$BtsCore.make, {
-                                                                                                                variant: "subheading",
-                                                                                                                color: "rgba(0,0,0,0.8)",
-                                                                                                                children: dertitem.dertment
-                                                                                                              })
-                                                                                                        }),
-                                                                                                    React.createElement(IconGeneral$BtsCore.make, {
-                                                                                                          src: dertitem.showPanel ? Icons$BtsCore.arrowUpBlack : Icons$BtsCore.arrowDownBlack
-                                                                                                        })
-                                                                                                  ]
-                                                                                                }),
-                                                                                            React.createElement(GridContainer$BtsCore.make, {
-                                                                                                  direction: "column",
-                                                                                                  justify: "start",
-                                                                                                  alignItem: "stretch",
-                                                                                                  children: $$Array.mapi((function (oi, operitem) {
-                                                                                                          return React.createElement(GridItem$BtsCore.make, {
-                                                                                                                      right: "0",
-                                                                                                                      bottom: "0",
-                                                                                                                      left: "0",
-                                                                                                                      xs: "auto",
-                                                                                                                      children: React.createElement(GridContainer$BtsCore.make, {
-                                                                                                                            direction: "row",
-                                                                                                                            justify: "center",
-                                                                                                                            alignItem: "center",
-                                                                                                                            children: null
-                                                                                                                          }, React.createElement(GridItem$BtsCore.make, {
-                                                                                                                                top: "0",
-                                                                                                                                right: "0",
-                                                                                                                                bottom: "0",
-                                                                                                                                left: "0",
-                                                                                                                                xs: "auto",
-                                                                                                                                children: React.createElement(Typography$BtsCore.make, {
-                                                                                                                                      variant: "body1",
-                                                                                                                                      color: "rgba(0,0,0,0.8)",
-                                                                                                                                      children: operitem.userid
-                                                                                                                                    })
-                                                                                                                              }), React.createElement(GridItem$BtsCore.make, {
-                                                                                                                                top: "0",
-                                                                                                                                right: "0",
-                                                                                                                                bottom: "0",
-                                                                                                                                left: "0",
-                                                                                                                                xs: "auto",
-                                                                                                                                children: React.createElement(Typography$BtsCore.make, {
-                                                                                                                                      variant: "body1",
-                                                                                                                                      color: "rgba(0,0,0,0.8)",
-                                                                                                                                      children: operitem.name
-                                                                                                                                    })
-                                                                                                                              }), React.createElement(GridItem$BtsCore.make, {
-                                                                                                                                top: "0",
-                                                                                                                                bottom: "0",
-                                                                                                                                xs: "no",
-                                                                                                                                children: React.createElement(Switch$BtsCore.make, {
-                                                                                                                                      right: "0",
-                                                                                                                                      checked: operitem.showOper,
-                                                                                                                                      circleColor: SwitchColor$BtsCore.circle(operitem.showOper),
-                                                                                                                                      linearColor: SwitchColor$BtsCore.linear(operitem.showOper),
-                                                                                                                                      fontColor: SwitchColor$BtsCore.font(operitem.showOper),
-                                                                                                                                      disabled: state.showProgress,
-                                                                                                                                      onClick: (function (param) {
-                                                                                                                                          return Curry._3(showOper, i, di, oi);
-                                                                                                                                        }),
-                                                                                                                                      children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                                                                            id: "add",
-                                                                                                                                            defaultMessage: "Add"
-                                                                                                                                          })
-                                                                                                                                    })
-                                                                                                                              }))
-                                                                                                                    });
-                                                                                                        }), dertitem.operitems)
-                                                                                                })
-                                                                                          ]
-                                                                                        });
-                                                                            }), settitem.dertitems)
-                                                                    }) : null);
-                                                  }), state.settitems) : $$Array.mapi((function (i, settitem) {
-                                                    return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "24",
-                                                                    bottom: "0",
-                                                                    left: "24",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(GridContainer$BtsCore.make, {
-                                                                          direction: "row",
-                                                                          justify: "center",
-                                                                          alignItem: "center",
-                                                                          children: null
-                                                                        }, React.createElement(GridItem$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              xs: "auto",
-                                                                              children: React.createElement(TextFieldOutline$BtsCore.make, {
-                                                                                    top: "8",
-                                                                                    type_: "date",
-                                                                                    value: settitem.stdate,
-                                                                                    disabled: state.showProgress,
-                                                                                    onChange: (function ($$event) {
-                                                                                        return Curry._2(changeStdate, $$event.target.value, i);
-                                                                                      }),
-                                                                                    children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                          id: "Formor.stdate",
-                                                                                          defaultMessage: "Stdate"
-                                                                                        })
-                                                                                  })
-                                                                            }), React.createElement(GridItem$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              xs: "auto",
-                                                                              children: React.createElement(TextFieldOutline$BtsCore.make, {
-                                                                                    top: "8",
-                                                                                    type_: "time",
-                                                                                    value: settitem.sttime,
-                                                                                    disabled: state.showProgress,
-                                                                                    onChange: (function ($$event) {
-                                                                                        return Curry._2(changeSttime, $$event.target.value, i);
-                                                                                      }),
-                                                                                    children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                          id: "Formor.sttime",
-                                                                                          defaultMessage: "Sttime"
-                                                                                        })
-                                                                                  })
-                                                                            }))
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "24",
-                                                                    bottom: "0",
-                                                                    left: "24",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(GridContainer$BtsCore.make, {
-                                                                          direction: "row",
-                                                                          justify: "center",
-                                                                          alignItem: "center",
-                                                                          children: null
-                                                                        }, React.createElement(GridItem$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              xs: "auto",
-                                                                              children: React.createElement(TextFieldOutline$BtsCore.make, {
-                                                                                    top: "8",
-                                                                                    type_: "date",
-                                                                                    value: settitem.endate,
-                                                                                    disabled: state.showProgress,
-                                                                                    onChange: (function ($$event) {
-                                                                                        return Curry._2(changeEndate, $$event.target.value, i);
-                                                                                      }),
-                                                                                    children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                          id: "Formor.endate",
-                                                                                          defaultMessage: "Endate"
-                                                                                        })
-                                                                                  })
-                                                                            }), React.createElement(GridItem$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              xs: "auto",
-                                                                              children: React.createElement(TextFieldOutline$BtsCore.make, {
-                                                                                    top: "8",
-                                                                                    type_: "time",
-                                                                                    value: settitem.entime,
-                                                                                    disabled: state.showProgress,
-                                                                                    onChange: (function ($$event) {
-                                                                                        return Curry._2(changeEntime, $$event.target.value, i);
-                                                                                      }),
-                                                                                    children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                          id: "Formor.entime",
-                                                                                          defaultMessage: "Entme"
-                                                                                        })
-                                                                                  })
-                                                                            }))
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "0",
-                                                                    bottom: "0",
-                                                                    left: "30",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(Switch$BtsCore.make, {
-                                                                          right: "0",
-                                                                          checked: settitem.showExam,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showExam),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showExam),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showExam),
-                                                                          disabled: state.showProgress,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(showExam, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.examed",
-                                                                                defaultMessage: "Examed"
-                                                                              })
-                                                                        })
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "0",
-                                                                    bottom: "0",
-                                                                    left: "80",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(Switch$BtsCore.make, {
-                                                                          right: "0",
-                                                                          checked: settitem.randOption,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randOption),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randOption),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randOption),
-                                                                          disabled: state.showProgress || !settitem.showExam,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(randOption, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.randopt",
-                                                                                defaultMessage: "Randopt"
-                                                                              })
-                                                                        })
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "0",
-                                                                    bottom: "0",
-                                                                    left: "80",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(Switch$BtsCore.make, {
-                                                                          right: "0",
-                                                                          checked: settitem.randSubtile,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.randSubtile),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.randSubtile),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.randSubtile),
-                                                                          disabled: state.showProgress || !settitem.showExam,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(randSubtile, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.randsub",
-                                                                                defaultMessage: "Randsub"
-                                                                              })
-                                                                        })
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "0",
-                                                                    bottom: "0",
-                                                                    left: "80",
-                                                                    xs: "auto",
-                                                                    children: React.createElement(Switch$BtsCore.make, {
-                                                                          right: "0",
-                                                                          checked: settitem.showRestart,
-                                                                          circleColor: SwitchColor$BtsCore.circle(settitem.showRestart),
-                                                                          linearColor: SwitchColor$BtsCore.linear(settitem.showRestart),
-                                                                          fontColor: SwitchColor$BtsCore.font(settitem.showRestart),
-                                                                          disabled: state.showProgress || !settitem.showExam,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(showRestart, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.restart",
-                                                                                defaultMessage: "Restart"
-                                                                              })
-                                                                        })
-                                                                  }), React.createElement(GridItem$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "0",
-                                                                    bottom: "0",
-                                                                    left: "80",
-                                                                    xs: "no",
-                                                                    children: React.createElement(TextFieldOutline$BtsCore.make, {
-                                                                          type_: "number",
-                                                                          value: settitem.number,
-                                                                          disabled: state.showProgress || !settitem.showExam,
-                                                                          onChange: (function ($$event) {
-                                                                              return Curry._2(changeNumber, $$event.target.value, i);
-                                                                            }),
-                                                                          children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                id: "Formor.number",
-                                                                                defaultMessage: "Number"
-                                                                              })
-                                                                        })
-                                                                  }));
-                                                  }), state.settitems)
-                                        ) : $$Array.mapi((function (i, formitem) {
-                                                var match = formitem.outValue;
-                                                var tmp;
-                                                switch (match) {
-                                                  case "image" :
-                                                      tmp = React.createElement(ImageUpload$BtsCore.make, {
-                                                            webLoad: state.showProgress,
-                                                            showDrop: formitem.showDrop,
-                                                            showFile: formitem.showFile,
-                                                            disabled: true
-                                                          });
-                                                      break;
-                                                  case "label" :
-                                                      tmp = React.createElement(Typography$BtsCore.make, {
-                                                            variant: "subtitle2",
-                                                            style: {
-                                                              paddingRight: "6px",
-                                                              paddingLeft: "6px"
-                                                            },
-                                                            noWrap: true,
-                                                            children: null
-                                                          });
-                                                      break;
-                                                  case "text" :
-                                                      tmp = React.createElement(TextFieldStandard$BtsCore.make, {
-                                                            width: "50",
-                                                            top: "0",
-                                                            left: "0",
-                                                            enterBorderColor: "rgba(255,0,0,0.8)",
-                                                            downBorderColor: "rgba(255,0,0,0.6)",
-                                                            borderColor: "rgba(0,0,0,0.2)",
-                                                            disabled: true,
-                                                            children: null
-                                                          });
-                                                      break;
-                                                  case "textarea" :
-                                                      tmp = React.createElement(TextFieldStandard$BtsCore.make, {
-                                                            top: "0",
-                                                            left: "0",
-                                                            enterBorderColor: "rgba(255,0,0,0.8)",
-                                                            downBorderColor: "rgba(255,0,0,0.6)",
-                                                            borderColor: "rgba(0,0,0,0.2)",
-                                                            disabled: true,
-                                                            children: null
-                                                          });
-                                                      break;
-                                                  default:
-                                                    tmp = $$Array.mapi((function (ri, answeritem) {
-                                                            var match = formitem.outValue;
-                                                            var tmp;
-                                                            switch (match) {
-                                                              case "checkbox" :
-                                                                  tmp = Icons$BtsCore.checkBoxBlack;
-                                                                  break;
-                                                              case "radio" :
-                                                                  tmp = Icons$BtsCore.radioButtonCheckedBlack;
-                                                                  break;
-                                                              default:
-                                                                tmp = Icons$BtsCore.checkBoxBlack;
-                                                            }
-                                                            return React.createElement(QuestionForm$BtsCore.make, {
-                                                                        startIcon: tmp,
-                                                                        onChange: (function ($$event) {
-                                                                            return Curry._3(changeText, $$event.target.value, ri, i);
-                                                                          }),
-                                                                        enterBorderColor: AnswerColor$BtsCore.enterBorder(answeritem.showAnswer),
-                                                                        downBorderColor: AnswerColor$BtsCore.downBorder(answeritem.showAnswer),
-                                                                        borderColor: AnswerColor$BtsCore.border(answeritem.showAnswer),
-                                                                        value: answeritem.value,
-                                                                        disabled: state.showProgress || formitem.formDelete,
-                                                                        showLine: formitem.showLine,
-                                                                        clickCenter: (function (param) {
-                                                                            return Curry._3(clickElement, formitem.outValue, ri, i);
-                                                                          }),
-                                                                        centerIcon: answeritem.showAnswer ? Icons$BtsCore.doneSuccessful : Icons$BtsCore.errorWarn,
-                                                                        clickEnd: (function (param) {
-                                                                            return Curry._2(clearOption, ri, i);
-                                                                          }),
-                                                                        endIcon: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
-                                                                      });
-                                                          }), formitem.answeritems);
-                                                }
-                                                var tmp$1;
-                                                if (formitem.showLine) {
-                                                  var tmp$2;
-                                                  if (formitem.showMore && !formitem.formDelete) {
-                                                    var match$1 = formitem.outValue;
-                                                    var tmp$3;
-                                                    switch (match$1) {
-                                                      case "checkbox" :
-                                                          tmp$3 = React.createElement(MenuIcon$BtsCore.make, {
-                                                                top: "0",
-                                                                right: "8",
-                                                                bottom: "0",
-                                                                left: "8",
-                                                                disablePadding: true,
-                                                                topLeft: "12",
-                                                                topRight: "12",
-                                                                bottomRight: "12",
-                                                                bottomLeft: "12",
-                                                                children: /* tuple */[
-                                                                  React.createElement(IconGeneral$BtsCore.make, {
-                                                                        src: Icons$BtsCore.doneSuccessful
-                                                                      }),
-                                                                  React.createElement(ReactIntl.FormattedMessage, {
-                                                                        id: "desc",
-                                                                        defaultMessage: "Desc"
-                                                                      })
-                                                                ]
-                                                              });
-                                                          break;
-                                                      case "radio" :
-                                                          tmp$3 = React.createElement(React.Fragment, undefined, React.createElement(MenuIcon$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "8",
-                                                                    bottom: "0",
-                                                                    left: "8",
-                                                                    disablePadding: true,
-                                                                    topLeft: "12",
-                                                                    topRight: "12",
-                                                                    bottomRight: "12",
-                                                                    bottomLeft: "12",
-                                                                    children: /* tuple */[
-                                                                      React.createElement(IconGeneral$BtsCore.make, {
-                                                                            src: Icons$BtsCore.doneSuccessful
-                                                                          }),
-                                                                      React.createElement(ReactIntl.FormattedMessage, {
-                                                                            id: "desc",
-                                                                            defaultMessage: "Desc"
-                                                                          })
-                                                                    ]
-                                                                  }), React.createElement(MenuIcon$BtsCore.make, {
-                                                                    top: "0",
-                                                                    right: "8",
-                                                                    bottom: "0",
-                                                                    left: "8",
-                                                                    disablePadding: true,
-                                                                    topLeft: "12",
-                                                                    topRight: "12",
-                                                                    bottomRight: "12",
-                                                                    bottomLeft: "12",
-                                                                    children: /* tuple */[
-                                                                      React.createElement(IconGeneral$BtsCore.make, {
-                                                                            src: Icons$BtsCore.doneSuccessful
-                                                                          }),
-                                                                      React.createElement(ReactIntl.FormattedMessage, {
-                                                                            id: "Default.relevant",
-                                                                            defaultMessage: "Relevant"
-                                                                          })
-                                                                    ]
-                                                                  }));
-                                                          break;
-                                                      default:
-                                                        tmp$3 = React.createElement(React.Fragment, undefined, React.createElement(MenuIcon$BtsCore.make, {
-                                                                  top: "0",
-                                                                  right: "8",
-                                                                  bottom: "0",
-                                                                  left: "8",
-                                                                  disablePadding: true,
-                                                                  topLeft: "12",
-                                                                  topRight: "12",
-                                                                  bottomRight: "12",
-                                                                  bottomLeft: "12",
-                                                                  children: /* tuple */[
-                                                                    React.createElement(IconGeneral$BtsCore.make, {
-                                                                          src: Icons$BtsCore.doneSuccessful
-                                                                        }),
-                                                                    React.createElement(ReactIntl.FormattedMessage, {
-                                                                          id: "desc",
-                                                                          defaultMessage: "Desc"
-                                                                        })
-                                                                  ]
-                                                                }), React.createElement(MenuIcon$BtsCore.make, {
-                                                                  top: "0",
-                                                                  right: "8",
-                                                                  bottom: "0",
-                                                                  left: "8",
-                                                                  disablePadding: true,
-                                                                  topLeft: "12",
-                                                                  topRight: "12",
-                                                                  bottomRight: "12",
-                                                                  bottomLeft: "12",
-                                                                  onClick: (function (param) {
-                                                                      return Curry._3(showVerification, formitem.iid, formitem.showVeri, i);
-                                                                    }),
-                                                                  children: /* tuple */[
-                                                                    React.createElement(IconGeneral$BtsCore.make, {
-                                                                          src: Icons$BtsCore.doneSuccessful
-                                                                        }),
-                                                                    React.createElement(ReactIntl.FormattedMessage, {
-                                                                          id: "Default.verification",
-                                                                          defaultMessage: "Verification"
-                                                                        })
-                                                                  ]
-                                                                }));
-                                                    }
-                                                    tmp$2 = React.createElement(SelectMenu$BtsCore.make, {
-                                                          top: "100%",
-                                                          right: "0",
-                                                          transform: "translate(0, -100%)",
-                                                          maxWidth: "256",
-                                                          width: "256",
-                                                          maxHeight: "280",
-                                                          minHeight: "0",
-                                                          topLeft: "12",
-                                                          topRight: "12",
-                                                          bottomRight: "12",
-                                                          bottomLeft: "12",
-                                                          paddingRight: "8",
-                                                          paddingLeft: "8",
-                                                          children: tmp$3
-                                                        });
-                                                  } else {
-                                                    tmp$2 = null;
-                                                  }
-                                                  var match$2 = formitem.outValue;
-                                                  var tmp$4;
-                                                  var exit = 0;
-                                                  switch (match$2) {
-                                                    case "checkbox" :
-                                                    case "radio" :
-                                                        exit = 1;
-                                                        break;
-                                                    default:
-                                                      tmp$4 = null;
-                                                  }
-                                                  if (exit === 1) {
-                                                    tmp$4 = React.createElement(GridItem$BtsCore.make, {
-                                                          top: "0",
-                                                          right: "0",
-                                                          bottom: "0",
-                                                          left: "0",
-                                                          xs: "no",
-                                                          children: React.createElement(IconButton$BtsCore.make, {
-                                                                padding: "8",
-                                                                disabled: state.showProgress || formitem.formDelete,
-                                                                onClick: (function (param) {
-                                                                    return Curry._1(addItem, i);
-                                                                  }),
-                                                                children: null
-                                                              }, React.createElement(Tooltip$BtsCore.make, {
-                                                                    location: "top",
-                                                                    backgroundColor: "rgba(255,0,0,0.8)",
-                                                                    children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                          id: "add",
-                                                                          defaultMessage: "Add"
-                                                                        })
-                                                                  }), React.createElement(IconAction$BtsCore.make, {
-                                                                    animation: "circle",
-                                                                    src: Icons$BtsCore.addBlack
-                                                                  }))
-                                                        });
-                                                  }
-                                                  tmp$1 = React.createElement(React.Fragment, undefined, formitem.showVeri ? React.createElement(GridItem$BtsCore.make, {
-                                                              top: "0",
-                                                              bottom: "0",
-                                                              xs: "auto",
-                                                              children: React.createElement(GridContainer$BtsCore.make, {
-                                                                    direction: "row",
-                                                                    justify: "start",
-                                                                    alignItem: "center",
-                                                                    children: null
-                                                                  }, React.createElement(GridItem$BtsCore.make, {
-                                                                        top: "0",
-                                                                        right: "0",
-                                                                        bottom: "0",
-                                                                        left: "0",
-                                                                        xs: "auto",
-                                                                        children: null
-                                                                      }, React.createElement(SelectStandard$BtsCore.make, {
-                                                                            top: "0",
-                                                                            bottom: "0",
-                                                                            enterBorderColor: "transparent",
-                                                                            downBorderColor: "transparent",
-                                                                            borderColor: "transparent",
-                                                                            value: formitem.type_,
-                                                                            disabled: state.showProgress || formitem.formDelete,
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(showType, i);
-                                                                              }),
-                                                                            children: /* tuple */[
-                                                                              formitem.showType && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
-                                                                                      top: "50%",
-                                                                                      transform: "translate(0, -50%)",
-                                                                                      maxHeight: "280",
-                                                                                      minHeight: "0",
-                                                                                      topLeft: "12",
-                                                                                      topRight: "12",
-                                                                                      bottomRight: "12",
-                                                                                      bottomLeft: "12",
-                                                                                      paddingRight: "8",
-                                                                                      paddingLeft: "8",
-                                                                                      children: $$Array.map((function (typeitem) {
-                                                                                              return React.createElement(MenuItem$BtsCore.make, {
-                                                                                                          top: "0",
-                                                                                                          right: "8",
-                                                                                                          bottom: "0",
-                                                                                                          left: "8",
-                                                                                                          disablePadding: typeitem.optionPadding,
-                                                                                                          topLeft: "12",
-                                                                                                          topRight: "12",
-                                                                                                          bottomRight: "12",
-                                                                                                          bottomLeft: "12",
-                                                                                                          onClick: (function (param) {
-                                                                                                              return Curry._2(clickType, i, typeitem.value);
-                                                                                                            }),
-                                                                                                          children: typeitem.value
-                                                                                                        });
-                                                                                            }), formitem.typeitems)
-                                                                                    }) : null,
-                                                                              React.createElement(IconGeneral$BtsCore.make, {
-                                                                                    animation: IconAnimation$BtsCore.topDownRorate(formitem.showType),
-                                                                                    src: Icons$BtsCore.arrowDownBlack
-                                                                                  })
-                                                                            ]
-                                                                          }), React.createElement(BackgroundBoard$BtsCore.make, {
-                                                                            showBackground: formitem.showType,
-                                                                            backgroundColor: "transparent",
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(showType, i);
-                                                                              })
-                                                                          })), React.createElement(GridItem$BtsCore.make, {
-                                                                        top: "0",
-                                                                        right: "0",
-                                                                        bottom: "0",
-                                                                        left: "0",
-                                                                        xs: "auto",
-                                                                        children: null
-                                                                      }, React.createElement(SelectStandard$BtsCore.make, {
-                                                                            top: "0",
-                                                                            bottom: "0",
-                                                                            enterBorderColor: "transparent",
-                                                                            downBorderColor: "transparent",
-                                                                            borderColor: "transparent",
-                                                                            value: formitem.operation,
-                                                                            disabled: state.showProgress || formitem.formDelete,
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(showOperation, i);
-                                                                              }),
-                                                                            children: /* tuple */[
-                                                                              formitem.showOperation && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
-                                                                                      top: "50%",
-                                                                                      transform: "translate(0, -50%)",
-                                                                                      maxHeight: "280",
-                                                                                      minHeight: "0",
-                                                                                      topLeft: "12",
-                                                                                      topRight: "12",
-                                                                                      bottomRight: "12",
-                                                                                      bottomLeft: "12",
-                                                                                      paddingRight: "8",
-                                                                                      paddingLeft: "8",
-                                                                                      children: $$Array.map((function (operationitem) {
-                                                                                              return React.createElement(MenuItem$BtsCore.make, {
-                                                                                                          top: "0",
-                                                                                                          right: "8",
-                                                                                                          bottom: "0",
-                                                                                                          left: "8",
-                                                                                                          disablePadding: operationitem.optionPadding,
-                                                                                                          topLeft: "12",
-                                                                                                          topRight: "12",
-                                                                                                          bottomRight: "12",
-                                                                                                          bottomLeft: "12",
-                                                                                                          onClick: (function (param) {
-                                                                                                              return Curry._2(clickOperation, operationitem.value, i);
-                                                                                                            }),
-                                                                                                          children: operationitem.value
-                                                                                                        });
-                                                                                            }), formitem.operationitems)
-                                                                                    }) : null,
-                                                                              React.createElement(IconGeneral$BtsCore.make, {
-                                                                                    animation: IconAnimation$BtsCore.topDownRorate(formitem.showOperation),
-                                                                                    src: Icons$BtsCore.arrowDownBlack
-                                                                                  })
-                                                                            ]
-                                                                          }), React.createElement(BackgroundBoard$BtsCore.make, {
-                                                                            showBackground: formitem.showOperation,
-                                                                            backgroundColor: "transparent",
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(showOperation, i);
-                                                                              })
-                                                                          })), React.createElement(GridItem$BtsCore.make, {
-                                                                        top: "0",
-                                                                        right: "0",
-                                                                        bottom: "0",
-                                                                        left: "0",
-                                                                        xs: "auto",
-                                                                        children: React.createElement(TextFieldStandard$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              value: formitem.area,
-                                                                              disabled: state.showProgress || formitem.formDelete,
-                                                                              onChange: (function ($$event) {
-                                                                                  return Curry._2(changeArea, $$event.target.value, i);
-                                                                                }),
-                                                                              children: null
-                                                                            })
-                                                                      }), React.createElement(GridItem$BtsCore.make, {
-                                                                        top: "0",
-                                                                        right: "0",
-                                                                        bottom: "0",
-                                                                        left: "0",
-                                                                        xs: "auto",
-                                                                        children: React.createElement(TextFieldStandard$BtsCore.make, {
-                                                                              top: "0",
-                                                                              right: "0",
-                                                                              bottom: "0",
-                                                                              left: "0",
-                                                                              value: formitem.eror,
-                                                                              disabled: state.showProgress || formitem.formDelete,
-                                                                              onChange: (function ($$event) {
-                                                                                  return Curry._2(changeEror, $$event.target.value, i);
-                                                                                }),
-                                                                              children: null
-                                                                            })
-                                                                      }), React.createElement(GridItem$BtsCore.make, {
-                                                                        top: "0",
-                                                                        right: "0",
-                                                                        bottom: "0",
-                                                                        left: "0",
-                                                                        xs: "no",
-                                                                        children: React.createElement(IconButton$BtsCore.make, {
-                                                                              padding: "8",
-                                                                              disabled: state.showProgress || formitem.formDelete,
-                                                                              onClick: (function (param) {
-                                                                                  return Curry._1(clearCondition, i);
-                                                                                }),
-                                                                              children: React.createElement(IconAction$BtsCore.make, {
-                                                                                    animation: "circle",
-                                                                                    src: Icons$BtsCore.clearBlack
-                                                                                  })
-                                                                            })
-                                                                      }))
-                                                            }) : null, React.createElement(GridItem$BtsCore.make, {
-                                                            xs: "auto",
-                                                            children: React.createElement(Divider$BtsCore.make, { })
-                                                          }), React.createElement(GridItem$BtsCore.make, {
-                                                            top: "0",
-                                                            right: "0",
-                                                            bottom: "0",
-                                                            left: "0",
-                                                            xs: "auto",
-                                                            children: React.createElement(GridContainer$BtsCore.make, {
-                                                                  direction: "rowReverse",
-                                                                  justify: "start",
-                                                                  alignItem: "center",
-                                                                  children: null
-                                                                }, React.createElement(GridItem$BtsCore.make, {
-                                                                      top: "0",
-                                                                      right: "0",
-                                                                      bottom: "0",
-                                                                      left: "0",
-                                                                      xs: "no",
-                                                                      children: null
-                                                                    }, React.createElement(IconButton$BtsCore.make, {
-                                                                          padding: "8",
-                                                                          disabled: state.showProgress || formitem.formDelete,
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(showMore, i);
-                                                                            }),
-                                                                          children: null
-                                                                        }, React.createElement(Tooltip$BtsCore.make, {
-                                                                              location: "top",
-                                                                              backgroundColor: "rgba(255,0,0,0.8)",
-                                                                              children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                    id: "more",
-                                                                                    defaultMessage: "More"
-                                                                                  })
-                                                                            }), React.createElement(IconAction$BtsCore.make, {
-                                                                              animation: "circle",
-                                                                              src: Icons$BtsCore.moreVertBlack
-                                                                            })), tmp$2, React.createElement(BackgroundBoard$BtsCore.make, {
-                                                                          showBackground: formitem.showMore,
-                                                                          backgroundColor: "transparent",
-                                                                          onClick: (function (param) {
-                                                                              return Curry._1(showMore, i);
-                                                                            })
-                                                                        })), React.createElement(GridItem$BtsCore.make, {
-                                                                      top: "0",
-                                                                      right: "0",
-                                                                      bottom: "0",
-                                                                      left: "0",
-                                                                      xs: "no",
-                                                                      children: React.createElement(Switch$BtsCore.make, {
-                                                                            right: "0",
-                                                                            checked: formitem.showCheck,
-                                                                            circleColor: SwitchColor$BtsCore.circle(formitem.showCheck),
-                                                                            linearColor: SwitchColor$BtsCore.linear(formitem.showCheck),
-                                                                            fontColor: SwitchColor$BtsCore.font(formitem.showCheck),
-                                                                            disabled: state.showProgress || formitem.formDelete,
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(checkItem, i);
-                                                                              }),
-                                                                            children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                  id: "need",
-                                                                                  defaultMessage: "Need"
-                                                                                })
-                                                                          })
-                                                                    }), React.createElement(GridItem$BtsCore.make, {
-                                                                      style: {
-                                                                        borderRight: "1px solid rgba(0,0,0,0.12)",
-                                                                        marginRight: "12px"
-                                                                      },
-                                                                      left: "0",
-                                                                      xs: "no",
-                                                                      children: null
-                                                                    }), React.createElement(GridItem$BtsCore.make, {
-                                                                      top: "0",
-                                                                      right: "0",
-                                                                      bottom: "0",
-                                                                      left: "0",
-                                                                      xs: "no",
-                                                                      children: React.createElement(IconButton$BtsCore.make, {
-                                                                            padding: "8",
-                                                                            disabled: state.showProgress,
-                                                                            onClick: (function (param) {
-                                                                                return Curry._1(deleteItem, i);
-                                                                              }),
-                                                                            children: null
-                                                                          }, React.createElement(Tooltip$BtsCore.make, {
-                                                                                location: "top",
-                                                                                backgroundColor: "rgba(255,0,0,0.8)",
-                                                                                children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                      id: formitem.formDelete ? "refresh" : "deleted",
-                                                                                      defaultMessage: formitem.formDelete ? "Refresh" : "Deleted"
-                                                                                    })
-                                                                              }), React.createElement(IconAction$BtsCore.make, {
-                                                                                animation: "leftRight",
-                                                                                src: formitem.formDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.deleteBlack
-                                                                              }))
-                                                                    }), React.createElement(GridItem$BtsCore.make, {
-                                                                      top: "0",
-                                                                      right: "0",
-                                                                      bottom: "0",
-                                                                      left: "0",
-                                                                      xs: "no",
-                                                                      children: React.createElement(IconButton$BtsCore.make, {
-                                                                            padding: "8",
-                                                                            disabled: state.showProgress || formitem.formDelete,
-                                                                            children: null
-                                                                          }, React.createElement(Tooltip$BtsCore.make, {
-                                                                                location: "top",
-                                                                                backgroundColor: "rgba(255,0,0,0.8)",
-                                                                                children: React.createElement(ReactIntl.FormattedMessage, {
-                                                                                      id: "copy",
-                                                                                      defaultMessage: "Copy"
-                                                                                    })
-                                                                              }), React.createElement(IconAction$BtsCore.make, {
-                                                                                animation: "leftRight",
-                                                                                src: Icons$BtsCore.fileCopyBlack
-                                                                              }))
-                                                                    }), tmp$4)
-                                                          }));
-                                                } else {
-                                                  tmp$1 = null;
-                                                }
-                                                return React.createElement(GridItem$BtsCore.make, {
-                                                            top: "0",
-                                                            right: "24",
-                                                            left: "24",
-                                                            xs: "auto",
-                                                            children: React.createElement(CardOrPaperBoard$BtsCore.make, {
-                                                                  onClick: (function (param) {
-                                                                      return Curry._1(clickBoardPaper, i);
-                                                                    }),
-                                                                  showLine: formitem.showLine,
-                                                                  children: React.createElement(GridContainer$BtsCore.make, {
-                                                                        direction: "column",
-                                                                        justify: "start",
-                                                                        alignItem: "stretch",
-                                                                        children: null
-                                                                      }, React.createElement(GridItem$BtsCore.make, {
-                                                                            top: "0",
-                                                                            bottom: "0",
-                                                                            xs: "auto",
-                                                                            children: React.createElement(GridContainer$BtsCore.make, {
-                                                                                  direction: "row",
-                                                                                  justify: "center",
-                                                                                  alignItem: "center",
-                                                                                  children: null
-                                                                                }, React.createElement(GridItem$BtsCore.make, {
-                                                                                      top: "0",
-                                                                                      right: "0",
-                                                                                      bottom: "0",
-                                                                                      left: "0",
-                                                                                      xs: "auto",
-                                                                                      children: React.createElement(TextFieldStandard$BtsCore.make, {
-                                                                                            top: "0",
-                                                                                            right: "0",
-                                                                                            left: "0",
-                                                                                            value: formitem.title,
-                                                                                            disabled: state.showProgress || formitem.formDelete,
-                                                                                            onChange: (function ($$event) {
-                                                                                                return Curry._2(changeTile, $$event.target.value, i);
-                                                                                              }),
-                                                                                            children: null
-                                                                                          })
-                                                                                    }), formitem.showLine ? React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
-                                                                                            top: "0",
-                                                                                            right: "0",
-                                                                                            bottom: "0",
-                                                                                            left: "0",
-                                                                                            xs: "no",
-                                                                                            children: React.createElement(IconButton$BtsCore.make, {
-                                                                                                  padding: "10",
-                                                                                                  disabled: state.showProgress || formitem.formDelete,
-                                                                                                  children: React.createElement(IconAction$BtsCore.make, {
-                                                                                                        animation: "leftRight",
-                                                                                                        src: Icons$BtsCore.collectionsBlack
-                                                                                                      })
-                                                                                                })
-                                                                                          }), React.createElement(GridItem$BtsCore.make, {
-                                                                                            top: "0",
-                                                                                            right: "0",
-                                                                                            bottom: "0",
-                                                                                            left: "0",
-                                                                                            width: "156px",
-                                                                                            xs: "no",
-                                                                                            children: null
-                                                                                          }, React.createElement(SelectOutline$BtsCore.make, {
-                                                                                                top: "0",
-                                                                                                borderColor: "rgba(0,0,0,0.2)",
-                                                                                                value: formitem.outValue,
-                                                                                                disabled: state.showProgress || formitem.formDelete,
-                                                                                                onClick: (function (param) {
-                                                                                                    return Curry._1(showOut, i);
-                                                                                                  }),
-                                                                                                children: /* tuple */[
-                                                                                                  formitem.showOut && !formitem.formDelete ? React.createElement(SelectMenu$BtsCore.make, {
-                                                                                                          top: "50%",
-                                                                                                          transform: "translate(0, -50%)",
-                                                                                                          maxHeight: "280",
-                                                                                                          minHeight: "0",
-                                                                                                          topLeft: "12",
-                                                                                                          topRight: "12",
-                                                                                                          bottomRight: "12",
-                                                                                                          bottomLeft: "12",
-                                                                                                          paddingRight: "8",
-                                                                                                          paddingLeft: "8",
-                                                                                                          children: $$Array.map((function (opticonitem) {
-                                                                                                                  return React.createElement(MenuIcon$BtsCore.make, {
-                                                                                                                              top: "0",
-                                                                                                                              right: "8",
-                                                                                                                              bottom: "0",
-                                                                                                                              left: "8",
-                                                                                                                              disablePadding: opticonitem.opticonPadding,
-                                                                                                                              topLeft: "12",
-                                                                                                                              topRight: "12",
-                                                                                                                              bottomRight: "12",
-                                                                                                                              bottomLeft: "12",
-                                                                                                                              onClick: (function (param) {
-                                                                                                                                  return Curry._2(showValue, opticonitem.value, i);
-                                                                                                                                }),
-                                                                                                                              children: /* tuple */[
-                                                                                                                                React.createElement(IconGeneral$BtsCore.make, {
-                                                                                                                                      src: opticonitem.icon
-                                                                                                                                    }),
-                                                                                                                                opticonitem.value
-                                                                                                                              ]
-                                                                                                                            });
-                                                                                                                }), formitem.opticonitems)
-                                                                                                        }) : null,
-                                                                                                  React.createElement(IconGeneral$BtsCore.make, {
-                                                                                                        animation: IconAnimation$BtsCore.topDownRorate(formitem.showOut),
-                                                                                                        src: Icons$BtsCore.arrowDownBlack
-                                                                                                      })
-                                                                                                ]
-                                                                                              }), React.createElement(BackgroundBoard$BtsCore.make, {
-                                                                                                showBackground: formitem.showOut,
-                                                                                                backgroundColor: "transparent",
-                                                                                                onClick: (function (param) {
-                                                                                                    return Curry._1(showOut, i);
-                                                                                                  })
-                                                                                              }))) : null)
-                                                                          }), React.createElement(GridItem$BtsCore.make, {
-                                                                            top: "0",
-                                                                            bottom: "0",
-                                                                            xs: "auto",
-                                                                            children: tmp
-                                                                          }), tmp$1)
-                                                                })
-                                                          });
-                                              }), state.formitems))
+                                          }), tmp)
                                 })
                           })
                     }), React.createElement(DialogActions$BtsCore.make, {

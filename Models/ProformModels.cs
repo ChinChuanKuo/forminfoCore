@@ -194,25 +194,29 @@ namespace forminfoCore.Models
             return new sVeriModels() { type_ = mainRows.Rows[0]["type"].ToString().TrimEnd(), typeitems = typeitems, operation = mainRows.Rows[0]["operation"].ToString().TrimEnd(), operationitems = operationitems, status = "istrue" };
         }
 
-        public sOptonModels GetLimitModels(dFormData dFormData, string cuurip)
+        public sOptonModels GetSlimitModels(dFormData dFormData, string cuurip)
+        {
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in new database().checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", new List<dbparam>()).Rows)
+            {
+                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", new List<Dictionary<string, object>>().ToArray() }, { "dertModify", false } });
+            }
+            return new sOptonModels() { items = items };
+        }
+
+        public sOptonModels GetSoperModels(sRowsData sRowsData, string cuurip)
         {
             database database = new database();
             List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@department", sRowsData.value.TrimEnd()));
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", dbparamlist).Rows)
+            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
             {
                 dbparamlist.Clear();
-                dbparamlist.Add(new dbparam("@department", dr["department"].ToString().TrimEnd()));
-                List<Dictionary<string, object>> operitems = new List<Dictionary<string, object>>();
-                foreach (DataRow drs in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
-                {
-                    dbparamlist.Clear();
-                    dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
-                    dbparamlist.Add(new dbparam("@inoper", dFormData.newid.TrimEnd()));
-                    dbparamlist.Add(new dbparam("@newid", drs["newid"].ToString().TrimEnd()));
-                    operitems.Add(new Dictionary<string, object>() { { "newid", drs["newid"].ToString().TrimEnd() }, { "userid", drs["userid"].ToString().TrimEnd() }, { "name", drs["username"].ToString().TrimEnd() }, { "showOper", database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperform @formId,@inoper,@newid;", dbparamlist).Rows.Count > 0 } });
-                }
-                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", operitems.ToArray() }, { "dertModify", false } });
+                dbparamlist.Add(new dbparam("@formId", sRowsData.formId.TrimEnd()));
+                dbparamlist.Add(new dbparam("@inoper", sRowsData.newid.TrimEnd()));
+                dbparamlist.Add(new dbparam("@newid", dr["newid"].ToString().TrimEnd()));
+                items.Add(new Dictionary<string, object>() { { "newid", dr["newid"].ToString().TrimEnd() }, { "userid", dr["userid"].ToString().TrimEnd() }, { "name", dr["username"].ToString().TrimEnd() }, { "showOper", database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperform @formId,@inoper,@newid;", dbparamlist).Rows.Count > 0 } });
             }
             return new sOptonModels() { items = items };
         }
@@ -310,7 +314,7 @@ namespace forminfoCore.Models
                                         dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
                                         dbparamlist.Add(new dbparam("@iid", int.Parse(item["iid"].ToString().TrimEnd())));
                                         dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
-                                        if (database.checkActiveSql("mssql", "flyformstring", "update web.subform set tile = @tile,outValue = @outValue,verified = @verified,type = @type,operation = @operation,area = @area,eror = @eror,checked = @checked,modate = @modate,motime = @motime,@mooper = @mooper where formId = @formId and iid = @iid and inoper = @inoper;", dbparamlist) != "istrue")
+                                        if (database.checkActiveSql("mssql", "flyformstring", "update web.subform set tile = @tile,outValue = @outValue,verified = @verified,type = @type,operation = @operation,area = @area,eror = @eror,checked = @checked,modate = @modate,motime = @motime,mooper = @mooper where formId = @formId and iid = @iid and inoper = @inoper;", dbparamlist) != "istrue")
                                         {
                                             return new statusModels() { status = "error" };
                                         }
@@ -435,13 +439,6 @@ namespace forminfoCore.Models
                     return new statusModels() { status = "error" };
                 }
             }
-            dbparamlist.Clear();
-            dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
-            dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
-            if (database.checkActiveSql("mssql", "flyformstring", "exec web.deleteoperdeta @formId,@inoper;", dbparamlist) != "istrue")
-            {
-                return new statusModels() { status = "error" };
-            }
             foreach (var dertitem in uFormsData.dertitems)
             {
                 foreach (var operitem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(dertitem["operitems"].ToString().TrimEnd()))
@@ -453,9 +450,24 @@ namespace forminfoCore.Models
                             dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
                             dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
                             dbparamlist.Add(new dbparam("@newid", operitem["newid"].ToString().TrimEnd()));
-                            dbparamlist.Add(new dbparam("@indate", date));
-                            dbparamlist.Add(new dbparam("@intime", time));
-                            if (database.checkActiveSql("mssql", "flyformstring", "insert into web.operform (formId,inoper,newid,indate,intime) values (@formId,@inoper,@newid,@indate,@intime);", dbparamlist) != "istrue")
+                            switch (database.checkSelectSql("mssql", "flyformstring", "exec web.searchoperform @formId,@inoper,@newid;", dbparamlist).Rows.Count)
+                            {
+                                case 0:
+                                    dbparamlist.Add(new dbparam("@indate", date));
+                                    dbparamlist.Add(new dbparam("@intime", time));
+                                    if (database.checkActiveSql("mssql", "flyformstring", "insert into web.operform (formId,inoper,newid,indate,intime) values (@formId,@inoper,@newid,@indate,@intime);", dbparamlist) != "istrue")
+                                    {
+                                        return new statusModels() { status = "error" };
+                                    }
+                                    break;
+                            }
+                            break;
+                        default:
+                            dbparamlist.Clear();
+                            dbparamlist.Add(new dbparam("@formId", uFormsData.formId.TrimEnd()));
+                            dbparamlist.Add(new dbparam("@inoper", uFormsData.newid.TrimEnd()));
+                            dbparamlist.Add(new dbparam("@newid", operitem["newid"].ToString().TrimEnd()));
+                            if (database.checkActiveSql("mssql", "flyformstring", "delete from web.operform where formId = @formId and inoper = @inoper and newid = @newid;", dbparamlist) != "istrue")
                             {
                                 return new statusModels() { status = "error" };
                             }

@@ -172,6 +172,7 @@ type action =
   | ShowLimit(int)
   | AddDert(int, array(dertitem))
   | ShowPanel(int, int)
+  | AddOper(int, int, array(operitem))
   | ShowOper(int, int, int)
   | ActionSnackBar(string, bool);
 
@@ -598,6 +599,25 @@ let reducer = (state, action) =>
           state.settitems,
         ),
     }
+  | AddOper(index, dindex, operitems) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i
+              ? {
+                ...settitem,
+                dertitems:
+                  Array.mapi(
+                    (di, dertitem) =>
+                      dindex == di ? {...dertitem, operitems} : dertitem,
+                    settitem.dertitems,
+                  ),
+              }
+              : settitem,
+          state.settitems,
+        ),
+    }
   | ShowOper(index, dindex, oindex) => {
       ...state,
       settitems:
@@ -655,7 +675,7 @@ let initialState = {
   tabitems: [
     {tabShow: true, tabImage: questionAnswerBlack},
     {tabShow: false, tabImage: settingsBlack},
-    {tabShow: false, tabImage: menuBookBlack},
+    {tabShow: false, tabImage: personAddBlack},
   ],
   index: 0,
   items: [||],
@@ -970,12 +990,12 @@ let make = _ => {
   let changeNumber =
     useCallback((value, i) => ChangeNumber(value, i) |> dispatch);
 
-  let limitAJax = i =>
+  let sLimitAJax = i =>
     Js.Promise.(
       "newid"
       |> Locals.select
       |> userData
-      |> Axiosapi.Formor.limit
+      |> Axiosapi.Formor.sLimit
       |> then_(response =>
            {
              AddDert(i, response##data##items) |> dispatch;
@@ -992,11 +1012,29 @@ let make = _ => {
       ShowLimit(i) |> dispatch;
       if (!value) {
         ActionShowProgress |> dispatch;
-        i |> limitAJax;
+        i |> sLimitAJax;
       };
     });
 
-  let showPanel = useCallback((i, di) => ShowPanel(i, di) |> dispatch);
+  let sOperAJax = (value, i, di) =>
+    Js.Promise.(
+      value
+      |> otherData("newid" |> Locals.select)
+      |> Axiosapi.Formor.sOper
+      |> then_(response =>
+           AddOper(i, di, response##data##items) |> dispatch |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+
+  let showPanel =
+    useCallback((value, i, di, items) => {
+      ShowPanel(i, di) |> dispatch;
+      if (items |> Js_array.length == 0) {
+        di |> sOperAJax(value, i);
+      };
+    });
 
   let showOper = useCallback((i, di, oi) => ShowOper(i, di, oi) |> dispatch);
 
@@ -2073,7 +2111,14 @@ let make = _ => {
                                    ...(
                                         <ExpansionSummary
                                           showSummary={dertitem.showPanel}
-                                          onClick={_ => di |> showPanel(i)}>
+                                          onClick={_ =>
+                                            dertitem.operitems
+                                            |> showPanel(
+                                                 dertitem.dertment,
+                                                 i,
+                                                 di,
+                                               )
+                                          }>
                                           ...(
                                                <ExpansionBasis>
                                                  <Typography

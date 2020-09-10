@@ -229,7 +229,7 @@ namespace forminfoCore.Models
             }
             dbparamlist.Clear();
             dbparamlist.Add(new dbparam("@formId", iFormData.formId.TrimEnd()));
-            dbparamlist.Add(new dbparam("@score", Math.Round((right / total) * 100, 1)));
+            dbparamlist.Add(new dbparam("@score", total == 0 ? 100 : Math.Round((right / total) * 100, 1)));
             dbparamlist.Add(new dbparam("@inoper", iFormData.newid.TrimEnd()));
             if (database.checkActiveSql("mssql", "flyformstring", "exec web.searchmaininfo @formId,@score,@inoper;", dbparamlist) != "istrue")
             {

@@ -67,8 +67,8 @@ let initialState = {
   delete: false,
   export: false,
   tabitems: [
-    {tabtShow: false, tabImage: storeBlack, tabPath: proformPath},
-    {tabtShow: false, tabImage: menuBookBlack, tabPath: protourPath},
+    {tabtShow: false, tabImage: descriptionBlack, tabPath: proformPath},
+    {tabtShow: false, tabImage: tourBlack, tabPath: protourPath},
   ],
   index: 1,
   showYoutube: false,

@@ -344,19 +344,19 @@ var initialState_tabitems = /* :: */[
     /* :: */[
       {
         tabtShow: false,
-        tabImage: Icons$BtsCore.homeBlack,
+        tabImage: Icons$BtsCore.groupBlack,
         tabPath: Path$BtsCore.homePath
       },
       /* :: */[
         {
           tabtShow: false,
-          tabImage: Icons$BtsCore.homeBlack,
+          tabImage: Icons$BtsCore.groupBlack,
           tabPath: Path$BtsCore.homePath
         },
         /* :: */[
           {
             tabtShow: false,
-            tabImage: Icons$BtsCore.homeBlack,
+            tabImage: Icons$BtsCore.groupBlack,
             tabPath: Path$BtsCore.homePath
           },
           /* [] */0

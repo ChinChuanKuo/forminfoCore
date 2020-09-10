@@ -756,6 +756,7 @@ function Home(Props) {
                       children: $$Array.mapi((function (ai, answeritem) {
                               var match = state.formFinish;
                               var match$1 = state.formExam;
+                              var match$2 = answeritem.showRight;
                               return React.createElement(GridItem$BtsCore.make, {
                                           top: "0",
                                           right: "0",
@@ -794,7 +795,7 @@ function Home(Props) {
                                                           variant: "subtitle1",
                                                           children: answeritem.values
                                                         })
-                                                  }), match && match$1 ? React.createElement(GridItem$BtsCore.make, {
+                                                  }), match && match$1 && !match$2 ? React.createElement(GridItem$BtsCore.make, {
                                                       top: "0",
                                                       right: "0",
                                                       bottom: "0",
@@ -802,7 +803,7 @@ function Home(Props) {
                                                       xs: "no",
                                                       children: React.createElement(IconAction$BtsCore.make, {
                                                             animation: "leftRight",
-                                                            src: answeritem.showRight ? Icons$BtsCore.doneSuccessful : Icons$BtsCore.errorWarn
+                                                            src: Icons$BtsCore.errorWarn
                                                           })
                                                     }) : null)
                                         });
@@ -920,6 +921,7 @@ function Home(Props) {
                                                                                   right: "12",
                                                                                   bottom: "0",
                                                                                   left: "16",
+                                                                                  width: "180px",
                                                                                   xs: "no",
                                                                                   children: React.createElement(GridContainer$BtsCore.make, {
                                                                                         direction: "row",

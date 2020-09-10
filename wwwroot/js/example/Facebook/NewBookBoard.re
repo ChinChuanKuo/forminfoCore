@@ -104,9 +104,9 @@ let initialState = {
   tabitems: [
     {tabtShow: true, tabImage: homeBlack, tabPath: homePath},
     {tabtShow: false, tabImage: cardTravelBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: homeBlack, tabPath: homePath},
+    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
+    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
+    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
   ],
   index: 0,
   showCreate: false,

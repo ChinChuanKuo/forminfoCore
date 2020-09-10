@@ -190,8 +190,12 @@ function insert$2(data) {
   return Axios$1.post("/Formor/insertData", data);
 }
 
-function limit(data) {
-  return Axios$1.post("/Formor/limitData", data);
+function sLimit(data) {
+  return Axios$1.post("/Formor/sLimitData", data);
+}
+
+function sOper(data) {
+  return Axios$1.post("/Formor/sOperData", data);
 }
 
 var Formor = {
@@ -201,7 +205,8 @@ var Formor = {
   add: add$1,
   $$delete: $$delete,
   insert: insert$2,
-  limit: limit
+  sLimit: sLimit,
+  sOper: sOper
 };
 
 function polling$1(data) {
@@ -230,8 +235,12 @@ function sVeri$1(data) {
   return Axios$1.post("/Proform/sVeriData", data);
 }
 
-function limit$1(data) {
-  return Axios$1.post("/Proform/limitData", data);
+function sLimit$1(data) {
+  return Axios$1.post("/Proform/sLimitData", data);
+}
+
+function sOper$1(data) {
+  return Axios$1.post("/Proform/sOperData", data);
 }
 
 function add$2(data) {
@@ -253,7 +262,8 @@ var Proform = {
   sItem: sItem$1,
   sType: sType$1,
   sVeri: sVeri$1,
-  limit: limit$1,
+  sLimit: sLimit$1,
+  sOper: sOper$1,
   add: add$2,
   $$delete: $$delete$1,
   insert: insert$3

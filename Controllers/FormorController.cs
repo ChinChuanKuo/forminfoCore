@@ -46,10 +46,17 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
-        public JsonResult limitData([FromBody] userData userData)
+        public JsonResult sLimitData([FromBody] userData userData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
-            return Json(new FormorClass().GetLimitModels(userData, clientip));
+            return Json(new FormorClass().GetSlimitModels(userData, clientip));
+        }
+
+        [HttpPost]
+        public JsonResult sOperData([FromBody] otherData otherData)
+        {
+            string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
+            return Json(new FormorClass().GetSoperModels(otherData, clientip));
         }
     }
 }

@@ -1410,8 +1410,8 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowOper */39 :
-          var oindex = action[2];
+      case /* AddOper */39 :
+          var operitems = action[2];
           var dindex$1 = action[1];
           var index$33 = action[0];
           return {
@@ -1446,6 +1446,58 @@ function reducer(state, action) {
                                               return {
                                                       showPanel: dertitem.showPanel,
                                                       dertment: dertitem.dertment,
+                                                      operitems: operitems,
+                                                      dertModify: dertitem.dertModify
+                                                    };
+                                            } else {
+                                              return dertitem;
+                                            }
+                                          }), settitem.dertitems),
+                                    number: settitem.number
+                                  };
+                          } else {
+                            return settitem;
+                          }
+                        }), state.settitems),
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ShowOper */40 :
+          var oindex = action[2];
+          var dindex$2 = action[1];
+          var index$34 = action[0];
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tile: state.tile,
+                  desc: state.desc,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  items: state.items,
+                  settitems: $$Array.mapi((function (i, settitem) {
+                          if (index$34 === i) {
+                            return {
+                                    stdate: settitem.stdate,
+                                    sttime: settitem.sttime,
+                                    endate: settitem.endate,
+                                    entime: settitem.entime,
+                                    showExam: settitem.showExam,
+                                    randOption: settitem.randOption,
+                                    randSubtile: settitem.randSubtile,
+                                    showRestart: settitem.showRestart,
+                                    showLimit: settitem.showLimit,
+                                    dertitems: $$Array.mapi((function (di, dertitem) {
+                                            if (dindex$2 === di) {
+                                              return {
+                                                      showPanel: dertitem.showPanel,
+                                                      dertment: dertitem.dertment,
                                                       operitems: $$Array.mapi((function (oi, operitem) {
                                                               if (oindex === oi) {
                                                                 return {
@@ -1473,7 +1525,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ActionSnackBar */40 :
+      case /* ActionSnackBar */41 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -1511,7 +1563,7 @@ var initialState_tabitems = /* :: */[
     /* :: */[
       {
         tabShow: false,
-        tabImage: Icons$BtsCore.menuBookBlack
+        tabImage: Icons$BtsCore.personAddBlack
       },
       /* [] */0
     ]
@@ -1547,12 +1599,12 @@ function Formor(Props) {
   var dispatch = match[1];
   var state = match[0];
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(41, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(40, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(41, [
                           "",
                           false
                         ]));
@@ -1859,7 +1911,7 @@ function Formor(Props) {
               Curry._1(dispatch, /* ShowLimit */Block.__(36, [i]));
               if (!value) {
                 Curry._1(dispatch, /* ActionShowProgress */2);
-                Axiosapi$BtsCore.Formor.limit(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
+                Axiosapi$BtsCore.Formor.sLimit(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                           return Promise.resolve((Curry._1(dispatch, /* AddDert */Block.__(37, [
                                               i,
                                               response.data.items
@@ -1872,17 +1924,30 @@ function Formor(Props) {
               
             });
         }));
-  var showPanel = React.useCallback((function (i) {
-          return (function (di) {
-              return Curry._1(dispatch, /* ShowPanel */Block.__(38, [
-                            i,
-                            di
-                          ]));
+  var showPanel = React.useCallback((function (value) {
+          return (function (i, di, items) {
+              Curry._1(dispatch, /* ShowPanel */Block.__(38, [
+                      i,
+                      di
+                    ]));
+              if (items.length === 0) {
+                Axiosapi$BtsCore.Formor.sOper(Data$BtsCore.otherData(localStorage.getItem("newid"), value)).then((function (response) {
+                          return Promise.resolve(Curry._1(dispatch, /* AddOper */Block.__(39, [
+                                            i,
+                                            di,
+                                            response.data.items
+                                          ])));
+                        })).catch((function (error) {
+                        return Promise.resolve((console.log(error), undefined));
+                      }));
+                return ;
+              }
+              
             });
         }));
   var showOper = React.useCallback((function (i) {
           return (function (di, oi) {
-              return Curry._1(dispatch, /* ShowOper */Block.__(39, [
+              return Curry._1(dispatch, /* ShowOper */Block.__(40, [
                             i,
                             di,
                             oi
@@ -2061,7 +2126,7 @@ function Formor(Props) {
                                                                                   React.createElement(ExpansionSummary$BtsCore.make, {
                                                                                         showSummary: dertitem.showPanel,
                                                                                         onClick: (function (param) {
-                                                                                            return Curry._2(showPanel, i, di);
+                                                                                            return Curry._4(showPanel, dertitem.dertment, i, di, dertitem.operitems);
                                                                                           }),
                                                                                         children: /* tuple */[
                                                                                           React.createElement(ExpansionBasis$BtsCore.make, {

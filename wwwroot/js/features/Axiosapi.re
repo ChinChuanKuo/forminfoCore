@@ -81,7 +81,8 @@ module Formor = {
   let add = data => postData("/Formor/addData", data);
   let delete = data => postData("/Formor/deleteData", data);
   let insert = data => postData("/Formor/insertData", data);
-  let limit = data => postData("/Formor/limitData", data);
+  let sLimit = data => postData("/Formor/sLimitData", data);
+  let sOper = data => postData("/Formor/sOperData", data);
 };
 
 module Proform = {
@@ -93,7 +94,8 @@ module Proform = {
   let sItem = data => postData("/Proform/sItemData", data);
   let sType = data => postData("/Proform/sTypeData", data);
   let sVeri = data => postData("/Proform/sVeriData", data);
-  let limit = data => postData("/Proform/limitData", data);
+  let sLimit = data => postData("/Proform/sLimitData", data);
+  let sOper = data => postData("/Proform/sOperData", data);
   let add = data => postData("/Proform/addData", data);
   let delete = data => postData("/Proform/deleteData", data);
   let insert = data => postData("/Proform/insertData", data);

@@ -172,21 +172,24 @@ namespace forminfoCore.Models
             return new statusModels() { status = "istrue" };
         }
 
-        public sOptonModels GetLimitModels(userData userData, string cuurip)
+        public sOptonModels GetSlimitModels(userData userData, string cuurip)
         {
-            database database = new database();
-            List<dbparam> dbparamlist = new List<dbparam>();
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
-            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", dbparamlist).Rows)
+            foreach (DataRow dr in new database().checkSelectSql("mssql", "epaperstring", "exec web.searchdistinctdert;", new List<dbparam>()).Rows)
             {
-                dbparamlist.Clear();
-                dbparamlist.Add(new dbparam("@department", dr["department"].ToString().TrimEnd()));
-                List<Dictionary<string, object>> operitems = new List<Dictionary<string, object>>();
-                foreach (DataRow drs in database.checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
-                {
-                    operitems.Add(new Dictionary<string, object>() { { "newid", drs["newid"].ToString().TrimEnd() }, { "userid", drs["userid"].ToString().TrimEnd() }, { "name", drs["username"].ToString().TrimEnd() }, { "showOper", false } });
-                }
-                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", operitems.ToArray() }, { "dertModify", false } });
+                items.Add(new Dictionary<string, object>() { { "showPanel", false }, { "dertment", dr["department"].ToString().TrimEnd() }, { "operitems", new List<Dictionary<string, object>>().ToArray() }, { "dertModify", false } });
+            }
+            return new sOptonModels() { items = items };
+        }
+
+        public sOptonModels GetSoperModels(otherData otherData, string cuurip)
+        {
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@department", otherData.values.TrimEnd()));
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in new database().checkSelectSql("mssql", "epaperstring", "exec web.searchdertoper @department;", dbparamlist).Rows)
+            {
+                items.Add(new Dictionary<string, object>() { { "newid", dr["newid"].ToString().TrimEnd() }, { "userid", dr["userid"].ToString().TrimEnd() }, { "name", dr["username"].ToString().TrimEnd() }, { "showOper", false } });
             }
             return new sOptonModels() { items = items };
         }

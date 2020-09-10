@@ -16,6 +16,8 @@ import * as HelpblackSvg from "./help/helpblack.svg";
 import * as HelpwhiteSvg from "./help/helpwhite.svg";
 import * as HomeblackSvg from "./home/homeblack.svg";
 import * as HomewhiteSvg from "./home/homewhite.svg";
+import * as ListblackSvg from "./list/listblack.svg";
+import * as ListwhiteSvg from "./list/listwhite.svg";
 import * as LockblackSvg from "./lock/lockblack.svg";
 import * as LockwhiteSvg from "./lock/lockwhite.svg";
 import * as MailblackSvg from "./mail/mailblack.svg";
@@ -26,6 +28,8 @@ import * as SaveblackSvg from "./save/saveblack.svg";
 import * as SavewhiteSvg from "./save/savewhite.svg";
 import * as SendblackSvg from "./send/sendblack.svg";
 import * as SendwhiteSvg from "./send/sendwhite.svg";
+import * as TourblackSvg from "./tour/tourblack.svg";
+import * as TourwhiteSvg from "./tour/tourwhite.svg";
 import * as WifiblackSvg from "./wifi/wifiblack.svg";
 import * as WifiwhiteSvg from "./wifi/wifiwhite.svg";
 import * as ClearwarnSvg from "./clear/clearwarn.svg";
@@ -461,6 +465,10 @@ var keyboardArrowRightWhite = Keyboard_arrow_rightwhiteSvg;
 
 var keyboardArrowRightBlack = Keyboard_arrow_rightblackSvg;
 
+var listWhite = ListwhiteSvg;
+
+var listBlack = ListblackSvg;
+
 var lockWhite = LockwhiteSvg;
 
 var lockBlack = LockblackSvg;
@@ -613,6 +621,10 @@ var settingsApplicationsWhite = Settings_applicationswhiteSvg;
 
 var settingsApplicationsBlack = Settings_applicationsblackSvg;
 
+var tourWhite = TourwhiteSvg;
+
+var tourBlack = TourblackSvg;
+
 var todayWhite = TodaywhiteSvg;
 
 var todayBlack = TodayblackSvg;
@@ -762,6 +774,8 @@ export {
   keyboardBackspaceBlack ,
   keyboardArrowRightWhite ,
   keyboardArrowRightBlack ,
+  listWhite ,
+  listBlack ,
   lockWhite ,
   lockBlack ,
   languageWhite ,
@@ -838,6 +852,8 @@ export {
   strikethroughSBlack ,
   settingsApplicationsWhite ,
   settingsApplicationsBlack ,
+  tourWhite ,
+  tourBlack ,
   todayWhite ,
   todayBlack ,
   translateWhite ,

@@ -652,7 +652,12 @@ let make = _ => {
                               </Typography>
                             </GridItem>
                             <GridItem
-                              top="0" right="12" bottom="0" left="16" xs="no">
+                              top="0"
+                              right="12"
+                              bottom="0"
+                              left="16"
+                              width="180px"
+                              xs="no">
                               <GridContainer
                                 direction="row"
                                 justify="center"
@@ -951,8 +956,9 @@ let make = _ => {
                                              {switch (
                                                 state.formFinish,
                                                 state.formExam,
+                                                answeritem.showRight,
                                               ) {
-                                              | (true, true) =>
+                                              | (true, true, false) =>
                                                 <GridItem
                                                   top="0"
                                                   right="0"
@@ -961,14 +967,10 @@ let make = _ => {
                                                   xs="no">
                                                   <IconAction
                                                     animation="leftRight"
-                                                    src={
-                                                      answeritem.showRight
-                                                        ? doneSuccessful
-                                                        : errorWarn
-                                                    }
+                                                    src=errorWarn
                                                   />
                                                 </GridItem>
-                                              | _ => null
+                                              | (_, _, _) => null
                                               }}
                                            </GridContainer>
                                          </GridItem>

@@ -219,6 +219,7 @@ type action =
   | ShowLimit(int)
   | AddDert(int, array(dertitem))
   | ShowPanel(int, int)
+  | AddOper(int, int, array(operitem))
   | ShowOper(int, int, int)
   | CloseAnimationFull
   | ActionSnackBar(string, bool);
@@ -714,6 +715,25 @@ let reducer = (state, action) =>
           state.settitems,
         ),
     }
+  | AddOper(index, dindex, operitems) => {
+      ...state,
+      settitems:
+        Array.mapi(
+          (i, settitem) =>
+            index == i
+              ? {
+                ...settitem,
+                dertitems:
+                  Array.mapi(
+                    (di, dertitem) =>
+                      dindex == di ? {...dertitem, operitems} : dertitem,
+                    settitem.dertitems,
+                  ),
+              }
+              : settitem,
+          state.settitems,
+        ),
+    }
   | ShowOper(index, dindex, oindex) => {
       ...state,
       settitems:
@@ -766,8 +786,8 @@ let initialState = {
   delete: false,
   export: false,
   tabitems: [
-    {tabtShow: false, tabImage: storeBlack, tabPath: proformPath},
-    {tabtShow: false, tabImage: menuBookBlack, tabPath: protourPath},
+    {tabtShow: false, tabImage: descriptionBlack, tabPath: proformPath},
+    {tabtShow: false, tabImage: tourBlack, tabPath: protourPath},
   ],
   index: 0,
   itemCount: 0,
@@ -782,7 +802,8 @@ let initialState = {
   formtabitems: [
     {tabShow: true, tabImage: questionAnswerBlack},
     {tabShow: false, tabImage: settingsBlack},
-    {tabShow: false, tabImage: menuBookBlack},
+    {tabShow: false, tabImage: personAddBlack},
+    {tabShow: false, tabImage: listBlack},
   ],
   formindex: 0,
   formitems: [||],
@@ -1041,12 +1062,12 @@ let make = _ => {
   let changeFormDesc =
     useCallback(value => ChangeFormDesc(value) |> dispatch);
 
-  let limitAJax = i =>
+  let sLimitAJax = i =>
     Js.Promise.(
       "newid"
       |> Locals.select
       |> dFormData(state.formId)
-      |> Axiosapi.Proform.limit
+      |> Axiosapi.Proform.sLimit
       |> then_(response =>
            {
              AddDert(i, response##data##items) |> dispatch;
@@ -1063,7 +1084,9 @@ let make = _ => {
       ClickFormTab(i) |> dispatch;
       if (i == 2 && state.settitems[0].showLimit) {
         ActionShowProgress |> dispatch;
-        0 |> limitAJax;
+        0 |> sLimitAJax;
+      } else if (i == 3) {
+        ActionShowProgress |> dispatch;
       };
     });
 
@@ -1308,11 +1331,30 @@ let make = _ => {
       ShowLimit(i) |> dispatch;
       if (!value) {
         ActionShowProgress |> dispatch;
-        i |> limitAJax;
+        i |> sLimitAJax;
       };
     });
 
-  let showPanel = useCallback((i, di) => ShowPanel(i, di) |> dispatch);
+  let sOperAJax = (value, i, di) =>
+    Js.Promise.(
+      "newid"
+      |> Locals.select
+      |> sRowsData(state.formId, value)
+      |> Axiosapi.Proform.sOper
+      |> then_(response =>
+           AddOper(i, di, response##data##items) |> dispatch |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+
+  let showPanel =
+    useCallback((value, i, di, items) => {
+      ShowPanel(i, di) |> dispatch;
+      if (items |> Js_array.length == 0) {
+        di |> sOperAJax(value, i);
+      };
+    });
 
   let showOper = useCallback((i, di, oi) => ShowOper(i, di, oi) |> dispatch);
 
@@ -2591,7 +2633,7 @@ let make = _ => {
                       </>
                     )
                  |> array
-               | _ =>
+               | 2 =>
                  state.settitems
                  |> Array.mapi((i, settitem) =>
                       <>
@@ -2629,7 +2671,12 @@ let make = _ => {
                                             <ExpansionSummary
                                               showSummary={dertitem.showPanel}
                                               onClick={_ =>
-                                                di |> showPanel(i)
+                                                dertitem.operitems
+                                                |> showPanel(
+                                                     dertitem.dertment,
+                                                     i,
+                                                     di,
+                                                   )
                                               }>
                                               ...(
                                                    <ExpansionBasis>
@@ -2743,6 +2790,7 @@ let make = _ => {
                       </>
                     )
                  |> array
+               | _ => null
                }}
             </GridContainer>
           </GridItem>

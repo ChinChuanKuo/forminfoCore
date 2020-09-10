@@ -251,6 +251,8 @@ external keyboardArrowRightWhite: string =
 external keyboardArrowRightBlack: string =
   "./keyboard_arrow_right/keyboard_arrow_rightblack.svg";
 
+[@bs.module] external listWhite: string = "./list/listwhite.svg";
+[@bs.module] external listBlack: string = "./list/listblack.svg";
 [@bs.module] external lockWhite: string = "./lock/lockwhite.svg";
 [@bs.module] external lockBlack: string = "./lock/lockblack.svg";
 [@bs.module] external languageWhite: string = "./language/languagewhite.svg";
@@ -385,6 +387,8 @@ external settingsApplicationsWhite: string =
 external settingsApplicationsBlack: string =
   "./settings_applications/settings_applicationsblack.svg";
 
+[@bs.module] external tourWhite: string = "./tour/tourwhite.svg";
+[@bs.module] external tourBlack: string = "./tour/tourblack.svg";
 [@bs.module] external todayWhite: string = "./today/todaywhite.svg";
 [@bs.module] external todayBlack: string = "./today/todayblack.svg";
 [@bs.module]

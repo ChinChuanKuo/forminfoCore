@@ -368,6 +368,10 @@ var initialState_items = [
     value: "keyboardArrowRight"
   },
   {
+    icon: Icons$BtsCore.listBlack,
+    value: "list"
+  },
+  {
     icon: Icons$BtsCore.lockBlack,
     value: "lock"
   },
@@ -510,6 +514,10 @@ var initialState_items = [
   {
     icon: Icons$BtsCore.settingsApplicationsBlack,
     value: "settingsApplications"
+  },
+  {
+    icon: Icons$BtsCore.tourBlack,
+    value: "tour"
   },
   {
     icon: Icons$BtsCore.todayBlack,

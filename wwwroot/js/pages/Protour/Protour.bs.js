@@ -127,13 +127,13 @@ function reducer(state, action) {
 var initialState_tabitems = /* :: */[
   {
     tabtShow: false,
-    tabImage: Icons$BtsCore.storeBlack,
+    tabImage: Icons$BtsCore.descriptionBlack,
     tabPath: Path$BtsCore.proformPath
   },
   /* :: */[
     {
       tabtShow: false,
-      tabImage: Icons$BtsCore.menuBookBlack,
+      tabImage: Icons$BtsCore.tourBlack,
       tabPath: Path$BtsCore.protourPath
     },
     /* [] */0
