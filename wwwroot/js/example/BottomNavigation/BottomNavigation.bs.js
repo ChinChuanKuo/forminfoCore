@@ -7,13 +7,13 @@ import * as IconGeneral$BtsCore from "../../material-ui/core/IconStyle/IconGener
 import * as NavigationAction$BtsCore from "../../material-ui/core/Navigation/NavigationAction.bs.js";
 
 function BottomNavigation(Props) {
-  var actionShow = Props.actionShow;
+  var showAction = Props.showAction;
   var disabled = Props.disabled;
   var onClick = Props.onClick;
   var icon = Props.icon;
   var tile = Props.tile;
   var tmp = {
-    actionShow: Setting$BtsCore.disabledObjects(actionShow),
+    showAction: Setting$BtsCore.disabledObjects(showAction),
     disabled: Setting$BtsCore.disabledObjects(disabled),
     children: /* tuple */[
       React.createElement(IconGeneral$BtsCore.make, {

@@ -14,7 +14,7 @@ rule build_ast_from_re
   description = [34mBuilding[39m [2m${out}[22m
 build  wwwroot/js/App.reast : build_ast_from_re $src_root_dir/wwwroot/js/App.re
 rule build_deps
-  command = $bsdep -hash 6e44289f76b37233316e397fad9205fb $g_ns -g $bsb_dir_group $in
+  command = $bsdep -hash 060090f0f0f703c132b13e0352279b6b $g_ns -g $bsb_dir_group $in
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
 build  wwwroot/js/App.d : build_deps wwwroot/js/App.reast
@@ -392,26 +392,6 @@ build  wwwroot/js/example/TextFields/TextFields-BtsCore.cmj |  wwwroot/js/exampl
 build  wwwroot/js/example/Forms/IconForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/IconForm.re
 build  wwwroot/js/example/Forms/IconForm.d : build_deps wwwroot/js/example/Forms/IconForm.reast
 build  wwwroot/js/example/Forms/IconForm-BtsCore.cmj |  wwwroot/js/example/Forms/IconForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/IconForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/IconForm.reast ||  wwwroot/js/example/Forms/IconForm.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
-build  wwwroot/js/example/Forms/RoomForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/RoomForm.re
-build  wwwroot/js/example/Forms/RoomForm.d : build_deps wwwroot/js/example/Forms/RoomForm.reast
-build  wwwroot/js/example/Forms/RoomForm-BtsCore.cmj |  wwwroot/js/example/Forms/RoomForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/RoomForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/RoomForm.reast ||  wwwroot/js/example/Forms/RoomForm.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
-build  wwwroot/js/example/Forms/ShareForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/ShareForm.re
-build  wwwroot/js/example/Forms/ShareForm.d : build_deps wwwroot/js/example/Forms/ShareForm.reast
-build  wwwroot/js/example/Forms/ShareForm-BtsCore.cmj |  wwwroot/js/example/Forms/ShareForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/ShareForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/ShareForm.reast ||  wwwroot/js/example/Forms/ShareForm.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
-build  wwwroot/js/example/Forms/TravelForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/TravelForm.re
-build  wwwroot/js/example/Forms/TravelForm.d : build_deps wwwroot/js/example/Forms/TravelForm.reast
-build  wwwroot/js/example/Forms/TravelForm-BtsCore.cmj |  wwwroot/js/example/Forms/TravelForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/TravelForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/TravelForm.reast ||  wwwroot/js/example/Forms/TravelForm.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
-build  wwwroot/js/example/Forms/QuestionForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/QuestionForm.re
-build  wwwroot/js/example/Forms/QuestionForm.d : build_deps wwwroot/js/example/Forms/QuestionForm.reast
-build  wwwroot/js/example/Forms/QuestionForm-BtsCore.cmj |  wwwroot/js/example/Forms/QuestionForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/QuestionForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/QuestionForm.reast ||  wwwroot/js/example/Forms/QuestionForm.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
-build  wwwroot/js/example/Forms/TextFieldForm.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Forms/TextFieldForm.re
-build  wwwroot/js/example/Forms/TextFieldForm.d : build_deps wwwroot/js/example/Forms/TextFieldForm.reast
-build  wwwroot/js/example/Forms/TextFieldForm-BtsCore.cmj |  wwwroot/js/example/Forms/TextFieldForm-BtsCore.cmi $src_root_dir/wwwroot/js/example/Forms/TextFieldForm.bs.js : ml_cmj_cmi wwwroot/js/example/Forms/TextFieldForm.reast ||  wwwroot/js/example/Forms/TextFieldForm.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Forms
 build  wwwroot/js/example/Shape/Triangle.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Shape/Triangle.re
 build  wwwroot/js/example/Shape/Triangle.d : build_deps wwwroot/js/example/Shape/Triangle.reast

@@ -237,7 +237,7 @@
     {
         "id": "Login.email",
         "defaultMessage": "Email",
-        "message": "信箱帳號"
+        "message": "員工編號"
     },
     {
         "id": "Login.password",

@@ -27,6 +27,8 @@ function reducer(state, action) {
       case /* SettingError */0 :
           return {
                   formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: state.showProgress,
                   error: !state.error,
                   insert: state.insert,
@@ -41,6 +43,8 @@ function reducer(state, action) {
       case /* SettingFormLoad */1 :
           return {
                   formLoad: !state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: state.showProgress,
                   error: state.error,
                   insert: state.insert,
@@ -55,6 +59,8 @@ function reducer(state, action) {
       case /* ActionShowProgress */2 :
           return {
                   formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: !state.showProgress,
                   error: state.error,
                   insert: state.insert,
@@ -70,9 +76,27 @@ function reducer(state, action) {
     }
   } else {
     switch (action.tag | 0) {
-      case /* ActionPermissItems */0 :
+      case /* SettingFormWidth */0 :
           return {
                   formLoad: state.formLoad,
+                  formWidth: action[0],
+                  formHeight: action[1],
+                  showProgress: state.showProgress,
+                  error: state.error,
+                  insert: state.insert,
+                  update: state.update,
+                  delete: state.delete,
+                  export: state.export,
+                  tabitems: state.tabitems,
+                  index: state.index,
+                  showYoutube: state.showYoutube,
+                  youtubeText: state.youtubeText
+                };
+      case /* ActionPermissItems */1 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: state.showProgress,
                   error: state.error,
                   insert: action[0],
@@ -84,10 +108,12 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClickItemTab */1 :
+      case /* ClickItemTab */2 :
           var index = action[0];
           return {
                   formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: state.showProgress,
                   error: state.error,
                   insert: state.insert,
@@ -96,7 +122,7 @@ function reducer(state, action) {
                   export: state.export,
                   tabitems: List.mapi((function (i, tabtitem) {
                           return {
-                                  tabtShow: index === i,
+                                  showTabt: index === i,
                                   tabImage: tabtitem.tabImage,
                                   tabPath: tabtitem.tabPath
                                 };
@@ -105,9 +131,11 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ActionSnackBar */2 :
+      case /* ActionSnackBar */3 :
           return {
                   formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
                   showProgress: state.showProgress,
                   error: state.error,
                   insert: state.insert,
@@ -126,13 +154,13 @@ function reducer(state, action) {
 
 var initialState_tabitems = /* :: */[
   {
-    tabtShow: false,
+    showTabt: false,
     tabImage: Icons$BtsCore.descriptionBlack,
     tabPath: Path$BtsCore.proformPath
   },
   /* :: */[
     {
-      tabtShow: false,
+      showTabt: false,
       tabImage: Icons$BtsCore.tourBlack,
       tabPath: Path$BtsCore.protourPath
     },
@@ -142,6 +170,8 @@ var initialState_tabitems = /* :: */[
 
 var initialState = {
   formLoad: false,
+  formWidth: 0,
+  formHeight: 0,
   showProgress: true,
   error: false,
   insert: false,
@@ -160,7 +190,7 @@ function Protour(Props) {
   var state = match[0];
   var permissAJax = function (param) {
     Axiosapi$BtsCore.Form.permiss(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
-              return Promise.resolve((Curry._1(dispatch, /* ActionPermissItems */Block.__(0, [
+              return Promise.resolve((Curry._1(dispatch, /* ActionPermissItems */Block.__(1, [
                                   response.data.insert,
                                   response.data.update,
                                   response.data.delete,
@@ -180,14 +210,30 @@ function Protour(Props) {
                     });
           }
           Curry._1(dispatch, /* SettingFormLoad */1);
+          Curry._1(dispatch, /* SettingFormWidth */Block.__(0, [
+                  window.innerWidth,
+                  window.innerHeight
+                ]));
           var timeId = permissAJax(undefined);
           return (function (param) {
                     return timeId;
                   });
         }));
+  var handleResize = function ($$event) {
+    return Curry._1(dispatch, /* SettingFormWidth */Block.__(0, [
+                  $$event.currentTarget.innerWidth,
+                  $$event.currentTarget.innerHeight
+                ]));
+  };
+  React.useEffect((function () {
+          window.addEventListener("resize", handleResize, true);
+          return (function (param) {
+                    
+                  });
+        }), ([]));
   var clickItemTab = React.useCallback((function (i) {
           return (function (tabPath) {
-              Curry._1(dispatch, /* ClickItemTab */Block.__(1, [i]));
+              Curry._1(dispatch, /* ClickItemTab */Block.__(2, [i]));
               return ReasonReactRouter.push(tabPath);
             });
         }));
@@ -218,7 +264,7 @@ function Protour(Props) {
                                           height: "3",
                                           children: $$Array.of_list(List.mapi((function (i, tabtitem) {
                                                       return React.createElement(Tab$BtsCore.make, {
-                                                                  tabShow: tabtitem.tabtShow,
+                                                                  showTab: tabtitem.showTabt,
                                                                   maxWidth: "111.6",
                                                                   borderRadius: "15",
                                                                   id: "bus-" + String(i),

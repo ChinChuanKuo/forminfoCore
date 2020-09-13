@@ -30,6 +30,7 @@ import * as NewFacetube$BtsCore from "../../example/Facebook/NewFacetube.bs.js";
 import * as DialogActions$BtsCore from "../../material-ui/core/Dialog/DialogActions.bs.js";
 import * as DialogContent$BtsCore from "../../material-ui/core/Dialog/DialogContent.bs.js";
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
+import * as IconAnimation$BtsCore from "../../controls/IconAnimation.bs.js";
 import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/SnackbarYoutube.bs.js";
 import * as CardOrPaperBoard$BtsCore from "../../example/Boards/CardOrPaperBoard.bs.js";
 import * as DialogContentText$BtsCore from "../../material-ui/core/Dialog/DialogContentText.bs.js";
@@ -88,7 +89,7 @@ function reducer(state, action) {
           newrecord$8.index = index;
           newrecord$8.tabitems = List.mapi((function (i, tabtitem) {
                   return {
-                          tabShow: index === i,
+                          showTab: index === i,
                           tabImage: tabtitem.tabImage
                         };
                 }), state.tabitems);
@@ -217,7 +218,7 @@ function reducer(state, action) {
                                     if (aindex === ai) {
                                       return {
                                               id: answeritem.id,
-                                              values: answeritem.values,
+                                              value: answeritem.value,
                                               showAnswer: !answeritem.showAnswer,
                                               showRight: answeritem.showRight
                                             };
@@ -253,7 +254,7 @@ function reducer(state, action) {
                             answeritems: $$Array.mapi((function (ai, answeritem) {
                                     return {
                                             id: answeritem.id,
-                                            values: answeritem.values,
+                                            value: answeritem.value,
                                             showAnswer: aindex$1 === ai ? !answeritem.showAnswer : false,
                                             showRight: answeritem.showRight
                                           };
@@ -278,13 +279,13 @@ var initialState_items = [];
 
 var initialState_tabitems = /* :: */[
   {
-    tabShow: false,
+    showTab: false,
     tabImage: Icons$BtsCore.storeBlack
   },
   /* :: */[
     {
-      tabShow: false,
-      tabImage: Icons$BtsCore.menuBookBlack
+      showTab: false,
+      tabImage: Icons$BtsCore.noteBlack
     },
     /* [] */0
   ]
@@ -318,20 +319,6 @@ var initialState = {
   showYoutube: false,
   youtubeText: ""
 };
-
-function answerIcon(outValue, showAnswer) {
-  if (outValue === "checkbox") {
-    if (showAnswer) {
-      return Icons$BtsCore.checkBoxBlack;
-    } else {
-      return Icons$BtsCore.checkBoxOutlineBlankBlack;
-    }
-  } else if (showAnswer) {
-    return Icons$BtsCore.radioButtonCheckedBlack;
-  } else {
-    return Icons$BtsCore.radioButtonUncheckedBlack;
-  }
-}
 
 function Home(Props) {
   var match = React.useReducer(reducer, initialState);
@@ -782,7 +769,7 @@ function Home(Props) {
                                                             }),
                                                           children: React.createElement(IconAction$BtsCore.make, {
                                                                 animation: "leftRight",
-                                                                src: answerIcon(formitem.outValue, answeritem.showAnswer)
+                                                                src: IconAnimation$BtsCore.answerIcon(formitem.outValue, answeritem.showAnswer)
                                                               })
                                                         })
                                                   }), React.createElement(GridItem$BtsCore.make, {
@@ -793,9 +780,9 @@ function Home(Props) {
                                                     xs: "auto",
                                                     children: React.createElement(Typography$BtsCore.make, {
                                                           variant: "subtitle1",
-                                                          children: answeritem.values
+                                                          children: answeritem.value
                                                         })
-                                                  }), match && match$1 && !match$2 ? React.createElement(GridItem$BtsCore.make, {
+                                                  }), match && match$1 && match$2 ? React.createElement(GridItem$BtsCore.make, {
                                                       top: "0",
                                                       right: "0",
                                                       bottom: "0",
@@ -803,7 +790,7 @@ function Home(Props) {
                                                       xs: "no",
                                                       children: React.createElement(IconAction$BtsCore.make, {
                                                             animation: "leftRight",
-                                                            src: Icons$BtsCore.errorWarn
+                                                            src: Icons$BtsCore.doneSuccessful
                                                           })
                                                     }) : null)
                                         });
@@ -1030,7 +1017,7 @@ function Home(Props) {
                                                             height: "3",
                                                             children: $$Array.of_list(List.mapi((function (i, tabitem) {
                                                                         return React.createElement(Tab$BtsCore.make, {
-                                                                                    tabShow: tabitem.tabShow,
+                                                                                    showTab: tabitem.showTab,
                                                                                     maxWidth: "111.6",
                                                                                     borderRadius: "15",
                                                                                     id: "report-" + String(i),
@@ -1089,7 +1076,6 @@ var make = Home;
 export {
   reducer ,
   initialState ,
-  answerIcon ,
   make ,
   
 }

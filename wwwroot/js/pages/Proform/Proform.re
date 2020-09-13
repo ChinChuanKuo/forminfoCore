@@ -84,6 +84,8 @@ type item = {
 
 type state = {
   formLoad: bool,
+  formWidth: int,
+  formHeight: int,
   showProgress: bool,
   error: bool,
   insert: bool,
@@ -160,6 +162,7 @@ let newansweritem = id => [|
 type action =
   | SettingError
   | SettingFormLoad
+  | SettingFormWidth(int, int)
   | ActionShowProgress
   | ActionPermissItems(bool, bool, bool, bool)
   | SettingFormPolls(int, array(item))
@@ -228,6 +231,11 @@ let reducer = (state, action) =>
   switch (action) {
   | SettingError => {...state, error: !state.error}
   | SettingFormLoad => {...state, formLoad: !state.formLoad}
+  | SettingFormWidth(width, height) => {
+      ...state,
+      formWidth: width,
+      formHeight: height,
+    }
   | ActionShowProgress => {...state, showProgress: !state.showProgress}
   | ActionPermissItems(insert, update, delete, export) => {
       ...state,
@@ -247,7 +255,7 @@ let reducer = (state, action) =>
       ...state,
       tabitems:
         List.mapi(
-          (i, tabtitem) => {...tabtitem, tabtShow: index == i},
+          (i, tabtitem) => {...tabtitem, showTabt: index == i},
           state.tabitems,
         ),
       index,
@@ -277,7 +285,7 @@ let reducer = (state, action) =>
       ...state,
       formtabitems:
         List.mapi(
-          (i, tabitem) => {...tabitem, tabShow: index == i},
+          (i, tabitem) => {...tabitem, showTab: index == i},
           state.formtabitems,
         ),
       formindex: index,
@@ -779,6 +787,8 @@ let reducer = (state, action) =>
 
 let initialState = {
   formLoad: false,
+  formWidth: 0,
+  formHeight: 0,
   showProgress: true,
   error: false,
   insert: false,
@@ -786,8 +796,8 @@ let initialState = {
   delete: false,
   export: false,
   tabitems: [
-    {tabtShow: false, tabImage: descriptionBlack, tabPath: proformPath},
-    {tabtShow: false, tabImage: tourBlack, tabPath: protourPath},
+    {showTabt: false, tabImage: descriptionBlack, tabPath: proformPath},
+    {showTabt: false, tabImage: tourBlack, tabPath: protourPath},
   ],
   index: 0,
   itemCount: 0,
@@ -800,10 +810,10 @@ let initialState = {
   formTile: "",
   formDesc: "",
   formtabitems: [
-    {tabShow: true, tabImage: questionAnswerBlack},
-    {tabShow: false, tabImage: settingsBlack},
-    {tabShow: false, tabImage: personAddBlack},
-    {tabShow: false, tabImage: listBlack},
+    {showTab: true, tabImage: questionAnswerBlack},
+    {showTab: false, tabImage: settingsBlack},
+    {showTab: false, tabImage: personAddBlack},
+    {showTab: false, tabImage: listBlack},
   ],
   formindex: 0,
   formitems: [||],
@@ -910,15 +920,45 @@ let make = _ => {
     | true => Some(() => "action" |> Js.log)
     | _ =>
       let testtime = SettingFormLoad |> dispatch;
+      let sizeId =
+        SettingFormWidth(Window.Sizes.width, Window.Sizes.height) |> dispatch;
       let timeId = permissAJax();
       Some(
         () => {
           testtime;
+          sizeId;
           timeId;
         },
       );
     }
   );
+
+  let handleResize = event =>
+    SettingFormWidth(
+      event##currentTarget##innerWidth,
+      event##currentTarget##innerHeight,
+    )
+    |> dispatch;
+
+  /*let scrollFunc: 'a => unit = [%bs.raw
+      func => {| func(state.items.length); |}
+    ];
+
+    let handleScrollBar = event =>
+      if (event##target##scrollTop
+          ++
+          event##target##clientHeight ==
+          event##target##scrollHeight) {
+        ActionShowProgress |> dispatch;
+        scrollAJax |> scrollFunc;
+      };*/
+
+  useEffect0(() => {
+    let sizeId = Window.Listeners.add("resize", handleResize, true) |> ignore;
+    /*let scrollId =
+      Window.Listeners.add("scroll", handleScrollBar, true) |> ignore;*/
+    Some(() => sizeId);
+  });
 
   let clickItemTab =
     useCallback((i, tabPath) => {
@@ -1370,7 +1410,7 @@ let make = _ => {
               {state.tabitems
                |> List.mapi((i, tabtitem) =>
                     <Tab
-                      tabShow={tabtitem.tabtShow}
+                      showTab={tabtitem.showTabt}
                       maxWidth="111.6"
                       borderRadius="15"
                       id={"bus-" ++ string_of_int(i)}
@@ -1595,7 +1635,7 @@ let make = _ => {
                       {state.formtabitems
                        |> List.mapi((i, formtabitem) =>
                             <Tab
-                              tabShow={formtabitem.tabShow}
+                              showTab={formtabitem.showTab}
                               maxWidth="111.6"
                               borderRadius="15"
                               id={"report-" ++ string_of_int(i)}
@@ -1826,57 +1866,148 @@ let make = _ => {
                                    null
                                  </TextFieldStandard>
                                | _ =>
-                                 formitem.answeritems
-                                 |> Array.mapi((ri, answeritem) =>
-                                      <QuestionForm
-                                        startIcon={
-                                          switch (formitem.outValue) {
-                                          | "radio" => radioButtonCheckedBlack
-                                          | "checkbox" => checkBoxBlack
-                                          | _ => checkBoxBlack
-                                          }
-                                        }
-                                        onChange={event =>
-                                          i
-                                          |> changeText(
-                                               ReactEvent.Form.target(event)##value,
-                                               ri,
-                                             )
-                                        }
-                                        enterBorderColor={
-                                          answeritem.showAnswer |> enterBorder
-                                        }
-                                        downBorderColor={
-                                          answeritem.showAnswer |> downBorder
-                                        }
-                                        borderColor={
-                                          answeritem.showAnswer |> border
-                                        }
-                                        value={answeritem.value}
-                                        disabled={
-                                          state.showProgress
-                                          || formitem.formDelete
-                                        }
-                                        showLine={formitem.showLine}
-                                        clickCenter={_ =>
-                                          i
-                                          |> clickElement(
-                                               formitem.outValue,
-                                               ri,
-                                             )
-                                        }
-                                        centerIcon={
-                                          answeritem.showAnswer
-                                            ? doneSuccessful : errorWarn
-                                        }
-                                        clickEnd={_ => i |> clearOption(ri)}
-                                        endIcon={
-                                          answeritem.ansrDelete
-                                            ? refreshBlack : clearWarn
-                                        }
-                                      />
-                                    )
-                                 |> array
+                                 <GridContainer
+                                   direction="column"
+                                   justify="center"
+                                   alignItem="stretch">
+                                   {formitem.answeritems
+                                    |> Array.mapi((ai, answeritem) =>
+                                         <GridItem
+                                           top="0"
+                                           bottom="6"
+                                           left="0"
+                                           right="0"
+                                           xs="auto">
+                                           <GridContainer
+                                             direction="row"
+                                             justify="start"
+                                             alignItem="center">
+                                             <GridItem
+                                               top="0"
+                                               right="0"
+                                               bottom="0"
+                                               left="0"
+                                               xs="no">
+                                               <IconButton
+                                                 padding="4"
+                                                 disabled={state.showProgress}>
+                                                 <IconAction
+                                                   animation="leftRight"
+                                                   src={
+                                                     false
+                                                     |> answerIcon(
+                                                          formitem.outValue,
+                                                        )
+                                                   }
+                                                 />
+                                               </IconButton>
+                                             </GridItem>
+                                             <GridItem
+                                               top="0"
+                                               right="6"
+                                               bottom="0"
+                                               left="0"
+                                               xs="auto">
+                                               <TextFieldStandard
+                                                 top="0"
+                                                 enterBorderColor={
+                                                   answeritem.showAnswer
+                                                   |> enterBorder
+                                                 }
+                                                 downBorderColor={
+                                                   answeritem.showAnswer
+                                                   |> downBorder
+                                                 }
+                                                 borderColor={
+                                                   answeritem.showAnswer
+                                                   |> border
+                                                 }
+                                                 placeholder="Option"
+                                                 value={answeritem.value}
+                                                 disabled={
+                                                   state.showProgress
+                                                   || formitem.formDelete
+                                                 }
+                                                 onChange={event =>
+                                                   i
+                                                   |> changeText(
+                                                        ReactEvent.Form.target(
+                                                          event,
+                                                        )##value,
+                                                        ai,
+                                                      )
+                                                 }>
+                                                 null
+                                               </TextFieldStandard>
+                                             </GridItem>
+                                             {formitem.showLine
+                                                ? <>
+                                                    <GridItem
+                                                      top="0"
+                                                      right="6"
+                                                      bottom="0"
+                                                      left="0"
+                                                      xs="no">
+                                                      <IconButton
+                                                        padding="4"
+                                                        disabled={
+                                                          state.showProgress
+                                                          || formitem.
+                                                               formDelete
+                                                        }
+                                                        onClick={_ =>
+                                                          i
+                                                          |> clickElement(
+                                                               formitem.
+                                                                 outValue,
+                                                               ai,
+                                                             )
+                                                        }>
+                                                        <IconAction
+                                                          animation="leftRight"
+                                                          src={
+                                                            answeritem.
+                                                              showAnswer
+                                                              ? doneSuccessful
+                                                              : errorWarn
+                                                          }
+                                                        />
+                                                      </IconButton>
+                                                    </GridItem>
+                                                    <GridItem
+                                                      top="0"
+                                                      right="0"
+                                                      bottom="0"
+                                                      left="0"
+                                                      xs="no">
+                                                      <IconButton
+                                                        padding="4"
+                                                        disabled={
+                                                          state.showProgress
+                                                          || formitem.
+                                                               formDelete
+                                                        }
+                                                        onClick={_ =>
+                                                          i |> clearOption(ai)
+                                                        }>
+                                                        <IconAction
+                                                          animation="circle"
+                                                          src={
+                                                            answeritem.
+                                                              ansrDelete
+                                                              ? refreshBlack
+                                                              : clearWarn
+                                                          }
+                                                        />
+                                                      </IconButton>
+                                                    </GridItem>
+                                                  </>
+                                                : null}
+                                           </GridContainer>
+                                         </GridItem>
+                                       )
+                                    |> array}
+                                 </GridContainer>
                                }}
                             </GridItem>
                             {formitem.showLine

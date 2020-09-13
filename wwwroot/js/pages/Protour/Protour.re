@@ -10,6 +10,8 @@ open Storage;
 
 type state = {
   formLoad: bool,
+  formWidth: int,
+  formHeight: int,
   showProgress: bool,
   error: bool,
   insert: bool,
@@ -25,6 +27,7 @@ type state = {
 type action =
   | SettingError
   | SettingFormLoad
+  | SettingFormWidth(int, int)
   | ActionShowProgress
   | ActionPermissItems(bool, bool, bool, bool)
   | ClickItemTab(int)
@@ -34,6 +37,11 @@ let reducer = (state, action) =>
   switch (action) {
   | SettingError => {...state, error: !state.error}
   | SettingFormLoad => {...state, formLoad: !state.formLoad}
+  | SettingFormWidth(width, height) => {
+      ...state,
+      formWidth: width,
+      formHeight: height,
+    }
   | ActionShowProgress => {...state, showProgress: !state.showProgress}
   | ActionPermissItems(insert, update, delete, export) => {
       ...state,
@@ -46,7 +54,7 @@ let reducer = (state, action) =>
       ...state,
       tabitems:
         List.mapi(
-          (i, tabtitem) => {...tabtitem, tabtShow: index == i},
+          (i, tabtitem) => {...tabtitem, showTabt: index == i},
           state.tabitems,
         ),
       index,
@@ -60,6 +68,8 @@ let reducer = (state, action) =>
 
 let initialState = {
   formLoad: false,
+  formWidth: 0,
+  formHeight: 0,
   showProgress: true,
   error: false,
   insert: false,
@@ -67,8 +77,8 @@ let initialState = {
   delete: false,
   export: false,
   tabitems: [
-    {tabtShow: false, tabImage: descriptionBlack, tabPath: proformPath},
-    {tabtShow: false, tabImage: tourBlack, tabPath: protourPath},
+    {showTabt: false, tabImage: descriptionBlack, tabPath: proformPath},
+    {showTabt: false, tabImage: tourBlack, tabPath: protourPath},
   ],
   index: 1,
   showYoutube: false,
@@ -113,15 +123,45 @@ let make = _ => {
     | true => Some(() => "action" |> Js.log)
     | _ =>
       let testtime = SettingFormLoad |> dispatch;
+      let sizeId =
+        SettingFormWidth(Window.Sizes.width, Window.Sizes.height) |> dispatch;
       let timeId = permissAJax();
       Some(
         () => {
           testtime;
+          sizeId;
           timeId;
         },
       );
     }
   );
+
+  let handleResize = event =>
+    SettingFormWidth(
+      event##currentTarget##innerWidth,
+      event##currentTarget##innerHeight,
+    )
+    |> dispatch;
+
+  /*let scrollFunc: 'a => unit = [%bs.raw
+      func => {| func(state.items.length); |}
+    ];
+
+    let handleScrollBar = event =>
+      if (event##target##scrollTop
+          ++
+          event##target##clientHeight ==
+          event##target##scrollHeight) {
+        ActionShowProgress |> dispatch;
+        scrollAJax |> scrollFunc;
+      };*/
+
+  useEffect0(() => {
+    let sizeId = Window.Listeners.add("resize", handleResize, true) |> ignore;
+    /*let scrollId =
+      Window.Listeners.add("scroll", handleScrollBar, true) |> ignore;*/
+    Some(() => sizeId);
+  });
 
   let clickItemTab =
     useCallback((i, tabPath) => {
@@ -139,7 +179,7 @@ let make = _ => {
               {state.tabitems
                |> List.mapi((i, tabtitem) =>
                     <Tab
-                      tabShow={tabtitem.tabtShow}
+                      showTab={tabtitem.showTabt}
                       maxWidth="111.6"
                       borderRadius="15"
                       id={"bus-" ++ string_of_int(i)}

@@ -75,7 +75,7 @@ let reducer = (state, action) =>
       ...state,
       tabitems:
         List.mapi(
-          (i, tabtitem) => {...tabtitem, tabtShow: index == i},
+          (i, tabtitem) => {...tabtitem, showTabt: index == i},
           state.tabitems,
         ),
       index,
@@ -102,11 +102,11 @@ let initialState = {
   recorditems: [||],
   menuPath: "/",
   tabitems: [
-    {tabtShow: true, tabImage: homeBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: cardTravelBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
-    {tabtShow: false, tabImage: groupBlack, tabPath: homePath},
+    {showTabt: true, tabImage: homeBlack, tabPath: homePath},
+    {showTabt: false, tabImage: cardTravelBlack, tabPath: homePath},
+    {showTabt: false, tabImage: groupBlack, tabPath: homePath},
+    {showTabt: false, tabImage: groupBlack, tabPath: homePath},
+    {showTabt: false, tabImage: groupBlack, tabPath: homePath},
   ],
   index: 0,
   showCreate: false,
@@ -433,7 +433,7 @@ let make = (~autoPath: 'a, ~children) => {
                  {state.tabitems
                   |> List.mapi((i, tabtitem) =>
                        <Tab
-                         tabShow={tabtitem.tabtShow}
+                         showTab={tabtitem.showTabt}
                          maxWidth="111.6"
                          borderRadius="15"
                          id={"tab-" ++ string_of_int(i)}

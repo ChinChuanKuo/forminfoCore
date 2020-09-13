@@ -286,7 +286,7 @@ function reducer(state, action) {
                   menuPath: state.menuPath,
                   tabitems: List.mapi((function (i, tabtitem) {
                           return {
-                                  tabtShow: index === i,
+                                  showTabt: index === i,
                                   tabImage: tabtitem.tabImage,
                                   tabPath: tabtitem.tabPath
                                 };
@@ -331,31 +331,31 @@ var initialState_recorditems = [];
 
 var initialState_tabitems = /* :: */[
   {
-    tabtShow: true,
+    showTabt: true,
     tabImage: Icons$BtsCore.homeBlack,
     tabPath: Path$BtsCore.homePath
   },
   /* :: */[
     {
-      tabtShow: false,
+      showTabt: false,
       tabImage: Icons$BtsCore.cardTravelBlack,
       tabPath: Path$BtsCore.homePath
     },
     /* :: */[
       {
-        tabtShow: false,
+        showTabt: false,
         tabImage: Icons$BtsCore.groupBlack,
         tabPath: Path$BtsCore.homePath
       },
       /* :: */[
         {
-          tabtShow: false,
+          showTabt: false,
           tabImage: Icons$BtsCore.groupBlack,
           tabPath: Path$BtsCore.homePath
         },
         /* :: */[
           {
-            tabtShow: false,
+            showTabt: false,
             tabImage: Icons$BtsCore.groupBlack,
             tabPath: Path$BtsCore.homePath
           },
@@ -702,7 +702,7 @@ function NewBookBoard(Props) {
                                     height: "3",
                                     children: $$Array.of_list(List.mapi((function (i, tabtitem) {
                                                 return React.createElement(Tab$BtsCore.make, {
-                                                            tabShow: tabtitem.tabtShow,
+                                                            showTab: tabtitem.showTabt,
                                                             maxWidth: "111.6",
                                                             borderRadius: "15",
                                                             id: "tab-" + String(i),

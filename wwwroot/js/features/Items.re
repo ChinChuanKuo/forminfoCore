@@ -5,7 +5,7 @@ type chartitem = {
 }; //chart item information
 
 type bottomitem = {
-  actionShow: bool,
+  showAction: bool,
   icon: string,
   tile: string,
 }; //bottom item information
@@ -33,12 +33,12 @@ type radioitem = {
 };
 
 type tabitem = {
-  tabShow: bool,
+  showTab: bool,
   tabImage: string,
 };
 
 type tabtitem = {
-  tabtShow: bool,
+  showTabt: bool,
   tabImage: string,
   tabPath: string,
 };

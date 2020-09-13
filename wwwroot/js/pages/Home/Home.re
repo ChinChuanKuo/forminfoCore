@@ -7,11 +7,12 @@ open Items;
 open Axiosapi;
 open Storage;
 open OutSide;
+open IconAnimation;
 [%bs.raw {|require('../../../scss/pages/Together/together.scss')|}];
 
 type answeritem = {
   id: int,
-  values: string,
+  value: string,
   showAnswer: bool,
   showRight: bool,
 };
@@ -131,7 +132,7 @@ let reducer = (state, action) =>
       ...state,
       tabitems:
         List.mapi(
-          (i, tabtitem) => {...tabtitem, tabShow: index == i},
+          (i, tabtitem) => {...tabtitem, showTab: index == i},
           state.tabitems,
         ),
       index,
@@ -263,8 +264,8 @@ let initialState = {
   formTile: "",
   formDesc: "",
   tabitems: [
-    {tabShow: false, tabImage: storeBlack},
-    {tabShow: false, tabImage: menuBookBlack},
+    {showTab: false, tabImage: storeBlack},
+    {showTab: false, tabImage: noteBlack},
   ],
   index: 0,
   formExam: false,
@@ -275,12 +276,6 @@ let initialState = {
   showYoutube: false,
   youtubeText: "",
 };
-
-let answerIcon = (outValue, showAnswer) =>
-  switch (outValue) {
-  | "checkbox" => showAnswer ? checkBoxBlack : checkBoxOutlineBlankBlack
-  | _ => showAnswer ? radioButtonCheckedBlack : radioButtonUncheckedBlack
-  };
 
 [@react.component]
 let make = _ => {
@@ -462,6 +457,30 @@ let make = _ => {
     });
 
   let clickItemTab = useCallback(i => ClickItemTab(i) |> dispatch);
+
+  let uploadAJax = files => {
+    let formData = FormData.make();
+    FormData.append(formData, "file", files) |> ignore;
+    Js.Promise.(
+      formData
+      |> Files.upload
+      |> then_(response =>
+           {
+             switch (response##data##status) {
+             | "istrue" => ActionShowProgress |> dispatch
+             | _ =>
+               response##data##status
+               |> Status.statusModule
+               |> barShowRestoreAction;
+               ActionShowProgress |> dispatch;
+             };
+           }
+           |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+  };
 
   let dragOver =
     useCallback((event, i) => {
@@ -752,7 +771,7 @@ let make = _ => {
                       {state.tabitems
                        |> List.mapi((i, tabitem) =>
                             <Tab
-                              tabShow={tabitem.tabShow}
+                              showTab={tabitem.showTab}
                               maxWidth="111.6"
                               borderRadius="15"
                               id={"report-" ++ string_of_int(i)}
@@ -936,10 +955,12 @@ let make = _ => {
                                                  }>
                                                  <IconAction
                                                    animation="leftRight"
-                                                   src={answerIcon(
-                                                     formitem.outValue,
-                                                     answeritem.showAnswer,
-                                                   )}
+                                                   src={
+                                                     answeritem.showAnswer
+                                                     |> answerIcon(
+                                                          formitem.outValue,
+                                                        )
+                                                   }
                                                  />
                                                </IconButton>
                                              </GridItem>
@@ -950,7 +971,7 @@ let make = _ => {
                                                left="0"
                                                xs="auto">
                                                <Typography variant="subtitle1">
-                                                 {answeritem.values |> string}
+                                                 {answeritem.value |> string}
                                                </Typography>
                                              </GridItem>
                                              {switch (
@@ -958,7 +979,7 @@ let make = _ => {
                                                 state.formExam,
                                                 answeritem.showRight,
                                               ) {
-                                              | (true, true, false) =>
+                                              | (true, true, true) =>
                                                 <GridItem
                                                   top="0"
                                                   right="0"
@@ -967,7 +988,7 @@ let make = _ => {
                                                   xs="no">
                                                   <IconAction
                                                     animation="leftRight"
-                                                    src=errorWarn
+                                                    src=doneSuccessful
                                                   />
                                                 </GridItem>
                                               | (_, _, _) => null

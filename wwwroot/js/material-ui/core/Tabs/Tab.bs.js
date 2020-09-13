@@ -23,8 +23,8 @@ var initialState = {
   down: false
 };
 
-function tabOpacitys(tabShow) {
-  if (tabShow) {
+function tabOpacitys(showTab) {
+  if (showTab) {
     return "1";
   } else {
     return "0.8";
@@ -112,7 +112,7 @@ function animationFillModes(animationFillMode) {
 }
 
 function Tab(Props) {
-  var tabShow = Props.tabShow;
+  var showTab = Props.showTab;
   var style = Props.style;
   var maxWidth = Props.maxWidth;
   var height = Props.height;
@@ -131,7 +131,7 @@ function Tab(Props) {
   var children = Props.children;
   var match = React.useReducer(reducer, initialState);
   var dispatch = match[1];
-  var tabShow$1 = Setting$BtsCore.disabledObjects(tabShow);
+  var showTab$1 = Setting$BtsCore.disabledObjects(showTab);
   var tmp = {
     className: "ji48r2t MuiButtonBase-root MuiTab-root MuiTab-textColorInherit",
     id: id,
@@ -144,7 +144,7 @@ function Tab(Props) {
           paddingRight: paddingRightLefts(right),
           paddingBottom: paddingTopBottoms(bottom),
           paddingLeft: paddingRightLefts(left),
-          opacity: tabShow$1 ? "1" : "0.8",
+          opacity: showTab$1 ? "1" : "0.8",
           borderRadius: borderRadiuses(borderRadius)
         }, Setting$BtsCore.styleObjects(style)),
     onMouseDown: (function (param) {
@@ -160,7 +160,7 @@ function Tab(Props) {
   if (onClick !== undefined) {
     tmp.onClick = Caml_option.valFromOption(onClick);
   }
-  var match$1 = Setting$BtsCore.disabledObjects(tabShow);
+  var match$1 = Setting$BtsCore.disabledObjects(showTab);
   var match$2 = match[0].down;
   return React.createElement("button", tmp, React.createElement("span", {
                   className: "MuiTab-wrapper"

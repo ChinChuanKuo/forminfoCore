@@ -79,7 +79,7 @@ function reducer(state, action) {
                   qaitems: state.qaitems,
                   tabitems: List.mapi((function (i, tabitem) {
                           return {
-                                  tabShow: index === i,
+                                  showTab: index === i,
                                   tabImage: tabitem.tabImage
                                 };
                         }), state.tabitems),
@@ -100,7 +100,7 @@ function reducer(state, action) {
                   index: state.index,
                   bottomitems: List.mapi((function (i, item) {
                           return {
-                                  actionShow: index$1 === i,
+                                  showAction: index$1 === i,
                                   icon: item.icon,
                                   tile: item.tile
                                 };
@@ -412,6 +412,10 @@ var initialState_items = [
     value: "monetizationOn"
   },
   {
+    icon: Icons$BtsCore.noteBlack,
+    value: "note"
+  },
+  {
     icon: Icons$BtsCore.notesBlack,
     value: "notes"
   },
@@ -551,6 +555,14 @@ var initialState_qaitems = [
     value: "text"
   },
   {
+    icon: Icons$BtsCore.notesBlack,
+    value: "textarea"
+  },
+  {
+    icon: Icons$BtsCore.menuBlack,
+    value: "textline"
+  },
+  {
     icon: Icons$BtsCore.radioButtonCheckedBlack,
     value: "radio"
   },
@@ -559,8 +571,8 @@ var initialState_qaitems = [
     value: "checkbox"
   },
   {
-    icon: Icons$BtsCore.notesBlack,
-    value: "textarea"
+    icon: Icons$BtsCore.arrowDownBlack,
+    value: "droplist"
   },
   {
     icon: Icons$BtsCore.imageBlack,
@@ -574,12 +586,12 @@ var initialState_qaitems = [
 
 var initialState_tabitems = /* :: */[
   {
-    tabShow: true,
+    showTab: true,
     tabImage: Icons$BtsCore.homeBlack
   },
   /* :: */[
     {
-      tabShow: false,
+      showTab: false,
       tabImage: Icons$BtsCore.homeBlack
     },
     /* [] */0
@@ -588,13 +600,13 @@ var initialState_tabitems = /* :: */[
 
 var initialState_bottomitems = /* :: */[
   {
-    actionShow: true,
+    showAction: true,
     icon: Icons$BtsCore.settingsApplicationsBlack,
     tile: "Settings"
   },
   /* :: */[
     {
-      actionShow: true,
+      showAction: true,
       icon: Icons$BtsCore.saveBlack,
       tile: "Save"
     },
@@ -712,10 +724,12 @@ function Icon(Props) {
                                         children: React.createElement(Tabs$BtsCore.make, {
                                               id: "icon-",
                                               index: state.index,
+                                              short: 20,
                                               height: "3",
                                               children: $$Array.of_list(List.mapi((function (i, tabitem) {
                                                           return React.createElement(Tab$BtsCore.make, {
-                                                                      tabShow: tabitem.tabShow,
+                                                                      showTab: tabitem.showTab,
+                                                                      maxWidth: "111.6",
                                                                       borderRadius: "15",
                                                                       id: "icon-" + String(i),
                                                                       animationName: "none",
@@ -737,22 +751,11 @@ function Icon(Props) {
                             bottom: "0",
                             left: "0",
                             xs: "auto",
-                            children: React.createElement(GridContainer$BtsCore.make, {
-                                  direction: "row",
-                                  justify: "start",
-                                  alignItem: "center",
-                                  children: match$1 !== 0 ? $$Array.map((function (qaitem) {
-                                            return React.createElement(IconForm$BtsCore.make, {
-                                                        icon: qaitem.icon,
-                                                        value: qaitem.value
-                                                      });
-                                          }), state.qaitems) : $$Array.map((function (item) {
-                                            return React.createElement(IconForm$BtsCore.make, {
-                                                        icon: item.icon,
-                                                        value: item.value
-                                                      });
-                                          }), state.items)
-                                })
+                            children: match$1 !== 0 ? React.createElement(IconForm$BtsCore.make, {
+                                    items: state.qaitems
+                                  }) : React.createElement(IconForm$BtsCore.make, {
+                                    items: state.items
+                                  })
                           }))
                 }), state.error ? null : React.createElement(Navigation$BtsCore.make, {
                     style: Object.assign(({}), Together$BtsCore.marginAuto, {
@@ -763,9 +766,10 @@ function Icon(Props) {
                           right: "0",
                           transition: "left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms"
                         }),
+                    className: "facetubenavigation",
                     children: $$Array.of_list(List.mapi((function (bi, bottomitem) {
                                 return React.createElement(BottomNavigation$BtsCore.make, {
-                                            actionShow: bottomitem.actionShow,
+                                            showAction: bottomitem.showAction,
                                             disabled: state.showProgress,
                                             onClick: (function (param) {
                                                 return Curry._1(clickBottomNavigation, bi);

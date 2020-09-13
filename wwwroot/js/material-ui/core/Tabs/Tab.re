@@ -16,7 +16,7 @@ let reducer = (_, action) =>
 
 let initialState = {down: false};
 
-let tabOpacitys = tabShow => tabShow ? "1" : "0.8";
+let tabOpacitys = showTab => showTab ? "1" : "0.8";
 
 let maxWidths = maxWidth =>
   switch (maxWidth) {
@@ -81,7 +81,7 @@ let animationFillModes = animationFillMode =>
 [@react.component]
 let make =
     (
-      ~tabShow: option(bool)=?,
+      ~showTab: option(bool)=?,
       ~style: option(ReactDOMRe.style)=?,
       ~maxWidth: option(string)=?,
       ~height: option(string)=?,
@@ -108,7 +108,7 @@ let make =
           ReactDOMRe.Style.combine(
             ReactDOMRe.Style.make(
               ~opacity={
-                tabShow |> disabledObjects |> tabOpacitys;
+                showTab |> disabledObjects |> tabOpacitys;
               },
               ~maxWidth={
                 maxWidth |> maxWidths;
@@ -162,7 +162,7 @@ let make =
             ~style={
               ReactDOMRe.Style.make(
                 ~animationName={
-                  switch (tabShow |> disabledObjects, state.down) {
+                  switch (showTab |> disabledObjects, state.down) {
                   | (true, true) => animationName |> animationNames
                   | (false, true) => "grayWaveAnimation"
                   | (_, _) => ""

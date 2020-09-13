@@ -33,9 +33,9 @@ let initialState = {
   formWidth: 0,
   formHeight: 0,
   tabitems: [
-    {tabShow: false, tabImage: accountBoxBlack},
-    {tabShow: false, tabImage: accountTreeBlack},
-    {tabShow: false, tabImage: homeBlack},
+    {showTab: false, tabImage: accountBoxBlack},
+    {showTab: false, tabImage: accountTreeBlack},
+    {showTab: false, tabImage: homeBlack},
   ],
 };
 
@@ -129,7 +129,7 @@ let make =
             {state.tabitems
              |> List.mapi((i, tabitem) =>
                   <Tab
-                    tabShow={tabitem.tabShow}
+                    showTab={tabitem.showTab}
                     borderRadius="15"
                     id={"account-" ++ string_of_int(i)}
                     animationName="none"

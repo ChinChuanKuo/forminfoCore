@@ -46,13 +46,13 @@ let stillColors = stillColor =>
   | Some(stillColor) => stillColor
   };
 
-let paddingTops = actionShow => actionShow ? "6px" : "16px";
+let paddingTops = showAction => showAction ? "6px" : "16px";
 
 let cursors = disabled => disabled ? "no-drop" : "pointer";
 
-let actionClass = actionShow => {
+let actionClass = showAction => {
   let basic = "j9jzp64";
-  actionShow ? basic ++ " j1kms6th" : basic ++ " j1rdad3f";
+  showAction ? basic ++ " j1kms6th" : basic ++ " j1rdad3f";
 };
 
 let animationNames = animationName =>
@@ -83,7 +83,7 @@ let animationFillModes = animationFillMode =>
 let make =
     (
       ~style: option(ReactDOMRe.style)=?,
-      ~actionShow: option(bool)=?,
+      ~showAction: option(bool)=?,
       ~disabledBackgroundColor: option(string)=?,
       ~enterBackgroundColor: option(string)=?,
       ~backgroundColor: option(string)=?,
@@ -114,11 +114,11 @@ let make =
                 };
               },
               ~color={
-                actionShow |> disabledObjects
+                showAction |> disabledObjects
                   ? color |> colors : stillColor |> stillColors;
               },
               ~paddingTop={
-                actionShow |> disabledObjects |> paddingTops;
+                showAction |> disabledObjects |> paddingTops;
               },
               ~cursor={
                 disabled |> disabledObjects |> cursors;
@@ -150,7 +150,7 @@ let make =
             ~props=
               ReactDOMRe.domProps(
                 ~className={
-                  actionShow |> disabledObjects |> actionClass;
+                  showAction |> disabledObjects |> actionClass;
                 },
                 (),
               ),
@@ -165,7 +165,7 @@ let make =
             ~style={
               ReactDOMRe.Style.make(
                 ~animationName={
-                  switch (actionShow |> disabledObjects, state.down) {
+                  switch (showAction |> disabledObjects, state.down) {
                   | (true, true) => animationName |> animationNames
                   | (false, true) => "grayWaveAnimation"
                   | (_, _) => ""

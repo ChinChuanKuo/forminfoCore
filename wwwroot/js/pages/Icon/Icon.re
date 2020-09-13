@@ -6,17 +6,12 @@ open Together;
 open Storage;
 [%bs.raw {|require('../../../scss/pages/Together/together.scss')|}];
 
-type item = {
-  icon: string,
-  value: string,
-};
-
 type state = {
   formLoad: bool,
   showProgress: bool,
   error: bool,
-  items: array(item),
-  qaitems: array(item),
+  items: array(IconForm.item),
+  qaitems: array(IconForm.item),
   tabitems: list(tabitem),
   index: int,
   bottomitems: list(bottomitem),
@@ -41,7 +36,7 @@ let reducer = (state, action) =>
       ...state,
       tabitems:
         List.mapi(
-          (i, tabitem) => {...tabitem, tabShow: index == i},
+          (i, tabitem) => {...tabitem, showTab: index == i},
           state.tabitems,
         ),
       index,
@@ -50,7 +45,7 @@ let reducer = (state, action) =>
       ...state,
       bottomitems:
         List.mapi(
-          (i, item) => {...item, actionShow: index == i},
+          (i, item) => {...item, showAction: index == i},
           state.bottomitems,
         ),
     }
@@ -137,6 +132,7 @@ let initialState = {
     {icon: menuBookBlack, value: "menuBook"},
     {icon: moreVertBlack, value: "moreVert"},
     {icon: monetizationOnBlack, value: "monetizationOn"},
+    {icon: noteBlack, value: "note"},
     {icon: notesBlack, value: "notes"},
     {icon: nightsStayBlack, value: "nightsStay"},
     {icon: notificationsBlack, value: "notifications"},
@@ -173,20 +169,22 @@ let initialState = {
   |],
   qaitems: [|
     {icon: shortTextBlack, value: "text"},
+    {icon: notesBlack, value: "textarea"},
+    {icon: menuBlack, value: "textline"},
     {icon: radioButtonCheckedBlack, value: "radio"},
     {icon: checkBoxBlack, value: "checkbox"},
-    {icon: notesBlack, value: "textarea"},
+    {icon: arrowDownBlack, value: "droplist"},
     {icon: imageBlack, value: "image"},
     {icon: collectionsBlack, value: "collections"},
   |],
   tabitems: [
-    {tabShow: true, tabImage: homeBlack},
-    {tabShow: false, tabImage: homeBlack},
+    {showTab: true, tabImage: homeBlack},
+    {showTab: false, tabImage: homeBlack},
   ],
   index: 0,
   bottomitems: [
-    {actionShow: true, icon: settingsApplicationsBlack, tile: "Settings"},
-    {actionShow: true, icon: saveBlack, tile: "Save"},
+    {showAction: true, icon: settingsApplicationsBlack, tile: "Settings"},
+    {showAction: true, icon: saveBlack, tile: "Save"},
   ],
   showYoutube: false,
   youtubeText: "",
@@ -244,9 +242,7 @@ let make = _ => {
 
   let insertAJax = () =>
     Js.Promise.(
-      "newid"
-      |> Locals.select
-      |> iIconData(state.items, state.qaitems)
+      iIconData(state.items, state.qaitems, "newid" |> Locals.select)
       |> Axiosapi.Icon.insert
       |> then_(response => {
            {
@@ -285,11 +281,12 @@ let make = _ => {
           <GridContainer direction="row" justify="start" alignItem="center">
             <GridItem
               top="0" right="0" bottom="0" left="0" xs="auto" maxWidth="25%">
-              <Tabs id="icon-" index={state.index} height="3">
+              <Tabs id="icon-" index={state.index} short=20 height="3">
                 {state.tabitems
                  |> List.mapi((i, tabitem) =>
                       <Tab
-                        tabShow={tabitem.tabShow}
+                        showTab={tabitem.showTab}
+                        maxWidth="111.6"
                         borderRadius="15"
                         id={"icon-" ++ string_of_int(i)}
                         animationName="none"
@@ -307,22 +304,10 @@ let make = _ => {
           </GridContainer>
         </GridItem>
         <GridItem top="0" right="0" bottom="0" left="0" xs="auto">
-          <GridContainer direction="row" justify="start" alignItem="center">
-            {switch (state.index) {
-             | 0 =>
-               state.items
-               |> Array.map(item =>
-                    <IconForm icon={item.icon} value={item.value} />
-                  )
-               |> array
-             | _ =>
-               state.qaitems
-               |> Array.map(qaitem =>
-                    <IconForm icon={qaitem.icon} value={qaitem.value} />
-                  )
-               |> array
-             }}
-          </GridContainer>
+          {switch (state.index) {
+           | 0 => <IconForm items={state.items} />
+           | _ => <IconForm items={state.qaitems} />
+           }}
         </GridItem>
       </GridContainer>
     </NewFacetube>
@@ -340,11 +325,12 @@ let make = _ => {
                ~transition="left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
                (),
              ),
-           )}>
+           )}
+           className="facetubenavigation">
            {state.bottomitems
             |> List.mapi((bi, bottomitem) =>
                  <BottomNavigation
-                   actionShow={bottomitem.actionShow}
+                   showAction={bottomitem.showAction}
                    disabled={state.showProgress}
                    onClick={_ => bi |> clickBottomNavigation}
                    icon={bottomitem.icon}

@@ -59,8 +59,8 @@ function stillColors(stillColor) {
   }
 }
 
-function paddingTops(actionShow) {
-  if (actionShow) {
+function paddingTops(showAction) {
+  if (showAction) {
     return "6px";
   } else {
     return "16px";
@@ -75,8 +75,8 @@ function cursors(disabled) {
   }
 }
 
-function actionClass(actionShow) {
-  if (actionShow) {
+function actionClass(showAction) {
+  if (showAction) {
     return "j9jzp64 j1kms6th";
   } else {
     return "j9jzp64 j1rdad3f";
@@ -117,7 +117,7 @@ function animationFillModes(animationFillMode) {
 
 function NavigationAction(Props) {
   var style = Props.style;
-  var actionShow = Props.actionShow;
+  var showAction = Props.showAction;
   var disabledBackgroundColor = Props.disabledBackgroundColor;
   var enterBackgroundColor = Props.enterBackgroundColor;
   var backgroundColor = Props.backgroundColor;
@@ -136,7 +136,7 @@ function NavigationAction(Props) {
   var match$1 = Setting$BtsCore.disabledObjects(disabled);
   var match$2 = state.enter;
   var disabled$1 = Setting$BtsCore.disabledObjects(disabled);
-  var actionShow$1 = Setting$BtsCore.disabledObjects(actionShow);
+  var showAction$1 = Setting$BtsCore.disabledObjects(showAction);
   var tmp = {
     className: "jr0u89w ji48r2j",
     style: Object.assign(({}), {
@@ -149,13 +149,13 @@ function NavigationAction(Props) {
                   backgroundColor !== undefined ? backgroundColor : "rgba(255,255,255,1)"
                 )
             ),
-          color: Setting$BtsCore.disabledObjects(actionShow) ? (
+          color: Setting$BtsCore.disabledObjects(showAction) ? (
               color !== undefined ? color : "#2196f3"
             ) : (
               stillColor !== undefined ? stillColor : "rgba(0,0,0,0.54)"
             ),
           cursor: disabled$1 ? "no-drop" : "pointer",
-          paddingTop: actionShow$1 ? "6px" : "16px"
+          paddingTop: showAction$1 ? "6px" : "16px"
         }, Setting$BtsCore.styleObjects(style)),
     disabled: Setting$BtsCore.disabledObjects(disabled),
     onMouseDown: (function (param) {
@@ -174,12 +174,12 @@ function NavigationAction(Props) {
   if (onClick !== undefined) {
     tmp.onClick = Caml_option.valFromOption(onClick);
   }
-  var match$3 = Setting$BtsCore.disabledObjects(actionShow);
+  var match$3 = Setting$BtsCore.disabledObjects(showAction);
   var match$4 = state.down;
   return React.createElement("button", tmp, React.createElement("span", {
                   className: "j4q78u6 j4q78u6zi"
                 }, children[0], React.createElement("span", {
-                      className: actionClass(Setting$BtsCore.disabledObjects(actionShow))
+                      className: actionClass(Setting$BtsCore.disabledObjects(showAction))
                     }, children[1])), React.createElement("span", {
                   className: "jb3bkca",
                   style: {

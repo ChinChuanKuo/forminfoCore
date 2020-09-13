@@ -43,17 +43,17 @@ function reducer(state, action) {
 
 var initialState_tabitems = /* :: */[
   {
-    tabShow: false,
+    showTab: false,
     tabImage: Icons$BtsCore.accountBoxBlack
   },
   /* :: */[
     {
-      tabShow: false,
+      showTab: false,
       tabImage: Icons$BtsCore.accountTreeBlack
     },
     /* :: */[
       {
-        tabShow: false,
+        showTab: false,
         tabImage: Icons$BtsCore.homeBlack
       },
       /* [] */0
@@ -165,7 +165,7 @@ function AccountBoard(Props) {
                                 height: "3",
                                 children: $$Array.of_list(List.mapi((function (i, tabitem) {
                                             return React.createElement(Tab$BtsCore.make, {
-                                                        tabShow: tabitem.tabShow,
+                                                        showTab: tabitem.showTab,
                                                         borderRadius: "15",
                                                         id: "account-" + String(i),
                                                         animationName: "none",

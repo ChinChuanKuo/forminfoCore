@@ -33,7 +33,6 @@ import * as IconGeneral$BtsCore from "../../material-ui/core/IconStyle/IconGener
 import * as ImageUpload$BtsCore from "../../example/Uploads/ImageUpload.bs.js";
 import * as NewFacetube$BtsCore from "../../example/Facebook/NewFacetube.bs.js";
 import * as SwitchColor$BtsCore from "../../controls/SwitchColor.bs.js";
-import * as QuestionForm$BtsCore from "../../example/Forms/QuestionForm.bs.js";
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as IconAnimation$BtsCore from "../../controls/IconAnimation.bs.js";
 import * as SelectOutline$BtsCore from "../../material-ui/core/Select/SelectOutline.bs.js";
@@ -216,7 +215,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeTile */3 :
+      case /* ChangeFormTile */3 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -236,7 +235,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeDesc */4 :
+      case /* ChangeFormDesc */4 :
           return {
                   formLoad: state.formLoad,
                   formWidth: state.formWidth,
@@ -272,7 +271,7 @@ function reducer(state, action) {
                   desc: state.desc,
                   tabitems: List.mapi((function (i, tabitem) {
                           return {
-                                  tabShow: index === i,
+                                  showTab: index === i,
                                   tabImage: tabitem.tabImage
                                 };
                         }), state.tabitems),
@@ -307,7 +306,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemTitle */7 :
+      case /* ChangeTitle */7 :
           var index$2 = action[1];
           var value = action[0];
           return {
@@ -336,7 +335,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemOut */8 :
+      case /* ShowOut */8 :
           var index$3 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -361,7 +360,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemValue */9 :
+      case /* ShowValue */9 :
           var index$4 = action[1];
           var outValue = action[0];
           return {
@@ -391,7 +390,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemText */10 :
+      case /* ChangeText */10 :
           var index$5 = action[2];
           var rindex = action[1];
           var value$1 = action[0];
@@ -432,7 +431,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClickItemRadio */11 :
+      case /* ClickRadio */11 :
           var index$6 = action[1];
           var rindex$1 = action[0];
           return {
@@ -468,7 +467,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClickItemCheckbox */12 :
+      case /* ClickCheckbox */12 :
           var index$7 = action[1];
           var rindex$2 = action[0];
           return {
@@ -548,7 +547,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemType */14 :
+      case /* ShowType */14 :
           var index$9 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -576,7 +575,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClickItemType */15 :
+      case /* ClickType */15 :
           var index$10 = action[3];
           var operationitems = action[2];
           var operation = action[1];
@@ -610,7 +609,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemOperation */16 :
+      case /* ShowOperation */16 :
           var index$11 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -638,7 +637,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClickItemOperation */17 :
+      case /* ClickOperation */17 :
           var index$12 = action[1];
           var operation$1 = action[0];
           return {
@@ -668,7 +667,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemArea */18 :
+      case /* ChangeArea */18 :
           var index$13 = action[1];
           var area = action[0];
           return {
@@ -697,7 +696,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ChangeItemEror */19 :
+      case /* ChangeEror */19 :
           var index$14 = action[1];
           var eror = action[0];
           return {
@@ -726,7 +725,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ClearItemCondition */20 :
+      case /* ClearCondition */20 :
           var index$15 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -755,7 +754,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemMore */21 :
+      case /* ShowMore */21 :
           var index$16 = action[0];
           return {
                   formLoad: state.formLoad,
@@ -783,7 +782,7 @@ function reducer(state, action) {
                   showYoutube: state.showYoutube,
                   youtubeText: state.youtubeText
                 };
-      case /* ShowItemVerification */22 :
+      case /* ShowVerification */22 :
           var index$17 = action[4];
           var operationitems$1 = action[3];
           var operation$2 = action[2];
@@ -1552,17 +1551,17 @@ function reducer(state, action) {
 
 var initialState_tabitems = /* :: */[
   {
-    tabShow: true,
+    showTab: true,
     tabImage: Icons$BtsCore.questionAnswerBlack
   },
   /* :: */[
     {
-      tabShow: false,
+      showTab: false,
       tabImage: Icons$BtsCore.settingsBlack
     },
     /* :: */[
       {
-        tabShow: false,
+        showTab: false,
         tabImage: Icons$BtsCore.personAddBlack
       },
       /* [] */0
@@ -1665,11 +1664,11 @@ function Formor(Props) {
                     
                   });
         }), ([]));
-  var changeTile = React.useCallback((function (value) {
-          return Curry._1(dispatch, /* ChangeTile */Block.__(3, [value]));
+  var changeFormTile = React.useCallback((function (value) {
+          return Curry._1(dispatch, /* ChangeFormTile */Block.__(3, [value]));
         }));
-  var changeDesc = React.useCallback((function (value) {
-          return Curry._1(dispatch, /* ChangeDesc */Block.__(4, [value]));
+  var changeFormDesc = React.useCallback((function (value) {
+          return Curry._1(dispatch, /* ChangeFormDesc */Block.__(4, [value]));
         }));
   var clickItemTab = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickItemTab */Block.__(5, [i]));
@@ -1677,28 +1676,28 @@ function Formor(Props) {
   var clickBoardPaper = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ClickBoardPaper */Block.__(6, [i]));
         }));
-  var changeItemTitle = React.useCallback((function (value) {
+  var changeTitle = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemTitle */Block.__(7, [
+              return Curry._1(dispatch, /* ChangeTitle */Block.__(7, [
                             value,
                             i
                           ]));
             });
         }));
-  var showItemOut = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemOut */Block.__(8, [i]));
+  var showOut = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowOut */Block.__(8, [i]));
         }));
-  var showItemValue = React.useCallback((function (value) {
+  var showValue = React.useCallback((function (value) {
           return (function (i) {
-              return Curry._1(dispatch, /* ShowItemValue */Block.__(9, [
+              return Curry._1(dispatch, /* ShowValue */Block.__(9, [
                             value,
                             i
                           ]));
             });
         }));
-  var changeItemText = React.useCallback((function (value) {
+  var changeText = React.useCallback((function (value) {
           return (function (ri, i) {
-              return Curry._1(dispatch, /* ChangeItemText */Block.__(10, [
+              return Curry._1(dispatch, /* ChangeText */Block.__(10, [
                             value,
                             ri,
                             i
@@ -1708,12 +1707,12 @@ function Formor(Props) {
   var clickElement = React.useCallback((function (value) {
           return (function (ri, i) {
               if (value === "checkbox") {
-                return Curry._1(dispatch, /* ClickItemCheckbox */Block.__(12, [
+                return Curry._1(dispatch, /* ClickCheckbox */Block.__(12, [
                               ri,
                               i
                             ]));
               } else {
-                return Curry._1(dispatch, /* ClickItemRadio */Block.__(11, [
+                return Curry._1(dispatch, /* ClickRadio */Block.__(11, [
                               ri,
                               i
                             ]));
@@ -1728,16 +1727,16 @@ function Formor(Props) {
                           ]));
             });
         }));
-  var showItemType = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemType */Block.__(14, [i]));
+  var showType = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowType */Block.__(14, [i]));
         }));
-  var clickItemType = React.useCallback((function (type_) {
+  var clickType = React.useCallback((function (type_) {
           return (function (i) {
               Axiosapi$BtsCore.Formor.sType(Data$BtsCore.otherData(i, localStorage.getItem("newid"))).then((function (response) {
                         var match = response.data.status;
                         var tmp;
                         if (match === "istrue") {
-                          tmp = Curry._1(dispatch, /* ClickItemType */Block.__(15, [
+                          tmp = Curry._1(dispatch, /* ClickType */Block.__(15, [
                                   i,
                                   response.data.value,
                                   response.data.items,
@@ -1745,7 +1744,7 @@ function Formor(Props) {
                                 ]));
                         } else {
                           barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                          tmp = Curry._1(dispatch, /* ClearItemCondition */Block.__(20, [type_]));
+                          tmp = Curry._1(dispatch, /* ClearCondition */Block.__(20, [type_]));
                         }
                         return Promise.resolve(tmp);
                       })).catch((function (error) {
@@ -1754,49 +1753,49 @@ function Formor(Props) {
               
             });
         }));
-  var showItemOperation = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemOperation */Block.__(16, [i]));
+  var showOperation = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowOperation */Block.__(16, [i]));
         }));
-  var clickItemOperation = React.useCallback((function (operation) {
+  var clickOperation = React.useCallback((function (operation) {
           return (function (i) {
-              return Curry._1(dispatch, /* ClickItemOperation */Block.__(17, [
+              return Curry._1(dispatch, /* ClickOperation */Block.__(17, [
                             operation,
                             i
                           ]));
             });
         }));
-  var changeItemArea = React.useCallback((function (area) {
+  var changeArea = React.useCallback((function (area) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemArea */Block.__(18, [
+              return Curry._1(dispatch, /* ChangeArea */Block.__(18, [
                             area,
                             i
                           ]));
             });
         }));
-  var changeItemEror = React.useCallback((function (area) {
+  var changeEror = React.useCallback((function (area) {
           return (function (i) {
-              return Curry._1(dispatch, /* ChangeItemEror */Block.__(19, [
+              return Curry._1(dispatch, /* ChangeEror */Block.__(19, [
                             area,
                             i
                           ]));
             });
         }));
-  var clearItemCondition = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ClearItemCondition */Block.__(20, [i]));
+  var clearCondition = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ClearCondition */Block.__(20, [i]));
         }));
-  var showItemMore = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowItemMore */Block.__(21, [i]));
+  var showMore = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowMore */Block.__(21, [i]));
         }));
   var showVerification = React.useCallback((function (showVeri) {
           return (function (i) {
               if (showVeri) {
-                return Curry._1(dispatch, /* ClearItemCondition */Block.__(20, [i]));
+                return Curry._1(dispatch, /* ClearCondition */Block.__(20, [i]));
               } else {
                 Axiosapi$BtsCore.Formor.sVeri(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                           var match = response.data.status;
                           var tmp;
                           if (match === "istrue") {
-                            tmp = Curry._1(dispatch, /* ShowItemVerification */Block.__(22, [
+                            tmp = Curry._1(dispatch, /* ShowVerification */Block.__(22, [
                                     response.data.type_,
                                     response.data.typeitems,
                                     response.data.operation,
@@ -1805,7 +1804,7 @@ function Formor(Props) {
                                   ]));
                           } else {
                             barShowRestoreAction(Status$BtsCore.statusModule(response.data.status));
-                            tmp = Curry._1(dispatch, /* ClearItemCondition */Block.__(20, [i]));
+                            tmp = Curry._1(dispatch, /* ClearCondition */Block.__(20, [i]));
                           }
                           return Promise.resolve(tmp);
                         })).catch((function (error) {
@@ -1986,7 +1985,7 @@ function Formor(Props) {
                                         value: state.tile,
                                         disabled: state.showProgress,
                                         onChange: (function ($$event) {
-                                            return Curry._1(changeTile, $$event.target.value);
+                                            return Curry._1(changeFormTile, $$event.target.value);
                                           }),
                                         children: null
                                       })
@@ -2005,7 +2004,7 @@ function Formor(Props) {
                                         value: state.desc,
                                         disabled: state.showProgress,
                                         onChange: (function ($$event) {
-                                            return Curry._1(changeDesc, $$event.target.value);
+                                            return Curry._1(changeFormDesc, $$event.target.value);
                                           }),
                                         children: null
                                       })
@@ -2036,7 +2035,7 @@ function Formor(Props) {
                                                   height: "3",
                                                   children: $$Array.of_list(List.mapi((function (i, tabitem) {
                                                               return React.createElement(Tab$BtsCore.make, {
-                                                                          tabShow: tabitem.tabShow,
+                                                                          showTab: tabitem.showTab,
                                                                           maxWidth: "111.6",
                                                                           borderRadius: "15",
                                                                           id: "report-" + String(i),
@@ -2457,40 +2456,93 @@ function Formor(Props) {
                                                 });
                                             break;
                                         default:
-                                          tmp = $$Array.mapi((function (ri, answeritem) {
-                                                  var match = item.outValue;
-                                                  var tmp;
-                                                  switch (match) {
-                                                    case "checkbox" :
-                                                        tmp = Icons$BtsCore.checkBoxBlack;
-                                                        break;
-                                                    case "radio" :
-                                                        tmp = Icons$BtsCore.radioButtonCheckedBlack;
-                                                        break;
-                                                    default:
-                                                      tmp = Icons$BtsCore.checkBoxBlack;
-                                                  }
-                                                  return React.createElement(QuestionForm$BtsCore.make, {
-                                                              startIcon: tmp,
-                                                              onChange: (function ($$event) {
-                                                                  return Curry._3(changeItemText, $$event.target.value, ri, i);
-                                                                }),
-                                                              enterBorderColor: AnswerColor$BtsCore.enterBorder(answeritem.showAnswer),
-                                                              downBorderColor: AnswerColor$BtsCore.downBorder(answeritem.showAnswer),
-                                                              borderColor: AnswerColor$BtsCore.border(answeritem.showAnswer),
-                                                              value: answeritem.value,
-                                                              disabled: state.showProgress || item.itemDelete,
-                                                              showLine: item.showLine,
-                                                              clickCenter: (function (param) {
-                                                                  return Curry._3(clickElement, item.outValue, ri, i);
-                                                                }),
-                                                              centerIcon: answeritem.showAnswer ? Icons$BtsCore.doneSuccessful : Icons$BtsCore.errorWarn,
-                                                              clickEnd: (function (param) {
-                                                                  return Curry._2(clearOption, ri, i);
-                                                                }),
-                                                              endIcon: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
-                                                            });
-                                                }), item.answeritems);
+                                          tmp = React.createElement(GridContainer$BtsCore.make, {
+                                                direction: "column",
+                                                justify: "center",
+                                                alignItem: "stretch",
+                                                children: $$Array.mapi((function (ai, answeritem) {
+                                                        return React.createElement(GridItem$BtsCore.make, {
+                                                                    top: "0",
+                                                                    right: "0",
+                                                                    bottom: "6",
+                                                                    left: "0",
+                                                                    xs: "auto",
+                                                                    children: React.createElement(GridContainer$BtsCore.make, {
+                                                                          direction: "row",
+                                                                          justify: "start",
+                                                                          alignItem: "center",
+                                                                          children: null
+                                                                        }, React.createElement(GridItem$BtsCore.make, {
+                                                                              top: "0",
+                                                                              right: "0",
+                                                                              bottom: "0",
+                                                                              left: "0",
+                                                                              xs: "no",
+                                                                              children: React.createElement(IconButton$BtsCore.make, {
+                                                                                    padding: "4",
+                                                                                    disabled: state.showProgress,
+                                                                                    children: React.createElement(IconAction$BtsCore.make, {
+                                                                                          animation: "leftRight",
+                                                                                          src: IconAnimation$BtsCore.answerIcon(item.outValue, false)
+                                                                                        })
+                                                                                  })
+                                                                            }), React.createElement(GridItem$BtsCore.make, {
+                                                                              top: "0",
+                                                                              right: "6",
+                                                                              bottom: "0",
+                                                                              left: "0",
+                                                                              xs: "auto",
+                                                                              children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                                                                    top: "0",
+                                                                                    enterBorderColor: AnswerColor$BtsCore.enterBorder(answeritem.showAnswer),
+                                                                                    downBorderColor: AnswerColor$BtsCore.downBorder(answeritem.showAnswer),
+                                                                                    borderColor: AnswerColor$BtsCore.border(answeritem.showAnswer),
+                                                                                    placeholder: "Option",
+                                                                                    value: answeritem.value,
+                                                                                    disabled: state.showProgress || item.itemDelete,
+                                                                                    onChange: (function ($$event) {
+                                                                                        return Curry._3(changeText, $$event.target.value, ai, i);
+                                                                                      }),
+                                                                                    children: null
+                                                                                  })
+                                                                            }), item.showLine ? React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
+                                                                                    top: "0",
+                                                                                    right: "6",
+                                                                                    bottom: "0",
+                                                                                    left: "0",
+                                                                                    xs: "no",
+                                                                                    children: React.createElement(IconButton$BtsCore.make, {
+                                                                                          padding: "4",
+                                                                                          disabled: state.showProgress || item.itemDelete,
+                                                                                          onClick: (function (param) {
+                                                                                              return Curry._3(clickElement, item.outValue, ai, i);
+                                                                                            }),
+                                                                                          children: React.createElement(IconAction$BtsCore.make, {
+                                                                                                animation: "leftRight",
+                                                                                                src: answeritem.showAnswer ? Icons$BtsCore.doneSuccessful : Icons$BtsCore.errorWarn
+                                                                                              })
+                                                                                        })
+                                                                                  }), React.createElement(GridItem$BtsCore.make, {
+                                                                                    top: "0",
+                                                                                    right: "0",
+                                                                                    bottom: "0",
+                                                                                    left: "0",
+                                                                                    xs: "no",
+                                                                                    children: React.createElement(IconButton$BtsCore.make, {
+                                                                                          padding: "4",
+                                                                                          disabled: state.showProgress || item.itemDelete,
+                                                                                          onClick: (function (param) {
+                                                                                              return Curry._2(clearOption, ai, i);
+                                                                                            }),
+                                                                                          children: React.createElement(IconAction$BtsCore.make, {
+                                                                                                animation: "circle",
+                                                                                                src: answeritem.ansrDelete ? Icons$BtsCore.refreshBlack : Icons$BtsCore.clearWarn
+                                                                                              })
+                                                                                        })
+                                                                                  })) : null)
+                                                                  });
+                                                      }), item.answeritems)
+                                              });
                                       }
                                       var tmp$1;
                                       if (item.showLine) {
@@ -2688,7 +2740,7 @@ function Formor(Props) {
                                                                   value: item.type_,
                                                                   disabled: state.showProgress || item.itemDelete,
                                                                   onClick: (function (param) {
-                                                                      return Curry._1(showItemType, i);
+                                                                      return Curry._1(showType, i);
                                                                     }),
                                                                   children: /* tuple */[
                                                                     item.showType && !item.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
@@ -2714,7 +2766,7 @@ function Formor(Props) {
                                                                                                 bottomRight: "12",
                                                                                                 bottomLeft: "12",
                                                                                                 onClick: (function (param) {
-                                                                                                    return Curry._2(clickItemType, i, typeitem.value);
+                                                                                                    return Curry._2(clickType, i, typeitem.value);
                                                                                                   }),
                                                                                                 children: typeitem.value
                                                                                               });
@@ -2729,7 +2781,7 @@ function Formor(Props) {
                                                                   showBackground: item.showType,
                                                                   backgroundColor: "transparent",
                                                                   onClick: (function (param) {
-                                                                      return Curry._1(showItemType, i);
+                                                                      return Curry._1(showType, i);
                                                                     })
                                                                 })), React.createElement(GridItem$BtsCore.make, {
                                                               top: "0",
@@ -2747,7 +2799,7 @@ function Formor(Props) {
                                                                   value: item.operation,
                                                                   disabled: state.showProgress || item.itemDelete,
                                                                   onClick: (function (param) {
-                                                                      return Curry._1(showItemOperation, i);
+                                                                      return Curry._1(showOperation, i);
                                                                     }),
                                                                   children: /* tuple */[
                                                                     item.showOperation && !item.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
@@ -2773,7 +2825,7 @@ function Formor(Props) {
                                                                                                 bottomRight: "12",
                                                                                                 bottomLeft: "12",
                                                                                                 onClick: (function (param) {
-                                                                                                    return Curry._2(clickItemOperation, operationitem.value, i);
+                                                                                                    return Curry._2(clickOperation, operationitem.value, i);
                                                                                                   }),
                                                                                                 children: operationitem.value
                                                                                               });
@@ -2788,7 +2840,7 @@ function Formor(Props) {
                                                                   showBackground: item.showOperation,
                                                                   backgroundColor: "transparent",
                                                                   onClick: (function (param) {
-                                                                      return Curry._1(showItemOperation, i);
+                                                                      return Curry._1(showOperation, i);
                                                                     })
                                                                 })), React.createElement(GridItem$BtsCore.make, {
                                                               top: "0",
@@ -2804,7 +2856,7 @@ function Formor(Props) {
                                                                     value: item.area,
                                                                     disabled: state.showProgress || item.itemDelete,
                                                                     onChange: (function ($$event) {
-                                                                        return Curry._2(changeItemArea, $$event.target.value, i);
+                                                                        return Curry._2(changeArea, $$event.target.value, i);
                                                                       }),
                                                                     children: null
                                                                   })
@@ -2822,7 +2874,7 @@ function Formor(Props) {
                                                                     value: item.eror,
                                                                     disabled: state.showProgress || item.itemDelete,
                                                                     onChange: (function ($$event) {
-                                                                        return Curry._2(changeItemEror, $$event.target.value, i);
+                                                                        return Curry._2(changeEror, $$event.target.value, i);
                                                                       }),
                                                                     children: null
                                                                   })
@@ -2836,7 +2888,7 @@ function Formor(Props) {
                                                                     padding: "8",
                                                                     disabled: state.showProgress || item.itemDelete,
                                                                     onClick: (function (param) {
-                                                                        return Curry._1(clearItemCondition, i);
+                                                                        return Curry._1(clearCondition, i);
                                                                       }),
                                                                     children: React.createElement(IconAction$BtsCore.make, {
                                                                           animation: "circle",
@@ -2869,7 +2921,7 @@ function Formor(Props) {
                                                                 padding: "8",
                                                                 disabled: state.showProgress || item.itemDelete,
                                                                 onClick: (function (param) {
-                                                                    return Curry._1(showItemMore, i);
+                                                                    return Curry._1(showMore, i);
                                                                   }),
                                                                 children: null
                                                               }, React.createElement(Tooltip$BtsCore.make, {
@@ -2886,7 +2938,7 @@ function Formor(Props) {
                                                                 showBackground: item.showMore,
                                                                 backgroundColor: "transparent",
                                                                 onClick: (function (param) {
-                                                                    return Curry._1(showItemMore, i);
+                                                                    return Curry._1(showMore, i);
                                                                   })
                                                               })), React.createElement(GridItem$BtsCore.make, {
                                                             top: "0",
@@ -3004,7 +3056,7 @@ function Formor(Props) {
                                                                                   value: item.title,
                                                                                   disabled: state.showProgress || item.itemDelete,
                                                                                   onChange: (function ($$event) {
-                                                                                      return Curry._2(changeItemTitle, $$event.target.value, i);
+                                                                                      return Curry._2(changeTitle, $$event.target.value, i);
                                                                                     }),
                                                                                   children: null
                                                                                 })
@@ -3036,7 +3088,7 @@ function Formor(Props) {
                                                                                       value: item.outValue,
                                                                                       disabled: state.showProgress || item.itemDelete,
                                                                                       onClick: (function (param) {
-                                                                                          return Curry._1(showItemOut, i);
+                                                                                          return Curry._1(showOut, i);
                                                                                         }),
                                                                                       children: /* tuple */[
                                                                                         item.showOut && !item.itemDelete ? React.createElement(SelectMenu$BtsCore.make, {
@@ -3062,7 +3114,7 @@ function Formor(Props) {
                                                                                                                     bottomRight: "12",
                                                                                                                     bottomLeft: "12",
                                                                                                                     onClick: (function (param) {
-                                                                                                                        return Curry._2(showItemValue, opticonitem.value, i);
+                                                                                                                        return Curry._2(showValue, opticonitem.value, i);
                                                                                                                       }),
                                                                                                                     children: /* tuple */[
                                                                                                                       React.createElement(IconGeneral$BtsCore.make, {
@@ -3082,7 +3134,7 @@ function Formor(Props) {
                                                                                       showBackground: item.showOut,
                                                                                       backgroundColor: "transparent",
                                                                                       onClick: (function (param) {
-                                                                                          return Curry._1(showItemOut, i);
+                                                                                          return Curry._1(showOut, i);
                                                                                         })
                                                                                     }))) : null)
                                                                 }), React.createElement(GridItem$BtsCore.make, {

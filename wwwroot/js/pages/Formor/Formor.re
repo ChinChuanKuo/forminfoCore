@@ -130,26 +130,26 @@ type action =
   | ActionShowProgress
   | ActionPermissItems(bool, bool, bool, bool)
   | SettingFormItems(array(item), array(settitem))
-  | ChangeTile(string)
-  | ChangeDesc(string)
+  | ChangeFormTile(string)
+  | ChangeFormDesc(string)
   | ClickItemTab(int)
   | ClickBoardPaper(int)
-  | ChangeItemTitle(string, int)
-  | ShowItemOut(int)
-  | ShowItemValue(string, int)
-  | ChangeItemText(string, int, int)
-  | ClickItemRadio(int, int)
-  | ClickItemCheckbox(int, int)
+  | ChangeTitle(string, int)
+  | ShowOut(int)
+  | ShowValue(string, int)
+  | ChangeText(string, int, int)
+  | ClickRadio(int, int)
+  | ClickCheckbox(int, int)
   | ClearOption(int, int)
-  | ShowItemType(int)
-  | ClickItemType(string, string, array(optionitem), int)
-  | ShowItemOperation(int)
-  | ClickItemOperation(string, int)
-  | ChangeItemArea(string, int)
-  | ChangeItemEror(string, int)
-  | ClearItemCondition(int)
-  | ShowItemMore(int)
-  | ShowItemVerification(
+  | ShowType(int)
+  | ClickType(string, string, array(optionitem), int)
+  | ShowOperation(int)
+  | ClickOperation(string, int)
+  | ChangeArea(string, int)
+  | ChangeEror(string, int)
+  | ClearCondition(int)
+  | ShowMore(int)
+  | ShowVerification(
       string,
       array(optionitem),
       string,
@@ -194,13 +194,13 @@ let reducer = (state, action) =>
       export,
     }
   | SettingFormItems(items, settitems) => {...state, items, settitems}
-  | ChangeTile(value) => {...state, tile: value}
-  | ChangeDesc(value) => {...state, desc: value}
+  | ChangeFormTile(value) => {...state, tile: value}
+  | ChangeFormDesc(value) => {...state, desc: value}
   | ClickItemTab(index) => {
       ...state,
       tabitems:
         List.mapi(
-          (i, tabitem) => {...tabitem, tabShow: index == i},
+          (i, tabitem) => {...tabitem, showTab: index == i},
           state.tabitems,
         ),
       index,
@@ -213,7 +213,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ChangeItemTitle(value, index) => {
+  | ChangeTitle(value, index) => {
       ...state,
       items:
         Array.mapi(
@@ -221,7 +221,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemOut(index) => {
+  | ShowOut(index) => {
       ...state,
       items:
         Array.mapi(
@@ -230,7 +230,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemValue(outValue, index) => {
+  | ShowValue(outValue, index) => {
       ...state,
       items:
         Array.mapi(
@@ -239,7 +239,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ChangeItemText(value, rindex, index) => {
+  | ChangeText(value, rindex, index) => {
       ...state,
       items:
         Array.mapi(
@@ -258,7 +258,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ClickItemRadio(rindex, index) => {
+  | ClickRadio(rindex, index) => {
       ...state,
       items:
         Array.mapi(
@@ -281,7 +281,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ClickItemCheckbox(rindex, index) => {
+  | ClickCheckbox(rindex, index) => {
       ...state,
       items:
         Array.mapi(
@@ -323,7 +323,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemType(index) => {
+  | ShowType(index) => {
       ...state,
       items:
         Array.mapi(
@@ -332,7 +332,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ClickItemType(type_, operation, operationitems, index) => {
+  | ClickType(type_, operation, operationitems, index) => {
       ...state,
       items:
         Array.mapi(
@@ -343,7 +343,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemOperation(index) => {
+  | ShowOperation(index) => {
       ...state,
       items:
         Array.mapi(
@@ -352,7 +352,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ClickItemOperation(operation, index) => {
+  | ClickOperation(operation, index) => {
       ...state,
       items:
         Array.mapi(
@@ -361,7 +361,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ChangeItemArea(area, index) => {
+  | ChangeArea(area, index) => {
       ...state,
       items:
         Array.mapi(
@@ -369,7 +369,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ChangeItemEror(eror, index) => {
+  | ChangeEror(eror, index) => {
       ...state,
       items:
         Array.mapi(
@@ -377,7 +377,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ClearItemCondition(index) => {
+  | ClearCondition(index) => {
       ...state,
       items:
         Array.mapi(
@@ -386,7 +386,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemMore(index) => {
+  | ShowMore(index) => {
       ...state,
       items:
         Array.mapi(
@@ -395,7 +395,7 @@ let reducer = (state, action) =>
           state.items,
         ),
     }
-  | ShowItemVerification(type_, typeitems, operation, operationitems, index) => {
+  | ShowVerification(type_, typeitems, operation, operationitems, index) => {
       ...state,
       items:
         Array.mapi(
@@ -673,9 +673,9 @@ let initialState = {
   tile: "noTitle",
   desc: "",
   tabitems: [
-    {tabShow: true, tabImage: questionAnswerBlack},
-    {tabShow: false, tabImage: settingsBlack},
-    {tabShow: false, tabImage: personAddBlack},
+    {showTab: true, tabImage: questionAnswerBlack},
+    {showTab: false, tabImage: settingsBlack},
+    {showTab: false, tabImage: personAddBlack},
   ],
   index: 0,
   items: [||],
@@ -780,36 +780,37 @@ let make = _ => {
     Some(() => sizeId);
   });
 
-  let changeTile = useCallback(value => ChangeTile(value) |> dispatch);
+  let changeFormTile =
+    useCallback(value => ChangeFormTile(value) |> dispatch);
 
-  let changeDesc = useCallback(value => ChangeDesc(value) |> dispatch);
+  let changeFormDesc =
+    useCallback(value => ChangeFormDesc(value) |> dispatch);
 
   let clickItemTab = useCallback(i => ClickItemTab(i) |> dispatch);
 
   let clickBoardPaper = useCallback(i => ClickBoardPaper(i) |> dispatch);
 
-  let changeItemTitle =
-    useCallback((value, i) => ChangeItemTitle(value, i) |> dispatch);
+  let changeTitle =
+    useCallback((value, i) => ChangeTitle(value, i) |> dispatch);
 
-  let showItemOut = useCallback(i => ShowItemOut(i) |> dispatch);
+  let showOut = useCallback(i => ShowOut(i) |> dispatch);
 
-  let showItemValue =
-    useCallback((value, i) => ShowItemValue(value, i) |> dispatch);
+  let showValue = useCallback((value, i) => ShowValue(value, i) |> dispatch);
 
-  let changeItemText =
-    useCallback((value, ri, i) => ChangeItemText(value, ri, i) |> dispatch);
+  let changeText =
+    useCallback((value, ri, i) => ChangeText(value, ri, i) |> dispatch);
 
   let clickElement =
     useCallback((value, ri, i) =>
       switch (value) {
-      | "checkbox" => ClickItemCheckbox(ri, i) |> dispatch
-      | _ => ClickItemRadio(ri, i) |> dispatch
+      | "checkbox" => ClickCheckbox(ri, i) |> dispatch
+      | _ => ClickRadio(ri, i) |> dispatch
       }
     );
 
   let clearOption = useCallback((ri, i) => ClearOption(ri, i) |> dispatch);
 
-  let showItemType = useCallback(i => ShowItemType(i) |> dispatch);
+  let showType = useCallback(i => ShowType(i) |> dispatch);
 
   let stypeAJax = (type_, i) =>
     Js.Promise.(
@@ -821,7 +822,7 @@ let make = _ => {
            (
              switch (response##data##status) {
              | "istrue" =>
-               ClickItemType(
+               ClickType(
                  type_,
                  response##data##value,
                  response##data##items,
@@ -832,7 +833,7 @@ let make = _ => {
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
-               ClearItemCondition(i) |> dispatch;
+               ClearCondition(i) |> dispatch;
              }
            )
            |> resolve
@@ -841,25 +842,20 @@ let make = _ => {
       |> ignore
     );
 
-  let clickItemType = useCallback((type_, i) => type_ |> stypeAJax(i));
+  let clickType = useCallback((type_, i) => type_ |> stypeAJax(i));
 
-  let showItemOperation = useCallback(i => ShowItemOperation(i) |> dispatch);
+  let showOperation = useCallback(i => ShowOperation(i) |> dispatch);
 
-  let clickItemOperation =
-    useCallback((operation, i) =>
-      ClickItemOperation(operation, i) |> dispatch
-    );
+  let clickOperation =
+    useCallback((operation, i) => ClickOperation(operation, i) |> dispatch);
 
-  let changeItemArea =
-    useCallback((area, i) => ChangeItemArea(area, i) |> dispatch);
+  let changeArea = useCallback((area, i) => ChangeArea(area, i) |> dispatch);
 
-  let changeItemEror =
-    useCallback((area, i) => ChangeItemEror(area, i) |> dispatch);
+  let changeEror = useCallback((area, i) => ChangeEror(area, i) |> dispatch);
 
-  let clearItemCondition =
-    useCallback(i => ClearItemCondition(i) |> dispatch);
+  let clearCondition = useCallback(i => ClearCondition(i) |> dispatch);
 
-  let showItemMore = useCallback(i => ShowItemMore(i) |> dispatch);
+  let showMore = useCallback(i => ShowMore(i) |> dispatch);
 
   let sveriAJax = i =>
     Js.Promise.(
@@ -871,7 +867,7 @@ let make = _ => {
            (
              switch (response##data##status) {
              | "istrue" =>
-               ShowItemVerification(
+               ShowVerification(
                  response##data##type_,
                  response##data##typeitems,
                  response##data##operation,
@@ -883,7 +879,7 @@ let make = _ => {
                response##data##status
                |> Status.statusModule
                |> barShowRestoreAction;
-               ClearItemCondition(i) |> dispatch;
+               ClearCondition(i) |> dispatch;
              }
            )
            |> resolve
@@ -894,7 +890,7 @@ let make = _ => {
 
   let showVerification =
     useCallback((showVeri, i) =>
-      showVeri ? ClearItemCondition(i) |> dispatch : i |> sveriAJax
+      showVeri ? ClearCondition(i) |> dispatch : i |> sveriAJax
     );
 
   let checkItem = useCallback(i => CheckItem(i) |> dispatch);
@@ -1059,7 +1055,7 @@ let make = _ => {
               value={state.tile}
               disabled={state.showProgress}
               onChange={event =>
-                ReactEvent.Form.target(event)##value |> changeTile
+                ReactEvent.Form.target(event)##value |> changeFormTile
               }>
               null
             </TextFieldStandard>
@@ -1075,7 +1071,7 @@ let make = _ => {
               value={state.desc}
               disabled={state.showProgress}
               onChange={event =>
-                ReactEvent.Form.target(event)##value |> changeDesc
+                ReactEvent.Form.target(event)##value |> changeFormDesc
               }>
               null
             </TextFieldStandard>
@@ -1097,7 +1093,7 @@ let make = _ => {
                   {state.tabitems
                    |> List.mapi((i, tabitem) =>
                         <Tab
-                          tabShow={tabitem.tabShow}
+                          showTab={tabitem.showTab}
                           maxWidth="111.6"
                           borderRadius="15"
                           id={"report-" ++ string_of_int(i)}
@@ -1156,7 +1152,7 @@ let make = _ => {
                                 }
                                 onChange={event =>
                                   i
-                                  |> changeItemTitle(
+                                  |> changeTitle(
                                        ReactEvent.Form.target(event)##value,
                                      )
                                 }>
@@ -1196,7 +1192,7 @@ let make = _ => {
                                        disabled={
                                          state.showProgress || item.itemDelete
                                        }
-                                       onClick={_ => i |> showItemOut}>
+                                       onClick={_ => i |> showOut}>
                                        ...(
                                             item.showOut && !item.itemDelete
                                               ? <SelectMenu
@@ -1227,7 +1223,7 @@ let make = _ => {
                                                           bottomLeft="12"
                                                           onClick={_ =>
                                                             i
-                                                            |> showItemValue(
+                                                            |> showValue(
                                                                  opticonitem.
                                                                    value,
                                                                )
@@ -1259,7 +1255,7 @@ let make = _ => {
                                      <BackgroundBoard
                                        showBackground={item.showOut}
                                        backgroundColor="transparent"
-                                       onClick={_ => i |> showItemOut}
+                                       onClick={_ => i |> showOut}
                                      />
                                    </GridItem>
                                  </>
@@ -1308,52 +1304,140 @@ let make = _ => {
                                null
                              </TextFieldStandard>
                            | _ =>
-                             item.answeritems
-                             |> Array.mapi((ri, answeritem) =>
-                                  <QuestionForm
-                                    startIcon={
-                                      switch (item.outValue) {
-                                      | "radio" => radioButtonCheckedBlack
-                                      | "checkbox" => checkBoxBlack
-                                      | _ => checkBoxBlack
-                                      }
-                                    }
-                                    onChange={event =>
-                                      i
-                                      |> changeItemText(
-                                           ReactEvent.Form.target(event)##value,
-                                           ri,
-                                         )
-                                    }
-                                    enterBorderColor={
-                                      answeritem.showAnswer |> enterBorder
-                                    }
-                                    downBorderColor={
-                                      answeritem.showAnswer |> downBorder
-                                    }
-                                    borderColor={
-                                      answeritem.showAnswer |> border
-                                    }
-                                    value={answeritem.value}
-                                    disabled={
-                                      state.showProgress || item.itemDelete
-                                    }
-                                    showLine={item.showLine}
-                                    clickCenter={_ =>
-                                      i |> clickElement(item.outValue, ri)
-                                    }
-                                    centerIcon={
-                                      answeritem.showAnswer
-                                        ? doneSuccessful : errorWarn
-                                    }
-                                    clickEnd={_ => i |> clearOption(ri)}
-                                    endIcon={
-                                      answeritem.ansrDelete
-                                        ? refreshBlack : clearWarn
-                                    }
-                                  />
-                                )
-                             |> array
+                             <GridContainer
+                               direction="column"
+                               justify="center"
+                               alignItem="stretch">
+                               {item.answeritems
+                                |> Array.mapi((ai, answeritem) =>
+                                     <GridItem
+                                       top="0"
+                                       bottom="6"
+                                       left="0"
+                                       right="0"
+                                       xs="auto">
+                                       <GridContainer
+                                         direction="row"
+                                         justify="start"
+                                         alignItem="center">
+                                         <GridItem
+                                           top="0"
+                                           right="0"
+                                           bottom="0"
+                                           left="0"
+                                           xs="no">
+                                           <IconButton
+                                             padding="4"
+                                             disabled={state.showProgress}>
+                                             <IconAction
+                                               animation="leftRight"
+                                               src={
+                                                 false
+                                                 |> answerIcon(item.outValue)
+                                               }
+                                             />
+                                           </IconButton>
+                                         </GridItem>
+                                         <GridItem
+                                           top="0"
+                                           right="6"
+                                           bottom="0"
+                                           left="0"
+                                           xs="auto">
+                                           <TextFieldStandard
+                                             top="0"
+                                             enterBorderColor={
+                                               answeritem.showAnswer
+                                               |> enterBorder
+                                             }
+                                             downBorderColor={
+                                               answeritem.showAnswer
+                                               |> downBorder
+                                             }
+                                             borderColor={
+                                               answeritem.showAnswer |> border
+                                             }
+                                             placeholder="Option"
+                                             value={answeritem.value}
+                                             disabled={
+                                               state.showProgress
+                                               || item.itemDelete
+                                             }
+                                             onChange={event =>
+                                               i
+                                               |> changeText(
+                                                    ReactEvent.Form.target(
+                                                      event,
+                                                    )##value,
+                                                    ai,
+                                                  )
+                                             }>
+                                             null
+                                           </TextFieldStandard>
+                                         </GridItem>
+                                         {item.showLine
+                                            ? <>
+                                                <GridItem
+                                                  top="0"
+                                                  right="6"
+                                                  bottom="0"
+                                                  left="0"
+                                                  xs="no">
+                                                  <IconButton
+                                                    padding="4"
+                                                    disabled={
+                                                      state.showProgress
+                                                      || item.itemDelete
+                                                    }
+                                                    onClick={_ =>
+                                                      i
+                                                      |> clickElement(
+                                                           item.outValue,
+                                                           ai,
+                                                         )
+                                                    }>
+                                                    <IconAction
+                                                      animation="leftRight"
+                                                      src={
+                                                        answeritem.showAnswer
+                                                          ? doneSuccessful
+                                                          : errorWarn
+                                                      }
+                                                    />
+                                                  </IconButton>
+                                                </GridItem>
+                                                <GridItem
+                                                  top="0"
+                                                  right="0"
+                                                  bottom="0"
+                                                  left="0"
+                                                  xs="no">
+                                                  <IconButton
+                                                    padding="4"
+                                                    disabled={
+                                                      state.showProgress
+                                                      || item.itemDelete
+                                                    }
+                                                    onClick={_ =>
+                                                      i |> clearOption(ai)
+                                                    }>
+                                                    <IconAction
+                                                      animation="circle"
+                                                      src={
+                                                        answeritem.ansrDelete
+                                                          ? refreshBlack
+                                                          : clearWarn
+                                                      }
+                                                    />
+                                                  </IconButton>
+                                                </GridItem>
+                                              </>
+                                            : null}
+                                       </GridContainer>
+                                     </GridItem>
+                                   )
+                                |> array}
+                             </GridContainer>
                            }}
                         </GridItem>
                         {item.showLine
@@ -1381,7 +1465,7 @@ let make = _ => {
                                               state.showProgress
                                               || item.itemDelete
                                             }
-                                            onClick={_ => i |> showItemType}>
+                                            onClick={_ => i |> showType}>
                                             ...(
                                                  item.showType
                                                  && !item.itemDelete
@@ -1413,7 +1497,7 @@ let make = _ => {
                                                                bottomLeft="12"
                                                                onClick={_ =>
                                                                  typeitem.value
-                                                                 |> clickItemType(
+                                                                 |> clickType(
                                                                     i,
                                                                     )
                                                                }>
@@ -1436,7 +1520,7 @@ let make = _ => {
                                           <BackgroundBoard
                                             showBackground={item.showType}
                                             backgroundColor="transparent"
-                                            onClick={_ => i |> showItemType}
+                                            onClick={_ => i |> showType}
                                           />
                                         </GridItem>
                                         <GridItem
@@ -1456,9 +1540,7 @@ let make = _ => {
                                               state.showProgress
                                               || item.itemDelete
                                             }
-                                            onClick={_ =>
-                                              i |> showItemOperation
-                                            }>
+                                            onClick={_ => i |> showOperation}>
                                             ...(
                                                  item.showOperation
                                                  && !item.itemDelete
@@ -1491,7 +1573,7 @@ let make = _ => {
                                                                bottomLeft="12"
                                                                onClick={_ =>
                                                                  i
-                                                                 |> clickItemOperation(
+                                                                 |> clickOperation(
                                                                     operationitem.
                                                                     value,
                                                                     )
@@ -1516,9 +1598,7 @@ let make = _ => {
                                           <BackgroundBoard
                                             showBackground={item.showOperation}
                                             backgroundColor="transparent"
-                                            onClick={_ =>
-                                              i |> showItemOperation
-                                            }
+                                            onClick={_ => i |> showOperation}
                                           />
                                         </GridItem>
                                         <GridItem
@@ -1539,7 +1619,7 @@ let make = _ => {
                                             }
                                             onChange={event =>
                                               i
-                                              |> changeItemArea(
+                                              |> changeArea(
                                                    ReactEvent.Form.target(
                                                      event,
                                                    )##value,
@@ -1566,7 +1646,7 @@ let make = _ => {
                                             }
                                             onChange={event =>
                                               i
-                                              |> changeItemEror(
+                                              |> changeEror(
                                                    ReactEvent.Form.target(
                                                      event,
                                                    )##value,
@@ -1587,9 +1667,7 @@ let make = _ => {
                                               state.showProgress
                                               || item.itemDelete
                                             }
-                                            onClick={_ =>
-                                              i |> clearItemCondition
-                                            }>
+                                            onClick={_ => i |> clearCondition}>
                                             <IconAction
                                               animation="circle"
                                               src=clearBlack
@@ -1621,7 +1699,7 @@ let make = _ => {
                                        disabled={
                                          state.showProgress || item.itemDelete
                                        }
-                                       onClick={_ => i |> showItemMore}>
+                                       onClick={_ => i |> showMore}>
                                        <Tooltip
                                          location="top"
                                          backgroundColor="rgba(255,0,0,0.8)">
@@ -1770,7 +1848,7 @@ let make = _ => {
                                      <BackgroundBoard
                                        showBackground={item.showMore}
                                        backgroundColor="transparent"
-                                       onClick={_ => i |> showItemMore}
+                                       onClick={_ => i |> showMore}
                                      />
                                    </GridItem>
                                    <GridItem

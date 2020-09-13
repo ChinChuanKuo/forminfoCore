@@ -237,7 +237,7 @@
     {
         "id": "Login.email",
         "defaultMessage": "Email",
-        "message": "EMAIL"
+        "message": "USERID"
     },
     {
         "id": "Login.password",

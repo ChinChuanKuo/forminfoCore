@@ -24,6 +24,8 @@ import * as MailblackSvg from "./mail/mailblack.svg";
 import * as MailwhiteSvg from "./mail/mailwhite.svg";
 import * as MenublackSvg from "./menu/menublack.svg";
 import * as MenuwhiteSvg from "./menu/menuwhite.svg";
+import * as NoteblackSvg from "./note/noteblack.svg";
+import * as NotewhiteSvg from "./note/notewhite.svg";
 import * as SaveblackSvg from "./save/saveblack.svg";
 import * as SavewhiteSvg from "./save/savewhite.svg";
 import * as SendblackSvg from "./send/sendblack.svg";
@@ -511,6 +513,10 @@ var monetizationOnWhite = Monetization_onwhiteSvg;
 
 var monetizationOnBlack = Monetization_onblackSvg;
 
+var noteWhite = NotewhiteSvg;
+
+var noteBlack = NoteblackSvg;
+
 var notesWhite = NoteswhiteSvg;
 
 var notesBlack = NotesblackSvg;
@@ -797,6 +803,8 @@ export {
   moreVertBlack ,
   monetizationOnWhite ,
   monetizationOnBlack ,
+  noteWhite ,
+  noteBlack ,
   notesWhite ,
   notesBlack ,
   nightsStayWhite ,

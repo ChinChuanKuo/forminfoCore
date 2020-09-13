@@ -286,6 +286,8 @@ external monetizationOnWhite: string =
 external monetizationOnBlack: string =
   "./monetization_on/monetization_onblack.svg";
 
+[@bs.module] external noteWhite: string = "./note/notewhite.svg";
+[@bs.module] external noteBlack: string = "./note/noteblack.svg";
 [@bs.module] external notesWhite: string = "./notes/noteswhite.svg";
 [@bs.module] external notesBlack: string = "./notes/notesblack.svg";
 [@bs.module]
