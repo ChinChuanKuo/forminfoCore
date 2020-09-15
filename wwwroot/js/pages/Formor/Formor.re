@@ -1303,6 +1303,121 @@ let make = _ => {
                                disabled=true>
                                null
                              </TextFieldStandard>
+                           | "textline" =>
+                             <TextFieldMultiline
+                               top="12"
+                               bottom="0"
+                               left="0"
+                               labelColor="rgba(255,0,0,0.8)"
+                               borderTop="10"
+                               borderBottom="10"
+                               enterBorderColor="rgba(255,0,0,0.8)"
+                               downBorderColor="rgba(255,0,0,0.6)"
+                               borderColor="rgba(0,0,0,0.2)"
+                               rows=3
+                               disabled=true
+                             />
+                           | "droplist" =>
+                             <GridContainer
+                               direction="column"
+                               justify="center"
+                               alignItem="stretch">
+                               {item.answeritems
+                                |> Array.mapi((ai, answeritem) =>
+                                     <GridItem
+                                       top="0"
+                                       bottom="6"
+                                       left="0"
+                                       right="0"
+                                       xs="auto">
+                                       <GridContainer
+                                         direction="row"
+                                         justify="start"
+                                         alignItem="center">
+                                         <GridItem
+                                           top="0"
+                                           right="0"
+                                           bottom="0"
+                                           left="0"
+                                           xs="no">
+                                           <IconButton
+                                             padding="4"
+                                             disabled={state.showProgress}>
+                                             <IconAction
+                                               animation="leftRight"
+                                               src=radioButtonUncheckedBlack
+                                             />
+                                           </IconButton>
+                                         </GridItem>
+                                         <GridItem
+                                           top="0"
+                                           right="6"
+                                           bottom="0"
+                                           left="0"
+                                           xs="auto">
+                                           <TextFieldStandard
+                                             top="0"
+                                             enterBorderColor={
+                                               answeritem.showAnswer
+                                               |> enterBorder
+                                             }
+                                             downBorderColor={
+                                               answeritem.showAnswer
+                                               |> downBorder
+                                             }
+                                             borderColor={
+                                               answeritem.showAnswer |> border
+                                             }
+                                             placeholder="Option"
+                                             value={answeritem.value}
+                                             disabled={
+                                               state.showProgress
+                                               || item.itemDelete
+                                             }
+                                             onChange={event =>
+                                               i
+                                               |> changeText(
+                                                    ReactEvent.Form.target(
+                                                      event,
+                                                    )##value,
+                                                    ai,
+                                                  )
+                                             }>
+                                             null
+                                           </TextFieldStandard>
+                                         </GridItem>
+                                         {item.showLine
+                                            ? <GridItem
+                                                top="0"
+                                                right="0"
+                                                bottom="0"
+                                                left="0"
+                                                xs="no">
+                                                <IconButton
+                                                  padding="4"
+                                                  disabled={
+                                                    state.showProgress
+                                                    || item.itemDelete
+                                                  }
+                                                  onClick={_ =>
+                                                    i |> clearOption(ai)
+                                                  }>
+                                                  <IconAction
+                                                    animation="circle"
+                                                    src={
+                                                      answeritem.ansrDelete
+                                                        ? refreshBlack
+                                                        : clearWarn
+                                                    }
+                                                  />
+                                                </IconButton>
+                                              </GridItem>
+                                            : null}
+                                       </GridContainer>
+                                     </GridItem>
+                                   )
+                                |> array}
+                             </GridContainer>
                            | _ =>
                              <GridContainer
                                direction="column"
@@ -1944,7 +2059,8 @@ let make = _ => {
                                    </GridItem>
                                    {switch (item.outValue) {
                                     | "radio"
-                                    | "checkbox" =>
+                                    | "checkbox"
+                                    | "droplist" =>
                                       <GridItem
                                         top="0"
                                         right="0"

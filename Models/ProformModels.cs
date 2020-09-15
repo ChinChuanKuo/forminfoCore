@@ -91,6 +91,7 @@ namespace forminfoCore.Models
                 {
                     case "radio":
                     case "checkbox":
+                    case "droplist":
                         dbparamlist.Clear();
                         dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
                         dbparamlist.Add(new dbparam("@iid", int.Parse(dr["iid"].ToString().TrimEnd())));
@@ -331,6 +332,7 @@ namespace forminfoCore.Models
                         {
                             case "radio":
                             case "checkbox":
+                            case "droplist":
                                 foreach (var answeritem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(item["answeritems"].ToString().TrimEnd()))
                                 {
                                     switch (bool.Parse(answeritem["ansrDelete"].ToString().TrimEnd()))

@@ -98,6 +98,7 @@ namespace forminfoCore.Models
                 {
                     case "radio":
                     case "checkbox":
+                    case "droplist":
                         foreach (var answeritem in JsonSerializer.Deserialize<List<Dictionary<string, object>>>(item["answeritems"].ToString().TrimEnd()))
                         {
                             switch (bool.Parse(answeritem["ansrDelete"].ToString().TrimEnd()))

@@ -19,22 +19,28 @@ import * as OutSide$BtsCore from "../../styles/OutSide/OutSide.bs.js";
 import * as Tooltip$BtsCore from "../../material-ui/core/Tooltip/Tooltip.bs.js";
 import * as Axiosapi$BtsCore from "../../features/Axiosapi.bs.js";
 import * as GridItem$BtsCore from "../../material-ui/core/Grid/GridItem.bs.js";
+import * as MenuItem$BtsCore from "../../material-ui/core/MenuItem/MenuItem.bs.js";
 import * as Together$BtsCore from "../../styles/Together/Together.bs.js";
 import * as DialogFull$BtsCore from "../../material-ui/core/Dialog/DialogFull.bs.js";
 import * as IconAction$BtsCore from "../../material-ui/core/IconStyle/IconAction.bs.js";
 import * as IconButton$BtsCore from "../../material-ui/core/IconButton/IconButton.bs.js";
+import * as SelectMenu$BtsCore from "../../material-ui/core/Menu/SelectMenu.bs.js";
 import * as Typography$BtsCore from "../../material-ui/core/Typography/Typography.bs.js";
 import * as DialogTitle$BtsCore from "../../material-ui/core/Dialog/DialogTitle.bs.js";
+import * as IconGeneral$BtsCore from "../../material-ui/core/IconStyle/IconGeneral.bs.js";
 import * as ImageUpload$BtsCore from "../../example/Uploads/ImageUpload.bs.js";
 import * as NewFacetube$BtsCore from "../../example/Facebook/NewFacetube.bs.js";
 import * as DialogActions$BtsCore from "../../material-ui/core/Dialog/DialogActions.bs.js";
 import * as DialogContent$BtsCore from "../../material-ui/core/Dialog/DialogContent.bs.js";
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as IconAnimation$BtsCore from "../../controls/IconAnimation.bs.js";
+import * as SelectStandard$BtsCore from "../../material-ui/core/Select/SelectStandard.bs.js";
+import * as BackgroundBoard$BtsCore from "../../example/Boards/BackgroundBoard.bs.js";
 import * as SnackbarYoutube$BtsCore from "../../material-ui/core/Snackbar/SnackbarYoutube.bs.js";
 import * as CardOrPaperBoard$BtsCore from "../../example/Boards/CardOrPaperBoard.bs.js";
 import * as DialogContentText$BtsCore from "../../material-ui/core/Dialog/DialogContentText.bs.js";
 import * as TextFieldStandard$BtsCore from "../../material-ui/core/TextField/TextFieldStandard.bs.js";
+import * as TextFieldMultiline$BtsCore from "../../material-ui/core/TextField/TextFieldMultiline.bs.js";
 
 ((require('../../../scss/pages/Together/together.scss')));
 
@@ -131,6 +137,7 @@ function reducer(state, action) {
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
                             value: formitem.value,
+                            showMenu: formitem.showMenu,
                             type_: formitem.type_,
                             operation: formitem.operation,
                             area: formitem.area,
@@ -157,6 +164,7 @@ function reducer(state, action) {
                             showFile: !formitem.showFile,
                             outValue: formitem.outValue,
                             value: value,
+                            showMenu: formitem.showMenu,
                             type_: formitem.type_,
                             operation: formitem.operation,
                             area: formitem.area,
@@ -183,6 +191,7 @@ function reducer(state, action) {
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
                             value: value$1,
+                            showMenu: formitem.showMenu,
                             type_: formitem.type_,
                             operation: formitem.operation,
                             area: formitem.area,
@@ -195,9 +204,8 @@ function reducer(state, action) {
                   }
                 }), state.formitems);
           return newrecord$13;
-      case /* ClickCheckbox */10 :
-          var index$4 = action[1];
-          var aindex = action[0];
+      case /* ShowMenu */10 :
+          var index$4 = action[0];
           var newrecord$14 = Caml_obj.caml_obj_dup(state);
           newrecord$14.formitems = $$Array.mapi((function (i, formitem) {
                   if (index$4 === i) {
@@ -209,6 +217,61 @@ function reducer(state, action) {
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
                             value: formitem.value,
+                            showMenu: !formitem.showMenu,
+                            type_: formitem.type_,
+                            operation: formitem.operation,
+                            area: formitem.area,
+                            eror: formitem.eror,
+                            showCheck: formitem.showCheck,
+                            answeritems: formitem.answeritems
+                          };
+                  } else {
+                    return formitem;
+                  }
+                }), state.formitems);
+          return newrecord$14;
+      case /* ClickMenu */11 :
+          var index$5 = action[1];
+          var value$2 = action[0];
+          var newrecord$15 = Caml_obj.caml_obj_dup(state);
+          newrecord$15.formitems = $$Array.mapi((function (i, formitem) {
+                  if (index$5 === i) {
+                    return {
+                            iid: formitem.iid,
+                            title: formitem.title,
+                            showVeri: formitem.showVeri,
+                            showDrop: formitem.showDrop,
+                            showFile: formitem.showFile,
+                            outValue: formitem.outValue,
+                            value: value$2,
+                            showMenu: !formitem.showMenu,
+                            type_: formitem.type_,
+                            operation: formitem.operation,
+                            area: formitem.area,
+                            eror: formitem.eror,
+                            showCheck: formitem.showCheck,
+                            answeritems: formitem.answeritems
+                          };
+                  } else {
+                    return formitem;
+                  }
+                }), state.formitems);
+          return newrecord$15;
+      case /* ClickCheckbox */12 :
+          var index$6 = action[1];
+          var aindex = action[0];
+          var newrecord$16 = Caml_obj.caml_obj_dup(state);
+          newrecord$16.formitems = $$Array.mapi((function (i, formitem) {
+                  if (index$6 === i) {
+                    return {
+                            iid: formitem.iid,
+                            title: formitem.title,
+                            showVeri: formitem.showVeri,
+                            showDrop: formitem.showDrop,
+                            showFile: formitem.showFile,
+                            outValue: formitem.outValue,
+                            value: formitem.value,
+                            showMenu: formitem.showMenu,
                             type_: formitem.type_,
                             operation: formitem.operation,
                             area: formitem.area,
@@ -218,7 +281,7 @@ function reducer(state, action) {
                                     if (aindex === ai) {
                                       return {
                                               id: answeritem.id,
-                                              value: answeritem.value,
+                                              values: answeritem.values,
                                               showAnswer: !answeritem.showAnswer,
                                               showRight: answeritem.showRight
                                             };
@@ -231,13 +294,13 @@ function reducer(state, action) {
                     return formitem;
                   }
                 }), state.formitems);
-          return newrecord$14;
-      case /* ClickRadio */11 :
-          var index$5 = action[1];
+          return newrecord$16;
+      case /* ClickRadio */13 :
+          var index$7 = action[1];
           var aindex$1 = action[0];
-          var newrecord$15 = Caml_obj.caml_obj_dup(state);
-          newrecord$15.formitems = $$Array.mapi((function (i, formitem) {
-                  if (index$5 === i) {
+          var newrecord$17 = Caml_obj.caml_obj_dup(state);
+          newrecord$17.formitems = $$Array.mapi((function (i, formitem) {
+                  if (index$7 === i) {
                     return {
                             iid: formitem.iid,
                             title: formitem.title,
@@ -246,6 +309,7 @@ function reducer(state, action) {
                             showFile: formitem.showFile,
                             outValue: formitem.outValue,
                             value: formitem.value,
+                            showMenu: formitem.showMenu,
                             type_: formitem.type_,
                             operation: formitem.operation,
                             area: formitem.area,
@@ -254,7 +318,7 @@ function reducer(state, action) {
                             answeritems: $$Array.mapi((function (ai, answeritem) {
                                     return {
                                             id: answeritem.id,
-                                            value: answeritem.value,
+                                            values: answeritem.values,
                                             showAnswer: aindex$1 === ai ? !answeritem.showAnswer : false,
                                             showRight: answeritem.showRight
                                           };
@@ -264,12 +328,12 @@ function reducer(state, action) {
                     return formitem;
                   }
                 }), state.formitems);
-          return newrecord$15;
-      case /* ActionSnackBar */12 :
-          var newrecord$16 = Caml_obj.caml_obj_dup(state);
-          newrecord$16.youtubeText = action[0];
-          newrecord$16.showYoutube = action[1];
-          return newrecord$16;
+          return newrecord$17;
+      case /* ActionSnackBar */14 :
+          var newrecord$18 = Caml_obj.caml_obj_dup(state);
+          newrecord$18.youtubeText = action[0];
+          newrecord$18.showYoutube = action[1];
+          return newrecord$18;
       
     }
   }
@@ -326,12 +390,12 @@ function Home(Props) {
   var state = match[0];
   var fileRef = React.useRef(null);
   var barShowRestoreAction = function (youtubeText) {
-    Curry._1(dispatch, /* ActionSnackBar */Block.__(12, [
+    Curry._1(dispatch, /* ActionSnackBar */Block.__(14, [
             youtubeText,
             true
           ]));
     setTimeout((function (param) {
-            return Curry._1(dispatch, /* ActionSnackBar */Block.__(12, [
+            return Curry._1(dispatch, /* ActionSnackBar */Block.__(14, [
                           "",
                           false
                         ]));
@@ -495,15 +559,26 @@ function Home(Props) {
                           ]));
             });
         }));
+  var showMenu = React.useCallback((function (i) {
+          return Curry._1(dispatch, /* ShowMenu */Block.__(10, [i]));
+        }));
+  var clickMenu = React.useCallback((function (value) {
+          return (function (i) {
+              return Curry._1(dispatch, /* ClickMenu */Block.__(11, [
+                            value,
+                            i
+                          ]));
+            });
+        }));
   var clickElement = React.useCallback((function (value) {
           return (function (ai, i) {
               if (value === "checkbox") {
-                return Curry._1(dispatch, /* ClickCheckbox */Block.__(10, [
+                return Curry._1(dispatch, /* ClickCheckbox */Block.__(12, [
                               ai,
                               i
                             ]));
               } else {
-                return Curry._1(dispatch, /* ClickRadio */Block.__(11, [
+                return Curry._1(dispatch, /* ClickRadio */Block.__(13, [
                               ai,
                               i
                             ]));
@@ -672,6 +747,62 @@ function Home(Props) {
             var match = formitem.outValue;
             var tmp;
             switch (match) {
+              case "droplist" :
+                  tmp = React.createElement(React.Fragment, undefined, React.createElement(SelectStandard$BtsCore.make, {
+                            top: "12",
+                            right: "10",
+                            bottom: "10",
+                            left: "10",
+                            enterBorderColor: "rgba(255,0,0,0.8)",
+                            downBorderColor: "rgba(255,0,0,0.6)",
+                            borderColor: "rgba(0,0,0,0.2)",
+                            value: formitem.value,
+                            disabled: state.showProgress,
+                            onClick: (function (param) {
+                                return Curry._1(showMenu, i);
+                              }),
+                            children: /* tuple */[
+                              formitem.showMenu ? React.createElement(SelectMenu$BtsCore.make, {
+                                      top: "50%",
+                                      transform: "translate(0, -50%)",
+                                      maxHeight: "280",
+                                      minHeight: "0",
+                                      topLeft: "12",
+                                      topRight: "12",
+                                      bottomRight: "12",
+                                      bottomLeft: "12",
+                                      paddingRight: "8",
+                                      paddingLeft: "8",
+                                      children: $$Array.map((function (answeritem) {
+                                              return React.createElement(MenuItem$BtsCore.make, {
+                                                          top: "0",
+                                                          right: "8",
+                                                          bottom: "0",
+                                                          left: "8",
+                                                          topLeft: "12",
+                                                          topRight: "12",
+                                                          bottomRight: "12",
+                                                          bottomLeft: "12",
+                                                          onClick: (function (param) {
+                                                              return Curry._2(clickMenu, answeritem.values, i);
+                                                            }),
+                                                          children: answeritem.values
+                                                        });
+                                            }), formitem.answeritems)
+                                    }) : null,
+                              React.createElement(IconGeneral$BtsCore.make, {
+                                    animation: IconAnimation$BtsCore.topDownRorate(formitem.showMenu),
+                                    src: Icons$BtsCore.arrowDownBlack
+                                  })
+                            ]
+                          }), React.createElement(BackgroundBoard$BtsCore.make, {
+                            showBackground: formitem.showMenu,
+                            backgroundColor: "transparent",
+                            onClick: (function (param) {
+                                return Curry._1(showMenu, i);
+                              })
+                          }));
+                  break;
               case "image" :
                   tmp = React.createElement(ImageUpload$BtsCore.make, {
                         webLoad: state.showProgress,
@@ -735,6 +866,24 @@ function Home(Props) {
                         children: null
                       });
                   break;
+              case "textline" :
+                  tmp = React.createElement(TextFieldMultiline$BtsCore.make, {
+                        top: "12",
+                        bottom: "12",
+                        labelColor: "rgba(255,0,0,0.8)",
+                        borderTop: "10",
+                        borderBottom: "10",
+                        enterBorderColor: "rgba(255,0,0,0.8)",
+                        downBorderColor: "rgba(255,0,0,0.6)",
+                        borderColor: "rgba(0,0,0,0.2)",
+                        rows: 3,
+                        value: formitem.value,
+                        disabled: state.showProgress,
+                        onChange: (function ($$event) {
+                            return Curry._2(changeValue, $$event.target.value, i);
+                          })
+                      });
+                  break;
               default:
                 tmp = React.createElement(GridContainer$BtsCore.make, {
                       direction: "column",
@@ -780,7 +929,7 @@ function Home(Props) {
                                                     xs: "auto",
                                                     children: React.createElement(Typography$BtsCore.make, {
                                                           variant: "subtitle1",
-                                                          children: answeritem.value
+                                                          children: answeritem.values
                                                         })
                                                   }), match && match$1 && match$2 ? React.createElement(GridItem$BtsCore.make, {
                                                       top: "0",

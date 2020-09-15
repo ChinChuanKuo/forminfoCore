@@ -12,7 +12,7 @@ open IconAnimation;
 
 type answeritem = {
   id: int,
-  value: string,
+  values: string,
   showAnswer: bool,
   showRight: bool,
 };
@@ -25,6 +25,7 @@ type formitem = {
   showFile: bool,
   outValue: string,
   value: string,
+  showMenu: bool,
   type_: string,
   operation: string,
   area: string,
@@ -100,6 +101,8 @@ type action =
   | ShowDrop(bool, int)
   | ShowFile(string, int)
   | ChangeValue(string, int)
+  | ShowMenu(int)
+  | ClickMenu(string, int)
   | ClickCheckbox(int, int)
   | ClickRadio(int, int)
   | CloseAnimationFull
@@ -192,6 +195,26 @@ let reducer = (state, action) =>
       formitems:
         Array.mapi(
           (i, formitem) => index == i ? {...formitem, value} : formitem,
+          state.formitems,
+        ),
+    }
+  | ShowMenu(index) => {
+      ...state,
+      formitems:
+        Array.mapi(
+          (i, formitem) =>
+            index == i
+              ? {...formitem, showMenu: !formitem.showMenu} : formitem,
+          state.formitems,
+        ),
+    }
+  | ClickMenu(value, index) => {
+      ...state,
+      formitems:
+        Array.mapi(
+          (i, formitem) =>
+            index == i
+              ? {...formitem, value, showMenu: !formitem.showMenu} : formitem,
           state.formitems,
         ),
     }
@@ -518,6 +541,10 @@ let make = _ => {
 
   let changeValue =
     useCallback((value, i) => ChangeValue(value, i) |> dispatch);
+
+  let showMenu = useCallback(i => ShowMenu(i) |> dispatch);
+
+  let clickMenu = useCallback((value, i) => ClickMenu(value, i) |> dispatch);
 
   let clickElement =
     useCallback((value, ai, i) =>
@@ -920,6 +947,92 @@ let make = _ => {
                                    }>
                                    null
                                  </TextFieldStandard>
+                               | "textline" =>
+                                 <TextFieldMultiline
+                                   top="12"
+                                   bottom="12"
+                                   labelColor="rgba(255,0,0,0.8)"
+                                   borderTop="10"
+                                   borderBottom="10"
+                                   enterBorderColor="rgba(255,0,0,0.8)"
+                                   downBorderColor="rgba(255,0,0,0.6)"
+                                   borderColor="rgba(0,0,0,0.2)"
+                                   rows=3
+                                   value={formitem.value}
+                                   disabled={state.showProgress}
+                                   onChange={event =>
+                                     i
+                                     |> changeValue(
+                                          ReactEvent.Form.target(event)##value,
+                                        )
+                                   }
+                                 />
+                               | "droplist" =>
+                                 <>
+                                   <SelectStandard
+                                     top="12"
+                                     right="10"
+                                     bottom="10"
+                                     left="10"
+                                     enterBorderColor="rgba(255,0,0,0.8)"
+                                     downBorderColor="rgba(255,0,0,0.6)"
+                                     borderColor="rgba(0,0,0,0.2)"
+                                     value={formitem.value}
+                                     disabled={state.showProgress}
+                                     onClick={_ => i |> showMenu}>
+                                     ...(
+                                          formitem.showMenu
+                                            ? <SelectMenu
+                                                top="50%"
+                                                transform="translate(0, -50%)"
+                                                maxHeight="280"
+                                                minHeight="0"
+                                                topLeft="12"
+                                                topRight="12"
+                                                bottomRight="12"
+                                                bottomLeft="12"
+                                                paddingRight="8"
+                                                paddingLeft="8">
+                                                {formitem.answeritems
+                                                 |> Array.map(answeritem =>
+                                                      <MenuItem
+                                                        top="0"
+                                                        right="8"
+                                                        bottom="0"
+                                                        left="8"
+                                                        topLeft="12"
+                                                        topRight="12"
+                                                        bottomRight="12"
+                                                        bottomLeft="12"
+                                                        onClick={_ =>
+                                                          i
+                                                          |> clickMenu(
+                                                               answeritem.
+                                                                 values,
+                                                             )
+                                                        }>
+                                                        {answeritem.values
+                                                         |> string}
+                                                      </MenuItem>
+                                                    )
+                                                 |> array}
+                                              </SelectMenu>
+                                            : null,
+                                          <IconGeneral
+                                            animation={
+                                              formitem.showMenu
+                                              |> topDownRorate
+                                            }
+                                            src=arrowDownBlack
+                                          />,
+                                        )
+                                   </SelectStandard>
+                                   <BackgroundBoard
+                                     showBackground={formitem.showMenu}
+                                     backgroundColor="transparent"
+                                     onClick={_ => i |> showMenu}
+                                   />
+                                 </>
                                | _ =>
                                  <GridContainer
                                    direction="column"
@@ -971,7 +1084,7 @@ let make = _ => {
                                                left="0"
                                                xs="auto">
                                                <Typography variant="subtitle1">
-                                                 {answeritem.value |> string}
+                                                 {answeritem.values |> string}
                                                </Typography>
                                              </GridItem>
                                              {switch (
