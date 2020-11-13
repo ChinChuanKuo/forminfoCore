@@ -58,6 +58,8 @@ S wwwroot/js/example/Splits
 B lib/bs/wwwroot/js/example/Splits
 S wwwroot/js/example/ScrollBar
 B lib/bs/wwwroot/js/example/ScrollBar
+S wwwroot/js/example/Instagram
+B lib/bs/wwwroot/js/example/Instagram
 S wwwroot/js/example/Account
 B lib/bs/wwwroot/js/example/Account
 S wwwroot/js/example/Account/Resend

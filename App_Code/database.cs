@@ -12,7 +12,8 @@ namespace forminfoCore.App_Code
     {
         public string connectionString(string sqlstring)
         {
-            var configurationBuilder = new ConfigurationBuilder().SetBasePath("/users/chinchuankuo/documents/").AddJsonFile("connection.json");
+            ///users/chinchuankuo/documents/
+            var configurationBuilder = new ConfigurationBuilder().SetBasePath("C:/").AddJsonFile("connection.json");
             IConfiguration config = configurationBuilder.Build();
             return config["connectionStrings:" + sqlstring];
         }

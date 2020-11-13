@@ -1,4 +1,4 @@
-þlÛ?uˆÀr/ñ`5ìË
+=\úJÝ’±(`„­Xï%ï¢
 App
 Index
 Route
@@ -41,6 +41,8 @@ Axiosapi
 SplitBoard
 SplitHeader
 BottomScroll
+NewGramBoard
+NewGramFavor
 AccountBoard
 YoutubeResend
 YoutubeLogin
@@ -146,8 +148,6 @@ TextFieldMultiline
 Navigation
 NavigationAction
 Chip
-ChipText
-ChipButton
 ListSecondary
 ListSecondaryIcon
 SecondaryIconText
