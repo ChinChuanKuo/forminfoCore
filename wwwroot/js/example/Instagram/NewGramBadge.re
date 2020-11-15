@@ -48,7 +48,7 @@ let make =
           ~maxWidth="500px",
           ~minWidth="500px",
           ~maxHeight,
-          ~marginLeft="-400px",
+          ~marginLeft="-423px",
           ~borderRadius="10px",
           (),
         ),

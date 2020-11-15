@@ -14,7 +14,7 @@ rule build_ast_from_re
   description = [34mBuilding[39m [2m${out}[22m
 build  wwwroot/js/App.reast : build_ast_from_re $src_root_dir/wwwroot/js/App.re
 rule build_deps
-  command = $bsdep -hash 19901f3853868d1271e7a6033701f12b $g_ns -g $bsb_dir_group $in
+  command = $bsdep -hash 78fcb69cfaa0b4482e9a368a788b3166 $g_ns -g $bsb_dir_group $in
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
 build  wwwroot/js/App.d : build_deps wwwroot/js/App.reast
@@ -189,13 +189,21 @@ build  wwwroot/js/example/ScrollBar/BottomScroll.reast : build_ast_from_re $src_
 build  wwwroot/js/example/ScrollBar/BottomScroll.d : build_deps wwwroot/js/example/ScrollBar/BottomScroll.reast
 build  wwwroot/js/example/ScrollBar/BottomScroll-BtsCore.cmj |  wwwroot/js/example/ScrollBar/BottomScroll-BtsCore.cmi $src_root_dir/wwwroot/js/example/ScrollBar/BottomScroll.bs.js : ml_cmj_cmi wwwroot/js/example/ScrollBar/BottomScroll.reast ||  wwwroot/js/example/ScrollBar/BottomScroll.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/ScrollBar
+build  wwwroot/js/example/Instagram/NewGramUser.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Instagram/NewGramUser.re
+build  wwwroot/js/example/Instagram/NewGramUser.d : build_deps wwwroot/js/example/Instagram/NewGramUser.reast
+build  wwwroot/js/example/Instagram/NewGramUser-BtsCore.cmj |  wwwroot/js/example/Instagram/NewGramUser-BtsCore.cmi $src_root_dir/wwwroot/js/example/Instagram/NewGramUser.bs.js : ml_cmj_cmi wwwroot/js/example/Instagram/NewGramUser.reast ||  wwwroot/js/example/Instagram/NewGramUser.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Instagram
+build  wwwroot/js/example/Instagram/NewGramBadge.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Instagram/NewGramBadge.re
+build  wwwroot/js/example/Instagram/NewGramBadge.d : build_deps wwwroot/js/example/Instagram/NewGramBadge.reast
+build  wwwroot/js/example/Instagram/NewGramBadge-BtsCore.cmj |  wwwroot/js/example/Instagram/NewGramBadge-BtsCore.cmi $src_root_dir/wwwroot/js/example/Instagram/NewGramBadge.bs.js : ml_cmj_cmi wwwroot/js/example/Instagram/NewGramBadge.reast ||  wwwroot/js/example/Instagram/NewGramBadge.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Instagram
 build  wwwroot/js/example/Instagram/NewGramBoard.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Instagram/NewGramBoard.re
 build  wwwroot/js/example/Instagram/NewGramBoard.d : build_deps wwwroot/js/example/Instagram/NewGramBoard.reast
 build  wwwroot/js/example/Instagram/NewGramBoard-BtsCore.cmj |  wwwroot/js/example/Instagram/NewGramBoard-BtsCore.cmi $src_root_dir/wwwroot/js/example/Instagram/NewGramBoard.bs.js : ml_cmj_cmi wwwroot/js/example/Instagram/NewGramBoard.reast ||  wwwroot/js/example/Instagram/NewGramBoard.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Instagram
-build  wwwroot/js/example/Instagram/NewGramFavor.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Instagram/NewGramFavor.re
-build  wwwroot/js/example/Instagram/NewGramFavor.d : build_deps wwwroot/js/example/Instagram/NewGramFavor.reast
-build  wwwroot/js/example/Instagram/NewGramFavor-BtsCore.cmj |  wwwroot/js/example/Instagram/NewGramFavor-BtsCore.cmi $src_root_dir/wwwroot/js/example/Instagram/NewGramFavor.bs.js : ml_cmj_cmi wwwroot/js/example/Instagram/NewGramFavor.reast ||  wwwroot/js/example/Instagram/NewGramFavor.d
+build  wwwroot/js/example/Instagram/NewInstagram.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Instagram/NewInstagram.re
+build  wwwroot/js/example/Instagram/NewInstagram.d : build_deps wwwroot/js/example/Instagram/NewInstagram.reast
+build  wwwroot/js/example/Instagram/NewInstagram-BtsCore.cmj |  wwwroot/js/example/Instagram/NewInstagram-BtsCore.cmi $src_root_dir/wwwroot/js/example/Instagram/NewInstagram.bs.js : ml_cmj_cmi wwwroot/js/example/Instagram/NewInstagram.reast ||  wwwroot/js/example/Instagram/NewInstagram.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6:wwwroot/js/example/Instagram
 build  wwwroot/js/example/Account/AccountBoard.reast : build_ast_from_re $src_root_dir/wwwroot/js/example/Account/AccountBoard.re
 build  wwwroot/js/example/Account/AccountBoard.d : build_deps wwwroot/js/example/Account/AccountBoard.reast

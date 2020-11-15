@@ -64,6 +64,8 @@ import * as StoreblackSvg from "./store/storeblack.svg";
 import * as StorewhiteSvg from "./store/storewhite.svg";
 import * as TodayblackSvg from "./today/todayblack.svg";
 import * as TodaywhiteSvg from "./today/todaywhite.svg";
+import * as CachedblackSvg from "./cached/cachedblack.svg";
+import * as CachedwhiteSvg from "./cached/cachedwhite.svg";
 import * as CancelblackSvg from "./cancel/cancelblack.svg";
 import * as CancelwhiteSvg from "./cancel/cancelwhite.svg";
 import * as CreateblackSvg from "./create/createblack.svg";
@@ -168,6 +170,8 @@ import * as Library_booksblackSvg from "./library_books/library_booksblack.svg";
 import * as Library_bookswhiteSvg from "./library_books/library_bookswhite.svg";
 import * as NotificationsblackSvg from "./notifications/notificationsblack.svg";
 import * as NotificationswhiteSvg from "./notifications/notificationswhite.svg";
+import * as Account_circleblackSvg from "./account_circle/account_circleblack.svg";
+import * as Account_circlewhiteSvg from "./account_circle/account_circlewhite.svg";
 import * as Arrow_back_iosblackSvg from "./arrow_back_ios/arrow_back_iosblack.svg";
 import * as Arrow_back_ioswhiteSvg from "./arrow_back_ios/arrow_back_ioswhite.svg";
 import * as Assignment_indblackSvg from "./assignment_ind/assignment_indblack.svg";
@@ -178,6 +182,8 @@ import * as Cloud_downloadblackSvg from "./cloud_download/cloud_downloadblack.sv
 import * as Cloud_downloadwhiteSvg from "./cloud_download/cloud_downloadwhite.svg";
 import * as Local_activityblackSvg from "./local_activity/local_activityblack.svg";
 import * as Local_activitywhiteSvg from "./local_activity/local_activitywhite.svg";
+import * as Bookmark_borderblackSvg from "./bookmark_border/bookmark_borderblack.svg";
+import * as Bookmark_borderwhiteSvg from "./bookmark_border/bookmark_borderwhite.svg";
 import * as Brightness_highblackSvg from "./brightness_high/brightness_highblack.svg";
 import * as Brightness_highwhiteSvg from "./brightness_high/brightness_highwhite.svg";
 import * as Favorite_borderblackSvg from "./favorite_border/favorite_borderblack.svg";
@@ -269,6 +275,10 @@ var arrowBackIosWhite = Arrow_back_ioswhiteSvg;
 
 var arrowBackIosBlack = Arrow_back_iosblackSvg;
 
+var accountCircleWhite = Account_circlewhiteSvg;
+
+var accountCircleBlack = Account_circleblackSvg;
+
 var assignmentIndWhite = Assignment_indwhiteSvg;
 
 var assignmentIndBlack = Assignment_indblackSvg;
@@ -293,6 +303,10 @@ var brightnessHighWhite = Brightness_highwhiteSvg;
 
 var brightnessHighBlack = Brightness_highblackSvg;
 
+var bookmarkBorderWhite = Bookmark_borderwhiteSvg;
+
+var bookmarkBorderBlack = Bookmark_borderblackSvg;
+
 var cancelWhite = CancelwhiteSvg;
 
 var cancelBlack = CancelblackSvg;
@@ -306,6 +320,10 @@ var clearWarn = ClearwarnSvg;
 var createWhite = CreatewhiteSvg;
 
 var createBlack = CreateblackSvg;
+
+var cachedWhite = CachedwhiteSvg;
+
+var cachedBlack = CachedblackSvg;
 
 var checkBoxWhite = Check_boxwhiteSvg;
 
@@ -701,6 +719,8 @@ export {
   announcementBlack ,
   arrowBackIosWhite ,
   arrowBackIosBlack ,
+  accountCircleWhite ,
+  accountCircleBlack ,
   assignmentIndWhite ,
   assignmentIndBlack ,
   arrowForwardIosWhite ,
@@ -713,6 +733,8 @@ export {
   brightnessLowBlack ,
   brightnessHighWhite ,
   brightnessHighBlack ,
+  bookmarkBorderWhite ,
+  bookmarkBorderBlack ,
   cancelWhite ,
   cancelBlack ,
   clearWhite ,
@@ -720,6 +742,8 @@ export {
   clearWarn ,
   createWhite ,
   createBlack ,
+  cachedWhite ,
+  cachedBlack ,
   checkBoxWhite ,
   checkBoxBlack ,
   colorLensWhite ,

@@ -180,6 +180,36 @@
         "message": "Strict Mode：Off"
     },
     {
+        "id": "Gram.track",
+        "defaultMessage": "Track",
+        "message": "Track Require"
+    },
+    {
+        "id": "Gram.require",
+        "defaultMessage": "Require",
+        "message": "Approve or Skip Require"
+    },
+    {
+        "id": "Gram.profile",
+        "defaultMessage": "Profile",
+        "message": "View Your Profile"
+    },
+    {
+        "id": "Gram.saved",
+        "defaultMessage": "Saved",
+        "message": "View Your Saved"
+    },
+    {
+        "id": "Gram.setting",
+        "defaultMessage": "Setting",
+        "message": "Privacy Setting"
+    },
+    {
+        "id": "Gram.account",
+        "defaultMessage": "Account",
+        "message": "Switch Account"
+    },
+    {
         "id": "Action.search",
         "defaultMessage": "Search",
         "message": ""

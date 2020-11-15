@@ -14,7 +14,8 @@ import * as Together$BtsCore from "../../styles/Together/Together.bs.js";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 import * as IconAction$BtsCore from "../../material-ui/core/IconStyle/IconAction.bs.js";
 import * as IconButton$BtsCore from "../../material-ui/core/IconButton/IconButton.bs.js";
-import * as NewGramFavor$BtsCore from "./NewGramFavor.bs.js";
+import * as NewGramUser$BtsCore from "./NewGramUser.bs.js";
+import * as NewGramBadge$BtsCore from "./NewGramBadge.bs.js";
 import * as ObjectFormat$BtsCore from "../../controls/ObjectFormat.bs.js";
 import * as GridContainer$BtsCore from "../../material-ui/core/Grid/GridContainer.bs.js";
 import * as TextFieldOutline$BtsCore from "../../material-ui/core/TextField/TextFieldOutline.bs.js";
@@ -23,130 +24,157 @@ import * as TextFieldOutline$BtsCore from "../../material-ui/core/TextField/Text
 
 function reducer(state, action) {
   if (typeof action === "number") {
-    if (action === /* ShowRecord */0) {
-      return {
-              formLoad: state.formLoad,
-              formWidth: state.formWidth,
-              formHeight: state.formHeight,
-              value: state.value,
-              showRecord: !state.showRecord,
-              showItemRecord: state.showItemRecord,
-              recorditems: state.recorditems,
-              index: state.index,
-              badge: state.badge,
-              showFavor: state.showFavor,
-              beforeLoad: state.beforeLoad,
-              showItemFavor: state.showItemFavor
-            };
-    } else {
-      return {
-              formLoad: state.formLoad,
-              formWidth: state.formWidth,
-              formHeight: state.formHeight,
-              value: state.value,
-              showRecord: state.showRecord,
-              showItemRecord: state.showItemRecord,
-              recorditems: state.recorditems,
-              index: state.index,
-              badge: state.badge,
-              showFavor: !state.showFavor,
-              beforeLoad: state.beforeLoad,
-              showItemFavor: state.showItemFavor
-            };
+    switch (action) {
+      case /* ShowRecord */0 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: !state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* ShowBadge */1 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: !state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* ShowUser */2 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: !state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      
     }
-  }
-  switch (action.tag | 0) {
-    case /* SettingFormLoad */0 :
-        return {
-                formLoad: !state.formLoad,
-                formWidth: state.formWidth,
-                formHeight: state.formHeight,
-                value: action[0],
-                showRecord: state.showRecord,
-                showItemRecord: state.showItemRecord,
-                recorditems: state.recorditems,
-                index: action[1],
-                badge: state.badge,
-                showFavor: state.showFavor,
-                beforeLoad: state.beforeLoad,
-                showItemFavor: state.showItemFavor
-              };
-    case /* SettingFormWidth */1 :
-        return {
-                formLoad: state.formLoad,
-                formWidth: action[0],
-                formHeight: action[1],
-                value: state.value,
-                showRecord: state.showRecord,
-                showItemRecord: state.showItemRecord,
-                recorditems: state.recorditems,
-                index: state.index,
-                badge: state.badge,
-                showFavor: state.showFavor,
-                beforeLoad: state.beforeLoad,
-                showItemFavor: state.showItemFavor
-              };
-    case /* SettingBadge */2 :
-        return {
-                formLoad: state.formLoad,
-                formWidth: state.formWidth,
-                formHeight: state.formHeight,
-                value: state.value,
-                showRecord: state.showRecord,
-                showItemRecord: state.showItemRecord,
-                recorditems: state.recorditems,
-                index: state.index,
-                badge: action[0],
-                showFavor: state.showFavor,
-                beforeLoad: state.beforeLoad,
-                showItemFavor: state.showItemFavor
-              };
-    case /* ChangeField */3 :
-        return {
-                formLoad: state.formLoad,
-                formWidth: state.formWidth,
-                formHeight: state.formHeight,
-                value: action[0],
-                showRecord: state.showRecord,
-                showItemRecord: state.showItemRecord,
-                recorditems: state.recorditems,
-                index: state.index,
-                badge: state.badge,
-                showFavor: state.showFavor,
-                beforeLoad: state.beforeLoad,
-                showItemFavor: state.showItemFavor
-              };
-    case /* ClickRecordItems */4 :
-        return {
-                formLoad: state.formLoad,
-                formWidth: state.formWidth,
-                formHeight: state.formHeight,
-                value: state.value,
-                showRecord: state.showRecord,
-                showItemRecord: action[0],
-                recorditems: action[1],
-                index: state.index,
-                badge: state.badge,
-                showFavor: state.showFavor,
-                beforeLoad: !state.beforeLoad,
-                showItemFavor: state.showItemFavor
-              };
-    case /* ClickFavorItems */5 :
-        return {
-                formLoad: state.formLoad,
-                formWidth: state.formWidth,
-                formHeight: state.formHeight,
-                value: state.value,
-                showRecord: state.showRecord,
-                showItemRecord: state.showItemRecord,
-                recorditems: state.recorditems,
-                index: state.index,
-                badge: state.badge,
-                showFavor: state.showFavor,
-                beforeLoad: !state.beforeLoad,
-                showItemFavor: action[0]
-              };
-    
+  } else {
+    switch (action.tag | 0) {
+      case /* SettingFormLoad */0 :
+          return {
+                  formLoad: !state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: action[0],
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: action[1],
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* SettingFormWidth */1 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: action[0],
+                  formHeight: action[1],
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* SettingBadge */2 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: action[0],
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* ChangeField */3 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: action[0],
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* ClickRecordItems */4 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: action[0],
+                  recorditems: action[1],
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: !state.beforeLoad,
+                  showItemBadge: state.showItemBadge
+                };
+      case /* ClickBadgeItems */5 :
+          return {
+                  formLoad: state.formLoad,
+                  formWidth: state.formWidth,
+                  formHeight: state.formHeight,
+                  value: state.value,
+                  showRecord: state.showRecord,
+                  showItemRecord: state.showItemRecord,
+                  recorditems: state.recorditems,
+                  index: state.index,
+                  badge: state.badge,
+                  showBadge: state.showBadge,
+                  showUser: state.showUser,
+                  beforeLoad: !state.beforeLoad,
+                  showItemBadge: action[0]
+                };
+      
+    }
   }
 }
 
@@ -162,9 +190,10 @@ var initialState = {
   recorditems: initialState_recorditems,
   index: 0,
   badge: "",
-  showFavor: false,
+  showBadge: false,
+  showUser: false,
   beforeLoad: true,
-  showItemFavor: false
+  showItemBadge: false
 };
 
 function NewGramBoard(Props) {
@@ -280,10 +309,13 @@ function NewGramBoard(Props) {
           }
           
         }));
-  var showFavor = React.useCallback((function (param) {
-          return Curry._1(dispatch, /* ShowFavor */1);
+  var showBadge = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowBadge */1);
         }));
-  React.useCallback((function (param) {
+  var showUser = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowUser */2);
+        }));
+  var clickOut = React.useCallback((function (param) {
           localStorage.setItem("newid", "");
           sessionStorage.setItem("autoPath", autoPath);
           return ReasonReactRouter.push(Path$BtsCore.loginPath);
@@ -426,7 +458,7 @@ function NewGramBoard(Props) {
                                                 enterBackgroundColor: "transparent",
                                                 downBackgroundColor: "transparent",
                                                 padding: "6",
-                                                onClick: showFavor,
+                                                onClick: showBadge,
                                                 children: React.createElement(IconAction$BtsCore.make, {
                                                       style: Together$BtsCore.zIndexGrow,
                                                       width: "28",
@@ -434,39 +466,36 @@ function NewGramBoard(Props) {
                                                       animation: "leftRight",
                                                       src: Icons$BtsCore.favoriteBorderBlack
                                                     })
-                                              }), state.showFavor ? React.createElement(NewGramFavor$BtsCore.make, {
+                                              }), state.showBadge ? React.createElement(NewGramBadge$BtsCore.make, {
                                                   maxHeight: maxHeight,
                                                   badge: state.badge,
-                                                  clickShow: showFavor
+                                                  clickShow: showBadge
                                                 }) : null), React.createElement(GridItem$BtsCore.make, {
                                             top: "0",
                                             right: "0",
                                             bottom: "0",
                                             left: "0",
                                             xs: "no",
-                                            children: React.createElement(IconButton$BtsCore.make, {
-                                                  enterBackgroundColor: "transparent",
-                                                  downBackgroundColor: "transparent",
-                                                  padding: "6",
-                                                  children: React.createElement(IconAction$BtsCore.make, {
-                                                        style: Together$BtsCore.zIndexGrow,
-                                                        width: "28",
-                                                        height: "28",
-                                                        animation: "leftRight",
-                                                        src: Icons$BtsCore.personBlack
-                                                      })
-                                                })
-                                          }))
+                                            children: null
+                                          }, React.createElement(IconButton$BtsCore.make, {
+                                                enterBackgroundColor: "transparent",
+                                                downBackgroundColor: "transparent",
+                                                padding: "6",
+                                                onClick: showUser,
+                                                children: React.createElement(IconAction$BtsCore.make, {
+                                                      style: Together$BtsCore.zIndexGrow,
+                                                      width: "28",
+                                                      height: "28",
+                                                      animation: "leftRight",
+                                                      src: Icons$BtsCore.personBlack
+                                                    })
+                                              }), state.showUser ? React.createElement(NewGramUser$BtsCore.make, {
+                                                  clickOut: clickOut,
+                                                  clickShow: showUser
+                                                }) : null))
                                 }))
                       })
-                }), React.createElement(GridItem$BtsCore.make, {
-                  top: "60",
-                  right: "0",
-                  bottom: "0",
-                  left: "0",
-                  xs: "12",
-                  children: children
-                }));
+                }), children);
 }
 
 var make = NewGramBoard;

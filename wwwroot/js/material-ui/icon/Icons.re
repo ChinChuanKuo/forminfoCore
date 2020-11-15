@@ -39,6 +39,12 @@ external arrowBackIosWhite: string =
 external arrowBackIosBlack: string =
   "./arrow_back_ios/arrow_back_iosblack.svg";
 [@bs.module]
+external accountCircleWhite: string =
+  "./account_circle/account_circlewhite.svg";
+[@bs.module]
+external accountCircleBlack: string =
+  "./account_circle/account_circleblack.svg";
+[@bs.module]
 external assignmentIndWhite: string =
   "./assignment_ind/assignment_indwhite.svg";
 [@bs.module]
@@ -69,6 +75,12 @@ external brightnessHighWhite: string =
 [@bs.module]
 external brightnessHighBlack: string =
   "./brightness_high/brightness_highblack.svg";
+  [@bs.module]
+external bookmarkBorderWhite: string =
+  "./bookmark_border/bookmark_borderwhite.svg";
+[@bs.module]
+external bookmarkBorderBlack: string =
+  "./bookmark_border/bookmark_borderblack.svg";
 
 [@bs.module] external cancelWhite: string = "./cancel/cancelwhite.svg";
 [@bs.module] external cancelBlack: string = "./cancel/cancelblack.svg";
@@ -77,6 +89,8 @@ external brightnessHighBlack: string =
 [@bs.module] external clearWarn: string = "./clear/clearwarn.svg";
 [@bs.module] external createWhite: string = "./create/createwhite.svg";
 [@bs.module] external createBlack: string = "./create/createblack.svg";
+[@bs.module] external cachedWhite: string = "./cached/cachedwhite.svg";
+[@bs.module] external cachedBlack: string = "./cached/cachedblack.svg";
 [@bs.module] external checkBoxWhite: string = "./check_box/check_boxwhite.svg";
 [@bs.module] external checkBoxBlack: string = "./check_box/check_boxblack.svg";
 [@bs.module]
@@ -414,10 +428,8 @@ external textFieldsWhite: string = "./text_fields/text_fieldswhite.svg";
 [@bs.module]
 external textFieldsBlack: string = "./text_fields/text_fieldsblack.svg";
 
-[@bs.module]
-external undoWhite: string = "./undo/undowhite.svg";
-[@bs.module]
-external undoBlack: string = "./undo/undoblack.svg";
+[@bs.module] external undoWhite: string = "./undo/undowhite.svg";
+[@bs.module] external undoBlack: string = "./undo/undoblack.svg";
 
 [@bs.module] external wifiWhite: string = "./wifi/wifiwhite.svg";
 [@bs.module] external wifiBlack: string = "./wifi/wifiblack.svg";

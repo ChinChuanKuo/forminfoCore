@@ -180,6 +180,36 @@
         "message": "嚴格篩選模式：停用"
     },
     {
+        "id": "Gram.track",
+        "defaultMessage": "Track",
+        "message": "追蹤要求"
+    },
+    {
+        "id": "Gram.require",
+        "defaultMessage": "Require",
+        "message": "批准或略過要求"
+    },
+    {
+        "id": "Gram.profile",
+        "defaultMessage": "Profile",
+        "message": "查看您的個人檔案"
+    },
+    {
+        "id": "Gram.saved",
+        "defaultMessage": "Saved",
+        "message": "查看您的收藏"
+    },
+    {
+        "id": "Gram.setting",
+        "defaultMessage": "Setting",
+        "message": "隱私設定檢查"
+    },
+    {
+        "id": "Gram.account",
+        "defaultMessage": "Account",
+        "message": "切換帳號"
+    },
+    {
         "id": "Action.search",
         "defaultMessage": "Search",
         "message": "搜尋"

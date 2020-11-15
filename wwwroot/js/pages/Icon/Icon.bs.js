@@ -168,6 +168,10 @@ var initialState_items = [
     value: "arrowBackIos"
   },
   {
+    icon: Icons$BtsCore.accountCircleBlack,
+    value: "accountCircle"
+  },
+  {
     icon: Icons$BtsCore.assignmentIndBlack,
     value: "assignmentInd"
   },
@@ -192,6 +196,10 @@ var initialState_items = [
     value: "brightnessHigh"
   },
   {
+    icon: Icons$BtsCore.bookmarkBorderBlack,
+    value: "bookmarkBorder"
+  },
+  {
     icon: Icons$BtsCore.cancelBlack,
     value: "cancel"
   },
@@ -202,6 +210,10 @@ var initialState_items = [
   {
     icon: Icons$BtsCore.createBlack,
     value: "create"
+  },
+  {
+    icon: Icons$BtsCore.cachedBlack,
+    value: "cached"
   },
   {
     icon: Icons$BtsCore.checkBoxBlack,

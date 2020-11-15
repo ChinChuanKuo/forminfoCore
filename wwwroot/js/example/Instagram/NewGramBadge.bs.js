@@ -42,7 +42,7 @@ function boardstyles(showAnimation) {
         };
 }
 
-function NewGramFavor(Props) {
+function NewGramBadge(Props) {
   var maxHeight = Props.maxHeight;
   var badge = Props.badge;
   var clickShow = Props.clickShow;
@@ -61,7 +61,7 @@ function NewGramFavor(Props) {
   }
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   style: Object.assign(({}), OutSide$BtsCore.menuOutSide, {
-                        marginLeft: "-400px",
+                        marginLeft: "-423px",
                         maxHeight: maxHeight,
                         maxWidth: "500px",
                         minWidth: "500px",
@@ -223,7 +223,7 @@ function NewGramFavor(Props) {
                     })), React.createElement(BackgroundBoard$BtsCore.make, tmp));
 }
 
-var make = NewGramFavor;
+var make = NewGramBadge;
 
 export {
   reducer ,

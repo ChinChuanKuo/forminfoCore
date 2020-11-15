@@ -19,9 +19,10 @@ type state = {
   recorditems: array(NewBookRecord.item),
   index: int,
   badge: string,
-  showFavor: bool,
+  showBadge: bool,
+  showUser: bool,
   beforeLoad: bool,
-  showItemFavor: bool,
+  showItemBadge: bool,
 };
 
 type action =
@@ -31,8 +32,9 @@ type action =
   | ChangeField(string)
   | ShowRecord
   | ClickRecordItems(bool, array(NewBookRecord.item))
-  | ShowFavor
-  | ClickFavorItems(bool);
+  | ShowBadge
+  | ShowUser
+  | ClickBadgeItems(bool);
 
 let reducer = (state, action) =>
   switch (action) {
@@ -56,10 +58,11 @@ let reducer = (state, action) =>
       recorditems,
       beforeLoad: !state.beforeLoad,
     }
-  | ShowFavor => {...state, showFavor: !state.showFavor}
-  | ClickFavorItems(showItemFavor) => {
+  | ShowBadge => {...state, showBadge: !state.showBadge}
+  | ShowUser => {...state, showUser: !state.showUser}
+  | ClickBadgeItems(showItemBadge) => {
       ...state,
-      showItemFavor,
+      showItemBadge,
       beforeLoad: !state.beforeLoad,
     }
   };
@@ -74,9 +77,10 @@ let initialState = {
   recorditems: [||],
   index: 0,
   badge: "",
-  showFavor: false,
+  showBadge: false,
+  showUser: false,
   beforeLoad: true,
-  showItemFavor: false,
+  showItemBadge: false,
 };
 
 [@react.component]
@@ -213,7 +217,8 @@ let make = (~autoPath: 'a, ~children) => {
         searchPath ++ "#" ++ state.value |> ReasonReactRouter.push;
       }
     );
-  let showFavor = useCallback(_ => ShowFavor |> dispatch);
+  let showBadge = useCallback(_ => ShowBadge |> dispatch);
+  let showUser = useCallback(_ => ShowUser |> dispatch);
   let clickOut =
     useCallback(_ => {
       "" |> Locals.create("newid");
@@ -318,7 +323,7 @@ let make = (~autoPath: 'a, ~children) => {
                   enterBackgroundColor="transparent"
                   downBackgroundColor="transparent"
                   padding="6"
-                  onClick=showFavor>
+                  onClick=showBadge>
                   <IconAction
                     style=zIndexGrow
                     width="28"
@@ -327,11 +332,11 @@ let make = (~autoPath: 'a, ~children) => {
                     src=favoriteBorderBlack
                   />
                 </IconButton>
-                {state.showFavor
-                   ? <NewGramFavor
+                {state.showBadge
+                   ? <NewGramBadge
                        maxHeight
                        badge={state.badge}
-                       clickShow=showFavor
+                       clickShow=showBadge
                      />
                    : null}
               </GridItem>
@@ -339,7 +344,8 @@ let make = (~autoPath: 'a, ~children) => {
                 <IconButton
                   enterBackgroundColor="transparent"
                   downBackgroundColor="transparent"
-                  padding="6">
+                  padding="6"
+                  onClick=showUser>
                   <IconAction
                     style=zIndexGrow
                     width="28"
@@ -348,14 +354,14 @@ let make = (~autoPath: 'a, ~children) => {
                     src=personBlack
                   />
                 </IconButton>
+                {state.showUser
+                   ? <NewGramUser clickOut clickShow=showUser /> : null}
               </GridItem>
             </GridContainer>
           </GridItem>
         </GridContainer>
       </GridItem>
     </AppBar>
-    <GridItem top="60" right="0" bottom="0" left="0" xs="12">
-      children
-    </GridItem>
+    children
   </>;
 };
