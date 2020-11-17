@@ -284,6 +284,10 @@ var initialState_items = [
     value: "flag"
   },
   {
+    icon: Icons$BtsCore.factoryBlack,
+    value: "factory"
+  },
+  {
     icon: Icons$BtsCore.fileCopyBlack,
     value: "fileCopy"
   },
@@ -562,6 +566,10 @@ var initialState_items = [
   {
     icon: Icons$BtsCore.textFieldsBlack,
     value: "textFields"
+  },
+  {
+    icon: Icons$BtsCore.transmissionBlack,
+    value: "transmission"
   },
   {
     icon: Icons$BtsCore.undoBlack,

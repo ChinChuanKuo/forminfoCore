@@ -75,7 +75,7 @@ external brightnessHighWhite: string =
 [@bs.module]
 external brightnessHighBlack: string =
   "./brightness_high/brightness_highblack.svg";
-  [@bs.module]
+[@bs.module]
 external bookmarkBorderWhite: string =
   "./bookmark_border/bookmark_borderwhite.svg";
 [@bs.module]
@@ -150,6 +150,8 @@ external descriptionBlack: string = "./description/descriptionblack.svg";
 
 [@bs.module] external flagWhite: string = "./flag/flagwhite.svg";
 [@bs.module] external flagBlack: string = "./flag/flagblack.svg";
+[@bs.module] external factoryWhite: string = "./factory/factorywhite.svg";
+[@bs.module] external factoryBlack: string = "./factory/factoryblack.svg";
 [@bs.module] external fileCopyWhite: string = "./file_copy/file_copywhite.svg";
 [@bs.module] external fileCopyBlack: string = "./file_copy/file_copyblack.svg";
 [@bs.module]
@@ -427,6 +429,10 @@ external textFormatBlack: string = "./text_format/text_formatblack.svg";
 external textFieldsWhite: string = "./text_fields/text_fieldswhite.svg";
 [@bs.module]
 external textFieldsBlack: string = "./text_fields/text_fieldsblack.svg";
+[@bs.module]
+external transmissionWhite: string = "./transmission/transmissionwhite.svg";
+[@bs.module]
+external transmissionBlack: string = "./transmission/transmissionblack.svg";
 
 [@bs.module] external undoWhite: string = "./undo/undowhite.svg";
 [@bs.module] external undoBlack: string = "./undo/undoblack.svg";

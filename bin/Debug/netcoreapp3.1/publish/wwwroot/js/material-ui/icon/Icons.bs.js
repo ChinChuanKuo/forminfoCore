@@ -81,6 +81,8 @@ import * as SearchwhiteSvg from "./search/searchwhite.svg";
 import * as DonesuccessfulSvg from "./done/donesuccessful.svg";
 import * as ExploreblackSvg from "./explore/exploreblack.svg";
 import * as ExplorewhiteSvg from "./explore/explorewhite.svg";
+import * as FactoryblackSvg from "./factory/factoryblack.svg";
+import * as FactorywhiteSvg from "./factory/factorywhite.svg";
 import * as RefreshblackSvg from "./refresh/refreshblack.svg";
 import * as RefreshwhiteSvg from "./refresh/refreshwhite.svg";
 import * as RestoreblackSvg from "./restore/restoreblack.svg";
@@ -162,6 +164,8 @@ import * as Format_clearblackSvg from "./format_clear/format_clearblack.svg";
 import * as Format_clearwhiteSvg from "./format_clear/format_clearwhite.svg";
 import * as Help_outlineblackSvg from "./help_outline/help_outlineblack.svg";
 import * as Help_outlinewhiteSvg from "./help_outline/help_outlinewhite.svg";
+import * as TransmissionblackSvg from "./transmission/transmissionblack.svg";
+import * as TransmissionwhiteSvg from "./transmission/transmissionwhite.svg";
 import * as Format_italicblackSvg from "./format_italic/format_italicblack.svg";
 import * as Format_italicwhiteSvg from "./format_italic/format_italicwhite.svg";
 import * as Import_exportblackSvg from "./import_export/import_exportblack.svg";
@@ -396,6 +400,10 @@ var exploreBlack = ExploreblackSvg;
 var flagWhite = FlagwhiteSvg;
 
 var flagBlack = FlagblackSvg;
+
+var factoryWhite = FactorywhiteSvg;
+
+var factoryBlack = FactoryblackSvg;
 
 var fileCopyWhite = File_copywhiteSvg;
 
@@ -685,6 +693,10 @@ var textFieldsWhite = Text_fieldswhiteSvg;
 
 var textFieldsBlack = Text_fieldsblackSvg;
 
+var transmissionWhite = TransmissionwhiteSvg;
+
+var transmissionBlack = TransmissionblackSvg;
+
 var undoWhite = UndowhiteSvg;
 
 var undoBlack = UndoblackSvg;
@@ -780,6 +792,8 @@ export {
   exploreBlack ,
   flagWhite ,
   flagBlack ,
+  factoryWhite ,
+  factoryBlack ,
   fileCopyWhite ,
   fileCopyBlack ,
   formatBoldWhite ,
@@ -924,6 +938,8 @@ export {
   textFormatBlack ,
   textFieldsWhite ,
   textFieldsBlack ,
+  transmissionWhite ,
+  transmissionBlack ,
   undoWhite ,
   undoBlack ,
   wifiWhite ,
