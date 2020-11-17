@@ -28,6 +28,12 @@ let widths = width =>
   | Some(width) => "calc(" ++ width ++ "% - 12px)"
   };
 
+let marginTops = marginTop =>
+  switch (marginTop) {
+  | None => "16px"
+  | Some(marginTop) => marginTop ++ "px"
+  };
+
 let marginOthers = other =>
   switch (other) {
   | None => "8px"
@@ -46,22 +52,22 @@ let colors = color =>
   | Some(color) => color
   };
 
-let marginTops = marginTop =>
-  switch (marginTop) {
-  | None => "24px"
-  | Some(marginTop) => marginTop ++ "px"
-  };
-
 let labelTops = labelTop =>
   switch (labelTop) {
-  | None => "18px"
+  | None => "6px"
   | Some(labelTop) => labelTop ++ "px"
   };
 
-let borderTopBottoms = borderTopBottom =>
-  switch (borderTopBottom) {
+let paddingTopBottoms = topBottom =>
+  switch (topBottom) {
   | None => "10px"
-  | Some(borderTopBottom) => borderTopBottom ++ "px"
+  | Some(topBottom) => topBottom ++ "px"
+  };
+
+let paddingRightLefts = rightLeft =>
+  switch (rightLeft) {
+  | None => "12px"
+  | Some(rightLeft) => rightLeft ++ "px"
   };
 
 let borderBottomWidths = borderBottomWidth =>
@@ -108,7 +114,9 @@ let make =
       ~tile: option(string)=?,
       ~style: option(ReactDOMRe.style)=?,
       ~borderTop: option(string)=?,
+      ~borderRight: option(string)=?,
       ~borderBottom: option(string)=?,
+      ~borderLeft: option(string)=?,
       ~borderWidth: option(string)=?,
       ~borderStyle: option(string)=?,
       ~disabledBorderColor: option(string)=?,
@@ -131,7 +139,9 @@ let make =
             ~width={
               width |> widths;
             },
-            ~marginTop="0px",
+            ~marginTop={
+              top |> marginTops;
+            },
             ~marginRight={
               right |> marginOthers;
             },
@@ -175,19 +185,7 @@ let make =
       ),
       ReactDOMRe.createDOMElementVariadic(
         "div",
-        ~props=
-          ReactDOMRe.domProps(
-            ~style={
-              ReactDOMRe.Style.make(
-                ~marginTop={
-                  top |> marginTops;
-                },
-                (),
-              );
-            },
-            ~className="jbr6nlo j1hdgrm8",
-            (),
-          ),
+        ~props=ReactDOMRe.domProps(~className="jbr6nlo j1hdgrm8", ()),
         [|
           ReactDOMRe.createDOMElementVariadic(
             "div",
@@ -202,10 +200,16 @@ let make =
                         ReactDOMRe.Style.make(
                           ~width="auto",
                           ~paddingTop={
-                            borderTop |> borderTopBottoms;
+                            borderTop |> paddingTopBottoms;
+                          },
+                          ~paddingRight={
+                            borderRight |> paddingRightLefts;
                           },
                           ~paddingBottom={
-                            borderBottom |> borderTopBottoms;
+                            borderBottom |> paddingTopBottoms;
+                          },
+                          ~paddingLeft={
+                            borderLeft |> paddingRightLefts;
                           },
                           ~borderBottomWidth={
                             borderWidth |> borderBottomWidths;

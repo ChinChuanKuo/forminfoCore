@@ -51,6 +51,14 @@ function marginOthers(other) {
   }
 }
 
+function labelTops(labelTop) {
+  if (labelTop !== undefined) {
+    return labelTop + "px";
+  } else {
+    return "6px";
+  }
+}
+
 function disabledColors(disabledBorderColor) {
   if (disabledBorderColor !== undefined) {
     return disabledBorderColor;
@@ -64,6 +72,14 @@ function colors(color) {
     return color;
   } else {
     return "rgba(255,0,0,0.6)";
+  }
+}
+
+function paddingTopBottoms(topBottom) {
+  if (topBottom !== undefined) {
+    return topBottom + "px";
+  } else {
+    return "10px";
   }
 }
 
@@ -137,10 +153,13 @@ function TextFieldStandard(Props) {
   var right = Props.right;
   var bottom = Props.bottom;
   var left = Props.left;
+  var labelTop = Props.labelTop;
   var disabledLabelColor = Props.disabledLabelColor;
   var labelColor = Props.labelColor;
   var style = Props.style;
+  var borderTop = Props.borderTop;
   var borderRight = Props.borderRight;
+  var borderBottom = Props.borderBottom;
   var borderLeft = Props.borderLeft;
   var borderWidth = Props.borderWidth;
   var borderStyle = Props.borderStyle;
@@ -183,7 +202,9 @@ function TextFieldStandard(Props) {
           borderBottomStyle: borderStyle !== undefined ? borderStyle : "solid",
           borderBottomWidth: borderBottomWidths(borderWidth),
           color: fontColor !== undefined ? fontColor : "rgba(0,0,0,1)",
+          paddingTop: paddingTopBottoms(borderTop),
           paddingRight: paddingRightLefts(borderRight),
+          paddingBottom: paddingTopBottoms(borderBottom),
           paddingLeft: paddingRightLefts(borderLeft)
         }, Setting$BtsCore.styleObjects(style)),
     disabled: Setting$BtsCore.disabledObjects(disabled),
@@ -231,7 +252,8 @@ function TextFieldStandard(Props) {
                         disabledLabelColor !== undefined ? disabledLabelColor : "rgba(0,0,0,0.26)"
                       ) : (
                         labelColor !== undefined ? labelColor : "rgba(255,0,0,0.6)"
-                      )
+                      ),
+                    marginTop: labelTops(labelTop)
                   }
                 }, children), React.createElement("div", {
                   className: "jbr6nlo j77gjdk j5t5fws"
@@ -246,8 +268,10 @@ export {
   widths ,
   marginTops ,
   marginOthers ,
+  labelTops ,
   disabledColors ,
   colors ,
+  paddingTopBottoms ,
   paddingRightLefts ,
   borderBottomWidths ,
   borderBottomStyles ,

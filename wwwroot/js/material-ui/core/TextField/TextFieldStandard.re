@@ -37,6 +37,12 @@ let marginOthers = other =>
   | Some(other) => other ++ "px"
   };
 
+let labelTops = labelTop =>
+  switch (labelTop) {
+  | None => "6px"
+  | Some(labelTop) => labelTop ++ "px"
+  };
+
 let disabledColors = disabledBorderColor =>
   switch (disabledBorderColor) {
   | None => "rgba(0,0,0,0.26)"
@@ -47,6 +53,12 @@ let colors = color =>
   switch (color) {
   | None => "rgba(255,0,0,0.6)"
   | Some(color) => color
+  };
+
+let paddingTopBottoms = topBottom =>
+  switch (topBottom) {
+  | None => "10px"
+  | Some(topBottom) => topBottom ++ "px"
   };
 
 let paddingRightLefts = rightLeft =>
@@ -105,10 +117,13 @@ let make =
       ~right: option(string)=?,
       ~bottom: option(string)=?,
       ~left: option(string)=?,
+      ~labelTop: option(string)=?,
       ~disabledLabelColor: option(string)=?,
       ~labelColor: option(string)=?,
       ~style: option(ReactDOMRe.style)=?,
+      ~borderTop: option(string)=?,
       ~borderRight: option(string)=?,
+      ~borderBottom: option(string)=?,
       ~borderLeft: option(string)=?,
       ~borderWidth: option(string)=?,
       ~borderStyle: option(string)=?,
@@ -162,6 +177,9 @@ let make =
           ReactDOMRe.domProps(
             ~style={
               ReactDOMRe.Style.make(
+                ~marginTop={
+                  labelTop |> labelTops;
+                },
                 ~color={
                   disabled |> disabledObjects
                     ? disabledLabelColor |> disabledColors
@@ -186,8 +204,14 @@ let make =
                 ~style={
                   ReactDOMRe.Style.combine(
                     ReactDOMRe.Style.make(
+                      ~paddingTop={
+                        borderTop |> paddingTopBottoms;
+                      },
                       ~paddingRight={
                         borderRight |> paddingRightLefts;
+                      },
+                      ~paddingBottom={
+                        borderBottom |> paddingTopBottoms;
                       },
                       ~paddingLeft={
                         borderLeft |> paddingRightLefts;
