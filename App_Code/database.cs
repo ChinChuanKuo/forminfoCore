@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using System.Runtime.InteropServices;
 
 namespace forminfoCore.App_Code
 {
@@ -13,9 +14,23 @@ namespace forminfoCore.App_Code
         public string connectionString(string sqlstring)
         {
             ///users/chinchuankuo/documents/
-            var configurationBuilder = new ConfigurationBuilder().SetBasePath("C:/").AddJsonFile("connection.json");
+            var configurationBuilder = new ConfigurationBuilder().SetBasePath(connectionSystem()).AddJsonFile("connection.json");
             IConfiguration config = configurationBuilder.Build();
             return config["connectionStrings:" + sqlstring];
+        }
+        public string connectionSystem()
+        {
+            switch (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                case true:
+                    return "";
+            }
+            switch (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                case true:
+                    return "/users/chinchuankuo/documents/";
+            }
+            return "C:/";
         }
         public DataTable checkSelectSql(string dataname, string sqlstring, string sqlcode, List<dbparam> dbparamlist)
         {
