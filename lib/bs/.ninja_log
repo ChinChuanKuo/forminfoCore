@@ -2214,3 +2214,8 @@
 62	120	1605625046268356902	wwwroot/js/pages/Icon/Icon-BtsCore.cmj	f2acf364a8920d6
 62	120	1605625046268356902	wwwroot/js/pages/Icon/Icon-BtsCore.cmi	f2acf364a8920d6
 62	120	1605625046268356902	/Users/chinchuankuo/Documents/core/forminfoCore/wwwroot/js/pages/Icon/Icon.bs.js	f2acf364a8920d6
+11	43	1605681722049063725	wwwroot/js/features/Status.reast	731970fcda0f5b1d
+43	54	1605681722049063725	wwwroot/js/features/Status.d	5c3090cf3010691c
+54	67	1605681722049063725	wwwroot/js/features/Status-BtsCore.cmj	74419b7a2f73e96a
+54	67	1605681722049063725	wwwroot/js/features/Status-BtsCore.cmi	74419b7a2f73e96a
+54	67	1605681722049063725	/Users/chinchuankuo/Documents/core/forminfoCore/wwwroot/js/features/Status.bs.js	74419b7a2f73e96a

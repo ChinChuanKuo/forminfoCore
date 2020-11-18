@@ -43,11 +43,11 @@ let downloadModels = download =>
   | _ => download
   };
 [@genType]
-let permissModels = permissajax =>
-  switch (permissajax) {
+let permissModels = permiss =>
+  switch (permiss) {
   | "errorInsert" => "sorry, you can not insert information"
   | "errorUpdate" => "sorry, you can not update information"
   | "errorDelete" => "sorry, you can not delete information"
   | "errorExport" => "sorry, you can not export information"
-  | _ => permissajax
+  | _ => permiss
   };

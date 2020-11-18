@@ -72,3 +72,12 @@
 /Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.OpenXml4Net.dll
 /Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/NPOI.OpenXmlFormats.dll
 /Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/ICSharpCode.SharpZipLib.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/SkiaSharp.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/Spire.License.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/Spire.Pdf.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/Spire.XLS.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/runtimes/osx/native/libSkiaSharp.dylib
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/runtimes/tizen-armel/native/libSkiaSharp.so
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/runtimes/tizen-x86/native/libSkiaSharp.so
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/runtimes/win-x64/native/libSkiaSharp.dll
+/Users/chinchuankuo/Documents/core/forminfoCore/bin/Debug/netcoreapp3.1/runtimes/win-x86/native/libSkiaSharp.dll

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "E+/HJ+eaWXJz4ndhYsXiYhg5IqawdQhoMaAUCJd2JjV+RLDBTNNqSk3AQq8dE8OLgEaA51Vp/Kd7Bz3ZvrDPIA==",
+  "dgSpecHash": "fcnk1HNFXyC5lsA4Txps2okL3yg/oqVYb52tnbj3+4GUDP6qCjOmacI0dAr9dV6GM1okibiPCWyRXuOeeNlcMw==",
   "success": true,
   "projectFilePath": "/Users/chinchuankuo/Documents/core/forminfoCore/forminfoCore.csproj",
   "expectedPackageFiles": [
@@ -64,6 +64,8 @@
     "/Users/chinchuankuo/.nuget/packages/runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "/Users/chinchuankuo/.nuget/packages/sharpcompress/0.23.0/sharpcompress.0.23.0.nupkg.sha512",
     "/Users/chinchuankuo/.nuget/packages/sharpziplib/1.0.0/sharpziplib.1.0.0.nupkg.sha512",
+    "/Users/chinchuankuo/.nuget/packages/skiasharp/1.68.0/skiasharp.1.68.0.nupkg.sha512",
+    "/Users/chinchuankuo/.nuget/packages/spire.xls/10.11.2/spire.xls.10.11.2.nupkg.sha512",
     "/Users/chinchuankuo/.nuget/packages/system.appcontext/4.3.0/system.appcontext.4.3.0.nupkg.sha512",
     "/Users/chinchuankuo/.nuget/packages/system.buffers/4.4.0/system.buffers.4.4.0.nupkg.sha512",
     "/Users/chinchuankuo/.nuget/packages/system.collections/4.3.0/system.collections.4.3.0.nupkg.sha512",

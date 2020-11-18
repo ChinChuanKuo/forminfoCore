@@ -60,6 +60,10 @@
               "target": "Package",
               "version": "[2.2.4, )"
             },
+            "Spire.Xls": {
+              "target": "Package",
+              "version": "[10.11.2, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.1, )"

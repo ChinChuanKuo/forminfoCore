@@ -76,8 +76,8 @@ function downloadModels(download) {
   }
 }
 
-function permissModels(permissajax) {
-  switch (permissajax) {
+function permissModels(permiss) {
+  switch (permiss) {
     case "errorDelete" :
         return "sorry, you can not delete information";
     case "errorExport" :
@@ -87,7 +87,7 @@ function permissModels(permissajax) {
     case "errorUpdate" :
         return "sorry, you can not update information";
     default:
-      return permissajax;
+      return permiss;
   }
 }
 
