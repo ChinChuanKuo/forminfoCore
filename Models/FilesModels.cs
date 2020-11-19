@@ -3,6 +3,8 @@ using System.Data;
 using System.IO;
 using System.Net;
 using forminfoCore.App_Code;
+using Spire.Doc;
+using Spire.Presentation;
 using Spire.Xls;
 
 namespace forminfoCore.Models
@@ -72,17 +74,76 @@ namespace forminfoCore.Models
             return new statusModels() { status = "istrue" };
         }
 
-        public sSiteModels GetTransferModels(otherData otherData, string cuurip)
+        public sSiteModels GetTransferModels(sFileData sFileData, string cuurip)
         {
-            switch (string.IsNullOrWhiteSpace(otherData.values))
+            database database = new database();
+            string foldPath = new database().connectionString("folderFiles"), encryption = new sha256().new256("mssql", "flyfnstring"), extension = "pdf";
+            switch (File.Exists($"{foldPath}{sFileData.original.TrimEnd()}({sFileData.encryption.TrimEnd()}){sFileData.extension.TrimEnd()}"))
             {
-                case true:
+                case false:
                     return new sSiteModels() { status = "nodata" };
             }
+            DataTable mainRows = new DataTable();
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@value", extension));
+            dbparamlist.Add(new dbparam("@needed", "1"));
+            mainRows = database.checkSelectSql("mssql", "flyfnstring", "exec web.uploadfileform @value,@needed;", dbparamlist);
+            switch (mainRows.Rows.Count)
+            {
+                case 0:
+                    return new sSiteModels() { status = "nodata" };
+            }
+            if (mainRows.Rows[0]["flImages"].ToString().TrimEnd() == "0" && mainRows.Rows[0]["flVideos"].ToString().TrimEnd() == "0" && mainRows.Rows[0]["flAudios"].ToString().TrimEnd() == "0")
+            {
+                return new sSiteModels() { status = "nodata" };
+            }
+            switch (transFileToPDF(sFileData.extension.TrimEnd(), $"{foldPath}{sFileData.original.TrimEnd()}({sFileData.encryption.TrimEnd()}){sFileData.extension.TrimEnd()}", $"{foldPath}{sFileData.original.TrimEnd()}({encryption}).{extension}"))
+            {
+                case false:
+                    return new sSiteModels() { status = "nodata" };
+            }
+            return new sSiteModels() { images = mainRows.Rows[0]["flImages"].ToString().TrimEnd() == "1", videos = mainRows.Rows[0]["flVideos"].ToString().TrimEnd() == "1", audios = mainRows.Rows[0]["flAudios"].ToString().TrimEnd() == "1", src = mainRows.Rows[0]["flImages"].ToString().TrimEnd() == "1" && mainRows.Rows[0]["flShowed"].ToString().TrimEnd() == "0" ? $"{mainRows.Rows[0]["original"].ToString().TrimEnd()}({mainRows.Rows[0]["encryption"].ToString().TrimEnd()}){mainRows.Rows[0]["extension"].ToString().TrimEnd()}" : $"{sFileData.original.TrimEnd()}({encryption}).{extension}", imagePath = "http://221.222.222.16:4500/folderfile/", original = sFileData.original.TrimEnd(), encryption = encryption, extension = $".{extension}", date = new datetime().sqldate("mssql", "flyfnstring"), status = "istrue" };
+        }
+
+        public bool transFileToPDF(string extension, string originalPath, string savePath)
+        {
+            switch (extension)
+            {
+                case ".xls":
+                case ".xlsx":
+                    return transExcelToPDF(originalPath, savePath);
+                case ".doc":
+                case ".docx":
+                    return transWordToPDF(originalPath, savePath);
+                case ".ppt":
+                case ".pptx":
+                    return transPowerPointToPDF(originalPath, savePath);
+            }
+            return true;
+        }
+
+        public bool transExcelToPDF(string originalPath, string savePath)
+        {
             Workbook workbook = new Workbook();
-            workbook.LoadFromFile(new database().connectionString("formFiles") + otherData.values.TrimEnd(), ExcelVersion.Version2010);
-            workbook.SaveToFile(@"..\..\result.pdf", Spire.Xls.FileFormat.PDF);
-            return new sSiteModels() { status = "istrue" };
+            workbook.LoadFromFile(originalPath, ExcelVersion.Version2010);
+            workbook.SaveToFile(savePath, Spire.Xls.FileFormat.PDF);
+            return File.Exists(savePath);
+        }
+
+        public bool transWordToPDF(string originalPath, string savePath)
+        {
+            Document document = new Document();
+            document.LoadFromFile(originalPath);
+            document.SaveToFile(savePath, Spire.Doc.FileFormat.PDF);
+            return File.Exists(savePath);
+        }
+
+        public bool transPowerPointToPDF(string originalPath, string savePath)
+        {
+            Presentation presentation = new Presentation();
+            presentation.LoadFromFile(originalPath);
+            presentation.SaveToFile(savePath, Spire.Presentation.FileFormat.PDF);
+            return File.Exists(savePath);
         }
 
         public string GetFileType(string extension)

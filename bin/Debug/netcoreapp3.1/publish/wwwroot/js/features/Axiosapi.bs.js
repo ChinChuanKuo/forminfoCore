@@ -118,10 +118,20 @@ function download(data) {
   return Axios$1.post("/Files/downloadData", data);
 }
 
+function transfer(data) {
+  return Axios$1.post("/Files/transferData", data);
+}
+
+function review(data) {
+  return Axios$1.post("/Files/reviewData", data);
+}
+
 var Files = {
   upload: upload,
   website: website,
-  download: download
+  download: download,
+  transfer: transfer,
+  review: review
 };
 
 function upload$1(formData) {

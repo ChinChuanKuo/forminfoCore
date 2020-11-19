@@ -60,6 +60,14 @@
               "target": "Package",
               "version": "[2.2.4, )"
             },
+            "Spire.Doc": {
+              "target": "Package",
+              "version": "[8.11.9, )"
+            },
+            "Spire.Presentation": {
+              "target": "Package",
+              "version": "[5.9.5, )"
+            },
             "Spire.Xls": {
               "target": "Package",
               "version": "[10.11.2, )"

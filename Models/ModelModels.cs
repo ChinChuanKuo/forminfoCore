@@ -250,6 +250,24 @@ namespace forminfoCore.Models
         public string newid { get; set; }
     }
 
+    public class sFileData
+    {
+        public string imagePath { get; set; }
+        public string original { get; set; }
+        public string encryption { get; set; }
+        public string extension { get; set; }
+        public string newid { get; set; }
+    }
+
+    public class sDataModels
+    {
+        [Required]
+        public string value { get; set; }
+        [Required]
+        public string status { get; set; }
+    }
+
+    //
     public class iFormsData
     {
         public string tile { get; set; }

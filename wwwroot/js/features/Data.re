@@ -53,13 +53,21 @@ let iPathData = (formId, imagePath, original, encryption, extension, newid) => {
   "extension": extension,
   "newid": newid,
 };
-
 [@genType]
 let iFormData = (formId, items, newid) => {
   "formId": formId,
   "items": items,
   "newid": newid,
 };
+[@genType]
+let sFileData = (imagePath, original, encryption, extension, newid) => {
+  "imagePath": imagePath,
+  "original": original,
+  "encryption": encryption,
+  "extension": extension,
+  "newid": newid,
+};
+
 [@genType]
 let iFormsData = (tile, desc, items, settitems, dertitems, newid) => {
   "tile": tile,

@@ -105,6 +105,16 @@ function iFormData(formId, items, newid) {
         };
 }
 
+function sFileData(imagePath, original, encryption, extension, newid) {
+  return {
+          imagePath: imagePath,
+          original: original,
+          encryption: encryption,
+          extension: extension,
+          newid: newid
+        };
+}
+
 function iFormsData(tile, desc, items, settitems, dertitems, newid) {
   return {
           tile: tile,
@@ -142,6 +152,7 @@ export {
   iFileData ,
   iPathData ,
   iFormData ,
+  sFileData ,
   iFormsData ,
   uFormsData ,
   

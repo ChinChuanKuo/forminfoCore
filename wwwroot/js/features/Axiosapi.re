@@ -50,6 +50,8 @@ module Files = {
     );
   let website = data => postData("/Files/websiteData", data);
   let download = data => postData("/Files/downloadData", data);
+  let transfer = data => postData("/Files/transferData", data);
+  let review = data => postData("/Files/reviewData", data);
 };
 
 module Excels = {
