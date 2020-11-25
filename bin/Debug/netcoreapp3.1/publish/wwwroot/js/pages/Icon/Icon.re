@@ -74,6 +74,7 @@ let initialState = {
     {icon: accountCircleBlack, value: "accountCircle"},
     {icon: assignmentIndBlack, value: "assignmentInd"},
     {icon: arrowForwardIosBlack, value: "arrowForwardIos"},
+    {icon: bookBlack, value: "book"},
     {icon: barChartBlack, value: "barChart"},
     {icon: brightness4Black, value: "brightness4"},
     {icon: brightnessLowBlack, value: "brightnessLow"},
@@ -286,31 +287,34 @@ let make = _ => {
       width="100"
       bottom="56">
       <GridContainer direction="column" justify="center" alignItem="stretch">
-        <GridItem top="0" right="0" bottom="0" left="0" xs="auto">
-          <GridContainer direction="row" justify="start" alignItem="center">
-            <GridItem
-              top="0" right="0" bottom="0" left="0" xs="auto" maxWidth="25%">
-              <Tabs id="icon-" index={state.index} short=20 height="3">
-                {state.tabitems
-                 |> List.mapi((i, tabitem) =>
-                      <Tab
-                        showTab={tabitem.showTab}
-                        maxWidth="111.6"
-                        borderRadius="15"
-                        id={"icon-" ++ string_of_int(i)}
-                        animationName="none"
-                        onClick={_ => i |> clickItemTab}>
-                        <IconAction
-                          animation="leftRight"
-                          src={tabitem.tabImage}
-                        />
-                      </Tab>
-                    )
-                 |> Array.of_list
-                 |> array}
-              </Tabs>
-            </GridItem>
-          </GridContainer>
+        <GridItem
+          style={ReactDOMRe.Style.make(
+            ~position="sticky",
+            ~top="0px",
+            ~zIndex="1000",
+            (),
+          )}
+          top="0"
+          right="30"
+          bottom="0"
+          left="30"
+          xs="auto">
+          <Tabs id="icon-" index={state.index} short=20 height="3">
+            {state.tabitems
+             |> List.mapi((i, tabitem) =>
+                  <Tab
+                    showTab={tabitem.showTab}
+                    maxWidth="111.6"
+                    borderRadius="15"
+                    id={"icon-" ++ string_of_int(i)}
+                    animationName="none"
+                    onClick={_ => i |> clickItemTab}>
+                    <IconAction animation="leftRight" src={tabitem.tabImage} />
+                  </Tab>
+                )
+             |> Array.of_list
+             |> array}
+          </Tabs>
         </GridItem>
         <GridItem top="0" right="0" bottom="0" left="0" xs="auto">
           {switch (state.index) {

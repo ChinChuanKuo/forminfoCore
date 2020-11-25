@@ -6,6 +6,8 @@ import * as FlytechSvg from "./logo/flytech.svg";
 import * as MapblackSvg from "./map/mapblack.svg";
 import * as MapwhiteSvg from "./map/mapwhite.svg";
 import * as MenuwarnSvg from "./menu/menuwarn.svg";
+import * as BookblackSvg from "./book/bookblack.svg";
+import * as BookwhiteSvg from "./book/bookwhite.svg";
 import * as DoneblackSvg from "./done/doneblack.svg";
 import * as DonewhiteSvg from "./done/donewhite.svg";
 import * as EditblackSvg from "./edit/editblack.svg";
@@ -54,6 +56,7 @@ import * as ImageblackSvg from "./image/imageblack.svg";
 import * as ImagewhiteSvg from "./image/imagewhite.svg";
 import * as InputblackSvg from "./input/inputblack.svg";
 import * as InputwhiteSvg from "./input/inputwhite.svg";
+import * as FlytechlogoSvg from "./logo/flytechlogo.svg";
 import * as NotesblackSvg from "./notes/notesblack.svg";
 import * as NoteswhiteSvg from "./notes/noteswhite.svg";
 import * as PhotoblackSvg from "./photo/photoblack.svg";
@@ -239,6 +242,8 @@ import * as Check_box_outline_blankwhiteSvg from "./check_box_outline_blank/chec
 
 var flytech = FlytechSvg;
 
+var flytechLogo = FlytechlogoSvg;
+
 var addWhite = AddwhiteSvg;
 
 var addBlack = AddblackSvg;
@@ -290,6 +295,10 @@ var assignmentIndBlack = Assignment_indblackSvg;
 var arrowForwardIosWhite = Arrow_forward_ioswhiteSvg;
 
 var arrowForwardIosBlack = Arrow_forward_iosblackSvg;
+
+var bookWhite = BookwhiteSvg;
+
+var bookBlack = BookblackSvg;
 
 var barChartWhite = Bar_chartwhiteSvg;
 
@@ -711,6 +720,7 @@ var wifiOffBlack = Wifi_offblackSvg;
 
 export {
   flytech ,
+  flytechLogo ,
   addWhite ,
   addBlack ,
   arrowUpWhite ,
@@ -737,6 +747,8 @@ export {
   assignmentIndBlack ,
   arrowForwardIosWhite ,
   arrowForwardIosBlack ,
+  bookWhite ,
+  bookBlack ,
   barChartWhite ,
   barChartBlack ,
   brightness4White ,

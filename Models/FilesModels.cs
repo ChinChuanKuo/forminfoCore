@@ -119,7 +119,7 @@ namespace forminfoCore.Models
                 case ".pptx":
                     return transPowerPointToPDF(originalPath, savePath);
             }
-            return true;
+            return false;
         }
 
         public bool transExcelToPDF(string originalPath, string savePath)

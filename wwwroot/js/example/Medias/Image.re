@@ -1,3 +1,5 @@
+open Setting;
+
 let widths = width =>
   switch (width) {
   | None => "100%"
@@ -23,7 +25,7 @@ let make =
       ~width: option(string)=?,
       ~height: option(string)=?,
       ~borderRadius: option(string)=?,
-      ~src: string,
+      ~src: option(string)=?,
     ) =>
   ReactDOMRe.createDOMElementVariadic(
     "img",
@@ -44,7 +46,9 @@ let make =
             (),
           );
         },
-        ~src,
+        ~src={
+          src |> stringObjects;
+        },
         (),
       ),
     [||],

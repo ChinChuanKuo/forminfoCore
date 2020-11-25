@@ -180,6 +180,10 @@ var initialState_items = [
     value: "arrowForwardIos"
   },
   {
+    icon: Icons$BtsCore.bookBlack,
+    value: "book"
+  },
+  {
     icon: Icons$BtsCore.barChartBlack,
     value: "barChart"
   },
@@ -741,45 +745,37 @@ function Icon(Props) {
                         alignItem: "stretch",
                         children: null
                       }, React.createElement(GridItem$BtsCore.make, {
+                            style: {
+                              position: "sticky",
+                              top: "0px",
+                              zIndex: "1000"
+                            },
                             top: "0",
-                            right: "0",
+                            right: "30",
                             bottom: "0",
-                            left: "0",
+                            left: "30",
                             xs: "auto",
-                            children: React.createElement(GridContainer$BtsCore.make, {
-                                  direction: "row",
-                                  justify: "start",
-                                  alignItem: "center",
-                                  children: React.createElement(GridItem$BtsCore.make, {
-                                        top: "0",
-                                        right: "0",
-                                        bottom: "0",
-                                        left: "0",
-                                        xs: "auto",
-                                        maxWidth: "25%",
-                                        children: React.createElement(Tabs$BtsCore.make, {
-                                              id: "icon-",
-                                              index: state.index,
-                                              short: 20,
-                                              height: "3",
-                                              children: $$Array.of_list(List.mapi((function (i, tabitem) {
-                                                          return React.createElement(Tab$BtsCore.make, {
-                                                                      showTab: tabitem.showTab,
-                                                                      maxWidth: "111.6",
-                                                                      borderRadius: "15",
-                                                                      id: "icon-" + String(i),
-                                                                      animationName: "none",
-                                                                      onClick: (function (param) {
-                                                                          return Curry._1(clickItemTab, i);
-                                                                        }),
-                                                                      children: React.createElement(IconAction$BtsCore.make, {
-                                                                            animation: "leftRight",
-                                                                            src: tabitem.tabImage
-                                                                          })
-                                                                    });
-                                                        }), state.tabitems))
-                                            })
-                                      })
+                            children: React.createElement(Tabs$BtsCore.make, {
+                                  id: "icon-",
+                                  index: state.index,
+                                  short: 20,
+                                  height: "3",
+                                  children: $$Array.of_list(List.mapi((function (i, tabitem) {
+                                              return React.createElement(Tab$BtsCore.make, {
+                                                          showTab: tabitem.showTab,
+                                                          maxWidth: "111.6",
+                                                          borderRadius: "15",
+                                                          id: "icon-" + String(i),
+                                                          animationName: "none",
+                                                          onClick: (function (param) {
+                                                              return Curry._1(clickItemTab, i);
+                                                            }),
+                                                          children: React.createElement(IconAction$BtsCore.make, {
+                                                                animation: "leftRight",
+                                                                src: tabitem.tabImage
+                                                              })
+                                                        });
+                                            }), state.tabitems))
                                 })
                           }), React.createElement(GridItem$BtsCore.make, {
                             top: "0",

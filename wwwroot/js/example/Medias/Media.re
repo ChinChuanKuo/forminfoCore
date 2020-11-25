@@ -39,7 +39,7 @@ let make =
       ~height: option(string)=?,
       ~borderRadius: option(string)=?,
       ~controls: option(bool)=?,
-      ~src: string,
+      ~src: option(string)=?,
     ) =>
   ReactDOMRe.createDOMElementVariadic(
     variant |> stringObjects |> components,
@@ -70,7 +70,9 @@ let make =
         "source",
         ~props=
           ReactDOMRe.domProps(
-            ~src,
+            ~src={
+              src |> stringObjects;
+            },
             ~type_={
               variant |> stringObjects |> types;
             },

@@ -1,4 +1,5 @@
 [@bs.module] external flytech: string = "./logo/flytech.svg";
+[@bs.module] external flytechLogo: string = "./logo/flytechlogo.svg";
 
 [@bs.module] external addWhite: string = "./add/addwhite.svg";
 [@bs.module] external addBlack: string = "./add/addblack.svg";
@@ -57,6 +58,8 @@ external arrowForwardIosWhite: string =
 external arrowForwardIosBlack: string =
   "./arrow_forward_ios/arrow_forward_iosblack.svg";
 
+[@bs.module] external bookWhite: string = "./book/bookwhite.svg";
+[@bs.module] external bookBlack: string = "./book/bookblack.svg";
 [@bs.module] external barChartWhite: string = "./bar_chart/bar_chartwhite.svg";
 [@bs.module] external barChartBlack: string = "./bar_chart/bar_chartblack.svg";
 [@bs.module]

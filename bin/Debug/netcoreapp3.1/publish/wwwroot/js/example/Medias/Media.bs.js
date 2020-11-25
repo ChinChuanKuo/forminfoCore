@@ -63,7 +63,7 @@ function Media(Props) {
               },
               controls: Setting$BtsCore.disabledObjects(controls)
             }, React.createElement("source", {
-                  src: src,
+                  src: Setting$BtsCore.stringObjects(src),
                   type: types(Setting$BtsCore.stringObjects(variant))
                 }));
 }
