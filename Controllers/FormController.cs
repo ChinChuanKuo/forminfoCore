@@ -20,10 +20,10 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
-        public JsonResult badgeFormData([FromBody] userData userData)
+        public JsonResult badgeFormData([FromBody] otherData otherData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
-            return Json(new FormClass().GetBadgeFormModels(userData, clientip));
+            return Json(new FormClass().GetBadgeFormModels(otherData, clientip));
         }
 
         [HttpPost]

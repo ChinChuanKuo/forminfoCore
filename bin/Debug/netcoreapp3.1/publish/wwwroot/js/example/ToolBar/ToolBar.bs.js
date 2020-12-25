@@ -3,11 +3,13 @@
 import * as $$Array from "bs-platform/lib/es6/array.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as ReactIntl from "react-intl";
 import * as Icons$BtsCore from "../../material-ui/icon/Icons.bs.js";
 import * as AppBar$BtsCore from "../../material-ui/core/AppBar/AppBar.bs.js";
+import * as Setting$BtsCore from "../../setting/Setting.bs.js";
 import * as Tooltip$BtsCore from "../../material-ui/core/Tooltip/Tooltip.bs.js";
 import * as GridItem$BtsCore from "../../material-ui/core/Grid/GridItem.bs.js";
-import * as MenuIcon$BtsCore from "../../material-ui/core/MenuItem/MenuIcon.bs.js";
+import * as MenuItem$BtsCore from "../../material-ui/core/MenuItem/MenuItem.bs.js";
 import * as IconAction$BtsCore from "../../material-ui/core/IconStyle/IconAction.bs.js";
 import * as IconButton$BtsCore from "../../material-ui/core/IconButton/IconButton.bs.js";
 import * as SelectMenu$BtsCore from "../../material-ui/core/Menu/SelectMenu.bs.js";
@@ -18,197 +20,616 @@ import * as SelectStandard$BtsCore from "../../material-ui/core/Select/SelectSta
 import * as BackgroundBoard$BtsCore from "../Boards/BackgroundBoard.bs.js";
 
 function reducer(state, action) {
-  if (typeof action === "number") {
-    if (action !== 0) {
-      return {
-              outValue: state.outValue,
-              showOut: state.showOut,
-              outitems: state.outitems,
-              showMore: !state.showMore
-            };
-    } else {
-      return {
-              outValue: state.outValue,
-              showOut: !state.showOut,
-              outitems: state.outitems,
-              showMore: state.showMore
-            };
-    }
-  } else {
+  if (typeof action !== "number") {
     return {
-            outValue: action[0],
-            showOut: false,
-            outitems: state.outitems,
+            showName: false,
+            name: action[0],
+            nameitems: state.nameitems,
+            showSize: state.showSize,
+            sizeitems: state.sizeitems,
+            showAlign: state.showAlign,
             showMore: state.showMore
           };
   }
+  switch (action) {
+    case /* ShowName */0 :
+        return {
+                showName: !state.showName,
+                name: state.name,
+                nameitems: state.nameitems,
+                showSize: state.showSize,
+                sizeitems: state.sizeitems,
+                showAlign: state.showAlign,
+                showMore: state.showMore
+              };
+    case /* ShowSize */1 :
+        return {
+                showName: state.showName,
+                name: state.name,
+                nameitems: state.nameitems,
+                showSize: !state.showSize,
+                sizeitems: state.sizeitems,
+                showAlign: state.showAlign,
+                showMore: state.showMore
+              };
+    case /* ShowAlign */2 :
+        return {
+                showName: state.showName,
+                name: state.name,
+                nameitems: state.nameitems,
+                showSize: state.showSize,
+                sizeitems: state.sizeitems,
+                showAlign: !state.showAlign,
+                showMore: state.showMore
+              };
+    case /* ShowMore */3 :
+        return {
+                showName: state.showName,
+                name: state.name,
+                nameitems: state.nameitems,
+                showSize: state.showSize,
+                sizeitems: state.sizeitems,
+                showAlign: state.showAlign,
+                showMore: !state.showMore
+              };
+    
+  }
 }
 
-var initialState_outitems = [
+var initialState_nameitems = [
   {
-    disablePadding: false,
-    icon: "",
-    value: "微軟正黑體"
+    optionPadding: false,
+    value: "Microsoft JhengHei"
   },
   {
-    disablePadding: false,
-    icon: "",
-    value: "新細明體"
+    optionPadding: false,
+    value: "PMingLiU"
   },
   {
-    disablePadding: false,
-    icon: "",
-    value: "細明體"
+    optionPadding: false,
+    value: "MingLiU"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Sans Serif"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Serif"
   },
   {
-    disablePadding: false,
-    icon: "",
-    value: "等寬字型"
+    optionPadding: false,
+    value: "Monospace font"
   },
   {
-    disablePadding: false,
-    icon: "",
-    value: "寬"
+    optionPadding: false,
+    value: "width"
   },
   {
-    disablePadding: false,
-    icon: "",
-    value: "窄"
+    optionPadding: false,
+    value: "narrow"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Comic Sans MS"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Garamond"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Georgia"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Tahoma"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Trebuchet MS"
   },
   {
-    disablePadding: false,
-    icon: "",
+    optionPadding: false,
     value: "Verdana"
   }
 ];
 
+var initialState_sizeitems = [
+  {
+    disablePadding: false,
+    size: "1",
+    value: "small"
+  },
+  {
+    disablePadding: false,
+    size: "3",
+    value: "general"
+  },
+  {
+    disablePadding: false,
+    size: "4",
+    value: "larger"
+  },
+  {
+    disablePadding: false,
+    size: "6",
+    value: "largest"
+  }
+];
+
 var initialState = {
-  outValue: "Sans Serif",
-  showOut: false,
-  outitems: initialState_outitems,
+  showName: false,
+  name: "Sans Serif",
+  nameitems: initialState_nameitems,
+  showSize: false,
+  sizeitems: initialState_sizeitems,
+  showAlign: false,
   showMore: false
 };
 
 function ToolBar(Props) {
   var disabled = Props.disabled;
+  var width = Props.width;
   var match = React.useReducer(reducer, initialState);
   var dispatch = match[1];
   var state = match[0];
-  var clickOutShow = React.useCallback((function (param) {
-          return Curry._1(dispatch, /* ShowOut */0);
+  var clickUndo = React.useCallback((function (param) {
+          document.execCommand("undo", false, "");
+          
         }));
-  var clickItemOutValue = React.useCallback((function (value) {
-          console.log(value);
-          Curry._1(dispatch, /* ClickItemOutValue */[value]);
+  var clickRedo = React.useCallback((function (param) {
+          document.execCommand("redo", false, "");
+          
+        }));
+  var showName = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowName */0);
+        }));
+  var clickNameMenu = React.useCallback((function (value) {
+          Curry._1(dispatch, /* ClickNameMenu */[value]);
           document.execCommand("fontName", false, value);
           
         }));
-  var clickFormatSize = React.useCallback((function (param) {
-          document.execCommand("fontSize", false, "30px");
+  var showSize = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowSize */1);
+        }));
+  var clickSizeMenu = React.useCallback((function (size) {
+          document.execCommand("fontSize", false, size);
           
         }));
-  var clickFormatBold = React.useCallback((function (param) {
+  var formatBold = React.useCallback((function (param) {
           document.execCommand("bold", false, "");
           
         }));
-  var clickFormatItalic = React.useCallback((function (param) {
+  var formatItalic = React.useCallback((function (param) {
           document.execCommand("italic", false, "");
           
         }));
-  var clickFormatUnderlined = React.useCallback((function (param) {
+  var underline = React.useCallback((function (param) {
           document.execCommand("underline", false, "");
           
         }));
-  var clickStrikethrough = React.useCallback((function (param) {
-          document.execCommand("strikethrough", false, "");
-          
+  var showAlign = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowAlign */2);
         }));
-  var clickFormatAlignLeft = React.useCallback((function (param) {
+  var alignLeft = React.useCallback((function (param) {
           document.execCommand("justifyLeft", false, "");
           
         }));
-  var clickFormatAlignCenter = React.useCallback((function (param) {
+  var alignCenter = React.useCallback((function (param) {
           document.execCommand("justifyCenter", false, "");
           
         }));
-  var clickFormatAlignRight = React.useCallback((function (param) {
+  var alignRight = React.useCallback((function (param) {
           document.execCommand("justifyRight", false, "");
           
         }));
-  var clickFormatListNumbered = React.useCallback((function (param) {
+  var insertorderedlist = React.useCallback((function (param) {
           document.execCommand("insertorderedlist", false, "");
           
         }));
-  var clickMoreShow = React.useCallback((function (param) {
-          return Curry._1(dispatch, /* ShowMore */1);
+  var insertUnorderedlist = React.useCallback((function (param) {
+          document.execCommand("insertUnorderedlist", false, "");
+          
         }));
-  React.useCallback((function (param) {
+  var outdent = React.useCallback((function (param) {
+          document.execCommand("outdent", false, "");
+          
+        }));
+  var indent = React.useCallback((function (param) {
+          document.execCommand("indent", false, "");
+          
+        }));
+  var showMore = React.useCallback((function (param) {
+          return Curry._1(dispatch, /* ShowMore */3);
+        }));
+  var removeFormat = React.useCallback((function (param) {
           document.execCommand("removeFormat", false, "");
           
         }));
+  var strikethrough = React.useCallback((function (param) {
+          document.execCommand("strikethrough", false, "");
+          
+        }));
+  var tmp;
+  if (state.showMore) {
+    var match$1 = Setting$BtsCore.intObjects(width) < 900;
+    var match$2 = Setting$BtsCore.intObjects(width) < 850;
+    var match$3 = Setting$BtsCore.intObjects(width) < 800;
+    var match$4 = Setting$BtsCore.intObjects(width) < 750;
+    tmp = React.createElement(React.Fragment, undefined, React.createElement(SelectMenu$BtsCore.make, {
+              top: "50%",
+              transform: "translate(0, -50%)",
+              width: "auto",
+              maxHeight: "280",
+              minHeight: "0",
+              topLeft: "12",
+              topRight: "12",
+              bottomRight: "12",
+              bottomLeft: "12",
+              paddingRight: "8",
+              paddingLeft: "8",
+              children: null
+            }, React.createElement(MenuItem$BtsCore.make, {
+                  top: "0",
+                  right: "8",
+                  bottom: "0",
+                  left: "8",
+                  topLeft: "12",
+                  topRight: "12",
+                  bottomRight: "12",
+                  bottomLeft: "12",
+                  onClick: removeFormat,
+                  children: null
+                }, React.createElement(Tooltip$BtsCore.make, {
+                      location: "top",
+                      backgroundColor: "rgba(255,0,0,0.8)",
+                      children: React.createElement(ReactIntl.FormattedMessage, {
+                            id: "Toolbar.remove",
+                            defaultMessage: "Remove"
+                          })
+                    }), React.createElement(IconGeneral$BtsCore.make, {
+                      src: Icons$BtsCore.formatClearBlack
+                    })), React.createElement(MenuItem$BtsCore.make, {
+                  top: "0",
+                  right: "8",
+                  bottom: "0",
+                  left: "8",
+                  topLeft: "12",
+                  topRight: "12",
+                  bottomRight: "12",
+                  bottomLeft: "12",
+                  onClick: strikethrough,
+                  children: null
+                }, React.createElement(Tooltip$BtsCore.make, {
+                      location: "top",
+                      backgroundColor: "rgba(255,0,0,0.8)",
+                      children: React.createElement(ReactIntl.FormattedMessage, {
+                            id: "Toolbar.strike",
+                            defaultMessage: "Strike"
+                          })
+                    }), React.createElement(IconGeneral$BtsCore.make, {
+                      src: Icons$BtsCore.strikethroughSBlack
+                    })), match$1 ? React.createElement(MenuItem$BtsCore.make, {
+                    top: "0",
+                    right: "8",
+                    bottom: "0",
+                    left: "8",
+                    topLeft: "12",
+                    topRight: "12",
+                    bottomRight: "12",
+                    bottomLeft: "12",
+                    onClick: indent,
+                    children: null
+                  }, React.createElement(Tooltip$BtsCore.make, {
+                        location: "top",
+                        backgroundColor: "rgba(255,0,0,0.8)",
+                        children: React.createElement(ReactIntl.FormattedMessage, {
+                              id: "Toolbar.increase",
+                              defaultMessage: "Increase"
+                            })
+                      }), React.createElement(IconGeneral$BtsCore.make, {
+                        src: Icons$BtsCore.formatIndentIncreaseBlack
+                      })) : null, match$2 ? React.createElement(MenuItem$BtsCore.make, {
+                    top: "0",
+                    right: "8",
+                    bottom: "0",
+                    left: "8",
+                    topLeft: "12",
+                    topRight: "12",
+                    bottomRight: "12",
+                    bottomLeft: "12",
+                    onClick: outdent,
+                    children: null
+                  }, React.createElement(Tooltip$BtsCore.make, {
+                        location: "top",
+                        backgroundColor: "rgba(255,0,0,0.8)",
+                        children: React.createElement(ReactIntl.FormattedMessage, {
+                              id: "Toolbar.decrease",
+                              defaultMessage: "Decrease"
+                            })
+                      }), React.createElement(IconGeneral$BtsCore.make, {
+                        src: Icons$BtsCore.formatIndentDecreaseBlack
+                      })) : null, match$3 ? React.createElement(MenuItem$BtsCore.make, {
+                    top: "0",
+                    right: "8",
+                    bottom: "0",
+                    left: "8",
+                    topLeft: "12",
+                    topRight: "12",
+                    bottomRight: "12",
+                    bottomLeft: "12",
+                    onClick: insertUnorderedlist,
+                    children: null
+                  }, React.createElement(Tooltip$BtsCore.make, {
+                        location: "top",
+                        backgroundColor: "rgba(255,0,0,0.8)",
+                        children: React.createElement(ReactIntl.FormattedMessage, {
+                              id: "Toolbar.bullist",
+                              defaultMessage: "Bullist"
+                            })
+                      }), React.createElement(IconGeneral$BtsCore.make, {
+                        src: Icons$BtsCore.formatListBulletedBlack
+                      })) : null, match$4 ? React.createElement(MenuItem$BtsCore.make, {
+                    top: "0",
+                    right: "8",
+                    bottom: "0",
+                    left: "8",
+                    topLeft: "12",
+                    topRight: "12",
+                    bottomRight: "12",
+                    bottomLeft: "12",
+                    onClick: insertorderedlist,
+                    children: null
+                  }, React.createElement(Tooltip$BtsCore.make, {
+                        location: "top",
+                        backgroundColor: "rgba(255,0,0,0.8)",
+                        children: React.createElement(ReactIntl.FormattedMessage, {
+                              id: "Toolbar.ordlist",
+                              defaultMessage: "Ordlist"
+                            })
+                      }), React.createElement(IconAction$BtsCore.make, {
+                        animation: "leftRight",
+                        src: Icons$BtsCore.formatListNumberedBlack
+                      })) : null), React.createElement(BackgroundBoard$BtsCore.make, {
+              showBackground: state.showMore,
+              backgroundColor: "transparent",
+              onClick: showMore
+            }));
+  } else {
+    tmp = null;
+  }
+  var match$5 = Setting$BtsCore.intObjects(width) >= 900;
+  var match$6 = Setting$BtsCore.intObjects(width) >= 850;
+  var match$7 = Setting$BtsCore.intObjects(width) >= 800;
+  var match$8 = Setting$BtsCore.intObjects(width) >= 750;
   return React.createElement(AppBar$BtsCore.make, {
               backgroundColor: "rgba(255,255,255,1)",
               position: "relative",
+              zIndex: "1",
               minHeight: "40",
               children: React.createElement(GridContainer$BtsCore.make, {
                     direction: "rowReverse",
-                    justify: "end",
-                    alignItem: "stretch",
+                    justify: "center",
+                    alignItem: "center",
                     children: null
                   }, React.createElement(GridItem$BtsCore.make, {
                         top: "0",
+                        right: "6",
+                        bottom: "0",
+                        left: "0",
+                        xs: "no",
+                        children: null
+                      }, React.createElement(IconButton$BtsCore.make, {
+                            padding: "4",
+                            onClick: showMore,
+                            children: null
+                          }, React.createElement(Tooltip$BtsCore.make, {
+                                location: "top",
+                                backgroundColor: "rgba(255,0,0,0.8)",
+                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                      id: "Toolbar.more",
+                                      defaultMessage: "More"
+                                    })
+                              }), React.createElement(IconAction$BtsCore.make, {
+                                animation: "leftRight",
+                                src: Icons$BtsCore.arrowDownBlack
+                              })), tmp), React.createElement(GridItem$BtsCore.make, {
+                        style: {
+                          borderRight: "1px solid rgba(0,0,0,0.08)",
+                          height: "25px",
+                          marginTop: "6px",
+                          marginRight: "3px"
+                        },
+                        top: "0",
+                        right: "0",
+                        bottom: "0",
+                        left: "3",
+                        xs: "no",
+                        children: null
+                      }), match$5 ? React.createElement(GridItem$BtsCore.make, {
+                          top: "0",
+                          right: "0",
+                          bottom: "0",
+                          left: "0",
+                          xs: "no",
+                          children: React.createElement(IconButton$BtsCore.make, {
+                                padding: "4",
+                                onClick: indent,
+                                children: null
+                              }, React.createElement(Tooltip$BtsCore.make, {
+                                    location: "top",
+                                    backgroundColor: "rgba(255,0,0,0.8)",
+                                    children: React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "Toolbar.increase",
+                                          defaultMessage: "Increase"
+                                        })
+                                  }), React.createElement(IconAction$BtsCore.make, {
+                                    animation: "leftRight",
+                                    src: Icons$BtsCore.formatIndentIncreaseBlack
+                                  }))
+                        }) : null, match$6 ? React.createElement(GridItem$BtsCore.make, {
+                          top: "0",
+                          right: "0",
+                          bottom: "0",
+                          left: "0",
+                          xs: "no",
+                          children: React.createElement(IconButton$BtsCore.make, {
+                                padding: "4",
+                                onClick: outdent,
+                                children: null
+                              }, React.createElement(Tooltip$BtsCore.make, {
+                                    location: "top",
+                                    backgroundColor: "rgba(255,0,0,0.8)",
+                                    children: React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "Toolbar.decrease",
+                                          defaultMessage: "Decrease"
+                                        })
+                                  }), React.createElement(IconAction$BtsCore.make, {
+                                    animation: "leftRight",
+                                    src: Icons$BtsCore.formatIndentDecreaseBlack
+                                  }))
+                        }) : null, match$7 ? React.createElement(GridItem$BtsCore.make, {
+                          top: "0",
+                          right: "0",
+                          bottom: "0",
+                          left: "0",
+                          xs: "no",
+                          children: React.createElement(IconButton$BtsCore.make, {
+                                padding: "4",
+                                onClick: insertUnorderedlist,
+                                children: null
+                              }, React.createElement(Tooltip$BtsCore.make, {
+                                    location: "top",
+                                    backgroundColor: "rgba(255,0,0,0.8)",
+                                    children: React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "Toolbar.bullist",
+                                          defaultMessage: "Bullist"
+                                        })
+                                  }), React.createElement(IconAction$BtsCore.make, {
+                                    animation: "leftRight",
+                                    src: Icons$BtsCore.formatListBulletedBlack
+                                  }))
+                        }) : null, match$8 ? React.createElement(GridItem$BtsCore.make, {
+                          top: "0",
+                          right: "0",
+                          bottom: "0",
+                          left: "0",
+                          xs: "no",
+                          children: React.createElement(IconButton$BtsCore.make, {
+                                padding: "4",
+                                onClick: insertorderedlist,
+                                children: null
+                              }, React.createElement(Tooltip$BtsCore.make, {
+                                    location: "top",
+                                    backgroundColor: "rgba(255,0,0,0.8)",
+                                    children: React.createElement(ReactIntl.FormattedMessage, {
+                                          id: "Toolbar.ordlist",
+                                          defaultMessage: "Ordlist"
+                                        })
+                                  }), React.createElement(IconAction$BtsCore.make, {
+                                    animation: "leftRight",
+                                    src: Icons$BtsCore.formatListNumberedBlack
+                                  }))
+                        }) : null, React.createElement(GridItem$BtsCore.make, {
+                        top: "0",
                         right: "0",
                         bottom: "0",
                         left: "0",
                         xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickMoreShow,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "MoreSetting"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.arrowDownBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
+                        children: null
+                      }, React.createElement(IconButton$BtsCore.make, {
+                            padding: "4",
+                            onClick: showAlign,
+                            children: null
+                          }, React.createElement(Tooltip$BtsCore.make, {
+                                location: "top",
+                                backgroundColor: "rgba(255,0,0,0.8)",
+                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                      id: "Toolbar.align",
+                                      defaultMessage: "Align"
+                                    })
+                              }), React.createElement(IconAction$BtsCore.make, {
+                                animation: "leftRight",
+                                src: Icons$BtsCore.formatAlignRightBlack
+                              })), state.showAlign ? React.createElement(React.Fragment, undefined, React.createElement(SelectMenu$BtsCore.make, {
+                                  top: "50%",
+                                  transform: "translate(0, -50%)",
+                                  width: "auto",
+                                  maxHeight: "280",
+                                  minHeight: "0",
+                                  topLeft: "12",
+                                  topRight: "12",
+                                  bottomRight: "12",
+                                  bottomLeft: "12",
+                                  paddingRight: "8",
+                                  paddingLeft: "8",
+                                  children: null
+                                }, React.createElement(MenuItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "8",
+                                      bottom: "0",
+                                      left: "8",
+                                      topLeft: "12",
+                                      topRight: "12",
+                                      bottomRight: "12",
+                                      bottomLeft: "12",
+                                      onClick: alignLeft,
+                                      children: null
+                                    }, React.createElement(Tooltip$BtsCore.make, {
+                                          location: "top",
+                                          backgroundColor: "rgba(255,0,0,0.8)",
+                                          children: React.createElement(ReactIntl.FormattedMessage, {
+                                                id: "Toolbar.left",
+                                                defaultMessage: "Left"
+                                              })
+                                        }), React.createElement(IconGeneral$BtsCore.make, {
+                                          src: Icons$BtsCore.formatAlignLeftBlack
+                                        })), React.createElement(MenuItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "8",
+                                      bottom: "0",
+                                      left: "8",
+                                      topLeft: "12",
+                                      topRight: "12",
+                                      bottomRight: "12",
+                                      bottomLeft: "12",
+                                      onClick: alignCenter,
+                                      children: null
+                                    }, React.createElement(Tooltip$BtsCore.make, {
+                                          location: "top",
+                                          backgroundColor: "rgba(255,0,0,0.8)",
+                                          children: React.createElement(ReactIntl.FormattedMessage, {
+                                                id: "Toolbar.center",
+                                                defaultMessage: "Center"
+                                              })
+                                        }), React.createElement(IconGeneral$BtsCore.make, {
+                                          src: Icons$BtsCore.formatAlignCenterBlack
+                                        })), React.createElement(MenuItem$BtsCore.make, {
+                                      top: "0",
+                                      right: "8",
+                                      bottom: "0",
+                                      left: "8",
+                                      topLeft: "12",
+                                      topRight: "12",
+                                      bottomRight: "12",
+                                      bottomLeft: "12",
+                                      onClick: alignRight,
+                                      children: null
+                                    }, React.createElement(Tooltip$BtsCore.make, {
+                                          location: "top",
+                                          backgroundColor: "rgba(255,0,0,0.8)",
+                                          children: React.createElement(ReactIntl.FormattedMessage, {
+                                                id: "Toolbar.right",
+                                                defaultMessage: "Right"
+                                              })
+                                        }), React.createElement(IconGeneral$BtsCore.make, {
+                                          src: Icons$BtsCore.formatAlignRightBlack
+                                        }))), React.createElement(BackgroundBoard$BtsCore.make, {
+                                  showBackground: state.showAlign,
+                                  backgroundColor: "transparent",
+                                  onClick: showAlign
+                                })) : null), React.createElement(GridItem$BtsCore.make, {
                         style: {
                           borderRight: "1px solid rgba(0,0,0,0.08)",
                           height: "25px",
@@ -228,98 +649,15 @@ function ToolBar(Props) {
                         left: "0",
                         xs: "no",
                         children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatListNumbered,
+                              padding: "4",
                               children: null
                             }, React.createElement(Tooltip$BtsCore.make, {
                                   location: "top",
                                   backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "ListNumber"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.formatListNumberedBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "0",
-                        xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatAlignRight,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "AlignRight"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.formatAlignRightBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "0",
-                        xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatAlignCenter,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "AlignCenter"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.formatAlignCenterBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "0",
-                        xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatAlignLeft,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "AlignLeft"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.formatAlignLeftBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
-                        style: {
-                          borderRight: "1px solid rgba(0,0,0,0.08)",
-                          height: "25px",
-                          marginTop: "6px",
-                          marginRight: "3px"
-                        },
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "3",
-                        xs: "no",
-                        children: null
-                      }), React.createElement(GridItem$BtsCore.make, {
-                        top: "0",
-                        right: "0",
-                        bottom: "0",
-                        left: "0",
-                        xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickStrikethrough,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "Color"
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.color",
+                                        defaultMessage: "Color"
+                                      })
                                 }), React.createElement(IconAction$BtsCore.make, {
                                   animation: "leftRight",
                                   src: Icons$BtsCore.textFormatBlack
@@ -331,13 +669,16 @@ function ToolBar(Props) {
                         left: "0",
                         xs: "no",
                         children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatUnderlined,
+                              padding: "4",
+                              onClick: underline,
                               children: null
                             }, React.createElement(Tooltip$BtsCore.make, {
                                   location: "top",
                                   backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "UnderLine"
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.underline",
+                                        defaultMessage: "Underline"
+                                      })
                                 }), React.createElement(IconAction$BtsCore.make, {
                                   animation: "leftRight",
                                   src: Icons$BtsCore.formatUnderlinedBlack
@@ -349,13 +690,16 @@ function ToolBar(Props) {
                         left: "0",
                         xs: "no",
                         children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatItalic,
+                              padding: "4",
+                              onClick: formatItalic,
                               children: null
                             }, React.createElement(Tooltip$BtsCore.make, {
                                   location: "top",
                                   backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "Italic"
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.italic",
+                                        defaultMessage: "Italic"
+                                      })
                                 }), React.createElement(IconAction$BtsCore.make, {
                                   animation: "leftRight",
                                   src: Icons$BtsCore.formatItalicBlack
@@ -367,13 +711,16 @@ function ToolBar(Props) {
                         left: "0",
                         xs: "no",
                         children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatBold,
+                              padding: "4",
+                              onClick: formatBold,
                               children: null
                             }, React.createElement(Tooltip$BtsCore.make, {
                                   location: "top",
                                   backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "Bold"
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.bold",
+                                        defaultMessage: "Bold"
+                                      })
                                 }), React.createElement(IconAction$BtsCore.make, {
                                   animation: "leftRight",
                                   src: Icons$BtsCore.formatBoldBlack
@@ -397,19 +744,58 @@ function ToolBar(Props) {
                         bottom: "0",
                         left: "6",
                         xs: "no",
-                        children: React.createElement(IconButton$BtsCore.make, {
-                              padding: "6",
-                              onClick: clickFormatSize,
-                              children: null
-                            }, React.createElement(Tooltip$BtsCore.make, {
-                                  location: "top",
-                                  backgroundColor: "rgba(255,0,0,0.8)",
-                                  children: "Size"
-                                }), React.createElement(IconAction$BtsCore.make, {
-                                  animation: "leftRight",
-                                  src: Icons$BtsCore.formatSizeBlack
-                                }))
-                      }), React.createElement(GridItem$BtsCore.make, {
+                        children: null
+                      }, React.createElement(IconButton$BtsCore.make, {
+                            padding: "4",
+                            onClick: showSize,
+                            children: null
+                          }, React.createElement(Tooltip$BtsCore.make, {
+                                location: "top",
+                                backgroundColor: "rgba(255,0,0,0.8)",
+                                children: React.createElement(ReactIntl.FormattedMessage, {
+                                      id: "Toolbar.size",
+                                      defaultMessage: "Size"
+                                    })
+                              }), React.createElement(IconAction$BtsCore.make, {
+                                animation: "leftRight",
+                                src: Icons$BtsCore.formatSizeBlack
+                              })), state.showSize ? React.createElement(React.Fragment, undefined, React.createElement(SelectMenu$BtsCore.make, {
+                                  top: "50%",
+                                  transform: "translate(0, -50%)",
+                                  width: "105",
+                                  maxHeight: "280",
+                                  minHeight: "0",
+                                  topLeft: "12",
+                                  topRight: "12",
+                                  bottomRight: "12",
+                                  bottomLeft: "12",
+                                  paddingRight: "8",
+                                  paddingLeft: "8",
+                                  children: $$Array.map((function (sizeitem) {
+                                          return React.createElement(MenuItem$BtsCore.make, {
+                                                      top: "0",
+                                                      right: "8",
+                                                      bottom: "0",
+                                                      left: "8",
+                                                      disablePadding: sizeitem.disablePadding,
+                                                      topLeft: "12",
+                                                      topRight: "12",
+                                                      bottomRight: "12",
+                                                      bottomLeft: "12",
+                                                      onClick: (function (param) {
+                                                          return Curry._1(clickSizeMenu, sizeitem.size);
+                                                        }),
+                                                      children: sizeitem.value
+                                                    });
+                                        }), state.sizeitems)
+                                }), React.createElement(BackgroundBoard$BtsCore.make, {
+                                  showBackground: state.showSize,
+                                  backgroundColor: "transparent",
+                                  onClick: showSize
+                                })) : null), React.createElement(GridItem$BtsCore.make, {
+                        style: {
+                          minWidth: "135px"
+                        },
                         top: "0",
                         right: "0",
                         bottom: "0",
@@ -421,46 +807,97 @@ function ToolBar(Props) {
                             right: "0",
                             bottom: "0",
                             left: "0",
-                            borderTop: "10",
-                            borderBottom: "4",
+                            borderTop: "6",
+                            borderBottom: "6",
+                            borderWidth: "0",
                             enterBorderColor: "rgba(255,0,0,0.8)",
                             downBorderColor: "rgba(255,0,0,0.6)",
                             borderColor: "rgba(0,0,0,0.2)",
-                            value: state.outValue,
-                            disabled: disabled,
-                            onClick: clickOutShow,
+                            value: state.name,
+                            disabled: Setting$BtsCore.disabledObjects(disabled),
+                            onClick: showName,
                             children: /* tuple */[
-                              state.showOut ? React.createElement(SelectMenu$BtsCore.make, {
+                              state.showName ? React.createElement(SelectMenu$BtsCore.make, {
                                       top: "50%",
                                       transform: "translate(0, -50%)",
-                                      width: "238",
                                       maxHeight: "280",
                                       minHeight: "0",
-                                      children: $$Array.map((function (outitem) {
-                                              return React.createElement(MenuIcon$BtsCore.make, {
-                                                          disablePadding: outitem.disablePadding,
+                                      topLeft: "12",
+                                      topRight: "12",
+                                      bottomRight: "12",
+                                      bottomLeft: "12",
+                                      paddingRight: "8",
+                                      paddingLeft: "8",
+                                      children: $$Array.map((function (nameitem) {
+                                              return React.createElement(MenuItem$BtsCore.make, {
+                                                          top: "0",
+                                                          right: "8",
+                                                          bottom: "0",
+                                                          left: "8",
+                                                          disablePadding: nameitem.optionPadding,
+                                                          topLeft: "12",
+                                                          topRight: "12",
+                                                          bottomRight: "12",
+                                                          bottomLeft: "12",
                                                           onClick: (function (param) {
-                                                              return Curry._1(clickItemOutValue, outitem.value);
+                                                              return Curry._1(clickNameMenu, nameitem.value);
                                                             }),
-                                                          children: /* tuple */[
-                                                            React.createElement(IconGeneral$BtsCore.make, {
-                                                                  src: outitem.icon
-                                                                }),
-                                                            outitem.value
-                                                          ]
+                                                          children: nameitem.value
                                                         });
-                                            }), state.outitems)
+                                            }), state.nameitems)
                                     }) : null,
                               React.createElement(IconGeneral$BtsCore.make, {
-                                    animation: IconAnimation$BtsCore.topDownRorate(state.showOut),
+                                    animation: IconAnimation$BtsCore.topDownRorate(state.showName),
                                     src: Icons$BtsCore.arrowDownBlack
                                   })
                             ]
                           }), React.createElement(BackgroundBoard$BtsCore.make, {
-                            showBackground: state.showOut,
+                            showBackground: state.showName,
                             backgroundColor: "transparent",
-                            onClick: clickOutShow
-                          })))
+                            onClick: showName
+                          })), React.createElement(GridItem$BtsCore.make, {
+                        top: "0",
+                        right: "0",
+                        bottom: "0",
+                        left: "6",
+                        xs: "no",
+                        children: React.createElement(IconButton$BtsCore.make, {
+                              padding: "4",
+                              onClick: clickRedo,
+                              children: null
+                            }, React.createElement(Tooltip$BtsCore.make, {
+                                  location: "top",
+                                  backgroundColor: "rgba(255,0,0,0.8)",
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.redo",
+                                        defaultMessage: "Redo"
+                                      })
+                                }), React.createElement(IconAction$BtsCore.make, {
+                                  animation: "leftRight",
+                                  src: Icons$BtsCore.redoBlack
+                                }))
+                      }), React.createElement(GridItem$BtsCore.make, {
+                        top: "0",
+                        right: "0",
+                        bottom: "0",
+                        left: "6",
+                        xs: "no",
+                        children: React.createElement(IconButton$BtsCore.make, {
+                              padding: "4",
+                              onClick: clickUndo,
+                              children: null
+                            }, React.createElement(Tooltip$BtsCore.make, {
+                                  location: "top",
+                                  backgroundColor: "rgba(255,0,0,0.8)",
+                                  children: React.createElement(ReactIntl.FormattedMessage, {
+                                        id: "Toolbar.undo",
+                                        defaultMessage: "Undo"
+                                      })
+                                }), React.createElement(IconAction$BtsCore.make, {
+                                  animation: "leftRight",
+                                  src: Icons$BtsCore.undoBlack
+                                }))
+                      }))
             });
 }
 

@@ -199,7 +199,7 @@ let make = (~autoPath: 'a, ~children) => {
       |> userData
       |> Form.record
       |> then_(response =>
-           ClickRecordItems(response##data##itemShow, response##data##items)
+           ClickRecordItems(response##data##showItem, response##data##items)
            |> dispatch
            |> resolve
          )

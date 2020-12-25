@@ -124,16 +124,25 @@ let make = (~autoPath: 'a, ~children) => {
   let (state, dispatch) = useReducer(reducer, initialState);
   let menuShow = autoPath === "bookmarks";
   let maxHeight = string_of_int(state.formHeight) ++ "px";
-  let badgeFormAJax = () =>
+  let badgeFormFunc: string => unit = [%bs.raw
+    badge => {| badgeFormAJax(badge); |}
+  ];
+  let badgeFormEror: string => unit = [%bs.raw
+    badge => {| setTimeout(() => badgeFormAJax(badge), 15000); |}
+  ];
+  let badgeFormAJax = badge =>
     Js.Promise.(
-      "newid"
-      |> Locals.select
-      |> userData
+      badge
+      |> otherData("newid" |> Locals.select)
       |> Form.badgeForm
       |> then_(response =>
-           SettingBadge(response##data##status) |> dispatch |> resolve
+           {
+             SettingBadge(response##data##status) |> dispatch;
+             response##data##status |> badgeFormFunc;
+           }
+           |> resolve
          )
-      |> catch(error => error |> Js.log |> resolve)
+      |> catch(_ => badge |> badgeFormEror |> resolve)
       |> ignore
     );
   let notification = () =>
@@ -180,7 +189,7 @@ let make = (~autoPath: 'a, ~children) => {
                Navigator.Browser.make |> Browser.success |> ignore;
                notificationAJax();
                //JsModules.Browsers.make |> ignore;
-               badgeFormAJax();
+               state.badge |> badgeFormAJax;
              | _ =>
                "" |> Locals.create("newid");
                autoPath |> Sessions.create("autoPath");
@@ -236,7 +245,7 @@ let make = (~autoPath: 'a, ~children) => {
       |> userData
       |> Form.record
       |> then_(response =>
-           ClickRecordItems(response##data##itemShow, response##data##items)
+           ClickRecordItems(response##data##showItem, response##data##items)
            |> dispatch
            |> resolve
          )
@@ -290,7 +299,7 @@ let make = (~autoPath: 'a, ~children) => {
       |> userData
       |> Form.badge
       |> then_(response =>
-           ClickBadgeItems(response##data##itemShow, response##data##items)
+           ClickBadgeItems(response##data##showItem, response##data##items)
            |> dispatch
            |> resolve
          )

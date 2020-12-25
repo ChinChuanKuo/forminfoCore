@@ -181,7 +181,7 @@ let make = (~autoPath: 'a, ~children) => {
       |> userData
       |> Form.badge
       |> then_(response =>
-           ClickBadgeItems(response##data##itemShow, response##data##items)
+           ClickBadgeItems(response##data##showItem, response##data##items)
            |> dispatch
            |> resolve
          )

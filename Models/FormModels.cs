@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using forminfoCore.App_Code;
 
 namespace forminfoCore.Models
@@ -70,12 +71,24 @@ namespace forminfoCore.Models
             return new loginModels() { status = "islock" };
         }
 
-        public statusModels GetBadgeFormModels(userData userData, string cuurip)
+        public statusModels GetBadgeFormModels(otherData otherData, string cuurip)
         {
+            bool isbreak = true;
+            string badge = "0";
+            database database = new database();
             List<dbparam> dbparamlist = new List<dbparam>();
-            dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
+            dbparamlist.Add(new dbparam("@newid", otherData.userid.TrimEnd()));
             dbparamlist.Add(new dbparam("@status", "0"));
-            return new statusModels() { status = new database().checkSelectSql("mssql", "flytrainstring", "exec web.countnoticeform @newid,@status;", dbparamlist).Rows[0]["counts"].ToString().TrimEnd() };
+            while (isbreak)
+            {
+                Thread.Sleep(5000);
+                badge = database.checkSelectSql("mssql", "flytrainstring", "exec web.countnoticeform @newid,@status;", dbparamlist).Rows[0]["counts"].ToString().TrimEnd();
+                if (badge != otherData.values.TrimEnd())
+                {
+                    isbreak = false;
+                }
+            }
+            return new statusModels() { status = badge };
         }
 
         public permissModels GetPermissModels(userData userData, string cuurip)
@@ -101,43 +114,34 @@ namespace forminfoCore.Models
             switch (mainRows.Rows.Count)
             {
                 case 0:
-                    return new itemsModels() { itemShow = false };
+                    return new itemsModels() { showItem = false };
             }
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             foreach (DataRow dr in mainRows.Rows)
             {
                 items.Add(new Dictionary<string, object>() { { "link", dr["link"].ToString().TrimEnd() }, { "icon", dr["icon"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() } });
             }
-            return new itemsModels() { itemShow = true, items = items };
+            return new itemsModels() { showItem = true, items = items };
         }
 
         public itemsModels GetBadgeModels(userData userData, string cuurip)
         {
             database database = new database();
-            List<dbparam> dbparamlist = new List<dbparam>();
-            dbparamlist.Add(new dbparam("@status", "1"));
-            dbparamlist.Add(new dbparam("@mooper", userData.userid.TrimEnd()));
-            dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
-            dbparamlist.Add(new dbparam("@changestatus", "0"));
-            if (database.checkActiveSql("mssql", "epaperstring", "update web.noticeform set status = @status,mooper = @mooper where newid = @newid and status = @changestatus;", dbparamlist) != "istrue")
-            {
-                return new itemsModels() { itemShow = false };
-            }
-            dbparamlist.Clear();
             DataTable mainRows = new DataTable();
-            dbparamlist.Add(new dbparam("@newid", userData.userid.TrimEnd()));
-            mainRows = database.checkSelectSql("mssql", "epaperstring", "exec web.searchnoticeform @newid;", dbparamlist);
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@inoper", userData.userid.TrimEnd()));
+            mainRows = database.checkSelectSql("mssql", "epaperstring", "exec web.updatenoticeform @inoper;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:
-                    return new itemsModels() { itemShow = false };
+                    return new itemsModels() { showItem = false };
             }
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             foreach (DataRow dr in mainRows.Rows)
             {
                 items.Add(new Dictionary<string, object>() { { "link", dr["link"].ToString().TrimEnd() }, { "name", dr["username"].ToString().TrimEnd().Substring(0, 1) }, { "value", dr["value"].ToString().TrimEnd() }, { "datetime", $"{dr["indate"].ToString().TrimEnd()} {dr["intime"].ToString().TrimEnd()}" } });
             }
-            return new itemsModels() { itemShow = true, items = items };
+            return new itemsModels() { showItem = true, items = items };
         }
     }
 }

@@ -145,7 +145,7 @@ let make = (~disabled: option(bool)=?, ~width: option(int)=?) => {
                        defaultMessage="Remove"
                      />
                    </Tooltip>
-                   <IconGeneral src=formatIndentIncreaseBlack />
+                   <IconGeneral src=formatClearBlack />
                  </MenuItem>
                  <MenuItem
                    top="0"
@@ -163,7 +163,7 @@ let make = (~disabled: option(bool)=?, ~width: option(int)=?) => {
                        defaultMessage="Strike"
                      />
                    </Tooltip>
-                   <IconGeneral src=formatIndentIncreaseBlack />
+                   <IconGeneral src=strikethroughSBlack />
                  </MenuItem>
                  {switch (intObjects(width) < 900) {
                   | true =>

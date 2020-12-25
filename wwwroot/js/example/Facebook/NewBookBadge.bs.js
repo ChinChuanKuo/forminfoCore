@@ -173,8 +173,8 @@ function NewBookBadge(Props) {
                                                                     xs: "no",
                                                                     children: React.createElement(Avatar$BtsCore.make, {
                                                                           style: {
-                                                                            height: "56px",
-                                                                            width: "56px"
+                                                                            height: "48px",
+                                                                            width: "48px"
                                                                           },
                                                                           top: "0",
                                                                           right: "0",
@@ -187,6 +187,7 @@ function NewBookBadge(Props) {
                                                                             }),
                                                                           children: React.createElement(Typography$BtsCore.make, {
                                                                                 variant: "tile",
+                                                                                color: "rgba(255,255,255,1)",
                                                                                 children: item.name
                                                                               })
                                                                         })

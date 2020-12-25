@@ -295,7 +295,7 @@ function NewGramBoard(Props) {
           Curry._1(dispatch, /* ShowRecord */0);
           Axiosapi$BtsCore.Form.record(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                     return Promise.resolve(Curry._1(dispatch, /* ClickRecordItems */Block.__(4, [
-                                      response.data.itemShow,
+                                      response.data.showItem,
                                       response.data.items
                                     ])));
                   })).catch((function (error) {

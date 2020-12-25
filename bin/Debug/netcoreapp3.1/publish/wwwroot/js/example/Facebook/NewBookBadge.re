@@ -146,8 +146,8 @@ let make =
                           xs="no">
                           <Avatar
                             style={ReactDOMRe.Style.make(
-                              ~width="56px",
-                              ~height="56px",
+                              ~width="48px",
+                              ~height="48px",
                               (),
                             )}
                             top="0"
@@ -157,7 +157,8 @@ let make =
                             enterBorderColor="transparent"
                             downBorderColor="transparent"
                             onClick={_ => item.link |> ReasonReactRouter.push}>
-                            <Typography variant="tile">
+                            <Typography
+                              variant="tile" color="rgba(255,255,255,1)">
                               {item.name |> string}
                             </Typography>
                           </Avatar>

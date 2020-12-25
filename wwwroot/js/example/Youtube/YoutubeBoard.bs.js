@@ -291,7 +291,7 @@ function YoutubeBoard(Props) {
           Curry._1(dispatch, /* ShowBadge */2);
           Axiosapi$BtsCore.Form.badge(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                     return Promise.resolve(Curry._1(dispatch, /* ClickBadgeItems */Block.__(4, [
-                                      response.data.itemShow,
+                                      response.data.showItem,
                                       response.data.items
                                     ])));
                   })).catch((function (error) {

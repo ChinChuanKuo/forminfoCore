@@ -54,7 +54,7 @@ namespace forminfoCore.Models
     public class itemsModels
     {
         [Required]
-        public bool itemShow { get; set; }
+        public bool showItem { get; set; }
         [Required]
         public List<Dictionary<string, object>> items { get; set; }
     }
@@ -201,7 +201,7 @@ namespace forminfoCore.Models
     public class sItemsModels
     {
         [Required]
-        public bool itemShow { get; set; }
+        public bool showItem { get; set; }
         [Required]
         public int itemCount { get; set; }
         [Required]

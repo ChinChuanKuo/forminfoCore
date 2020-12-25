@@ -396,11 +396,13 @@ function NewBookBoard(Props) {
   var state = match[0];
   var menuShow = autoPath === "bookmarks";
   var maxHeight = String(state.formHeight) + "px";
-  var badgeFormAJax = function (param) {
-    Axiosapi$BtsCore.Form.badgeForm(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
-              return Promise.resolve(Curry._1(dispatch, /* SettingBadge */Block.__(2, [response.data.status])));
-            })).catch((function (error) {
-            return Promise.resolve((console.log(error), undefined));
+  var badgeFormFunc = function (badge){ badgeFormAJax(badge); };
+  var badgeFormEror = function (badge){ setTimeout(() => badgeFormAJax(badge), 15000); };
+  var badgeFormAJax = function (badge) {
+    Axiosapi$BtsCore.Form.badgeForm(Data$BtsCore.otherData(localStorage.getItem("newid"), badge)).then((function (response) {
+              return Promise.resolve((Curry._1(dispatch, /* SettingBadge */Block.__(2, [response.data.status])), badgeFormFunc(response.data.status)));
+            })).catch((function (param) {
+            return Promise.resolve(badgeFormEror(badge));
           }));
     
   };
@@ -435,7 +437,7 @@ function NewBookBoard(Props) {
                 navigator.geolocation.getCurrentPosition(Basic$BtsCore.$$Location.success, Basic$BtsCore.$$Location.error, Basic$BtsCore.$$Location.items);
                 Basic$BtsCore.Browser.success(navigator.userAgent);
                 notificationAJax(undefined);
-                tmp = badgeFormAJax(undefined);
+                tmp = badgeFormAJax(state.badge);
               } else {
                 localStorage.setItem("newid", "");
                 sessionStorage.setItem("autoPath", autoPath);
@@ -488,7 +490,7 @@ function NewBookBoard(Props) {
           Curry._1(dispatch, /* ShowRecord */0);
           Axiosapi$BtsCore.Form.record(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                     return Promise.resolve(Curry._1(dispatch, /* ClickRecordItems */Block.__(4, [
-                                      response.data.itemShow,
+                                      response.data.showItem,
                                       response.data.items
                                     ])));
                   })).catch((function (error) {
@@ -534,7 +536,7 @@ function NewBookBoard(Props) {
           Curry._1(dispatch, /* ShowBadge */2);
           Axiosapi$BtsCore.Form.badge(Data$BtsCore.userData(localStorage.getItem("newid"))).then((function (response) {
                     return Promise.resolve(Curry._1(dispatch, /* ClickBadgeItems */Block.__(7, [
-                                      response.data.itemShow,
+                                      response.data.showItem,
                                       response.data.items
                                     ])));
                   })).catch((function (error) {
