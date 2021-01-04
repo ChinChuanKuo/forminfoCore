@@ -56,16 +56,16 @@ function Dialogs(Props) {
   var match = React.useReducer(reducer, initialState);
   var dispatch = match[1];
   var state = match[0];
-  var showDialog = React.useCallback((function (param) {
+  var clickDialogShow = React.useCallback((function (param) {
           return Curry._1(dispatch, /* ShowDialog */0);
         }));
-  var showAnimationBottom = React.useCallback((function (param) {
+  var clickAnimationBottomShow = React.useCallback((function (param) {
           return Curry._1(dispatch, /* ShowAnimationBottom */1);
         }));
   return React.createElement("div", undefined, React.createElement("div", {
-                  onClick: showDialog
+                  onClick: clickDialogShow
                 }, state.showDialog ? "dialog" : "123"), React.createElement("div", {
-                  onClick: showAnimationBottom
+                  onClick: clickAnimationBottomShow
                 }, state.showAnimationBottom ? "animationBottom" : "123"), React.createElement("div", {
                   onClick: (function (param) {
                       return Curry._1(dispatch, /* ShowAnimationRight */2);

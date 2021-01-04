@@ -79,7 +79,7 @@ function YoutubeTables(Props) {
                                                     children: data.value
                                                   })
                                             }));
-                            }), datas), children)
+                            }), Setting$BtsCore.arrayObjects(datas)), children)
                 }), Setting$BtsCore.disabledObjects(showDesc) ? React.createElement(GridItem$BtsCore.make, {
                     top: "0",
                     right: "0",
