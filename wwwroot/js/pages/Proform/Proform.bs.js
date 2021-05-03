@@ -1213,7 +1213,7 @@ function Proform(Props) {
   var changeFormTile = React.useCallback((function (value) {
           return Curry._1(dispatch, /* ChangeFormTile */Block.__(9, [value]));
         }));
-  React.useCallback((function (value) {
+  var changeFormDesc = React.useCallback((function (value) {
           return Curry._1(dispatch, /* ChangeFormDesc */Block.__(10, [value]));
         }));
   var sLimitAJax = function (i) {
@@ -2703,7 +2703,7 @@ function Proform(Props) {
               }), state.settitems);
         break;
     case 3 :
-        tmp = $$Array.mapi((function (i, viewitem) {
+        tmp = $$Array.map((function (viewitem) {
                 return React.createElement(React.Fragment, undefined, React.createElement(GridItem$BtsCore.make, {
                                 top: "0",
                                 right: "24",
@@ -3016,19 +3016,7 @@ function Proform(Props) {
                 }, React.createElement(DialogTitle$BtsCore.make, {
                       top: "6",
                       left: "64",
-                      children: React.createElement(TextFieldStandard$BtsCore.make, {
-                            width: "25",
-                            top: "0",
-                            right: "0",
-                            bottom: "0",
-                            left: "0",
-                            value: state.formTile,
-                            disabled: state.showProgress,
-                            onChange: (function ($$event) {
-                                return Curry._1(changeFormTile, $$event.target.value);
-                              }),
-                            children: null
-                          })
+                      children: null
                     }), React.createElement(DialogContent$BtsCore.make, {
                       children: React.createElement(DialogContentText$BtsCore.make, {
                             children: React.createElement(GridItem$BtsCore.make, {
@@ -3045,6 +3033,44 @@ function Proform(Props) {
                                         alignItem: "stretch",
                                         children: null
                                       }, React.createElement(GridItem$BtsCore.make, {
+                                            top: "0",
+                                            right: "24",
+                                            bottom: "0",
+                                            left: "24",
+                                            xs: "auto",
+                                            children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                                  labelColor: "rgba(255,0,0,0.8)",
+                                                  enterBorderColor: "rgba(255,0,0,0.8)",
+                                                  downBorderColor: "rgba(255,0,0,0.6)",
+                                                  borderColor: "rgba(0,0,0,0.2)",
+                                                  placeholder: "Project Tile",
+                                                  value: state.formTile,
+                                                  disabled: state.showProgress,
+                                                  onChange: (function ($$event) {
+                                                      return Curry._1(changeFormTile, $$event.target.value);
+                                                    }),
+                                                  children: null
+                                                })
+                                          }), React.createElement(GridItem$BtsCore.make, {
+                                            top: "0",
+                                            right: "24",
+                                            left: "24",
+                                            xs: "auto",
+                                            children: React.createElement(TextFieldStandard$BtsCore.make, {
+                                                  top: "8",
+                                                  labelColor: "rgba(255,0,0,0.8)",
+                                                  enterBorderColor: "rgba(255,0,0,0.8)",
+                                                  downBorderColor: "rgba(255,0,0,0.6)",
+                                                  borderColor: "rgba(0,0,0,0.2)",
+                                                  placeholder: "Project Desc",
+                                                  value: state.formDesc,
+                                                  disabled: state.showProgress,
+                                                  onChange: (function ($$event) {
+                                                      return Curry._1(changeFormDesc, $$event.target.value);
+                                                    }),
+                                                  children: null
+                                                })
+                                          }), React.createElement(GridItem$BtsCore.make, {
                                             style: {
                                               position: "sticky",
                                               top: "0px",

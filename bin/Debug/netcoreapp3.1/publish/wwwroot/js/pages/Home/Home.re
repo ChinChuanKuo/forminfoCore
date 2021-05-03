@@ -575,6 +575,7 @@ let make = _ => {
                  response##data##items,
                )
                |> dispatch;
+               ClickItemTab(0) |> dispatch;
                ActionShowProgress |> dispatch;
              | _ =>
                response##data##status
@@ -616,6 +617,7 @@ let make = _ => {
                  response##data##items,
                )
                |> dispatch;
+               ClickItemTab(1) |> dispatch;
                "saveSuccess" |> Status.statusModule |> barShowRestoreAction;
                ActionShowProgress |> dispatch;
              | _ =>
@@ -851,275 +853,289 @@ let make = _ => {
                          <FormattedMessage id="save" defaultMessage="Save" />
                        </Button>
                      </GridItem>
-                  | (_, _ , _) => null
+                   | (_, _, _) => null
                    }}
                 </GridContainer>
               </GridItem>
               {switch (state.index) {
                | 0 =>
-                 state.formitems
-                 |> Array.mapi((i, formitem) =>
-                      <GridItem top="0" right="24" left="24" xs="auto">
-                        <CardOrPaperBoard showLine=true>
-                          <GridContainer
-                            direction="column"
-                            justify="start"
-                            alignItem="stretch">
-                            <GridItem right="20" left="20" xs="auto">
-                              <Typography
-                                variant="subheading"
-                                fontSize="1.2rem"
-                                fontWeight="bolder">
-                                {formitem.title |> string}
-                              </Typography>
-                            </GridItem>
-                            <GridItem top="0" bottom="0" xs="auto">
-                              {switch (formitem.outValue) {
-                               | "label" =>
+                 <>
+                   <GridItem top="6" right="27" left="27" xs="auto">
+                     <Typography variant="subheading">
+                       {state.formDesc |> string}
+                     </Typography>
+                   </GridItem>
+                   {state.formitems
+                    |> Array.mapi((i, formitem) =>
+                         <GridItem top="0" right="24" left="24" xs="auto">
+                           <CardOrPaperBoard showLine=true>
+                             <GridContainer
+                               direction="column"
+                               justify="start"
+                               alignItem="stretch">
+                               <GridItem right="20" left="20" xs="auto">
                                  <Typography
-                                   variant="subtitle2"
-                                   style={ReactDOMRe.Style.make(
-                                     ~paddingLeft="6px",
-                                     ~paddingRight="6px",
-                                     (),
-                                   )}
-                                   noWrap=true>
-                                   null
+                                   variant="subheading"
+                                   fontSize="1.2rem"
+                                   fontWeight="bolder">
+                                   {formitem.title |> string}
                                  </Typography>
-                               | "image" =>
-                                 <ImageUpload
-                                   webLoad={state.showProgress}
-                                   showDrop={formitem.showDrop}
-                                   showFile={formitem.showFile}
-                                   src={formitem.value}
-                                   fileRef
-                                   onDragOver={event => i |> dragOver(event)}
-                                   onDragLeave={event =>
-                                     i |> dragLeave(event)
-                                   }
-                                   onDrop={event =>
-                                     i
-                                     |> dropFile(
-                                          event,
-                                          ReactEventRe.Synthetic.nativeEvent(
-                                            event,
-                                          )##dataTransfer##files[0],
-                                        )
-                                   }
-                                   disabled={state.showProgress}
-                                   onClick=chooseFile
-                                   onChange={event =>
-                                     i
-                                     |> uploadFile(
-                                          ReactEvent.Form.target(event)##files[0],
-                                        )
-                                   }
-                                 />
-                               | "text" =>
-                                 <TextFieldStandard
-                                   width="50"
-                                   top="0"
-                                   enterBorderColor="rgba(255,0,0,0.8)"
-                                   downBorderColor="rgba(255,0,0,0.6)"
-                                   borderColor="rgba(0,0,0,0.2)"
-                                   value={formitem.value}
-                                   disabled={state.showProgress}
-                                   onChange={event =>
-                                     i
-                                     |> changeValue(
-                                          ReactEvent.Form.target(event)##value,
-                                        )
-                                   }>
-                                   null
-                                 </TextFieldStandard>
-                               | "textarea" =>
-                                 <TextFieldStandard
-                                   top="0"
-                                   enterBorderColor="rgba(255,0,0,0.8)"
-                                   downBorderColor="rgba(255,0,0,0.6)"
-                                   borderColor="rgba(0,0,0,0.2)"
-                                   value={formitem.value}
-                                   disabled={state.showProgress}
-                                   onChange={event =>
-                                     i
-                                     |> changeValue(
-                                          ReactEvent.Form.target(event)##value,
-                                        )
-                                   }>
-                                   null
-                                 </TextFieldStandard>
-                               | "textline" =>
-                                 <TextFieldMultiline
-                                   top="12"
-                                   bottom="12"
-                                   labelColor="rgba(255,0,0,0.8)"
-                                   borderTop="10"
-                                   borderBottom="10"
-                                   enterBorderColor="rgba(255,0,0,0.8)"
-                                   downBorderColor="rgba(255,0,0,0.6)"
-                                   borderColor="rgba(0,0,0,0.2)"
-                                   rows=3
-                                   value={formitem.value}
-                                   disabled={state.showProgress}
-                                   onChange={event =>
-                                     i
-                                     |> changeValue(
-                                          ReactEvent.Form.target(event)##value,
-                                        )
-                                   }>
-                                   null
-                                 </TextFieldMultiline>
-                               | "droplist" =>
-                                 <>
-                                   <SelectStandard
-                                     top="12"
-                                     right="10"
-                                     bottom="10"
-                                     left="10"
-                                     enterBorderColor="rgba(255,0,0,0.8)"
-                                     downBorderColor="rgba(255,0,0,0.6)"
-                                     borderColor="rgba(0,0,0,0.2)"
-                                     value={formitem.value}
-                                     disabled={state.showProgress}
-                                     onClick={_ => i |> showMenu}>
-                                     ...(
-                                          formitem.showMenu
-                                            ? <SelectMenu
-                                                top="50%"
-                                                transform="translate(0, -50%)"
-                                                maxHeight="280"
-                                                minHeight="0"
-                                                topLeft="12"
-                                                topRight="12"
-                                                bottomRight="12"
-                                                bottomLeft="12"
-                                                paddingRight="8"
-                                                paddingLeft="8">
-                                                {formitem.answeritems
-                                                 |> Array.map(answeritem =>
-                                                      <MenuItem
-                                                        top="0"
-                                                        right="8"
-                                                        bottom="0"
-                                                        left="8"
-                                                        topLeft="12"
-                                                        topRight="12"
-                                                        bottomRight="12"
-                                                        bottomLeft="12"
-                                                        onClick={_ =>
-                                                          i
-                                                          |> clickMenu(
-                                                               answeritem.
-                                                                 values,
-                                                             )
-                                                        }>
-                                                        {answeritem.values
-                                                         |> string}
-                                                      </MenuItem>
-                                                    )
-                                                 |> array}
-                                              </SelectMenu>
-                                            : null,
-                                          <IconGeneral
-                                            animation={
-                                              formitem.showMenu
-                                              |> topDownRorate
-                                            }
-                                            src=arrowDownBlack
-                                          />,
-                                        )
-                                   </SelectStandard>
-                                   <BackgroundBoard
-                                     showBackground={formitem.showMenu}
-                                     backgroundColor="transparent"
-                                     onClick={_ => i |> showMenu}
-                                   />
-                                 </>
-                               | _ =>
-                                 <GridContainer
-                                   direction="column"
-                                   justify="center"
-                                   alignItem="stretch">
-                                   {formitem.answeritems
-                                    |> Array.mapi((ai, answeritem) =>
-                                         <GridItem
-                                           top="0"
-                                           bottom="6"
-                                           left="0"
-                                           right="0"
-                                           xs="auto">
-                                           <GridContainer
-                                             direction="row"
-                                             justify="start"
-                                             alignItem="center">
-                                             <GridItem
-                                               top="0"
-                                               right="0"
-                                               bottom="0"
-                                               left="0"
-                                               xs="no">
-                                               <IconButton
-                                                 padding="4"
-                                                 disabled={state.showProgress}
-                                                 onClick={_ =>
-                                                   i
-                                                   |> clickElement(
-                                                        formitem.outValue,
-                                                        ai,
-                                                      )
-                                                 }>
-                                                 <IconAction
-                                                   animation="leftRight"
-                                                   src={
-                                                     answeritem.showAnswer
-                                                     |> answerIcon(
-                                                          formitem.outValue,
-                                                        )
-                                                   }
-                                                 />
-                                               </IconButton>
-                                             </GridItem>
-                                             <GridItem
-                                               top="0"
-                                               right="6"
-                                               bottom="0"
-                                               left="0"
-                                               xs="auto">
-                                               <Typography variant="subtitle1">
-                                                 {answeritem.values |> string}
-                                               </Typography>
-                                             </GridItem>
-                                             {switch (
-                                                state.formFinish,
-                                                state.formExam,
-                                                answeritem.showRight,
-                                              ) {
-                                              | (true, true, true) =>
+                               </GridItem>
+                               <GridItem top="0" bottom="0" xs="auto">
+                                 {switch (formitem.outValue) {
+                                  | "label" =>
+                                    <Typography
+                                      variant="subtitle2"
+                                      style={ReactDOMRe.Style.make(
+                                        ~paddingLeft="6px",
+                                        ~paddingRight="6px",
+                                        (),
+                                      )}
+                                      noWrap=true>
+                                      null
+                                    </Typography>
+                                  | "image" =>
+                                    <ImageUpload
+                                      webLoad={state.showProgress}
+                                      showDrop={formitem.showDrop}
+                                      showFile={formitem.showFile}
+                                      src={formitem.value}
+                                      fileRef
+                                      onDragOver={event =>
+                                        i |> dragOver(event)
+                                      }
+                                      onDragLeave={event =>
+                                        i |> dragLeave(event)
+                                      }
+                                      onDrop={event =>
+                                        i
+                                        |> dropFile(
+                                             event,
+                                             ReactEventRe.Synthetic.nativeEvent(
+                                               event,
+                                             )##dataTransfer##files[0],
+                                           )
+                                      }
+                                      disabled={state.showProgress}
+                                      onClick=chooseFile
+                                      onChange={event =>
+                                        i
+                                        |> uploadFile(
+                                             ReactEvent.Form.target(event)##files[0],
+                                           )
+                                      }
+                                    />
+                                  | "text" =>
+                                    <TextFieldStandard
+                                      width="50"
+                                      top="0"
+                                      enterBorderColor="rgba(255,0,0,0.8)"
+                                      downBorderColor="rgba(255,0,0,0.6)"
+                                      borderColor="rgba(0,0,0,0.2)"
+                                      value={formitem.value}
+                                      disabled={state.showProgress}
+                                      onChange={event =>
+                                        i
+                                        |> changeValue(
+                                             ReactEvent.Form.target(event)##value,
+                                           )
+                                      }>
+                                      null
+                                    </TextFieldStandard>
+                                  | "textarea" =>
+                                    <TextFieldStandard
+                                      top="0"
+                                      enterBorderColor="rgba(255,0,0,0.8)"
+                                      downBorderColor="rgba(255,0,0,0.6)"
+                                      borderColor="rgba(0,0,0,0.2)"
+                                      value={formitem.value}
+                                      disabled={state.showProgress}
+                                      onChange={event =>
+                                        i
+                                        |> changeValue(
+                                             ReactEvent.Form.target(event)##value,
+                                           )
+                                      }>
+                                      null
+                                    </TextFieldStandard>
+                                  | "textline" =>
+                                    <TextFieldMultiline
+                                      top="12"
+                                      bottom="12"
+                                      labelColor="rgba(255,0,0,0.8)"
+                                      borderTop="10"
+                                      borderBottom="10"
+                                      enterBorderColor="rgba(255,0,0,0.8)"
+                                      downBorderColor="rgba(255,0,0,0.6)"
+                                      borderColor="rgba(0,0,0,0.2)"
+                                      rows=3
+                                      value={formitem.value}
+                                      disabled={state.showProgress}
+                                      onChange={event =>
+                                        i
+                                        |> changeValue(
+                                             ReactEvent.Form.target(event)##value,
+                                           )
+                                      }>
+                                      null
+                                    </TextFieldMultiline>
+                                  | "droplist" =>
+                                    <>
+                                      <SelectStandard
+                                        top="12"
+                                        right="10"
+                                        bottom="10"
+                                        left="10"
+                                        enterBorderColor="rgba(255,0,0,0.8)"
+                                        downBorderColor="rgba(255,0,0,0.6)"
+                                        borderColor="rgba(0,0,0,0.2)"
+                                        value={formitem.value}
+                                        disabled={state.showProgress}
+                                        onClick={_ => i |> showMenu}>
+                                        ...(
+                                             formitem.showMenu
+                                               ? <SelectMenu
+                                                   top="50%"
+                                                   transform="translate(0, -50%)"
+                                                   maxHeight="280"
+                                                   minHeight="0"
+                                                   topLeft="12"
+                                                   topRight="12"
+                                                   bottomRight="12"
+                                                   bottomLeft="12"
+                                                   paddingRight="8"
+                                                   paddingLeft="8">
+                                                   {formitem.answeritems
+                                                    |> Array.map(answeritem =>
+                                                         <MenuItem
+                                                           top="0"
+                                                           right="8"
+                                                           bottom="0"
+                                                           left="8"
+                                                           topLeft="12"
+                                                           topRight="12"
+                                                           bottomRight="12"
+                                                           bottomLeft="12"
+                                                           onClick={_ =>
+                                                             i
+                                                             |> clickMenu(
+                                                                  answeritem.
+                                                                    values,
+                                                                )
+                                                           }>
+                                                           {answeritem.values
+                                                            |> string}
+                                                         </MenuItem>
+                                                       )
+                                                    |> array}
+                                                 </SelectMenu>
+                                               : null,
+                                             <IconGeneral
+                                               animation={
+                                                 formitem.showMenu
+                                                 |> topDownRorate
+                                               }
+                                               src=arrowDownBlack
+                                             />,
+                                           )
+                                      </SelectStandard>
+                                      <BackgroundBoard
+                                        showBackground={formitem.showMenu}
+                                        backgroundColor="transparent"
+                                        onClick={_ => i |> showMenu}
+                                      />
+                                    </>
+                                  | _ =>
+                                    <GridContainer
+                                      direction="column"
+                                      justify="center"
+                                      alignItem="stretch">
+                                      {formitem.answeritems
+                                       |> Array.mapi((ai, answeritem) =>
+                                            <GridItem
+                                              top="0"
+                                              bottom="6"
+                                              left="0"
+                                              right="0"
+                                              xs="auto">
+                                              <GridContainer
+                                                direction="row"
+                                                justify="start"
+                                                alignItem="center">
                                                 <GridItem
                                                   top="0"
                                                   right="0"
                                                   bottom="0"
                                                   left="0"
                                                   xs="no">
-                                                  <IconAction
-                                                    animation="leftRight"
-                                                    src=doneSuccessful
-                                                  />
+                                                  <IconButton
+                                                    padding="4"
+                                                    disabled={
+                                                               state.
+                                                                 showProgress
+                                                             }
+                                                    onClick={_ =>
+                                                      i
+                                                      |> clickElement(
+                                                           formitem.outValue,
+                                                           ai,
+                                                         )
+                                                    }>
+                                                    <IconAction
+                                                      animation="leftRight"
+                                                      src={
+                                                        answeritem.showAnswer
+                                                        |> answerIcon(
+                                                             formitem.outValue,
+                                                           )
+                                                      }
+                                                    />
+                                                  </IconButton>
                                                 </GridItem>
-                                              | (_, _, _) => null
-                                              }}
-                                           </GridContainer>
-                                         </GridItem>
-                                       )
-                                    |> array}
-                                 </GridContainer>
-                               }}
-                            </GridItem>
-                          </GridContainer>
-                        </CardOrPaperBoard>
-                      </GridItem>
-                    )
-                 |> array
+                                                <GridItem
+                                                  top="0"
+                                                  right="6"
+                                                  bottom="0"
+                                                  left="0"
+                                                  xs="auto">
+                                                  <Typography
+                                                    variant="subtitle1">
+                                                    {answeritem.values
+                                                     |> string}
+                                                  </Typography>
+                                                </GridItem>
+                                                {switch (
+                                                   state.formFinish,
+                                                   state.formExam,
+                                                   answeritem.showRight,
+                                                 ) {
+                                                 | (true, true, true) =>
+                                                   <GridItem
+                                                     top="0"
+                                                     right="0"
+                                                     bottom="0"
+                                                     left="0"
+                                                     xs="no">
+                                                     <IconAction
+                                                       animation="leftRight"
+                                                       src=doneSuccessful
+                                                     />
+                                                   </GridItem>
+                                                 | (_, _, _) => null
+                                                 }}
+                                              </GridContainer>
+                                            </GridItem>
+                                          )
+                                       |> array}
+                                    </GridContainer>
+                                  }}
+                               </GridItem>
+                             </GridContainer>
+                           </CardOrPaperBoard>
+                         </GridItem>
+                       )
+                    |> array}
+                 </>
                | _ =>
                  <div style=errorForm>
                    {switch (state.formFinish, state.formExam) {

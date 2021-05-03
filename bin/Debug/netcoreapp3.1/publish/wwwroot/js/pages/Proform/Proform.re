@@ -1627,21 +1627,7 @@ let make = _ => {
       </DialogActions>
     </DialogAnimationRight>
     <DialogFull showAnimation={state.showFull}>
-      <DialogTitle top="6" left="64">
-        <TextFieldStandard
-          width="25"
-          top="0"
-          right="0"
-          bottom="0"
-          left="0"
-          value={state.formTile}
-          disabled={state.showProgress}
-          onChange={event =>
-            ReactEvent.Form.target(event)##value |> changeFormTile
-          }>
-          null
-        </TextFieldStandard>
-      </DialogTitle>
+      <DialogTitle top="6" left="64"> null </DialogTitle>
       <DialogContent>
         <DialogContentText>
           <GridItem
@@ -1654,6 +1640,37 @@ let make = _ => {
             maxWidth="770px">
             <GridContainer
               direction="column" justify="center" alignItem="stretch">
+                        <GridItem top="0" right="24" bottom="0" left="24" xs="auto">
+            <TextFieldStandard
+              labelColor="rgba(255,0,0,0.8)"
+              enterBorderColor="rgba(255,0,0,0.8)"
+              downBorderColor="rgba(255,0,0,0.6)"
+              borderColor="rgba(0,0,0,0.2)"
+              placeholder="Project Tile"
+              value={state.formTile}
+              disabled={state.showProgress}
+              onChange={event =>
+                ReactEvent.Form.target(event)##value |> changeFormTile
+              }>
+              null
+            </TextFieldStandard>
+          </GridItem>
+                    <GridItem top="0" right="24" left="24" xs="auto">
+            <TextFieldStandard
+              top="8"
+              labelColor="rgba(255,0,0,0.8)"
+              enterBorderColor="rgba(255,0,0,0.8)"
+              downBorderColor="rgba(255,0,0,0.6)"
+              borderColor="rgba(0,0,0,0.2)"
+              placeholder="Project Desc"
+              value={state.formDesc}
+              disabled={state.showProgress}
+              onChange={event =>
+                ReactEvent.Form.target(event)##value |> changeFormDesc
+              }>
+              null
+            </TextFieldStandard>
+          </GridItem>
               <GridItem
                 style={ReactDOMRe.Style.make(
                   ~position="sticky",
@@ -3078,7 +3095,7 @@ let make = _ => {
                  |> array
                | 3 =>
                  state.viewitems
-                 |> Array.mapi((i, viewitem) =>
+                 |> Array.map(viewitem =>
                       <>
                         <GridItem top="0" right="24" left="24" xs="auto">
                           <GridContainer
