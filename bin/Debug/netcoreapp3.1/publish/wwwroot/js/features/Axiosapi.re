@@ -97,6 +97,7 @@ module Proform = {
   let sType = data => postData("/Proform/sTypeData", data);
   let sVeri = data => postData("/Proform/sVeriData", data);
   let sLimit = data => postData("/Proform/sLimitData", data);
+  let sWrite = data => postData("/Proform/sWriteData", data);
   let sOper = data => postData("/Proform/sOperData", data);
   let add = data => postData("/Proform/addData", data);
   let delete = data => postData("/Proform/deleteData", data);

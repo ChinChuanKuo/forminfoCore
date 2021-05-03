@@ -821,7 +821,7 @@ let make = _ => {
                      state.formRestart,
                      state.formExam,
                    ) {
-                   | (true, true, _) =>
+                   | (true, true, true) =>
                      <GridItem top="0" right="0" bottom="0" left="0" xs="no">
                        <Button
                          disabled={state.showProgress} onClick=restartForm>
@@ -832,7 +832,7 @@ let make = _ => {
                          />
                        </Button>
                      </GridItem>
-                   | (_, _, true) =>
+                   | (false, _, true) =>
                      <GridItem top="0" right="0" bottom="0" left="0" xs="no">
                        <Button
                          disabled={state.showProgress} onClick=insertForm>
@@ -851,6 +851,7 @@ let make = _ => {
                          <FormattedMessage id="save" defaultMessage="Save" />
                        </Button>
                      </GridItem>
+                  | (_, _ , _) => null
                    }}
                 </GridContainer>
               </GridItem>

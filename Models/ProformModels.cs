@@ -205,6 +205,64 @@ namespace forminfoCore.Models
             return new sOptonModels() { items = items };
         }
 
+        public sOptonModels GetSWriteModels(dFormData dFormData, string cuurip)
+        {
+            database database = new database();
+            DataTable mainRows = new DataTable();
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+            dbparamlist.Add(new dbparam("@inoper", dFormData.newid.TrimEnd()));
+            mainRows = database.checkSelectSql("mssql", "flyformstring", "select examed,limited from web.mainform where formId = @formId and inoper = @inoper;", dbparamlist);
+            switch (mainRows.Rows.Count)
+            {
+                case 0:
+                    return new sOptonModels() { items = new List<Dictionary<string, object>>() };
+            }
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            switch (mainRows.Rows[0]["examed"].ToString().TrimEnd())
+            {
+                case "0":
+                    dbparamlist.Clear();
+                    dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select inoper from web.millform where formId = @formId;", dbparamlist).Rows)
+                    {
+                        dbparamlist.Clear();
+                        DataTable subRows = new DataTable();
+                        dbparamlist.Add(new dbparam("@newid", dr["inoper"].ToString().TrimEnd()));
+                        subRows = database.checkSelectSql("mssql", "epaperstring", "select userid, username from web.siteber where newid = @newid;", dbparamlist);
+                        items.Add(new Dictionary<string, object>() { { "vnewid", dr["inoper"].ToString().TrimEnd() }, { "vuserid", subRows.Rows[0]["userid"].ToString().TrimEnd() }, { "vname", subRows.Rows[0]["username"].ToString().TrimEnd() }, { "writed", "已填寫" }, { "score", "" } });
+                    }
+                    return new sOptonModels() { items = items };
+            }
+            switch (mainRows.Rows[0]["limited"].ToString().TrimEnd())
+            {
+                case "0":
+                    dbparamlist.Clear();
+                    dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select score,inoper from web.millform where formId = @formId;", dbparamlist).Rows)
+                    {
+                        dbparamlist.Clear();
+                        DataTable subRows = new DataTable();
+                        dbparamlist.Add(new dbparam("@newid", dr["inoper"].ToString().TrimEnd()));
+                        subRows = database.checkSelectSql("mssql", "epaperstring", "select userid, username from web.siteber where newid = @newid;", dbparamlist);
+                        items.Add(new Dictionary<string, object>() { { "vnewid", dr["inoper"].ToString().TrimEnd() }, { "vuserid", subRows.Rows[0]["userid"].ToString().TrimEnd() }, { "vname", subRows.Rows[0]["username"].ToString().TrimEnd() }, { "writed", "已填寫" }, { "score", $"{dr["score"].ToString().TrimEnd()}分" } });
+                    }
+                    return new sOptonModels() { items = items };
+            }
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select newid from web.operform where formId = @formId and inoper = @inoper;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                DataTable subRows = new DataTable();
+                dbparamlist.Add(new dbparam("@newid", dr["newid"].ToString().TrimEnd()));
+                subRows = database.checkSelectSql("mssql", "epaperstring", "select userid, username from web.siteber where newid = @newid;", dbparamlist);
+                DataTable otherRows = new DataTable();
+                dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
+                otherRows = database.checkSelectSql("mssql", "epaperstring", "select score from web.millform where formId = @formId and inoper = @newid;", dbparamlist);
+                items.Add(new Dictionary<string, object>() { { "vnewid", dr["newid"].ToString().TrimEnd() }, { "vuserid", subRows.Rows[0]["userid"].ToString().TrimEnd() }, { "vname", subRows.Rows[0]["username"].ToString().TrimEnd() }, { "writed", otherRows.Rows.Count > 0 ? "已填寫" : "未填寫" }, { "score", otherRows.Rows.Count > 0 ? $"{otherRows.Rows[0]["score"].ToString().TrimEnd()}分" : "" } });
+            }
+            return new sOptonModels() { items = items };
+        }
+
         public sOptonModels GetSoperModels(sRowsData sRowsData, string cuurip)
         {
             database database = new database();

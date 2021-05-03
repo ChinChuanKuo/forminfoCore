@@ -40,6 +40,14 @@ type settitem = {
   number: string,
 };
 
+type viewitem = {
+  vnewid: string,
+  vuserid: string,
+  vname: string,
+  writed: string,
+  score: string,
+};
+
 type answeritem = {
   id: int,
   value: string,
@@ -107,6 +115,7 @@ type state = {
   formindex: int,
   formitems: array(formitem),
   settitems: array(settitem),
+  viewitems: array(viewitem),
   showYoutube: bool,
   youtubeText: string,
 };
@@ -180,6 +189,7 @@ type action =
       array(formitem),
       array(settitem),
     )
+  | SettingViewItems(array(viewitem))
   | ChangeFormTile(string)
   | ChangeFormDesc(string)
   | ClickFormTab(int)
@@ -280,6 +290,7 @@ let reducer = (state, action) =>
       formindex: 0,
       showFull: !state.showFull,
     }
+  | SettingViewItems(viewitems) => {...state, viewitems}
   | ChangeFormTile(value) => {...state, formTile: value}
   | ChangeFormDesc(value) => {...state, formDesc: value}
   | ClickFormTab(index) => {
@@ -823,6 +834,7 @@ let initialState = {
   formindex: 0,
   formitems: [||],
   settitems: [||],
+  viewitems: [||],
   showYoutube: false,
   youtubeText: "",
 };
@@ -1124,6 +1136,23 @@ let make = _ => {
       |> ignore
     );
 
+  let sWriteAJax = i =>
+    Js.Promise.(
+      "newid"
+      |> Locals.select
+      |> dFormData(state.formId)
+      |> Axiosapi.Proform.sWrite
+      |> then_(response =>
+           {
+             SettingViewItems(response##data##items) |> dispatch;
+             ActionShowProgress |> dispatch;
+           }
+           |> resolve
+         )
+      |> catch(error => error |> Js.log |> resolve)
+      |> ignore
+    );
+
   let clickFormTab =
     useCallback(i => {
       ClickFormTab(i) |> dispatch;
@@ -1132,6 +1161,7 @@ let make = _ => {
         0 |> sLimitAJax;
       } else if (i == 3) {
         ActionShowProgress |> dispatch;
+        0 |> sWriteAJax;
       };
     });
 
@@ -3043,6 +3073,48 @@ let make = _ => {
                                 |> array}
                              </GridItem>
                            : null}
+                      </>
+                    )
+                 |> array
+               | 3 =>
+                 state.viewitems
+                 |> Array.mapi((i, viewitem) =>
+                      <>
+                        <GridItem top="0" right="24" left="24" xs="auto">
+                          <GridContainer
+                            direction="row"
+                            justify="center"
+                            alignItem="center">
+                            <GridItem
+                              top="0" right="0" bottom="0" left="0" xs="auto">
+                              <Typography
+                                variant="body1" color="rgba(0,0,0,0.8)">
+                                {viewitem.vuserid |> string}
+                              </Typography>
+                            </GridItem>
+                            <GridItem
+                              top="0" right="0" bottom="0" left="0" xs="auto">
+                              <Typography
+                                variant="body1" color="rgba(0,0,0,0.8)">
+                                {viewitem.vname |> string}
+                              </Typography>
+                            </GridItem>
+                            <GridItem
+                              top="0" right="0" bottom="0" left="0" xs="auto">
+                              <Typography
+                                variant="body1" color="rgba(0,0,0,0.8)">
+                                {viewitem.writed |> string}
+                              </Typography>
+                            </GridItem>
+                            <GridItem
+                              top="0" right="0" bottom="0" left="0" xs="auto">
+                              <Typography
+                                variant="body1" color="rgba(0,0,0,0.8)">
+                                {viewitem.score |> string}
+                              </Typography>
+                            </GridItem>
+                          </GridContainer>
+                        </GridItem>
                       </>
                     )
                  |> array

@@ -278,6 +278,7 @@ let make = (~autoPath: 'a, ~children) => {
       ClickItemTab(i) |> dispatch;
       tabPath |> ReasonReactRouter.push;
     });
+  let clickChip = useCallback(_ => proformPath |> ReasonReactRouter.push);
   let showCreate = useCallback(_ => ShowCreate |> dispatch);
   let createForm =
     useCallback(_ => {
@@ -448,7 +449,8 @@ let make = (~autoPath: 'a, ~children) => {
                      right="0"
                      enterBorderWidth="0"
                      downBorderWidth="0"
-                     borderWidth="0">
+                     borderWidth="0"
+                     onClick=clickChip>
                      ...(
                           <Typography variant="subtitle2">
                             {"name" |> Locals.select |> checkObjects |> string}

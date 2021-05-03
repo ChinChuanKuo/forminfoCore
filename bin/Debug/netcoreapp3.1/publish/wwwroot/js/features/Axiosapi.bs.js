@@ -249,6 +249,10 @@ function sLimit$1(data) {
   return Axios$1.post("/Proform/sLimitData", data);
 }
 
+function sWrite(data) {
+  return Axios$1.post("/Proform/sWriteData", data);
+}
+
 function sOper$1(data) {
   return Axios$1.post("/Proform/sOperData", data);
 }
@@ -273,6 +277,7 @@ var Proform = {
   sType: sType$1,
   sVeri: sVeri$1,
   sLimit: sLimit$1,
+  sWrite: sWrite,
   sOper: sOper$1,
   add: add$2,
   $$delete: $$delete$1,

@@ -60,6 +60,13 @@ namespace forminfoCore.Controllers
         }
 
         [HttpPost]
+        public JsonResult sWriteData([FromBody] dFormData dFormData)
+        {
+            string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
+            return Json(new ProformClass().GetSWriteModels(dFormData, clientip));
+        }
+
+        [HttpPost]
         public JsonResult sOperData([FromBody] sRowsData sRowsData)
         {
             string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();

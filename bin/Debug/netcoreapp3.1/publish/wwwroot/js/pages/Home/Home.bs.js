@@ -648,7 +648,30 @@ function Home(Props) {
   var match$3 = state.formExam;
   var tmp;
   var exit = 0;
-  if (match$1 && match$2) {
+  if (match$1) {
+    if (match$2 && match$3) {
+      tmp = React.createElement(GridItem$BtsCore.make, {
+            top: "0",
+            right: "0",
+            bottom: "0",
+            left: "0",
+            xs: "no",
+            children: React.createElement(Button$BtsCore.make, {
+                  disabled: state.showProgress,
+                  onClick: restartForm,
+                  children: null
+                }, React.createElement(IconAction$BtsCore.make, {
+                      animation: "leftRight",
+                      src: Icons$BtsCore.refreshWhite
+                    }), React.createElement(ReactIntl.FormattedMessage, {
+                      id: "Formor.restart",
+                      defaultMessage: "Restart"
+                    }))
+          });
+    } else {
+      exit = 1;
+    }
+  } else if (match$3) {
     tmp = React.createElement(GridItem$BtsCore.make, {
           top: "0",
           right: "0",
@@ -657,38 +680,21 @@ function Home(Props) {
           xs: "no",
           children: React.createElement(Button$BtsCore.make, {
                 disabled: state.showProgress,
-                onClick: restartForm,
+                onClick: insertForm,
                 children: null
               }, React.createElement(IconAction$BtsCore.make, {
                     animation: "leftRight",
-                    src: Icons$BtsCore.refreshWhite
+                    src: Icons$BtsCore.sendWhite
                   }), React.createElement(ReactIntl.FormattedMessage, {
-                    id: "Formor.restart",
-                    defaultMessage: "Restart"
+                    id: "Default.send",
+                    defaultMessage: "Send"
                   }))
         });
   } else {
     exit = 1;
   }
   if (exit === 1) {
-    tmp = match$3 ? React.createElement(GridItem$BtsCore.make, {
-            top: "0",
-            right: "0",
-            bottom: "0",
-            left: "0",
-            xs: "no",
-            children: React.createElement(Button$BtsCore.make, {
-                  disabled: state.showProgress,
-                  onClick: insertForm,
-                  children: null
-                }, React.createElement(IconAction$BtsCore.make, {
-                      animation: "leftRight",
-                      src: Icons$BtsCore.sendWhite
-                    }), React.createElement(ReactIntl.FormattedMessage, {
-                      id: "Default.send",
-                      defaultMessage: "Send"
-                    }))
-          }) : React.createElement(GridItem$BtsCore.make, {
+    tmp = match$3 ? null : React.createElement(GridItem$BtsCore.make, {
             top: "0",
             right: "0",
             bottom: "0",
