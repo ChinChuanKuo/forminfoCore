@@ -7,9 +7,18 @@ import * as Paper$BtsCore from "../../material-ui/core/Paper/Paper.bs.js";
 import * as Setting$BtsCore from "../../setting/Setting.bs.js";
 import * as CardHeader$BtsCore from "../../material-ui/core/Card/CardHeader.bs.js";
 
+function borderLeft(answer) {
+  if (answer) {
+    return "3px solid rgba(0,145,0,1)";
+  } else {
+    return "3px solid rgba(255,0,0,1)";
+  }
+}
+
 function CardOrPaperBoard(Props) {
   var onClick = Props.onClick;
   var showLine = Props.showLine;
+  var showAnswer = Props.showAnswer;
   var children = Props.children;
   if (Setting$BtsCore.disabledObjects(showLine)) {
     var tmp = {
@@ -20,9 +29,10 @@ function CardOrPaperBoard(Props) {
     if (onClick !== undefined) {
       tmp.onClick = Caml_option.valFromOption(onClick);
     }
+    var answer = Setting$BtsCore.disabledObjects(showAnswer);
     return React.createElement("div", tmp, React.createElement(Paper$BtsCore.make, {
                     style: {
-                      borderLeft: "3px solid rgba(255,0,0,1)"
+                      borderLeft: answer ? "3px solid rgba(0,145,0,1)" : "3px solid rgba(255,0,0,1)"
                     },
                     children: children
                   }));
@@ -42,6 +52,7 @@ function CardOrPaperBoard(Props) {
 var make = CardOrPaperBoard;
 
 export {
+  borderLeft ,
   make ,
   
 }

@@ -1,11 +1,18 @@
 open React;
 open Setting;
 
+let borderLeft = answer =>
+  switch (answer) {
+  | true => "3px solid rgba(0,145,0,1)"
+  | _ => "3px solid rgba(255,0,0,1)"
+  };
+
 [@react.component]
 let make =
     (
       ~onClick: option(ReactEvent.Mouse.t => unit)=?,
       ~showLine: option(bool)=?,
+      ~showAnswer: option(bool)=?,
       ~children,
     ) =>
   showLine |> disabledObjects
@@ -25,7 +32,9 @@ let make =
             Paper.makeProps(
               ~style={
                 ReactDOMRe.Style.make(
-                  ~borderLeft="3px solid rgba(255,0,0,1)",
+                  ~borderLeft={
+                    showAnswer |> disabledObjects |> borderLeft;
+                  },
                   (),
                 );
               },

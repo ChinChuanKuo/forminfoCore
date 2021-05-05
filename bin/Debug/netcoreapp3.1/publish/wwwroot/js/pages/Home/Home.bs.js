@@ -142,6 +142,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: formitem.answeritems
                           };
@@ -169,6 +170,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: formitem.answeritems
                           };
@@ -196,6 +198,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: formitem.answeritems
                           };
@@ -222,6 +225,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: formitem.answeritems
                           };
@@ -249,6 +253,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: formitem.answeritems
                           };
@@ -276,6 +281,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: $$Array.mapi((function (ai, answeritem) {
                                     if (aindex === ai) {
@@ -314,6 +320,7 @@ function reducer(state, action) {
                             operation: formitem.operation,
                             area: formitem.area,
                             eror: formitem.eror,
+                            answer: formitem.answer,
                             showCheck: formitem.showCheck,
                             answeritems: $$Array.mapi((function (ai, answeritem) {
                                     return {
@@ -971,6 +978,7 @@ function Home(Props) {
                             xs: "auto",
                             children: React.createElement(CardOrPaperBoard$BtsCore.make, {
                                   showLine: true,
+                                  showAnswer: formitem.answer,
                                   children: React.createElement(GridContainer$BtsCore.make, {
                                         direction: "column",
                                         justify: "start",

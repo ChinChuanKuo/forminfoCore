@@ -30,6 +30,7 @@ type formitem = {
   operation: string,
   area: string,
   eror: string,
+  answer: bool,
   showCheck: bool,
   answeritems: array(answeritem),
 };
@@ -868,7 +869,8 @@ let make = _ => {
                    {state.formitems
                     |> Array.mapi((i, formitem) =>
                          <GridItem top="0" right="24" left="24" xs="auto">
-                           <CardOrPaperBoard showLine=true>
+                           <CardOrPaperBoard
+                             showLine=true showAnswer={formitem.answer}>
                              <GridContainer
                                direction="column"
                                justify="start"

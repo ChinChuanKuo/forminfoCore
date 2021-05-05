@@ -74,6 +74,7 @@ namespace forminfoCore.Models
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchsubdeta @formId,@inoper,@random,@number,@finish;", dbparamlist).Rows)
             {
+                bool answer = true;
                 dbparamlist.Clear();
                 dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
                 dbparamlist.Add(new dbparam("@iid", int.Parse(dr["iid"].ToString().TrimEnd())));
@@ -82,9 +83,10 @@ namespace forminfoCore.Models
                 List<Dictionary<string, object>> answeritems = new List<Dictionary<string, object>>();
                 foreach (DataRow drs in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoptiondeta @formId,@iid,@inoper,@random;", dbparamlist).Rows)
                 {
+                    if (drs["answer"].ToString().TrimEnd() != drs["right"].ToString().TrimEnd()) answer = false;
                     answeritems.Add(new Dictionary<string, object>() { { "id", drs["id"].ToString().TrimEnd() }, { "values", drs["value"].ToString().TrimEnd() }, { "showAnswer", drs["answer"].ToString().TrimEnd() == "1" }, { "showRight", drs["right"].ToString().TrimEnd() == "1" } });
                 }
-                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "showMenu", false }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
+                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "showMenu", false }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "answer", answer }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
                 i++;
             }
             return new sFormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), exam = mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1", restart = mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1", finish = mainRows.Rows[0]["finish"].ToString().TrimEnd() == "1", score = $"{mainRows.Rows[0]["score"].ToString().TrimEnd()}分", items = items, status = "istrue" };
@@ -252,6 +254,7 @@ namespace forminfoCore.Models
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.searchsubdeta @formId,@inoper,@random,@number,@finish;", dbparamlist).Rows)
             {
+                bool answer = true;
                 dbparamlist.Clear();
                 dbparamlist.Add(new dbparam("@formId", iFormData.formId.TrimEnd()));
                 dbparamlist.Add(new dbparam("@iid", int.Parse(dr["iid"].ToString().TrimEnd())));
@@ -260,9 +263,10 @@ namespace forminfoCore.Models
                 List<Dictionary<string, object>> answeritems = new List<Dictionary<string, object>>();
                 foreach (DataRow drs in database.checkSelectSql("mssql", "flyformstring", "exec web.searchoptiondeta @formId,@iid,@inoper,@random;", dbparamlist).Rows)
                 {
+                    if (drs["answer"].ToString().TrimEnd() != drs["right"].ToString().TrimEnd()) answer = false;
                     answeritems.Add(new Dictionary<string, object>() { { "id", drs["id"].ToString().TrimEnd() }, { "values", drs["value"].ToString().TrimEnd() }, { "showAnswer", drs["answer"].ToString().TrimEnd() == "1" }, { "showRight", drs["right"].ToString().TrimEnd() == "1" } });
                 }
-                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "showMenu", false }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
+                items.Add(new Dictionary<string, object>() { { "iid", dr["iid"].ToString().TrimEnd() }, { "title", $"{i}.{dr["tile"].ToString().TrimEnd()}" }, { "showVeri", dr["verified"].ToString().TrimEnd() == "1" }, { "showDrop", false }, { "showFile", false }, { "outValue", dr["outValue"].ToString().TrimEnd() }, { "value", dr["value"].ToString().TrimEnd() }, { "showMenu", false }, { "type_", dr["type"].ToString().TrimEnd() }, { "operation", dr["operation"].ToString().TrimEnd() }, { "area", dr["area"].ToString().TrimEnd() }, { "eror", dr["eror"].ToString().TrimEnd() }, { "answer", answer }, { "showCheck", dr["checked"].ToString().TrimEnd() == "1" }, { "answeritems", answeritems.ToArray() } });
                 i++;
             }
             return new sFormModels() { formId = mainRows.Rows[0]["formId"].ToString().TrimEnd(), tile = mainRows.Rows[0]["tile"].ToString().TrimEnd(), desc = mainRows.Rows[0]["desc"].ToString().TrimEnd(), exam = mainRows.Rows[0]["examed"].ToString().TrimEnd() == "1", restart = mainRows.Rows[0]["restarted"].ToString().TrimEnd() == "1", finish = mainRows.Rows[0]["finish"].ToString().TrimEnd() == "1", score = $"{mainRows.Rows[0]["score"].ToString().TrimEnd()}分", items = items, status = "istrue" };
