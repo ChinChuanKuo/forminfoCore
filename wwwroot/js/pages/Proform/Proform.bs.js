@@ -1227,8 +1227,12 @@ function Proform(Props) {
                 }));
           
         }));
-  var showOther = React.useCallback((function (i) {
-          return Curry._1(dispatch, /* ShowOther */Block.__(9, [i]));
+  var showOther = React.useCallback((function ($$event) {
+          return (function (i) {
+              $$event.preventDefault();
+              $$event.stopPropagation();
+              return Curry._1(dispatch, /* ShowOther */Block.__(9, [i]));
+            });
         }));
   var exportForm = React.useCallback((function ($$event) {
           return (function (id, i) {
@@ -2939,8 +2943,8 @@ function Proform(Props) {
                                                                                         }, React.createElement(IconButton$BtsCore.make, {
                                                                                               padding: "3",
                                                                                               disabled: state.showProgress,
-                                                                                              onClick: (function (param) {
-                                                                                                  return Curry._1(showOther, i);
+                                                                                              onClick: (function ($$event) {
+                                                                                                  return Curry._2(showOther, $$event, i);
                                                                                                 }),
                                                                                               children: null
                                                                                             }, React.createElement(Tooltip$BtsCore.make, {
@@ -2993,8 +2997,8 @@ function Proform(Props) {
                                                                                               }) : null, React.createElement(BackgroundBoard$BtsCore.make, {
                                                                                               showBackground: item.showOther,
                                                                                               backgroundColor: "transparent",
-                                                                                              onClick: (function (param) {
-                                                                                                  return Curry._1(showOther, i);
+                                                                                              onClick: (function ($$event) {
+                                                                                                  return Curry._2(showOther, $$event, i);
                                                                                                 })
                                                                                             })))
                                                                               }))

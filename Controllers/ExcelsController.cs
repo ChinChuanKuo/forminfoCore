@@ -254,8 +254,8 @@ namespace forminfoCore.Controllers
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
             dbparamlist.Add(new dbparam("@formid", formid));
-            dbparamlist.Add(new dbparam("@newid", newid));
-            mainRows = database.checkSelectSql("mssql", "flyformstring", "select tile from web.mainform where formId = @formId and inoper = @inoper;", dbparamlist);
+            dbparamlist.Add(new dbparam("@inoper", newid));
+            mainRows = database.checkSelectSql("mssql", "flyformstring", "select tile from web.mainform where formId = @formid and inoper = @inoper;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:
@@ -264,7 +264,7 @@ namespace forminfoCore.Controllers
                     break;
                 default:
                     int i = 1;
-                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.showscoreitems @formid,@newid;", dbparamlist).Rows)
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.showscoreitems @formid,@inoper;", dbparamlist).Rows)
                     {
                         dbparamlist.Clear();
                         row = (XSSFRow)sheet.CreateRow(i);

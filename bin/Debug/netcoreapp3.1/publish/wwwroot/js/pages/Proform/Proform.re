@@ -1125,7 +1125,12 @@ let make = _ => {
       id |> sItemAJax;
     });
 
-  let showOther = useCallback(i => ShowOther(i) |> dispatch);
+  let showOther =
+    useCallback((event, i) => {
+      ReactEventRe.Mouse.preventDefault(event);
+      ReactEventRe.Mouse.stopPropagation(event);
+      ShowOther(i) |> dispatch;
+    });
 
   let exportForm =
     useCallback((event, id, i) => {
@@ -1574,7 +1579,7 @@ let make = _ => {
                                   <IconButton
                                     padding="3"
                                     disabled={state.showProgress}
-                                    onClick={_ => i |> showOther}>
+                                    onClick={event => i |> showOther(event)}>
                                     <Tooltip
                                       location="top"
                                       backgroundColor="rgba(255,0,0,0.8)">
@@ -1631,7 +1636,7 @@ let make = _ => {
                                   <BackgroundBoard
                                     showBackground={item.showOther}
                                     backgroundColor="transparent"
-                                    onClick={_ => i |> showOther}
+                                    onClick={event => i |> showOther(event)}
                                   />
                                 </GridItem>
                               </GridContainer>
