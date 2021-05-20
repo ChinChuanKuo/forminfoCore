@@ -1743,8 +1743,8 @@ let make = _ => {
                     <Button disabled={state.showProgress} onClick=exportForm>
                       <IconAction animation="leftRight" src=deleteWhite />
                       <FormattedMessage
-                        id="deleted"
-                        defaultMessage="Deleted"
+                        id="export"
+                        defaultMessage="Export"
                       />
                     </Button>
                   </GridItem>

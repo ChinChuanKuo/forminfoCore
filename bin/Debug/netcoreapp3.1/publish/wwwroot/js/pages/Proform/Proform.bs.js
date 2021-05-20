@@ -3194,8 +3194,8 @@ function Proform(Props) {
                                                                 animation: "leftRight",
                                                                 src: Icons$BtsCore.deleteWhite
                                                               }), React.createElement(ReactIntl.FormattedMessage, {
-                                                                id: "deleted",
-                                                                defaultMessage: "Deleted"
+                                                                id: "export",
+                                                                defaultMessage: "Export"
                                                               }))
                                                     }))
                                           }), tmp)
