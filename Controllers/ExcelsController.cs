@@ -271,6 +271,7 @@ namespace forminfoCore.Controllers
                         dbparamlist.Add(new dbparam("@newid", dr["inoper"].ToString().TrimEnd()));
                         row.CreateCell(0).SetCellValue(database.checkSelectSql("mssql", "epaperstring", "exec web.checksitename @newid;", dbparamlist).Rows[0]["username"].ToString().TrimEnd());
                         row.CreateCell(1).SetCellValue($"{dr["score"].ToString().TrimEnd()}分");
+                        i++;
                     }
                     filename = mainRows.Rows[0]["tile"].ToString().TrimEnd();
                     break;
