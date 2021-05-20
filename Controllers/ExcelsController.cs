@@ -290,7 +290,6 @@ namespace forminfoCore.Controllers
                 }
             }
 
-            workbook = new XSSFWorkbook();
             sheet = (XSSFSheet)workbook.CreateSheet("填寫名單");
             row = (XSSFRow)sheet.CreateRow(0);
             row.CreateCell(0).SetCellValue("員工編號");
@@ -318,7 +317,6 @@ namespace forminfoCore.Controllers
                 }
             }
 
-            workbook = new XSSFWorkbook();
             sheet = (XSSFSheet)workbook.CreateSheet("題目錯誤率");
             row = (XSSFRow)sheet.CreateRow(0);
             row.CreateCell(0).SetCellValue("題數");
