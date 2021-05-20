@@ -246,40 +246,103 @@ namespace forminfoCore.Controllers
 
         public ActionResult excelData(string formid, string newid)
         {
-            string filename = "", clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = (XSSFSheet)workbook.CreateSheet("填寫分數");
-            XSSFRow row = (XSSFRow)sheet.CreateRow(0);
+            string clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
             database database = new database();
             DataTable mainRows = new DataTable();
             List<dbparam> dbparamlist = new List<dbparam>();
-            dbparamlist.Add(new dbparam("@formid", formid));
+            dbparamlist.Add(new dbparam("@formId", formid));
             dbparamlist.Add(new dbparam("@inoper", newid));
-            mainRows = database.checkSelectSql("mssql", "flyformstring", "select tile from web.mainform where formId = @formid and inoper = @inoper;", dbparamlist);
+            mainRows = database.checkSelectSql("mssql", "flyformstring", "select tile from web.mainform where formId = @formId and inoper = @inoper;", dbparamlist);
             switch (mainRows.Rows.Count)
             {
                 case 0:
-                    row.CreateCell(0).SetCellValue("NOT YOUR INFORMATION ABOUT THIS FORM DATABASE");
-                    filename = "沒資料呈現";
-                    break;
-                default:
-                    int i = 1;
-                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "exec web.showscoreitems @formid,@inoper;", dbparamlist).Rows)
-                    {
-                        dbparamlist.Clear();
+                    XSSFWorkbook workbooks = new XSSFWorkbook();
+                    XSSFSheet sheets = (XSSFSheet)workbooks.CreateSheet("Information");
+                    XSSFRow rows = (XSSFRow)sheets.CreateRow(0);
+                    rows.CreateCell(0).SetCellValue("NOT YOUR INFORMATION ABOUT THIS FORM DATABASE");
+                    MemoryStream mss = new MemoryStream();
+                    workbooks.Write(mss);
+                    return File(mss.ToArray(), "application/vnd.ms-excel", $"FLYTECH沒資料呈現.xlsx");
+            }
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = (XSSFSheet)workbook.CreateSheet("未填寫名單");
+            XSSFRow row = (XSSFRow)sheet.CreateRow(0);
+            row.CreateCell(0).SetCellValue("員工編號");
+            row.CreateCell(1).SetCellValue("員工姓名");
+            row.CreateCell(2).SetCellValue("部門");
+            int i = 2;
+            dbparamlist.Clear();
+            dbparamlist.Add(new dbparam("@isused", "1"));
+            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "select newid, userid, username, department from web.siteber where isused = @isused;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                dbparamlist.Add(new dbparam("@formId", formid));
+                dbparamlist.Add(new dbparam("@inoper", dr["newid"].ToString().TrimEnd()));
+                switch (database.checkSelectSql("mssql", "flyformstring", "select formId from web.millform where formId = @formId and inoper = @inoper;", dbparamlist).Rows.Count)
+                {
+                    case 0:
                         row = (XSSFRow)sheet.CreateRow(i);
-                        dbparamlist.Add(new dbparam("@newid", dr["inoper"].ToString().TrimEnd()));
-                        row.CreateCell(0).SetCellValue(database.checkSelectSql("mssql", "epaperstring", "exec web.checksitename @newid;", dbparamlist).Rows[0]["username"].ToString().TrimEnd());
-                        row.CreateCell(1).SetCellValue($"{dr["score"].ToString().TrimEnd()}分");
+                        row.CreateCell(0).SetCellValue(dr["userid"].ToString().TrimEnd());
+                        row.CreateCell(1).SetCellValue(dr["username"].ToString().TrimEnd());
+                        row.CreateCell(2).SetCellValue(dr["department"].ToString().TrimEnd());
                         i++;
-                    }
-                    filename = mainRows.Rows[0]["tile"].ToString().TrimEnd();
-                    break;
+                        break;
+                }
+            }
+
+            workbook = new XSSFWorkbook();
+            sheet = (XSSFSheet)workbook.CreateSheet("填寫名單");
+            row = (XSSFRow)sheet.CreateRow(0);
+            row.CreateCell(0).SetCellValue("員工編號");
+            row.CreateCell(1).SetCellValue("員工姓名");
+            row.CreateCell(2).SetCellValue("部門");
+            row.CreateCell(3).SetCellValue("分數");
+            i = 2;
+            dbparamlist.Clear();
+            dbparamlist.Add(new dbparam("@isused", "1"));
+            foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "select newid, userid, username, department from web.siteber where isused = @isused;", dbparamlist).Rows)
+            {
+                dbparamlist.Clear();
+                DataTable subRows = new DataTable();
+                dbparamlist.Add(new dbparam("@formId", formid));
+                dbparamlist.Add(new dbparam("@inoper", dr["newid"].ToString().TrimEnd()));
+                subRows = database.checkSelectSql("mssql", "flyformstring", "select score from web.millform where formId = @formId and inoper = @inoper;", dbparamlist);
+                if (subRows.Rows.Count > 0)
+                {
+                    row = (XSSFRow)sheet.CreateRow(i);
+                    row.CreateCell(0).SetCellValue(dr["userid"].ToString().TrimEnd());
+                    row.CreateCell(1).SetCellValue(dr["username"].ToString().TrimEnd());
+                    row.CreateCell(2).SetCellValue(dr["department"].ToString().TrimEnd());
+                    row.CreateCell(3).SetCellValue(subRows.Rows[0]["score"].ToString().TrimEnd());
+                    i++;
+                }
+            }
+
+            workbook = new XSSFWorkbook();
+            sheet = (XSSFSheet)workbook.CreateSheet("題目錯誤率");
+            row = (XSSFRow)sheet.CreateRow(0);
+            row.CreateCell(0).SetCellValue("題數");
+            row.CreateCell(1).SetCellValue("題目");
+            row.CreateCell(2).SetCellValue("題目錯誤量");
+            i = 2;
+            dbparamlist.Add(new dbparam("@formId", formid));
+            dbparamlist.Add(new dbparam("@inoper", newid));
+            foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select iid, tile from web.subform where formId = @formId and inoper = @inoper order by iid asc;", dbparamlist).Rows)
+            {
+                row = (XSSFRow)sheet.CreateRow(i);
+                row.CreateCell(0).SetCellValue(dr["iid"].ToString().TrimEnd());
+                row.CreateCell(1).SetCellValue(dr["tile"].ToString().TrimEnd());
+                dbparamlist.Clear();
+                dbparamlist.Add(new dbparam("@formId", formid));
+                dbparamlist.Add(new dbparam("@iid", dr["iid"].ToString().TrimEnd()));
+                dbparamlist.Add(new dbparam("@right", "1"));
+                row.CreateCell(2).SetCellValue(database.checkSelectSql("mssql", "flyformstring", "select distinct inoper from web.oillform where formId = @formId and iid = @iid and [right] = @right;", dbparamlist).Rows.Count);
+                i++;
             }
             MemoryStream ms = new MemoryStream();
             workbook.Write(ms);
             byte[] bytes = ms.ToArray();
-            return File(bytes, "application/vnd.ms-excel", $"FLYTECH{filename}.xlsx");
+            return File(bytes, "application/vnd.ms-excel", $"FLYTECH{mainRows.Rows[0]["tile"].ToString().TrimEnd()}.xlsx");
         }
     }
 }
