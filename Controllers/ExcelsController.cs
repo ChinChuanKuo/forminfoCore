@@ -243,5 +243,42 @@ namespace forminfoCore.Controllers
             }
             return "0";
         }
+
+        public ActionResult excelData(string formid, string newid)
+        {
+            string filename = "", clientip = Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd() == "::1" ? "127.0.0.1" : Request.HttpContext.Connection.RemoteIpAddress.ToString().TrimEnd();
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = (XSSFSheet)workbook.CreateSheet("填寫分數");
+            XSSFRow row = (XSSFRow)sheet.CreateRow(0);
+            database database = new database();
+            DataTable mainRows = new DataTable();
+            List<dbparam> dbparamlist = new List<dbparam>();
+            dbparamlist.Add(new dbparam("@formid", formid));
+            dbparamlist.Add(new dbparam("@newid", newid));
+            mainRows = database.checkSelectSql("mssql", "epaperstring", "select tile, desc from web.mainform where formId = @formId and inoper = @inoper;", dbparamlist);
+            switch (mainRows.Rows.Count)
+            {
+                case 0:
+                    row.CreateCell(0).SetCellValue("NOT YOUR INFORMATION ABOUT THIS FORM DATABASE");
+                    filename = "沒資料呈現";
+                    break;
+                default:
+                    int i = 1;
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "epaperstring", "exec web.showscoreitems @formid,@newid;", dbparamlist).Rows)
+                    {
+                        dbparamlist.Clear();
+                        row = (XSSFRow)sheet.CreateRow(i);
+                        dbparamlist.Add(new dbparam("@newid", dr["inoper"].ToString().TrimEnd()));
+                        row.CreateCell(0).SetCellValue(database.checkSelectSql("mssql", "epaperstring", "exec web.checksitename @newid;", dbparamlist).Rows[0]["username"].ToString().TrimEnd());
+                        row.CreateCell(1).SetCellValue($"{dr["score"].ToString().TrimEnd()}分");
+                    }
+                    filename = mainRows.Rows[0]["tile"].ToString().TrimEnd();
+                    break;
+            }
+            MemoryStream ms = new MemoryStream();
+            workbook.Write(ms);
+            byte[] bytes = ms.ToArray();
+            return File(bytes, "application/vnd.ms-excel", $"FLYTECH{filename}.xlsx");
+        }
     }
 }

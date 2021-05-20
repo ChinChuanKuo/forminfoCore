@@ -10,6 +10,7 @@ open Storage;
 open AnswerColor;
 open SwitchColor;
 open IconAnimation;
+open ObjectFormat;
 [%bs.raw {|require('../../../scss/pages/Together/together.scss')|}];
 
 type operitem = {
@@ -190,6 +191,7 @@ type action =
       array(settitem),
     )
   | SettingViewItems(array(viewitem))
+  | ShowOther(int)
   | ChangeFormTile(string)
   | ChangeFormDesc(string)
   | ClickFormTab(int)
@@ -291,6 +293,16 @@ let reducer = (state, action) =>
       showFull: !state.showFull,
     }
   | SettingViewItems(viewitems) => {...state, viewitems}
+  | ShowOther(index) => {
+      ...state,
+      items:
+        Array.mapi(
+          (i, formitem) =>
+            index == i
+              ? {...formitem, showOther: !formitem.showOther} : formitem,
+          state.items,
+        ),
+    }
   | ChangeFormTile(value) => {...state, formTile: value}
   | ChangeFormDesc(value) => {...state, formDesc: value}
   | ClickFormTab(index) => {
@@ -1113,6 +1125,18 @@ let make = _ => {
       id |> sItemAJax;
     });
 
+  let showOther = useCallback(i => ShowOther(i) |> dispatch);
+
+  let exportForm =
+    useCallback((id, i) => {
+      ShowOther(i) |> dispatch;
+      "/Excel/excelData?formid="
+      ++ id
+      ++ "&newid="
+      ++ checkObjects("newid" |> Locals.select)
+      |> Window.Locations.assign;
+    });
+
   let changeFormTile =
     useCallback(value => ChangeFormTile(value) |> dispatch);
 
@@ -1468,7 +1492,7 @@ let make = _ => {
           <GridItem right="24" bottom="0" left="24" xs="auto">
             <GridContainer direction="row" justify="start" alignItem="center">
               {state.items
-               |> Array.map(item =>
+               |> Array.mapi((i, item) =>
                     <div onClick={_ => item.id |> clickFormBoard}>
                       <GridItem
                         style={ReactDOMRe.Style.make(
@@ -1546,7 +1570,9 @@ let make = _ => {
                                   left="0"
                                   xs="no">
                                   <IconButton
-                                    padding="3" disabled={state.showProgress}>
+                                    padding="3"
+                                    disabled={state.showProgress}
+                                    onClick={_ => i |> showOther}>
                                     <Tooltip
                                       location="top"
                                       backgroundColor="rgba(255,0,0,0.8)">
@@ -1560,6 +1586,51 @@ let make = _ => {
                                       src=moreVertBlack
                                     />
                                   </IconButton>
+                                  {item.showOther
+                                     ? <SelectMenu
+                                         top="100%"
+                                         right="0"
+                                         transform="translate(0, -100%)"
+                                         maxWidth="256"
+                                         width="256"
+                                         maxHeight="280"
+                                         minHeight="0"
+                                         topLeft="12"
+                                         topRight="12"
+                                         bottomRight="12"
+                                         bottomLeft="12"
+                                         paddingRight="8"
+                                         paddingLeft="8">
+                                         <MenuIcon
+                                           top="0"
+                                           right="8"
+                                           bottom="0"
+                                           left="8"
+                                           disablePadding=true
+                                           topLeft="12"
+                                           topRight="12"
+                                           bottomRight="12"
+                                           bottomLeft="12"
+                                           onClick={_ =>
+                                             i |> exportForm(item.id)
+                                           }>
+                                           ...(
+                                                <IconGeneral
+                                                  src=doneSuccessful
+                                                />,
+                                                <FormattedMessage
+                                                  id="export"
+                                                  defaultMessage="Export"
+                                                />,
+                                              )
+                                         </MenuIcon>
+                                       </SelectMenu>
+                                     : null}
+                                  <BackgroundBoard
+                                    showBackground={item.showOther}
+                                    backgroundColor="transparent"
+                                    onClick={_ => i |> showOther}
+                                  />
                                 </GridItem>
                               </GridContainer>
                             </GridItem>
@@ -1640,37 +1711,37 @@ let make = _ => {
             maxWidth="770px">
             <GridContainer
               direction="column" justify="center" alignItem="stretch">
-                        <GridItem top="0" right="24" bottom="0" left="24" xs="auto">
-            <TextFieldStandard
-              labelColor="rgba(255,0,0,0.8)"
-              enterBorderColor="rgba(255,0,0,0.8)"
-              downBorderColor="rgba(255,0,0,0.6)"
-              borderColor="rgba(0,0,0,0.2)"
-              placeholder="Project Tile"
-              value={state.formTile}
-              disabled={state.showProgress}
-              onChange={event =>
-                ReactEvent.Form.target(event)##value |> changeFormTile
-              }>
-              null
-            </TextFieldStandard>
-          </GridItem>
-                    <GridItem top="0" right="24" left="24" xs="auto">
-            <TextFieldStandard
-              top="8"
-              labelColor="rgba(255,0,0,0.8)"
-              enterBorderColor="rgba(255,0,0,0.8)"
-              downBorderColor="rgba(255,0,0,0.6)"
-              borderColor="rgba(0,0,0,0.2)"
-              placeholder="Project Desc"
-              value={state.formDesc}
-              disabled={state.showProgress}
-              onChange={event =>
-                ReactEvent.Form.target(event)##value |> changeFormDesc
-              }>
-              null
-            </TextFieldStandard>
-          </GridItem>
+              <GridItem top="0" right="24" bottom="0" left="24" xs="auto">
+                <TextFieldStandard
+                  labelColor="rgba(255,0,0,0.8)"
+                  enterBorderColor="rgba(255,0,0,0.8)"
+                  downBorderColor="rgba(255,0,0,0.6)"
+                  borderColor="rgba(0,0,0,0.2)"
+                  placeholder="Project Tile"
+                  value={state.formTile}
+                  disabled={state.showProgress}
+                  onChange={event =>
+                    ReactEvent.Form.target(event)##value |> changeFormTile
+                  }>
+                  null
+                </TextFieldStandard>
+              </GridItem>
+              <GridItem top="0" right="24" left="24" xs="auto">
+                <TextFieldStandard
+                  top="8"
+                  labelColor="rgba(255,0,0,0.8)"
+                  enterBorderColor="rgba(255,0,0,0.8)"
+                  downBorderColor="rgba(255,0,0,0.6)"
+                  borderColor="rgba(0,0,0,0.2)"
+                  placeholder="Project Desc"
+                  value={state.formDesc}
+                  disabled={state.showProgress}
+                  onChange={event =>
+                    ReactEvent.Form.target(event)##value |> changeFormDesc
+                  }>
+                  null
+                </TextFieldStandard>
+              </GridItem>
               <GridItem
                 style={ReactDOMRe.Style.make(
                   ~position="sticky",
