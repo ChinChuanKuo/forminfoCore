@@ -1230,8 +1230,10 @@ function Proform(Props) {
   var showOther = React.useCallback((function (i) {
           return Curry._1(dispatch, /* ShowOther */Block.__(9, [i]));
         }));
-  var exportForm = React.useCallback((function (id) {
-          return (function (i) {
+  var exportForm = React.useCallback((function ($$event) {
+          return (function (id, i) {
+              $$event.preventDefault();
+              $$event.stopPropagation();
               Curry._1(dispatch, /* ShowOther */Block.__(9, [i]));
               window.location.assign("/Excel/excelData?formid=" + (id + ("&newid=" + ObjectFormat$BtsCore.checkObjects(localStorage.getItem("newid")))));
               
@@ -2975,8 +2977,8 @@ function Proform(Props) {
                                                                                                       topRight: "12",
                                                                                                       bottomRight: "12",
                                                                                                       bottomLeft: "12",
-                                                                                                      onClick: (function (param) {
-                                                                                                          return Curry._2(exportForm, item.id, i);
+                                                                                                      onClick: (function ($$event) {
+                                                                                                          return Curry._3(exportForm, $$event, item.id, i);
                                                                                                         }),
                                                                                                       children: /* tuple */[
                                                                                                         React.createElement(IconGeneral$BtsCore.make, {

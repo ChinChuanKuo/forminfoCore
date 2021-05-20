@@ -1128,7 +1128,9 @@ let make = _ => {
   let showOther = useCallback(i => ShowOther(i) |> dispatch);
 
   let exportForm =
-    useCallback((id, i) => {
+    useCallback((event, id, i) => {
+      ReactEventRe.Mouse.preventDefault(event);
+      ReactEventRe.Mouse.stopPropagation(event);
       ShowOther(i) |> dispatch;
       "/Excel/excelData?formid="
       ++ id
@@ -1611,8 +1613,8 @@ let make = _ => {
                                            topRight="12"
                                            bottomRight="12"
                                            bottomLeft="12"
-                                           onClick={_ =>
-                                             i |> exportForm(item.id)
+                                           onClick={event =>
+                                             i |> exportForm(event, item.id)
                                            }>
                                            ...(
                                                 <IconGeneral
