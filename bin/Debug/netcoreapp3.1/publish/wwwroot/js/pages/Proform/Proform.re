@@ -293,16 +293,6 @@ let reducer = (state, action) =>
       showFull: !state.showFull,
     }
   | SettingViewItems(viewitems) => {...state, viewitems}
-  | ShowOther(index) => {
-      ...state,
-      items:
-        Array.mapi(
-          (i, formitem) =>
-            index == i
-              ? {...formitem, showOther: !formitem.showOther} : formitem,
-          state.items,
-        ),
-    }
   | ChangeFormTile(value) => {...state, formTile: value}
   | ChangeFormDesc(value) => {...state, formDesc: value}
   | ClickFormTab(index) => {
@@ -1125,25 +1115,6 @@ let make = _ => {
       id |> sItemAJax;
     });
 
-  let showOther =
-    useCallback((event, i) => {
-      ReactEventRe.Mouse.preventDefault(event);
-      ReactEventRe.Mouse.stopPropagation(event);
-      ShowOther(i) |> dispatch;
-    });
-
-  let exportForm =
-    useCallback((event, id, i) => {
-      ReactEventRe.Mouse.preventDefault(event);
-      ReactEventRe.Mouse.stopPropagation(event);
-      ShowOther(i) |> dispatch;
-      "/Excel/excelData?formid="
-      ++ id
-      ++ "&newid="
-      ++ checkObjects("newid" |> Locals.select)
-      |> Window.Locations.assign;
-    });
-
   let changeFormTile =
     useCallback(value => ChangeFormTile(value) |> dispatch);
 
@@ -1411,6 +1382,15 @@ let make = _ => {
       deleteAJax();
     });
 
+  let exportForm =
+    useCallback(_ => {
+      "/Excel/excelData?formid="
+      ++ state.formId
+      ++ "&newid="
+      ++ checkObjects("newid" |> Locals.select)
+      |> Window.Locations.assign
+    });
+
   let changeStdate =
     useCallback((value, i) => ChangeStdate(value, i) |> dispatch);
 
@@ -1577,9 +1557,7 @@ let make = _ => {
                                   left="0"
                                   xs="no">
                                   <IconButton
-                                    padding="3"
-                                    disabled={state.showProgress}
-                                    onClick={event => i |> showOther(event)}>
+                                    padding="3" disabled={state.showProgress}>
                                     <Tooltip
                                       location="top"
                                       backgroundColor="rgba(255,0,0,0.8)">
@@ -1593,51 +1571,6 @@ let make = _ => {
                                       src=moreVertBlack
                                     />
                                   </IconButton>
-                                  {item.showOther
-                                     ? <SelectMenu
-                                         top="100%"
-                                         right="0"
-                                         transform="translate(0, -100%)"
-                                         maxWidth="256"
-                                         width="256"
-                                         maxHeight="280"
-                                         minHeight="0"
-                                         topLeft="12"
-                                         topRight="12"
-                                         bottomRight="12"
-                                         bottomLeft="12"
-                                         paddingRight="8"
-                                         paddingLeft="8">
-                                         <MenuIcon
-                                           top="0"
-                                           right="8"
-                                           bottom="0"
-                                           left="8"
-                                           disablePadding=true
-                                           topLeft="12"
-                                           topRight="12"
-                                           bottomRight="12"
-                                           bottomLeft="12"
-                                           onClick={event =>
-                                             i |> exportForm(event, item.id)
-                                           }>
-                                           ...(
-                                                <IconGeneral
-                                                  src=doneSuccessful
-                                                />,
-                                                <FormattedMessage
-                                                  id="export"
-                                                  defaultMessage="Export"
-                                                />,
-                                              )
-                                         </MenuIcon>
-                                       </SelectMenu>
-                                     : null}
-                                  <BackgroundBoard
-                                    showBackground={item.showOther}
-                                    backgroundColor="transparent"
-                                    onClick={event => i |> showOther(event)}
-                                  />
                                 </GridItem>
                               </GridContainer>
                             </GridItem>
@@ -1799,6 +1732,15 @@ let make = _ => {
                   </GridItem>
                   <GridItem top="0" right="0" bottom="0" left="0" xs="no">
                     <Button disabled={state.showProgress} onClick=deleteForm>
+                      <IconAction animation="leftRight" src=deleteWhite />
+                      <FormattedMessage
+                        id="deleted"
+                        defaultMessage="Deleted"
+                      />
+                    </Button>
+                  </GridItem>
+                  <GridItem top="0" right="0" bottom="0" left="0" xs="no">
+                    <Button disabled={state.showProgress} onClick=exportForm>
                       <IconAction animation="leftRight" src=deleteWhite />
                       <FormattedMessage
                         id="deleted"
