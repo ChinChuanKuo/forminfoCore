@@ -323,6 +323,7 @@ namespace forminfoCore.Controllers
             row.CreateCell(1).SetCellValue("題目");
             row.CreateCell(2).SetCellValue("題目錯誤量");
             i = 2;
+            dbparamlist.Clear();
             dbparamlist.Add(new dbparam("@formId", formid));
             dbparamlist.Add(new dbparam("@inoper", newid));
             foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select iid, tile from web.subform where formId = @formId and inoper = @inoper order by iid asc;", dbparamlist).Rows)
