@@ -333,7 +333,7 @@ namespace forminfoCore.Controllers
                 dbparamlist.Clear();
                 dbparamlist.Add(new dbparam("@formId", formid));
                 dbparamlist.Add(new dbparam("@iid", dr["iid"].ToString().TrimEnd()));
-                dbparamlist.Add(new dbparam("@right", "1"));
+                dbparamlist.Add(new dbparam("@right", "0"));
                 row.CreateCell(2).SetCellValue(database.checkSelectSql("mssql", "flyformstring", "select distinct inoper from web.oillform where formId = @formId and iid = @iid and [right] = @right;", dbparamlist).Rows.Count);
                 i++;
             }
