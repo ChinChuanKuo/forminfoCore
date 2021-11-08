@@ -224,7 +224,7 @@ namespace forminfoCore.Models
                 case "0":
                     dbparamlist.Clear();
                     dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
-                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select inoper from web.millform where formId = @formId;", dbparamlist).Rows)
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select inoper from web.millform where formId = @formId order by modate + motime, indate + intime desc;", dbparamlist).Rows)
                     {
                         dbparamlist.Clear();
                         DataTable subRows = new DataTable();
@@ -239,7 +239,7 @@ namespace forminfoCore.Models
                 case "0":
                     dbparamlist.Clear();
                     dbparamlist.Add(new dbparam("@formId", dFormData.formId.TrimEnd()));
-                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select score,inoper from web.millform where formId = @formId;", dbparamlist).Rows)
+                    foreach (DataRow dr in database.checkSelectSql("mssql", "flyformstring", "select score,inoper from web.millform where formId = @formId order by modate + motime, indate + intime desc;", dbparamlist).Rows)
                     {
                         dbparamlist.Clear();
                         DataTable subRows = new DataTable();
